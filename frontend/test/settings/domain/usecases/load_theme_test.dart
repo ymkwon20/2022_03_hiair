@@ -18,8 +18,8 @@ void main() {
     },
   );
 
-  final tTheme = 'light';
-  final tSettingsInfo = SettingsInfo(themeMode: tTheme);
+  const tTheme = 'light';
+  const tSettingsInfo = SettingsInfo(themeMode: tTheme);
 
   test(
     'should load theme from the repository',
@@ -28,12 +28,12 @@ void main() {
       when(
         () => mockRepository.loadSettings(),
       ).thenAnswer(
-        (_) async => Right(tSettingsInfo),
+        (_) async => const Right(tSettingsInfo),
       );
       // act
       final result = await usecase.execute();
       // assert
-      expect(result, Right(tSettingsInfo));
+      expect(result, const Right(tSettingsInfo));
       verify(mockRepository.loadSettings);
       verifyNoMoreInteractions(mockRepository);
     },
