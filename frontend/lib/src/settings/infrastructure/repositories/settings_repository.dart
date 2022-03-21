@@ -14,13 +14,11 @@ class SettingsRepository implements ISettingsRepository {
 
   @override
   Future<Either<Failure, SettingsInfo>> loadSettings() {
-    // TODO: implement loadSettings
     throw UnimplementedError();
   }
 
   @override
   Future<Either<Failure, Unit>> updateTheme(String theme) {
-    // TODO: implement updateTheme
     throw UnimplementedError();
   }
 }
