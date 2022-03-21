@@ -28,14 +28,13 @@ jobs:
       working-directory: ./frontend
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
         sdk: [stable]
         version: [2.10.3]
     # test Job 내의 step 목록
     steps:
       # Set up flutter
       - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: ${{ matrix.sdk }}
       - uses: subosito/flutter-action@v2
@@ -48,11 +47,11 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed .
+        run: flutter format --output=none --set-exit-if-changed .
         working-directory: ${{ env.working-directory }}
       
       - name: Analyze project source
-        run: dart analyze
+        run: flutter analyze
         working-directory: ${{ env.working-directory }}
 
       - name: Run tests
