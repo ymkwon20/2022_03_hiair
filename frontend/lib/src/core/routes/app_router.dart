@@ -1,49 +1,96 @@
+import 'package:flutter/material.dart';
 import 'package:frontend/src/auth/presentation/sign_in_screen.dart';
 import 'package:frontend/src/core/pages/home_screen.dart';
+import 'package:frontend/src/inspection/presentation/prototypes/qm_product_details_screen2.dart';
+import 'package:frontend/src/inspection/presentation/screens/qm_product_list_screen.dart';
 import 'package:frontend/src/settings/settings_screen.dart';
-import 'package:frontend/src/work_progress/presentation/plasma_screen.dart';
 import 'package:go_router/go_router.dart';
 
+/// Navigator 2.0에 기반한 라우터
+/// powered by go_router package
 class AppRouter extends GoRouter {
   AppRouter()
       : super(
-          initialLocation: '/sign-in',
+          initialLocation: '/',
+
+          /// remove hash from url
+          urlPathStrategy: UrlPathStrategy.path,
           routes: [
+            /// 로그인 화면
             GoRoute(
+              name: 'auth',
               path: '/sign-in',
-              builder: (context, state) {
-                return const SignInScreen();
+              pageBuilder: (context, state) {
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: const SignInScreen(),
+                );
               },
             ),
+
+            /// 홈 화면
             GoRoute(
-              path: '/home',
-              builder: (context, state) {
-                return const HomeScreen();
+              name: 'home',
+              path: '/',
+              pageBuilder: (context, state) {
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: const HomeScreen(),
+                );
               },
             ),
+
+            /// 설정 화면
             GoRoute(
+              name: 'settings',
               path: '/settings',
-              builder: (context, state) {
-                return const SettingsScreen();
+              pageBuilder: (context, state) {
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: const SettingsScreen(),
+                );
               },
             ),
+
+            /// 검사 1 화면: 검사항목 리스트
             GoRoute(
-              path: '/plasma',
-              builder: (context, state) {
-                return const PlasmaScreen();
+              name: 'qm1',
+              path: '/qm',
+              pageBuilder: (context, state) {
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: const QmProductListScreen(),
+                );
               },
-            ),
-            GoRoute(
-              path: '/plange',
-              builder: (context, state) {
-                return const PlangeScreen();
-              },
-            ),
-            GoRoute(
-              path: '/fan',
-              builder: (context, state) {
-                return const FanScreen();
-              },
+              routes: [
+                /// 검사 2 화면: 검사항목 세부사항
+                // GoRoute(
+                //     name: 'qm2',
+                //     path: ':id', // /qm/23120323
+                //     pageBuilder: (context, state) {
+                //       final productNo = state.params['id']!;
+                //       return MaterialPage(
+                //         key: state.pageKey,
+                //         child: QmProductDetailsScreen(
+                //           projectNo: productNo,
+                //         ),
+                //       );
+                //     }),
+
+                /// (Prototype) 검사 2 화면: 검사항목 세부사항
+                GoRoute(
+                    name: 'qm2-2',
+                    path: ':id', // /qm/23120323
+                    pageBuilder: (context, state) {
+                      final productNo = state.params['id']!;
+                      return MaterialPage(
+                        key: state.pageKey,
+                        child: QmProductDetailsScreen2(
+                          projectNo: productNo,
+                        ),
+                      );
+                    }),
+              ],
             ),
           ],
         );

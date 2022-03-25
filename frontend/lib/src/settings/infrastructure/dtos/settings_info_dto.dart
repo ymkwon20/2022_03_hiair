@@ -27,13 +27,13 @@ class SettingsInfoDTO {
 
   Map<String, dynamic> toMap() {
     return {
-      'themeData': themeMode,
+      'themeMode': themeMode,
     };
   }
 
   factory SettingsInfoDTO.fromMap(Map<String, dynamic> map) {
     return SettingsInfoDTO(
-      themeMode: map['themeData'] ?? '',
+      themeMode: map['themeMode'] ?? 'system',
     );
   }
 
@@ -43,7 +43,7 @@ class SettingsInfoDTO {
       SettingsInfoDTO.fromMap(json.decode(source));
 
   @override
-  String toString() => 'SettingsInfoDTO(themeData: $themeMode)';
+  String toString() => 'SettingsInfoDTO(themeMode: $themeMode)';
 
   @override
   bool operator ==(Object other) {

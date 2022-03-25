@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                context.push(_mockMenus[index].route);
+                context.pushNamed(_mockMenus[index].routeName);
               },
               child: Container(
                 margin: const EdgeInsets.all(12),
@@ -52,30 +52,20 @@ class HomeScreen extends StatelessWidget {
 
 const _mockMenus = <MockMenu>[
   MockMenu(
-    title: 'Plasma',
+    title: 'QM',
     cardColor: Colors.red,
-    route: '/plasma',
-  ),
-  MockMenu(
-    title: 'Plange',
-    cardColor: Colors.orange,
-    route: '/plange',
-  ),
-  MockMenu(
-    title: 'Fan',
-    cardColor: Colors.yellow,
-    route: '/fan',
+    routeName: 'qm1',
   ),
 ];
 
 class MockMenu {
   final String title;
   final Color cardColor;
-  final String route;
+  final String routeName;
 
   const MockMenu({
     required this.title,
     required this.cardColor,
-    required this.route,
+    required this.routeName,
   });
 }

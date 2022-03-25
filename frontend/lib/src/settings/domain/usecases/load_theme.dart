@@ -1,16 +1,18 @@
 import 'package:dartz/dartz.dart';
-import 'package:frontend/src/core/failures/failure.dart';
+import 'package:frontend/src/core/errors/failure.dart';
+import 'package:frontend/src/core/usecases/usecase.dart';
 import 'package:frontend/src/settings/domain/entities/settings_info.dart';
-import 'package:frontend/src/settings/infrastructure/repositories/settings_repository.dart';
+import 'package:frontend/src/settings/domain/repositories/i_settings_repository.dart';
 
-class LoadThemeUsecase {
-  final SettingsRepository _repository;
+class LoadThemeUsecase implements Usecase<SettingsInfo, Unit> {
+  final ISettingsRepository _repository;
 
   const LoadThemeUsecase({
-    required SettingsRepository repository,
+    required ISettingsRepository repository,
   }) : _repository = repository;
 
-  Future<Either<Failure, SettingsInfo>> execute() async {
-    return await _repository.loadSettings();
+  @override
+  Future<Either<Failure, SettingsInfo>> call([Unit? params]) async {
+    return await _repository.loadTheme();
   }
 }

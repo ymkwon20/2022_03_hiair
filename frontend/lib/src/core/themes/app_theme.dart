@@ -8,12 +8,12 @@ class AppTheme {
   static final light = ThemeData(
     brightness: Brightness.light,
     primarySwatch: Colors.indigo,
-    fontFamily: FontFamily.maruburi,
+    fontFamily: FontFamily.iropke,
   );
 
   static final dark = ThemeData(
     brightness: Brightness.dark,
     primarySwatch: Colors.indigo,
-    fontFamily: FontFamily.maruburi,
+    fontFamily: FontFamily.iropke,
   );
 }

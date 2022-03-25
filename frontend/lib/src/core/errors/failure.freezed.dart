@@ -26,6 +26,10 @@ class _$FailureTearOff {
       message,
     );
   }
+
+  _InvalidInput invalidInput() {
+    return const _InvalidInput();
+  }
 }
 
 /// @nodoc
@@ -37,18 +41,21 @@ mixin _$Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() server,
     required TResult Function(String? message) internal,
+    required TResult Function() invalidInput,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? server,
     TResult Function(String? message)? internal,
+    TResult Function()? invalidInput,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? server,
     TResult Function(String? message)? internal,
+    TResult Function()? invalidInput,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -56,18 +63,21 @@ mixin _$Failure {
   TResult map<TResult extends Object?>({
     required TResult Function(ServerError value) server,
     required TResult Function(_InternalError value) internal,
+    required TResult Function(_InvalidInput value) invalidInput,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(ServerError value)? server,
     TResult Function(_InternalError value)? internal,
+    TResult Function(_InvalidInput value)? invalidInput,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ServerError value)? server,
     TResult Function(_InternalError value)? internal,
+    TResult Function(_InvalidInput value)? invalidInput,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -130,6 +140,7 @@ class _$ServerError extends ServerError {
   TResult when<TResult extends Object?>({
     required TResult Function() server,
     required TResult Function(String? message) internal,
+    required TResult Function() invalidInput,
   }) {
     return server();
   }
@@ -139,6 +150,7 @@ class _$ServerError extends ServerError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? server,
     TResult Function(String? message)? internal,
+    TResult Function()? invalidInput,
   }) {
     return server?.call();
   }
@@ -148,6 +160,7 @@ class _$ServerError extends ServerError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? server,
     TResult Function(String? message)? internal,
+    TResult Function()? invalidInput,
     required TResult orElse(),
   }) {
     if (server != null) {
@@ -161,6 +174,7 @@ class _$ServerError extends ServerError {
   TResult map<TResult extends Object?>({
     required TResult Function(ServerError value) server,
     required TResult Function(_InternalError value) internal,
+    required TResult Function(_InvalidInput value) invalidInput,
   }) {
     return server(this);
   }
@@ -170,6 +184,7 @@ class _$ServerError extends ServerError {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(ServerError value)? server,
     TResult Function(_InternalError value)? internal,
+    TResult Function(_InvalidInput value)? invalidInput,
   }) {
     return server?.call(this);
   }
@@ -179,6 +194,7 @@ class _$ServerError extends ServerError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ServerError value)? server,
     TResult Function(_InternalError value)? internal,
+    TResult Function(_InvalidInput value)? invalidInput,
     required TResult orElse(),
   }) {
     if (server != null) {
@@ -259,6 +275,7 @@ class _$_InternalError extends _InternalError {
   TResult when<TResult extends Object?>({
     required TResult Function() server,
     required TResult Function(String? message) internal,
+    required TResult Function() invalidInput,
   }) {
     return internal(message);
   }
@@ -268,6 +285,7 @@ class _$_InternalError extends _InternalError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? server,
     TResult Function(String? message)? internal,
+    TResult Function()? invalidInput,
   }) {
     return internal?.call(message);
   }
@@ -277,6 +295,7 @@ class _$_InternalError extends _InternalError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? server,
     TResult Function(String? message)? internal,
+    TResult Function()? invalidInput,
     required TResult orElse(),
   }) {
     if (internal != null) {
@@ -290,6 +309,7 @@ class _$_InternalError extends _InternalError {
   TResult map<TResult extends Object?>({
     required TResult Function(ServerError value) server,
     required TResult Function(_InternalError value) internal,
+    required TResult Function(_InvalidInput value) invalidInput,
   }) {
     return internal(this);
   }
@@ -299,6 +319,7 @@ class _$_InternalError extends _InternalError {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(ServerError value)? server,
     TResult Function(_InternalError value)? internal,
+    TResult Function(_InvalidInput value)? invalidInput,
   }) {
     return internal?.call(this);
   }
@@ -308,6 +329,7 @@ class _$_InternalError extends _InternalError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ServerError value)? server,
     TResult Function(_InternalError value)? internal,
+    TResult Function(_InvalidInput value)? invalidInput,
     required TResult orElse(),
   }) {
     if (internal != null) {
@@ -325,4 +347,115 @@ abstract class _InternalError extends Failure {
   @JsonKey(ignore: true)
   _$InternalErrorCopyWith<_InternalError> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$InvalidInputCopyWith<$Res> {
+  factory _$InvalidInputCopyWith(
+          _InvalidInput value, $Res Function(_InvalidInput) then) =
+      __$InvalidInputCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$InvalidInputCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
+    implements _$InvalidInputCopyWith<$Res> {
+  __$InvalidInputCopyWithImpl(
+      _InvalidInput _value, $Res Function(_InvalidInput) _then)
+      : super(_value, (v) => _then(v as _InvalidInput));
+
+  @override
+  _InvalidInput get _value => super._value as _InvalidInput;
+}
+
+/// @nodoc
+
+class _$_InvalidInput extends _InvalidInput {
+  const _$_InvalidInput() : super._();
+
+  @override
+  String toString() {
+    return 'Failure.invalidInput()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _InvalidInput);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() server,
+    required TResult Function(String? message) internal,
+    required TResult Function() invalidInput,
+  }) {
+    return invalidInput();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? server,
+    TResult Function(String? message)? internal,
+    TResult Function()? invalidInput,
+  }) {
+    return invalidInput?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? server,
+    TResult Function(String? message)? internal,
+    TResult Function()? invalidInput,
+    required TResult orElse(),
+  }) {
+    if (invalidInput != null) {
+      return invalidInput();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ServerError value) server,
+    required TResult Function(_InternalError value) internal,
+    required TResult Function(_InvalidInput value) invalidInput,
+  }) {
+    return invalidInput(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ServerError value)? server,
+    TResult Function(_InternalError value)? internal,
+    TResult Function(_InvalidInput value)? invalidInput,
+  }) {
+    return invalidInput?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ServerError value)? server,
+    TResult Function(_InternalError value)? internal,
+    TResult Function(_InvalidInput value)? invalidInput,
+    required TResult orElse(),
+  }) {
+    if (invalidInput != null) {
+      return invalidInput(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _InvalidInput extends Failure {
+  const factory _InvalidInput() = _$_InvalidInput;
+  const _InvalidInput._() : super._();
 }
