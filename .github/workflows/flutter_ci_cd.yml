@@ -25,7 +25,7 @@ jobs:
     # Runner가 실행되는 환경을 정의하는 부분
     runs-on: ${{ matrix.os }}
     env:
-      working-directory: ./frontend
+      working-directory: ./frontend/
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -58,7 +58,7 @@ jobs:
         run: flutter test
         working-directory: ${{ env.working-directory }}
 
-      - name: Deploy web to web
+      - name: Deploy web to github pages
         uses: bluefireteam/flutter-gh-pages@v7
         with:
           baseHref: /hiair/
