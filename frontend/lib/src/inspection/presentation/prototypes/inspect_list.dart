@@ -70,6 +70,7 @@ class _InspectItemWidgetState extends State<InspectItemWidget> {
           if (!isFocused) {
             setState(() {
               hasFocus = false;
+              // TODO: change values edited
             });
           } else {
             _textEditingController
@@ -184,25 +185,38 @@ class _InspectItemWidgetState extends State<InspectItemWidget> {
                               fontSize: 20,
                             ),
                           ),
-                          Container(
-                            width: 120,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: LayoutConstant.paddingS,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(LayoutConstant.radiusS),
-                              border: Border.all(
-                                width: 2,
-                                color: Theme.of(context).dividerColor,
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                hasFocus = true;
+                              });
+                              _valueFocusNode.requestFocus();
+                            },
+                            child: Container(
+                              width: 120,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: LayoutConstant.paddingS,
                               ),
-                            ),
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              widget.inspectItem.inspectValue ?? '',
-                              style: const TextStyle(
-                                fontSize: 18,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    LayoutConstant.radiusS),
+                                border: Border.all(
+                                  width: 2,
+                                  color: Theme.of(context).dividerColor,
+                                ),
                               ),
+                              alignment: Alignment.centerRight,
+                              child: hasFocus
+                                  ? TextField(
+                                      focusNode: _valueFocusNode,
+                                      controller: _textEditingController,
+                                    )
+                                  : Text(
+                                      widget.inspectItem.inspectValue ?? '',
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
                             ),
                           ),
                         ],
