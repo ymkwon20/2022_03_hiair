@@ -45,11 +45,14 @@ class _InspectItemWidgetState extends State<InspectItemWidget> {
 
   bool hasFocus = false;
 
+  late InspectItem _item;
+
   @override
   void initState() {
     super.initState();
     _textEditingController = TextEditingController();
     _valueFocusNode = FocusNode();
+    _item = widget.inspectItem;
   }
 
   @override
@@ -60,7 +63,9 @@ class _InspectItemWidgetState extends State<InspectItemWidget> {
   }
 
   bool get _isUnitSelected =>
-      widget.inspectItem.unit == "" && widget.inspectItem.unitList != null;
+      // todo: change this after getting valid data
+      _item.unit == "" && _item.unitList != null;
+  // widget.inspectItem.unit == "" && widget.inspectItem.unitList != null;
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +75,16 @@ class _InspectItemWidgetState extends State<InspectItemWidget> {
           if (!isFocused) {
             setState(() {
               hasFocus = false;
-              // TODO: change values edited
+              // TODO: change this after getting valid data
+              _item = _item.copyWith(
+                inspectValue: _textEditingController.text,
+              );
             });
           } else {
             _textEditingController
-              ..text = widget.inspectItem.inspectValue ?? ''
+              // todo: change this after getting valid data
+              // ..text = widget.inspectItem.inspectValue ??''
+              ..text = _item.inspectValue ?? ''
               ..selection = TextSelection.fromPosition(
                 TextPosition(offset: _textEditingController.text.length),
               );
@@ -101,8 +111,19 @@ class _InspectItemWidgetState extends State<InspectItemWidget> {
                       ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 200),
                         child: ImagePile(
-                          images: widget.inspectItem.imgPaths,
+                          // todo: change this after getting valid data
+                          // images: widget.inspectItem.imgPaths,
+                          images: _item.imgPaths,
                           imagePercentOverlap: 0.1,
+                          onTap: () {
+                            // TODO: add image attach logic
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Not yet implemented'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          },
                         ),
                       ),
                       const Expanded(child: SizedBox()),
@@ -127,14 +148,20 @@ class _InspectItemWidgetState extends State<InspectItemWidget> {
                                   enableDrag: false,
                                   builder: (context) {
                                     return _BottomModal(
-                                      item: widget.inspectItem,
+                                      // todo: change this after getting valid data
+                                      // item: widget.inspectItem,
+                                      item: _item,
                                     );
                                   },
                                 ).then(
                                   (value) {
                                     final returnValue = value as String?;
                                     if (returnValue != null) {
-                                      print(value);
+                                      setState(() {
+                                        _item = _item.copyWith(
+                                          unit: returnValue,
+                                        );
+                                      });
                                     }
                                   },
                                   onError: (err, st) => print('error'),
@@ -151,7 +178,9 @@ class _InspectItemWidgetState extends State<InspectItemWidget> {
                                     LayoutConstant.radiusS),
                                 border: Border.all(
                                   width: 2,
-                                  color: widget.inspectItem.unitList != null
+                                  // todo: change this after getting valid data
+                                  // color: widget.inspectItem.unitList != null
+                                  color: _item.unitList != null
                                       ? Theme.of(context).primaryColor
                                       : Theme.of(context).dividerColor,
                                 ),
@@ -160,7 +189,9 @@ class _InspectItemWidgetState extends State<InspectItemWidget> {
                               child: Text(
                                 _isUnitSelected
                                     ? 'Not Selected'
-                                    : widget.inspectItem.unit,
+                                    // todo: change this after getting valid data
+                                    // : widget.inspectItem.unit,
+                                    : _item.unit,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 18,
@@ -210,9 +241,14 @@ class _InspectItemWidgetState extends State<InspectItemWidget> {
                                   ? TextField(
                                       focusNode: _valueFocusNode,
                                       controller: _textEditingController,
+                                      decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.all(0),
+                                      ),
                                     )
                                   : Text(
-                                      widget.inspectItem.inspectValue ?? '',
+                                      // todo: change this after getting valid data
+                                      // widget.inspectItem.inspectValue ?? '',
+                                      _item.inspectValue ?? '',
                                       style: const TextStyle(
                                         fontSize: 18,
                                       ),

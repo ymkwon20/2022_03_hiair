@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:math';
 
 import 'package:collection/collection.dart';
@@ -10,11 +12,13 @@ class ImagePile extends StatefulWidget {
     required this.images,
     this.imageSize = 36,
     required this.imagePercentOverlap,
+    this.onTap,
   }) : super(key: key);
 
   final List<String> images;
   final double imageSize;
   final double imagePercentOverlap;
+  final VoidCallback? onTap;
 
   @override
   State<ImagePile> createState() => _ImagePileState();
@@ -64,47 +68,58 @@ class _ImagePileState extends State<ImagePile> {
 
       return SizedBox(
         height: widget.imageSize,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: widget.images.isNotEmpty
-              ? _visibleImages
-                  .mapIndexed(
-                    (index, visibleImage) => AnimatedPositioned(
-                      key: ValueKey(visibleImage),
-                      duration: const Duration(milliseconds: 250),
-                      curve: Curves.easeInOut,
-                      left: (index * imagePercentVisible * widget.imageSize),
-                      top: 0,
-                      width: widget.imageSize,
-                      height: widget.imageSize,
-                      child: AppearingAndDisappearingWidget(
-                        child: CircleImageTile(
-                          size: widget.imageSize,
+        child: widget.images.isNotEmpty
+            ? GestureDetector(
+                onTap: () {
+                  print('Stack tap');
+                  widget.onTap?.call();
+                },
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: _visibleImages
+                      .mapIndexed(
+                        (index, visibleImage) => AnimatedPositioned(
+                          key: ValueKey(visibleImage),
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeInOut,
+                          left:
+                              (index * imagePercentVisible * widget.imageSize),
+                          top: 0,
+                          width: widget.imageSize,
+                          height: widget.imageSize,
+                          child: AppearingAndDisappearingWidget(
+                            child: CircleImageTile(
+                              size: widget.imageSize,
+                            ),
+                            imageSize: widget.imageSize,
+                            showImage: widget.images.contains(visibleImage),
+                            onDisappear: () {
+                              setState(() {
+                                _visibleImages.remove(visibleImage);
+                              });
+                            },
+                          ),
                         ),
-                        imageSize: widget.imageSize,
-                        showImage: widget.images.contains(visibleImage),
-                        onDisappear: () {
-                          setState(() {
-                            _visibleImages.remove(visibleImage);
-                          });
-                        },
-                      ),
-                    ),
-                  )
-                  .toList()
-              : [
-                  AppearingAndDisappearingWidget(
-                    child: CircleAddTile(size: widget.imageSize),
-                    imageSize: widget.imageSize,
-                    showImage: widget.images.isEmpty,
-                    onDisappear: () {
-                      setState(() {
-                        // TODO: add image to _visibleImages?
-                      });
-                    },
-                  ),
-                ],
-        ),
+                      )
+                      .toList(),
+                ),
+              )
+            : AppearingAndDisappearingWidget(
+                child: CircleAddTile(
+                  size: widget.imageSize,
+                  onTap: () {
+                    print('single tap');
+                    widget.onTap?.call();
+                  },
+                ),
+                imageSize: widget.imageSize,
+                showImage: widget.images.isEmpty,
+                onDisappear: () {
+                  setState(() {
+                    // TODO: add image to _visibleImages?
+                  });
+                },
+              ),
       );
     });
   }
@@ -244,10 +259,12 @@ class CircleAddTile extends StatefulWidget {
     Key? key,
     required this.size,
     this.backgroundColor = const Color(0xFFAAAAAA),
+    this.onTap,
   }) : super(key: key);
 
   final double size;
   final Color backgroundColor;
+  final VoidCallback? onTap;
 
   @override
   State<CircleAddTile> createState() => _CircleAddTileState();
@@ -265,6 +282,7 @@ class _CircleAddTileState extends State<CircleAddTile> {
       onTapUp: (_) => setState(() {
         _scale = 1.0;
         // TODO: add gesture action
+        widget.onTap?.call();
       }),
       child: AnimatedScale(
         scale: _scale,
