@@ -59,7 +59,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: Deploy web to github pages
-        working-directory: ${{ env.working-directory }}
         uses: bluefireteam/flutter-gh-pages@v7
         with:
           baseHref: /hiair/
+        run: cd frontend
