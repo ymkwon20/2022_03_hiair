@@ -61,5 +61,5 @@ jobs:
       - name: Deploy web to github pages
         uses: bluefireteam/flutter-gh-pages@v7
         with:
-          baseHref: /hiair/
+          baseHref: /2022_03_hiair/
           workingDir: frontend
