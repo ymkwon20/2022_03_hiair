@@ -20,8 +20,8 @@ on:
 # 해당 Workflow의 하나 이상의 Job 목록
 jobs:
   # Job 이름, flutter_test라는 이름으로 Job이 표시
-  flutter_test:
-    name: Unit tests on ${{ matrix.os }}
+  flutter_ci_cd:
+    name: CI/CD on ${{ matrix.os }}
     # Runner가 실행되는 환경을 정의하는 부분
     runs-on: ${{ matrix.os }}
     env:
@@ -59,4 +59,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: Deploy web to github pages
+        working-directory: ${{ env.working-directory }}
         uses: bluefireteam/flutter-gh-pages@v7
+        with:
+          baseHref: /hiair/
