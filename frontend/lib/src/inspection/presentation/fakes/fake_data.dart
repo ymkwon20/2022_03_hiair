@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:frontend/src/inspection/presentation/fakes/inspect_item.dart';
 import 'package:frontend/src/inspection/presentation/fakes/inspect_spec.dart';
 import 'package:frontend/src/inspection/presentation/fakes/qm_product.dart';
@@ -54,40 +56,46 @@ const fakeQmProducts = <QmProduct>[
   ),
 ];
 
-const fakePerformance = InspectSpec(
+final fakePerformance = InspectSpec(
   name: 'Fan Performance',
   items: fakeInspectPerformanceItems,
 );
 
-const fakePaint = InspectSpec(
+final fakePaint = InspectSpec(
   name: 'Paint Spec.',
   items: fakeInpectPaintItems,
 );
 
-const fakeInspectPerformanceItems = <InspectItem>[
+final fakeInspectPerformanceItems = <InspectItem>[
   InspectItem(
     name: 'Air Volume',
     unit: '',
     spec: '',
-    isUnitSelectable: true,
     unitList: UnitAirVolume(),
-    valueType: 'num',
+    valueType: 'selectable',
+    imgPaths: [
+      'abc',
+      '123',
+    ],
   ),
   InspectItem(
-    name: 'Ps',
-    unit: '',
-    spec: '500',
-    isUnitSelectable: true,
-    unitList: UnitPressure(),
-    valueType: 'num',
-  ),
+      name: 'Ps',
+      unit: '',
+      spec: '500',
+      unitList: UnitPressure(),
+      valueType: 'selectable',
+      imgPaths: [
+        '1',
+        '2',
+        '3',
+        '4',
+      ]),
   InspectItem(
     name: 'Velocity',
     unit: '',
     spec: '-',
-    isUnitSelectable: true,
     unitList: UnitVelocity(),
-    valueType: 'num',
+    valueType: 'selectable',
   ),
   InspectItem(
     name: 'Current',
@@ -100,12 +108,19 @@ const fakeInspectPerformanceItems = <InspectItem>[
     unit: '',
     spec: '3500',
     valueType: 'num',
+    imgPaths: [
+      '123',
+      '456',
+    ],
   ),
   InspectItem(
     name: 'Noise',
     unit: 'dB(A)',
     spec: '',
     valueType: 'num',
+    imgPaths: [
+      '1',
+    ],
   ),
   InspectItem(
     name: 'Vibration',
@@ -115,7 +130,7 @@ const fakeInspectPerformanceItems = <InspectItem>[
   ),
 ];
 
-const fakeInpectPaintItems = <InspectItem>[
+final fakeInpectPaintItems = <InspectItem>[
   InspectItem(
     name: 'ln\n도막',
     unit: 'mm',
@@ -124,8 +139,8 @@ const fakeInpectPaintItems = <InspectItem>[
   ),
   InspectItem(
     name: 'Inside\n(paint)',
-    unit: '1-용융도금\n2-EP UNI PRIMER G/YELLOW(70)\n3-EPOXY 7.5 BG 7/2(50)',
-    spec: '',
+    unit: '',
+    spec: '1-용융도금\n2-EP UNI PRIMER G/YELLOW(70)\n3-EPOXY 7.5 BG 7/2(50)',
     valueType: 'bool',
   ),
   InspectItem(

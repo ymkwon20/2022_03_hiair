@@ -1,5 +1,5 @@
 # Repo의 Actions 탭에 나타날 workflow 이름으로 필수 옵션 아님
-name: Flutter Tests
+name: Flutter CI/CD
 
 # workflow 실행시키기 위한 Event 목록
 on:
@@ -57,3 +57,8 @@ jobs:
       - name: Run tests
         run: flutter test
         working-directory: ${{ env.working-directory }}
+
+      - name: Deploy web to web
+        uses: bluefireteam/flutter-gh-pages@v7
+        with:
+          baseHref: /hiair/

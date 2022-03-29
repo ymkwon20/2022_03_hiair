@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/inspection/presentation/fakes/inspect_spec.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import 'package:frontend/src/core/constants/index.dart';
@@ -76,12 +78,12 @@ class _QmProductDetailsScreen2State extends State<QmProductDetailsScreen2> {
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.grey.withOpacity(.6),
+                          color: Theme.of(context).dividerColor,
                           width: 2,
                         ),
                         borderRadius:
                             BorderRadius.circular(LayoutConstant.radiusM),
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -164,23 +166,17 @@ class _QmProductDetailsScreen2State extends State<QmProductDetailsScreen2> {
                             'Paint Spec.',
                           ),
                         ),
-                        const SizedBox(width: LayoutConstant.spaceM),
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              mode = const InspectMode.motor();
-                            });
-                          },
-                          child: const Text(
-                            'Motor Info.',
-                          ),
-                        )
                       ],
                     ),
                   ],
                 ),
               ),
             ),
+          ),
+          Container(
+            width: 2,
+            height: double.infinity,
+            color: Theme.of(context).dividerColor,
           ),
           Expanded(
             child: QmSelectionModeScreen(mode: mode),
@@ -190,6 +186,10 @@ class _QmProductDetailsScreen2State extends State<QmProductDetailsScreen2> {
     );
   }
 }
+
+final inspectSpec = Provider<InspectSpec>(
+  (ref) => throw UnimplementedError(),
+);
 
 /// 검사 기준정보 아래 버튼을 클릭했을 때 나오는 화면
 ///
@@ -212,12 +212,43 @@ class QmSelectionModeScreen extends StatefulWidget {
 class _QmSelectionModeScreenState extends State<QmSelectionModeScreen> {
   @override
   Widget build(BuildContext context) {
-    return widget.mode.when(
-      none: () => Container(color: Colors.red),
-      performance: () => const InspectScreen(),
-      paint: () => const InspectScreen(),
-      motor: () => Container(color: Colors.blue),
-      photo: () => Container(color: Colors.yellow),
+    return Container(
+      margin: const EdgeInsets.all(LayoutConstant.paddingL),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(LayoutConstant.radiusM),
+        color: Theme.of(context).cardColor,
+        border: Border.all(
+          color: Theme.of(context).dividerColor,
+          width: 2,
+        ),
+      ),
+      child: widget.mode.when(
+        none: () => const Center(
+          child: Text(
+            'No Selection',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        performance: () => ProviderScope(
+          overrides: [
+            // TODO: change mock data to real
+            inspectSpec.overrideWithValue(fakePerformance),
+          ],
+          child: const InspectScreen(),
+        ),
+        paint: () => ProviderScope(
+          overrides: [
+            // TODO: change mock to real
+            inspectSpec.overrideWithValue(fakePaint),
+          ],
+          child: const InspectScreen(),
+        ),
+        motor: () => Container(color: Colors.blue),
+        photo: () => Container(color: Colors.yellow),
+      ),
     );
   }
 }
