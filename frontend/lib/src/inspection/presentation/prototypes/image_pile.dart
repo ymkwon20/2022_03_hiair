@@ -66,61 +66,64 @@ class _ImagePileState extends State<ImagePile> {
             ((constraints.maxWidth / widget.imageSize) - 1) / (imagesCount - 1);
       }
 
-      return SizedBox(
-        height: widget.imageSize,
-        child: widget.images.isNotEmpty
-            ? GestureDetector(
-                onTap: () {
-                  print('Stack tap');
-                  widget.onTap?.call();
-                },
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: _visibleImages
-                      .mapIndexed(
-                        (index, visibleImage) => AnimatedPositioned(
-                          key: ValueKey(visibleImage),
-                          duration: const Duration(milliseconds: 250),
-                          curve: Curves.easeInOut,
-                          left:
-                              (index * imagePercentVisible * widget.imageSize),
-                          top: 0,
-                          width: widget.imageSize,
-                          height: widget.imageSize,
-                          child: AppearingAndDisappearingWidget(
-                            child: CircleImageTile(
-                              size: widget.imageSize,
-                            ),
-                            imageSize: widget.imageSize,
-                            showImage: widget.images.contains(visibleImage),
-                            onDisappear: () {
-                              setState(() {
-                                _visibleImages.remove(visibleImage);
-                              });
-                            },
-                          ),
+      if (widget.images.isNotEmpty) {
+        return GestureDetector(
+          onTap: () {
+            widget.onTap?.call();
+          },
+          child: SizedBox(
+            height: widget.imageSize,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: _visibleImages
+                  .mapIndexed(
+                    (index, visibleImage) => AnimatedPositioned(
+                      key: ValueKey(visibleImage),
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                      left: (index * imagePercentVisible * widget.imageSize),
+                      top: 0,
+                      width: widget.imageSize,
+                      height: widget.imageSize,
+                      child: AppearingAndDisappearingWidget(
+                        child: CircleImageTile(
+                          size: widget.imageSize,
                         ),
-                      )
-                      .toList(),
-                ),
-              )
-            : AppearingAndDisappearingWidget(
-                child: CircleAddTile(
-                  size: widget.imageSize,
-                  onTap: () {
-                    print('single tap');
-                    widget.onTap?.call();
-                  },
-                ),
-                imageSize: widget.imageSize,
-                showImage: widget.images.isEmpty,
-                onDisappear: () {
-                  setState(() {
-                    // TODO: add image to _visibleImages?
-                  });
-                },
-              ),
-      );
+                        imageSize: widget.imageSize,
+                        showImage: widget.images.contains(visibleImage),
+                        onDisappear: () {
+                          setState(() {
+                            _visibleImages.remove(visibleImage);
+                          });
+                        },
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        );
+      } else {
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: AppearingAndDisappearingWidget(
+            child: CircleAddTile(
+              size: widget.imageSize,
+              onTap: () {
+                print('single tap');
+                widget.onTap?.call();
+              },
+            ),
+            imageSize: widget.imageSize,
+            showImage: widget.images.isEmpty,
+            onDisappear: () {
+              setState(() {
+                // TODO: add image to _visibleImages?
+              });
+            },
+          ),
+        );
+      }
     });
   }
 }
@@ -275,41 +278,47 @@ class _CircleAddTileState extends State<CircleAddTile> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) => setState(() {
-        _scale = 0.9;
-      }),
-      onTapUp: (_) => setState(() {
-        _scale = 1.0;
-        // TODO: add gesture action
-        widget.onTap?.call();
-      }),
-      child: AnimatedScale(
-        scale: _scale,
-        duration: const Duration(milliseconds: 150),
-        curve: Curves.ease,
-        child: Container(
-          width: widget.size,
-          height: widget.size,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: widget.backgroundColor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(.4),
-                blurRadius: 5,
-                offset: const Offset(0, 3),
+    return Stack(
+      alignment: Alignment.centerLeft,
+      fit: StackFit.expand,
+      children: [
+        GestureDetector(
+          onTapDown: (_) => setState(() {
+            _scale = 0.9;
+          }),
+          onTapUp: (_) => setState(() {
+            _scale = 1.0;
+            // TODO: add gesture action
+            widget.onTap?.call();
+          }),
+          child: AnimatedScale(
+            scale: _scale,
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.ease,
+            child: Container(
+              width: widget.size,
+              height: widget.size,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: widget.backgroundColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(.4),
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
-            ],
-          ),
-          alignment: Alignment.center,
-          child: Icon(
-            Icons.add,
-            size: widget.size * 0.6,
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.add,
+                size: widget.size * 0.6,
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

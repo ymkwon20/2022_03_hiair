@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/auth/presentation/sign_in_screen.dart';
 import 'package:frontend/src/core/pages/home_screen.dart';
-import 'package:frontend/src/inspection/presentation/prototypes/qm_product_details_screen2.dart';
+import 'package:frontend/src/cutting/presentation/request/cutting_request_screen.dart';
+import 'package:frontend/src/cutting/presentation/serial/cutting_serials_screen.dart';
+import 'package:frontend/src/inspection/presentation/prototypes/qm_product_details_screen.dart';
 import 'package:frontend/src/inspection/presentation/screens/qm_product_list_screen.dart';
 import 'package:frontend/src/settings/settings_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -85,9 +87,30 @@ class AppRouter extends GoRouter {
                       final productNo = state.params['id']!;
                       return MaterialPage(
                         key: state.pageKey,
-                        child: QmProductDetailsScreen2(
+                        child: QmProductDetailsScreen(
                           projectNo: productNo,
                         ),
+                      );
+                    }),
+              ],
+            ),
+            GoRoute(
+              name: "cut",
+              path: '/cut',
+              pageBuilder: (context, state) {
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: const CuttingSerialsScreen(),
+                );
+              },
+              routes: [
+                GoRoute(
+                    name: "cut-request",
+                    path: "request",
+                    pageBuilder: (context, state) {
+                      return MaterialPage(
+                        key: state.pageKey,
+                        child: const CuttingRequestScreen(),
                       );
                     }),
               ],

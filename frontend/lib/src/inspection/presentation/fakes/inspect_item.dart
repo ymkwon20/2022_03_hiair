@@ -13,7 +13,7 @@ class InspectItem {
   final String spec;
 
   /// 실제 검사 측정 값
-  final String? inspectValue;
+  final String inspectValue;
 
   /// 첨부 사진 목록
   final List<String> imgPaths;
@@ -27,7 +27,7 @@ class InspectItem {
     required this.unit,
     this.unitList,
     required this.spec,
-    this.inspectValue,
+    this.inspectValue = "",
     this.imgPaths = const [],
     required this.valueType,
   });

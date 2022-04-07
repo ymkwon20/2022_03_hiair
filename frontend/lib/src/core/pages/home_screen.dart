@@ -56,6 +56,11 @@ const _mockMenus = <MockMenu>[
     cardColor: Colors.red,
     routeName: 'qm1',
   ),
+  MockMenu(
+    title: 'Cutting',
+    cardColor: Colors.blue,
+    routeName: 'cut',
+  ),
 ];
 
 class MockMenu {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/core/widgets/responsive_widget.dart';
 import 'package:frontend/src/inspection/presentation/fakes/fake_data.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,7 +11,11 @@ class QmProductListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const QmProductList(),
+      body: const ResponsiveWidget(
+        mobile: QmProductList(),
+        tablet: QmProductList(),
+        desktop: QmProductList(),
+      ),
     );
   }
 }

@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:frontend/src/inspection/presentation/fakes/inspect_item.dart';
 import 'package:frontend/src/inspection/presentation/fakes/inspect_spec.dart';
 import 'package:frontend/src/inspection/presentation/fakes/qm_product.dart';
 import 'package:frontend/src/inspection/presentation/fakes/unit_list.dart';
+
+import 'motor_info.dart';
 
 const fakeQmProducts = <QmProduct>[
   QmProduct(
@@ -66,13 +66,13 @@ final fakePaint = InspectSpec(
   items: fakeInpectPaintItems,
 );
 
-final fakeInspectPerformanceItems = <InspectItem>[
+const fakeInspectPerformanceItems = <InspectItem>[
   InspectItem(
     name: 'Air Volume',
     unit: '',
     spec: '',
     unitList: UnitAirVolume(),
-    valueType: 'selectable',
+    valueType: 'num',
     imgPaths: [
       'abc',
       '123',
@@ -83,7 +83,7 @@ final fakeInspectPerformanceItems = <InspectItem>[
       unit: '',
       spec: '500',
       unitList: UnitPressure(),
-      valueType: 'selectable',
+      valueType: 'num',
       imgPaths: [
         '1',
         '2',
@@ -95,19 +95,19 @@ final fakeInspectPerformanceItems = <InspectItem>[
     unit: '',
     spec: '-',
     unitList: UnitVelocity(),
-    valueType: 'selectable',
+    valueType: 'num',
   ),
   InspectItem(
     name: 'Current',
     unit: 'A',
     spec: '3500',
-    valueType: 'num',
+    valueType: 'combo',
   ),
   InspectItem(
     name: 'RPM',
     unit: '',
     spec: '3500',
-    valueType: 'num',
+    valueType: 'combo',
     imgPaths: [
       '123',
       '456',
@@ -126,11 +126,11 @@ final fakeInspectPerformanceItems = <InspectItem>[
     name: 'Vibration',
     unit: 'mm/s',
     spec: '',
-    valueType: 'num',
+    valueType: 'combo',
   ),
 ];
 
-final fakeInpectPaintItems = <InspectItem>[
+const fakeInpectPaintItems = <InspectItem>[
   InspectItem(
     name: 'ln\n도막',
     unit: 'mm',
@@ -140,8 +140,9 @@ final fakeInpectPaintItems = <InspectItem>[
   InspectItem(
     name: 'Inside\n(paint)',
     unit: '',
-    spec: '1-용융도금\n2-EP UNI PRIMER G/YELLOW(70)\n3-EPOXY 7.5 BG 7/2(50)',
-    valueType: 'bool',
+    spec:
+        '1-용융도금 테스트\n2-EP UNI PRIMER G/YELLOW(70)\n3-EPOXY 7.5 BG 7/2(50)\n4-TEST 1.2.3.\n4-TEST 1.2.3.\n4-TEST 1.2.3.\n4-TEST 1.2.3.4444',
+    valueType: 'combo',
   ),
   InspectItem(
     name: 'OUT\n도막',
@@ -153,6 +154,21 @@ final fakeInpectPaintItems = <InspectItem>[
     name: 'Outside\n(paint)',
     unit: '',
     spec: 'IN/OUT 동일',
-    valueType: 'bool',
+    valueType: 'combo',
   ),
+];
+
+/// motor fake
+const fakeMotorData = MotorInfo(name: "Motor", items: fakeMotorItems);
+
+const fakeMotorItems = <MotorItem>[
+  MotorItem(title: "Maker", description: "HHI", checked: false),
+  MotorItem(title: "Type", description: "90L", checked: true),
+  MotorItem(title: "Pole", description: "2", checked: true),
+  MotorItem(title: "IP Grade", description: "56", checked: false),
+  MotorItem(title: "Mount", description: "V5", checked: true),
+  MotorItem(title: "ExGrade", description: "NORMAL/TEAO", checked: false),
+  MotorItem(title: "Output(kW)", description: "1.5kW", checked: true),
+  MotorItem(title: "Elec. source", description: "440/3/60", checked: true),
+  MotorItem(title: "Serial No.", description: "21D193-A21001", checked: false),
 ];

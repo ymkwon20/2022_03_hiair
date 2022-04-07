@@ -17,18 +17,20 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$FailureTearOff {
   const _$FailureTearOff();
 
-  ServerError server() {
-    return const ServerError();
-  }
-
-  _InternalError internal([String? message]) {
-    return _InternalError(
+  _Internal internal([String? message]) {
+    return _Internal(
       message,
     );
   }
 
-  _InvalidInput invalidInput() {
-    return const _InvalidInput();
+  _Server server([String? message]) {
+    return _Server(
+      message,
+    );
+  }
+
+  _NoConnection noConnection() {
+    return const _NoConnection();
   }
 }
 
@@ -39,45 +41,45 @@ const $Failure = _$FailureTearOff();
 mixin _$Failure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() server,
     required TResult Function(String? message) internal,
-    required TResult Function() invalidInput,
+    required TResult Function(String? message) server,
+    required TResult Function() noConnection,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? server,
     TResult Function(String? message)? internal,
-    TResult Function()? invalidInput,
+    TResult Function(String? message)? server,
+    TResult Function()? noConnection,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? server,
     TResult Function(String? message)? internal,
-    TResult Function()? invalidInput,
+    TResult Function(String? message)? server,
+    TResult Function()? noConnection,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ServerError value) server,
-    required TResult Function(_InternalError value) internal,
-    required TResult Function(_InvalidInput value) invalidInput,
+    required TResult Function(_Internal value) internal,
+    required TResult Function(_Server value) server,
+    required TResult Function(_NoConnection value) noConnection,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ServerError value)? server,
-    TResult Function(_InternalError value)? internal,
-    TResult Function(_InvalidInput value)? invalidInput,
+    TResult Function(_Internal value)? internal,
+    TResult Function(_Server value)? server,
+    TResult Function(_NoConnection value)? noConnection,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerError value)? server,
-    TResult Function(_InternalError value)? internal,
-    TResult Function(_InvalidInput value)? invalidInput,
+    TResult Function(_Internal value)? internal,
+    TResult Function(_Server value)? server,
+    TResult Function(_NoConnection value)? noConnection,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -99,139 +101,26 @@ class _$FailureCopyWithImpl<$Res> implements $FailureCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class $ServerErrorCopyWith<$Res> {
-  factory $ServerErrorCopyWith(
-          ServerError value, $Res Function(ServerError) then) =
-      _$ServerErrorCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$ServerErrorCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
-    implements $ServerErrorCopyWith<$Res> {
-  _$ServerErrorCopyWithImpl(
-      ServerError _value, $Res Function(ServerError) _then)
-      : super(_value, (v) => _then(v as ServerError));
-
-  @override
-  ServerError get _value => super._value as ServerError;
-}
-
-/// @nodoc
-
-class _$ServerError extends ServerError {
-  const _$ServerError() : super._();
-
-  @override
-  String toString() {
-    return 'Failure.server()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is ServerError);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() server,
-    required TResult Function(String? message) internal,
-    required TResult Function() invalidInput,
-  }) {
-    return server();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? server,
-    TResult Function(String? message)? internal,
-    TResult Function()? invalidInput,
-  }) {
-    return server?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? server,
-    TResult Function(String? message)? internal,
-    TResult Function()? invalidInput,
-    required TResult orElse(),
-  }) {
-    if (server != null) {
-      return server();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ServerError value) server,
-    required TResult Function(_InternalError value) internal,
-    required TResult Function(_InvalidInput value) invalidInput,
-  }) {
-    return server(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ServerError value)? server,
-    TResult Function(_InternalError value)? internal,
-    TResult Function(_InvalidInput value)? invalidInput,
-  }) {
-    return server?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerError value)? server,
-    TResult Function(_InternalError value)? internal,
-    TResult Function(_InvalidInput value)? invalidInput,
-    required TResult orElse(),
-  }) {
-    if (server != null) {
-      return server(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ServerError extends Failure {
-  const factory ServerError() = _$ServerError;
-  const ServerError._() : super._();
-}
-
-/// @nodoc
-abstract class _$InternalErrorCopyWith<$Res> {
-  factory _$InternalErrorCopyWith(
-          _InternalError value, $Res Function(_InternalError) then) =
-      __$InternalErrorCopyWithImpl<$Res>;
+abstract class _$InternalCopyWith<$Res> {
+  factory _$InternalCopyWith(_Internal value, $Res Function(_Internal) then) =
+      __$InternalCopyWithImpl<$Res>;
   $Res call({String? message});
 }
 
 /// @nodoc
-class __$InternalErrorCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
-    implements _$InternalErrorCopyWith<$Res> {
-  __$InternalErrorCopyWithImpl(
-      _InternalError _value, $Res Function(_InternalError) _then)
-      : super(_value, (v) => _then(v as _InternalError));
+class __$InternalCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
+    implements _$InternalCopyWith<$Res> {
+  __$InternalCopyWithImpl(_Internal _value, $Res Function(_Internal) _then)
+      : super(_value, (v) => _then(v as _Internal));
 
   @override
-  _InternalError get _value => super._value as _InternalError;
+  _Internal get _value => super._value as _Internal;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(_InternalError(
+    return _then(_Internal(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -242,8 +131,8 @@ class __$InternalErrorCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_InternalError extends _InternalError {
-  const _$_InternalError([this.message]) : super._();
+class _$_Internal extends _Internal {
+  const _$_Internal([this.message]) : super._();
 
   @override
   final String? message;
@@ -257,7 +146,7 @@ class _$_InternalError extends _InternalError {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _InternalError &&
+            other is _Internal &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -267,15 +156,15 @@ class _$_InternalError extends _InternalError {
 
   @JsonKey(ignore: true)
   @override
-  _$InternalErrorCopyWith<_InternalError> get copyWith =>
-      __$InternalErrorCopyWithImpl<_InternalError>(this, _$identity);
+  _$InternalCopyWith<_Internal> get copyWith =>
+      __$InternalCopyWithImpl<_Internal>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() server,
     required TResult Function(String? message) internal,
-    required TResult Function() invalidInput,
+    required TResult Function(String? message) server,
+    required TResult Function() noConnection,
   }) {
     return internal(message);
   }
@@ -283,9 +172,9 @@ class _$_InternalError extends _InternalError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? server,
     TResult Function(String? message)? internal,
-    TResult Function()? invalidInput,
+    TResult Function(String? message)? server,
+    TResult Function()? noConnection,
   }) {
     return internal?.call(message);
   }
@@ -293,9 +182,9 @@ class _$_InternalError extends _InternalError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? server,
     TResult Function(String? message)? internal,
-    TResult Function()? invalidInput,
+    TResult Function(String? message)? server,
+    TResult Function()? noConnection,
     required TResult orElse(),
   }) {
     if (internal != null) {
@@ -307,9 +196,9 @@ class _$_InternalError extends _InternalError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ServerError value) server,
-    required TResult Function(_InternalError value) internal,
-    required TResult Function(_InvalidInput value) invalidInput,
+    required TResult Function(_Internal value) internal,
+    required TResult Function(_Server value) server,
+    required TResult Function(_NoConnection value) noConnection,
   }) {
     return internal(this);
   }
@@ -317,9 +206,9 @@ class _$_InternalError extends _InternalError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ServerError value)? server,
-    TResult Function(_InternalError value)? internal,
-    TResult Function(_InvalidInput value)? invalidInput,
+    TResult Function(_Internal value)? internal,
+    TResult Function(_Server value)? server,
+    TResult Function(_NoConnection value)? noConnection,
   }) {
     return internal?.call(this);
   }
@@ -327,9 +216,9 @@ class _$_InternalError extends _InternalError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerError value)? server,
-    TResult Function(_InternalError value)? internal,
-    TResult Function(_InvalidInput value)? invalidInput,
+    TResult Function(_Internal value)? internal,
+    TResult Function(_Server value)? server,
+    TResult Function(_NoConnection value)? noConnection,
     required TResult orElse(),
   }) {
     if (internal != null) {
@@ -339,48 +228,185 @@ class _$_InternalError extends _InternalError {
   }
 }
 
-abstract class _InternalError extends Failure {
-  const factory _InternalError([String? message]) = _$_InternalError;
-  const _InternalError._() : super._();
+abstract class _Internal extends Failure {
+  const factory _Internal([String? message]) = _$_Internal;
+  const _Internal._() : super._();
 
   String? get message;
   @JsonKey(ignore: true)
-  _$InternalErrorCopyWith<_InternalError> get copyWith =>
+  _$InternalCopyWith<_Internal> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$InvalidInputCopyWith<$Res> {
-  factory _$InvalidInputCopyWith(
-          _InvalidInput value, $Res Function(_InvalidInput) then) =
-      __$InvalidInputCopyWithImpl<$Res>;
+abstract class _$ServerCopyWith<$Res> {
+  factory _$ServerCopyWith(_Server value, $Res Function(_Server) then) =
+      __$ServerCopyWithImpl<$Res>;
+  $Res call({String? message});
 }
 
 /// @nodoc
-class __$InvalidInputCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
-    implements _$InvalidInputCopyWith<$Res> {
-  __$InvalidInputCopyWithImpl(
-      _InvalidInput _value, $Res Function(_InvalidInput) _then)
-      : super(_value, (v) => _then(v as _InvalidInput));
+class __$ServerCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
+    implements _$ServerCopyWith<$Res> {
+  __$ServerCopyWithImpl(_Server _value, $Res Function(_Server) _then)
+      : super(_value, (v) => _then(v as _Server));
 
   @override
-  _InvalidInput get _value => super._value as _InvalidInput;
+  _Server get _value => super._value as _Server;
+
+  @override
+  $Res call({
+    Object? message = freezed,
+  }) {
+    return _then(_Server(
+      message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$_InvalidInput extends _InvalidInput {
-  const _$_InvalidInput() : super._();
+class _$_Server extends _Server {
+  const _$_Server([this.message]) : super._();
+
+  @override
+  final String? message;
 
   @override
   String toString() {
-    return 'Failure.invalidInput()';
+    return 'Failure.server(message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _InvalidInput);
+        (other.runtimeType == runtimeType &&
+            other is _Server &&
+            const DeepCollectionEquality().equals(other.message, message));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
+
+  @JsonKey(ignore: true)
+  @override
+  _$ServerCopyWith<_Server> get copyWith =>
+      __$ServerCopyWithImpl<_Server>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String? message) internal,
+    required TResult Function(String? message) server,
+    required TResult Function() noConnection,
+  }) {
+    return server(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String? message)? internal,
+    TResult Function(String? message)? server,
+    TResult Function()? noConnection,
+  }) {
+    return server?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? message)? internal,
+    TResult Function(String? message)? server,
+    TResult Function()? noConnection,
+    required TResult orElse(),
+  }) {
+    if (server != null) {
+      return server(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Internal value) internal,
+    required TResult Function(_Server value) server,
+    required TResult Function(_NoConnection value) noConnection,
+  }) {
+    return server(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Internal value)? internal,
+    TResult Function(_Server value)? server,
+    TResult Function(_NoConnection value)? noConnection,
+  }) {
+    return server?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Internal value)? internal,
+    TResult Function(_Server value)? server,
+    TResult Function(_NoConnection value)? noConnection,
+    required TResult orElse(),
+  }) {
+    if (server != null) {
+      return server(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Server extends Failure {
+  const factory _Server([String? message]) = _$_Server;
+  const _Server._() : super._();
+
+  String? get message;
+  @JsonKey(ignore: true)
+  _$ServerCopyWith<_Server> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$NoConnectionCopyWith<$Res> {
+  factory _$NoConnectionCopyWith(
+          _NoConnection value, $Res Function(_NoConnection) then) =
+      __$NoConnectionCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$NoConnectionCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
+    implements _$NoConnectionCopyWith<$Res> {
+  __$NoConnectionCopyWithImpl(
+      _NoConnection _value, $Res Function(_NoConnection) _then)
+      : super(_value, (v) => _then(v as _NoConnection));
+
+  @override
+  _NoConnection get _value => super._value as _NoConnection;
+}
+
+/// @nodoc
+
+class _$_NoConnection extends _NoConnection {
+  const _$_NoConnection() : super._();
+
+  @override
+  String toString() {
+    return 'Failure.noConnection()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _NoConnection);
   }
 
   @override
@@ -389,33 +415,33 @@ class _$_InvalidInput extends _InvalidInput {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() server,
     required TResult Function(String? message) internal,
-    required TResult Function() invalidInput,
+    required TResult Function(String? message) server,
+    required TResult Function() noConnection,
   }) {
-    return invalidInput();
+    return noConnection();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? server,
     TResult Function(String? message)? internal,
-    TResult Function()? invalidInput,
+    TResult Function(String? message)? server,
+    TResult Function()? noConnection,
   }) {
-    return invalidInput?.call();
+    return noConnection?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? server,
     TResult Function(String? message)? internal,
-    TResult Function()? invalidInput,
+    TResult Function(String? message)? server,
+    TResult Function()? noConnection,
     required TResult orElse(),
   }) {
-    if (invalidInput != null) {
-      return invalidInput();
+    if (noConnection != null) {
+      return noConnection();
     }
     return orElse();
   }
@@ -423,39 +449,39 @@ class _$_InvalidInput extends _InvalidInput {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ServerError value) server,
-    required TResult Function(_InternalError value) internal,
-    required TResult Function(_InvalidInput value) invalidInput,
+    required TResult Function(_Internal value) internal,
+    required TResult Function(_Server value) server,
+    required TResult Function(_NoConnection value) noConnection,
   }) {
-    return invalidInput(this);
+    return noConnection(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ServerError value)? server,
-    TResult Function(_InternalError value)? internal,
-    TResult Function(_InvalidInput value)? invalidInput,
+    TResult Function(_Internal value)? internal,
+    TResult Function(_Server value)? server,
+    TResult Function(_NoConnection value)? noConnection,
   }) {
-    return invalidInput?.call(this);
+    return noConnection?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerError value)? server,
-    TResult Function(_InternalError value)? internal,
-    TResult Function(_InvalidInput value)? invalidInput,
+    TResult Function(_Internal value)? internal,
+    TResult Function(_Server value)? server,
+    TResult Function(_NoConnection value)? noConnection,
     required TResult orElse(),
   }) {
-    if (invalidInput != null) {
-      return invalidInput(this);
+    if (noConnection != null) {
+      return noConnection(this);
     }
     return orElse();
   }
 }
 
-abstract class _InvalidInput extends Failure {
-  const factory _InvalidInput() = _$_InvalidInput;
-  const _InvalidInput._() : super._();
+abstract class _NoConnection extends Failure {
+  const factory _NoConnection() = _$_NoConnection;
+  const _NoConnection._() : super._();
 }

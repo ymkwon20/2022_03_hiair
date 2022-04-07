@@ -8,6 +8,9 @@
 class FontFamily {
   FontFamily._();
 
+  /// Font family: InspectIcon
+  static const String inspectIcon = 'InspectIcon';
+
   /// Font family: Iropke
   static const String iropke = 'Iropke';
 
