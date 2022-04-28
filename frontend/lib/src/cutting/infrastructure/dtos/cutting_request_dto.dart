@@ -28,9 +28,6 @@ class CuttingRequestDTO {
   ///  ORG1_FN : 파일명
   // final String originalFileNm;
 
-  ///  NEW1_FN : 서버저장 파일명
-  final String imageFileNm;
-
   const CuttingRequestDTO({
     required this.metalCd,
     required this.thickness,
@@ -39,7 +36,6 @@ class CuttingRequestDTO {
     required this.camNo,
     required this.qty,
     required this.metalRemNm,
-    required this.imageFileNm,
   });
 
   factory CuttingRequestDTO.fromDomain(CuttingRequest domain) {
@@ -51,7 +47,6 @@ class CuttingRequestDTO {
       camNo: domain.camNo,
       qty: domain.qty,
       metalRemNm: domain.metalRemNm,
-      imageFileNm: domain.imageFileNm,
     );
   }
 
@@ -64,7 +59,6 @@ class CuttingRequestDTO {
       camNo: camNo,
       qty: qty,
       metalRemNm: metalRemNm,
-      imageFileNm: imageFileNm,
     );
   }
 
@@ -79,8 +73,7 @@ class CuttingRequestDTO {
         other.length == length &&
         other.camNo == camNo &&
         other.qty == qty &&
-        other.metalRemNm == metalRemNm &&
-        other.imageFileNm == imageFileNm;
+        other.metalRemNm == metalRemNm;
   }
 
   @override
@@ -91,8 +84,7 @@ class CuttingRequestDTO {
         length.hashCode ^
         camNo.hashCode ^
         qty.hashCode ^
-        metalRemNm.hashCode ^
-        imageFileNm.hashCode;
+        metalRemNm.hashCode;
   }
 
   CuttingRequestDTO copyWith({
@@ -103,7 +95,6 @@ class CuttingRequestDTO {
     String? camNo,
     int? qty,
     String? metalRemNm,
-    String? imageFileNm,
   }) {
     return CuttingRequestDTO(
       metalCd: metalCd ?? this.metalCd,
@@ -113,7 +104,6 @@ class CuttingRequestDTO {
       camNo: camNo ?? this.camNo,
       qty: qty ?? this.qty,
       metalRemNm: metalRemNm ?? this.metalRemNm,
-      imageFileNm: imageFileNm ?? this.imageFileNm,
     );
   }
 
@@ -126,7 +116,6 @@ class CuttingRequestDTO {
       'CAM_NO': camNo,
       'METAL_QTY': qty,
       'METAL_REM_YN': metalRemNm,
-      'NEW1_FN': imageFileNm,
     };
   }
 
@@ -139,7 +128,6 @@ class CuttingRequestDTO {
       camNo: map['CAM_NO'] ?? '',
       qty: map['METAL_QTY']?.toInt() ?? 0,
       metalRemNm: map['METAL_REM_YN'] ?? false,
-      imageFileNm: map['NEW1_FN'] ?? '',
     );
   }
 

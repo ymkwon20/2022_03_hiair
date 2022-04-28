@@ -17,8 +17,8 @@ class CuttingRemoteService implements CuttingService {
   final Dio _dio;
 
   const CuttingRemoteService({
-    required Dio dio,
-  }) : _dio = dio;
+    required Dio httpClient,
+  }) : _dio = httpClient;
 
   @override
   Future<List<CuttingSerial>> fetchCuttings() async {
@@ -33,15 +33,27 @@ class CuttingRemoteService implements CuttingService {
           .toList();
     } on DioError catch (e) {
       if (e.isNoConnectionError) {
-        throw NoConnectionException();
+        throw NoConnectionException(
+          message: e.message,
+        );
       }
 
       if (e.response?.statusCode == 500) {
-        throw InvalidServerResponseException();
+        throw InvalidServerResponseException(
+          message: e.message,
+        );
       }
 
       if (e.type == DioErrorType.connectTimeout) {
-        throw ServerConnectionException();
+        throw ServerConnectionException(
+          message: e.message,
+        );
+      }
+
+      if (e.type == DioErrorType.receiveTimeout) {
+        throw ServerConnectionException(
+          message: e.message,
+        );
       }
 
       rethrow;
@@ -67,15 +79,21 @@ class CuttingRemoteService implements CuttingService {
           .toList();
     } on DioError catch (e) {
       if (e.isNoConnectionError) {
-        throw NoConnectionException();
+        throw NoConnectionException(message: e.message);
       }
 
       if (e.response?.statusCode == 500) {
-        throw InvalidServerResponseException();
+        throw InvalidServerResponseException(
+          message: e.message,
+        );
       }
 
       if (e.type == DioErrorType.connectTimeout) {
-        throw ServerConnectionException();
+        throw ServerConnectionException(message: e.message);
+      }
+
+      if (e.type == DioErrorType.receiveTimeout) {
+        throw ServerConnectionException(message: e.message);
       }
 
       rethrow;
@@ -102,15 +120,49 @@ class CuttingRemoteService implements CuttingService {
           .toList();
     } on DioError catch (e) {
       if (e.isNoConnectionError) {
-        throw NoConnectionException();
+        throw NoConnectionException(message: e.message);
       }
 
       if (e.response?.statusCode == 500) {
-        throw InvalidServerResponseException();
+        throw InvalidServerResponseException(message: e.message);
       }
 
       if (e.type == DioErrorType.connectTimeout) {
-        throw ServerConnectionException();
+        throw ServerConnectionException(
+          message: e.message,
+        );
+      }
+
+      if (e.type == DioErrorType.receiveTimeout) {
+        throw ServerConnectionException(
+          message: e.message,
+        );
+      }
+
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> saveCuttingCheck(CuttingCheck check) async {
+    try {
+      await _dio.post("/cut/check",
+          data: CuttingCheckDTO.fromDomain(check).toMap());
+    } on DioError catch (e) {
+      if (e.isNoConnectionError) {
+        throw NoConnectionException(
+          message: e.message,
+        );
+      }
+
+      if (e.response?.statusCode == 500) {
+        throw InvalidServerResponseException(message: e.message);
+      }
+
+      if (e.type == DioErrorType.connectTimeout) {
+        throw ServerConnectionException(
+          message: e.message,
+        );
       }
 
       rethrow;

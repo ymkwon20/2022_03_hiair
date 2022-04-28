@@ -21,12 +21,6 @@ class CuttingRequest {
   ///  METAL_REM_YN :  잔재여부
   final String metalRemNm;
 
-  ///  ORG1_FN : 파일명
-  // final String originalFileNm;
-
-  ///  NEW1_FN : 서버저장 파일명
-  final String imageFileNm;
-
   const CuttingRequest({
     required this.metalCd,
     required this.thickness,
@@ -35,7 +29,6 @@ class CuttingRequest {
     required this.camNo,
     required this.qty,
     required this.metalRemNm,
-    required this.imageFileNm,
   });
 
   @override
@@ -49,8 +42,7 @@ class CuttingRequest {
         other.length == length &&
         other.camNo == camNo &&
         other.qty == qty &&
-        other.metalRemNm == metalRemNm &&
-        other.imageFileNm == imageFileNm;
+        other.metalRemNm == metalRemNm;
   }
 
   @override
@@ -61,8 +53,7 @@ class CuttingRequest {
         length.hashCode ^
         camNo.hashCode ^
         qty.hashCode ^
-        metalRemNm.hashCode ^
-        imageFileNm.hashCode;
+        metalRemNm.hashCode;
   }
 
   CuttingRequest copyWith({
@@ -83,7 +74,6 @@ class CuttingRequest {
       camNo: camNo ?? this.camNo,
       qty: qty ?? this.qty,
       metalRemNm: metalRemNm ?? this.metalRemNm,
-      imageFileNm: imageFileNm ?? this.imageFileNm,
     );
   }
 }

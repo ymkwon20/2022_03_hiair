@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:frontend/src/settings/settings_scope.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -6,22 +7,23 @@ import 'src/app.dart';
 import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
 
-void main() async {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   final settingsController = SettingsController(SettingsService());
 
-  // Load the user's preferred theme while the splash screen is displayed.
-  // This prevents a sudden theme change when the app is first displayed.
-  await settingsController.loadSettings();
+  /// !Info: 관리자가 가로 방향만 지원하도록 요구
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight],
+  );
 
-  // Run the app and pass in the SettingsController. The app listens to the
-  // SettingsController for changes, then passes it further down to the
-  // SettingsView.
+  await settingsController.loadSettings();
 
   runApp(
     ProviderScope(
       child: SettingsScope(
         controller: settingsController,
-        child: const MyApp(),
+        child: const AppWidget(),
       ),
     ),
   );

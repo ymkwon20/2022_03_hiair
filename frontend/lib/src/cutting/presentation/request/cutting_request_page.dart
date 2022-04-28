@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/constants/index.dart';
+import 'package:frontend/src/cutting/presentation/request/cutting_check_list_widget.dart';
+import 'package:frontend/src/cutting/presentation/serial/cutting_serials_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/core/widgets/index.dart';
@@ -25,7 +27,7 @@ class CuttingRequestPage extends ConsumerWidget {
   }
 }
 
-class CuttingRequestListView extends StatelessWidget {
+class CuttingRequestListView extends ConsumerWidget {
   const CuttingRequestListView({
     Key? key,
     required this.items,
@@ -34,44 +36,67 @@ class CuttingRequestListView extends StatelessWidget {
   final List<CuttingRequest> items;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const SizedBox(height: LayoutConstant.spaceM),
-        DataTable(
-          showCheckboxColumn: false,
-          columns: const [
-            DataColumn(label: Text('원재료 품명')),
-            DataColumn(label: Text('원재료 규격')),
-            DataColumn(label: Text('수량')),
-            DataColumn(label: Text('CAM No.')),
-            DataColumn(label: Text('Comment')),
-            DataColumn(label: Text('Remark')),
-          ],
-          rows: List.generate(
-            items.length,
-            (index) => DataRow(
-              onSelectChanged: (bool? _) {},
-              onLongPress: () {},
-              cells: [
-                DataCell(Text(items[index].metalCd)),
-                DataCell(Text(
-                    "${items[index].thickness}*${items[index].width}*${items[index].length}")),
-                DataCell(Text("${items[index].qty}")),
-                DataCell(Text(items[index].camNo)),
-                const DataCell(Text('')),
-                const DataCell(Text('')),
-              ],
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: LayoutConstant.spaceL),
+          SizedBox(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                showCheckboxColumn: false,
+                columns: const [
+                  DataColumn(label: Text('원재료 품명')),
+                  DataColumn(label: Text('원재료 규격')),
+                  DataColumn(label: Text('수량')),
+                  DataColumn(label: Text('CAM No.')),
+                  DataColumn(label: Text('Comment')),
+                  DataColumn(label: Text('Remark')),
+                ],
+                rows: List.generate(
+                  items.length,
+                  (index) => DataRow(
+                    onSelectChanged: (bool? _) {},
+                    onLongPress: () {},
+                    cells: [
+                      DataCell(Text(items[index].metalCd)),
+                      DataCell(Text(
+                          "${items[index].thickness}*${items[index].width}*${items[index].length}")),
+                      DataCell(Text("${items[index].qty}")),
+                      DataCell(Text(items[index].camNo)),
+                      const DataCell(
+                        TextField(
+                          decoration: InputDecoration(
+                            border:
+                                OutlineInputBorder(borderSide: BorderSide.none),
+                          ),
+                        ),
+                      ),
+                      const DataCell(
+                        TextField(
+                          decoration: InputDecoration(
+                            border:
+                                OutlineInputBorder(borderSide: BorderSide.none),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: LayoutConstant.spaceS),
-        Image.network(
-          "${LogicConstant.baseImageServerUrl}/${items.first.imageFileNm}",
-          fit: BoxFit.contain,
-        ),
-      ],
+          const SizedBox(height: LayoutConstant.spaceL),
+          Image.network(
+            "${LogicConstant.baseImageServerUrl}/${ref.watch(cuttingSerialProvider).imageFileNm}",
+            fit: BoxFit.contain,
+          ),
+          const CuttingCheckListWidget(),
+        ],
+      ),
     );
   }
 }

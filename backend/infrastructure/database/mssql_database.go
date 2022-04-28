@@ -39,7 +39,7 @@ func (m *MsSqlDatabase) CallProcedure(query string) ([]interface{}, error) {
 	var results []interface{}
 	var err error
 
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	log.Print(query)
@@ -77,6 +77,33 @@ func (m *MsSqlDatabase) CallProcedure(query string) ([]interface{}, error) {
 
 		// Outputs: map[columnName:value, columnName2: value2, ...]
 		results = append(results, m)
+	}
+
+	return results, err
+}
+
+func (m *MsSqlDatabase) CallDML(query string) ([]interface{}, error) {
+	var results []interface{}
+	var err error
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	log.Print(query)
+
+	rows, err := m.db.ExecContext(ctx, query)
+	if err != nil {
+		return results, err
+	}
+
+	rowsCnt, err := rows.RowsAffected()
+	if err != nil {
+		return results, err
+	}
+
+	if rowsCnt < 1 {
+		err = fmt.Errorf("저장된 데이터가 없음")
+		return results, err
 	}
 
 	return results, err

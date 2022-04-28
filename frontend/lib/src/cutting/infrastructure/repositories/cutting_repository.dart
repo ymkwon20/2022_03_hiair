@@ -20,12 +20,12 @@ class CuttingRepository implements ICuttingRepository {
     try {
       final remoteFetch = await _remoteService.fetchCuttings();
       return right(remoteFetch);
-    } on NoConnectionException {
-      return left(const Failure.noConnection());
-    } on InvalidServerResponseException {
-      return left(const Failure.server("정보를 받는 과정에서 문제가 발생하였습니다."));
-    } on ServerConnectionException {
-      return left(const Failure.server("서버를 찾을 수 없습니다."));
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
     }
   }
 
@@ -35,12 +35,12 @@ class CuttingRepository implements ICuttingRepository {
     try {
       final remoteFetch = await _remoteService.fetchCuttingChecks(serial);
       return right(remoteFetch);
-    } on NoConnectionException {
-      return left(const Failure.noConnection());
-    } on InvalidServerResponseException {
-      return left(const Failure.server("정보를 받는 과정에서 문제가 발생하였습니다."));
-    } on ServerConnectionException {
-      return left(const Failure.server("서버를 찾을 수 없습니다."));
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
     }
   }
 
@@ -50,12 +50,26 @@ class CuttingRepository implements ICuttingRepository {
     try {
       final remoteFetch = await _remoteService.fetchCuttingRequests(serial);
       return right(remoteFetch);
-    } on NoConnectionException {
-      return left(const Failure.noConnection());
-    } on InvalidServerResponseException {
-      return left(const Failure.server("정보를 받는 과정에서 문제가 발생하였습니다."));
-    } on ServerConnectionException {
-      return left(const Failure.server("서버를 찾을 수 없습니다."));
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> saveCuttingCheck(CuttingCheck check) async {
+    try {
+      await _remoteService.saveCuttingCheck(check);
+      return right(unit);
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
     }
   }
 }

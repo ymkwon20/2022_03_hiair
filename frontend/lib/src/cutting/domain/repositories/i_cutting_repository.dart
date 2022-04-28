@@ -16,4 +16,7 @@ abstract class ICuttingRepository {
   /// Cutting Request 정보
   Future<Either<Failure, List<CuttingRequest>>> getCuttingRequest(
       CuttingSerial serial);
+
+  /// Cutting Check 저장
+  Future<Either<Failure, Unit>> saveCuttingCheck(CuttingCheck check);
 }

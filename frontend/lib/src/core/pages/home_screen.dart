@@ -1,21 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/auth/application/auth_event.dart';
+import 'package:frontend/src/auth/dependency_injection.dart';
+import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
+import 'package:frontend/src/core/constants/layout_constant.dart';
+import 'package:frontend/src/core/widgets/underline_widget.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authChangeNotifierProvider).user;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: [
           IconButton(
               onPressed: () {
-                context.push('/settings');
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return _buildLogoutPopup(
+                      context,
+                      name: user!.name,
+                      onNoTap: Navigator.of(context).pop,
+                      onYesTap: () {
+                        Navigator.of(context).pop();
+                        ref
+                            .read(authStateNotifierProvider.notifier)
+                            .mapEventToState(
+                              const AuthEvent.signOut(),
+                            );
+                      },
+                    );
+                  },
+                );
               },
               icon: const Icon(Icons.settings))
         ],
+        iconTheme: Theme.of(context).iconTheme,
       ),
       body: SizedBox.expand(
         child: GridView.builder(
@@ -48,6 +75,104 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildLogoutPopup(
+    BuildContext context, {
+    required String name,
+    required VoidCallback onYesTap,
+    required VoidCallback onNoTap,
+  }) {
+    return AlertDialog(
+      backgroundColor: Theme.of(context).cardColor,
+      contentPadding: const EdgeInsets.all(0),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: double.infinity,
+            padding:
+                const EdgeInsets.symmetric(vertical: LayoutConstant.paddingM),
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(LayoutConstant.radiusS - 1),
+                )),
+            alignment: Alignment.center,
+            child: const Text(
+              "로그 아웃",
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+          const UnderlineWidget(),
+          const SizedBox(height: LayoutConstant.spaceM),
+          Text.rich(
+            TextSpan(
+              text: "$name 님\n",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              children: const [
+                TextSpan(
+                  text: "로그아웃 하시겠습니까?",
+                  style: TextStyle(fontWeight: FontWeight.normal),
+                ),
+              ],
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: LayoutConstant.spaceM),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: _buildButton(
+                  context,
+                  name: "No",
+                  onTap: onNoTap,
+                ),
+              ),
+              Expanded(
+                child: _buildButton(
+                  context,
+                  name: "Yes",
+                  onTap: onYesTap,
+                  isPrimary: true,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildButton(
+    BuildContext context, {
+    VoidCallback? onTap,
+    required String name,
+    bool isPrimary = false,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: LayoutConstant.paddingM,
+        ),
+        child: Text(
+          name,
+          textAlign: TextAlign.center,
+          style: isPrimary
+              ? TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontWeight: FontWeight.bold,
+                )
+              : null,
+        ),
+      ),
+    );
+  }
 }
 
 const _mockMenus = <MockMenu>[
@@ -61,6 +186,11 @@ const _mockMenus = <MockMenu>[
     cardColor: Colors.blue,
     routeName: 'cut',
   ),
+  // MockMenu(
+  //   title: 'Alter-Cutting',
+  //   cardColor: Colors.indigo,
+  //   routeName: 'alter-cut',
+  // ),
 ];
 
 class MockMenu {

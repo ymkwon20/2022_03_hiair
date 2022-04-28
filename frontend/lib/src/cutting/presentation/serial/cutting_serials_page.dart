@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/widgets/index.dart';
-import 'package:frontend/src/cutting/application/cutting_check_event.dart';
-import 'package:frontend/src/cutting/application/cutting_request_event.dart';
+import 'package:frontend/src/cutting/application/check/fetch/cutting_check_event.dart';
+import 'package:frontend/src/cutting/application/request/cutting_request_event.dart';
+import 'package:frontend/src/cutting/application/serial/cutting_serial_event.dart';
+import 'package:frontend/src/cutting/domain/entities/cutting_serial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:frontend/src/cutting/application/cutting_serial_event.dart';
 import 'package:frontend/src/cutting/dependency_injection.dart';
-
-import '../../domain/entities/cutting_serial.dart';
 
 class CuttingSerialsPage extends ConsumerStatefulWidget {
   const CuttingSerialsPage({Key? key}) : super(key: key);
@@ -35,7 +34,6 @@ class _CuttingSerialsPageState extends ConsumerState<CuttingSerialsPage> {
     final state = ref.watch(cuttingSerialsStateNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(),
       body: state.when(
         initial: () => const InitialStateWidget(),
         loading: () => const LoadingStateWidget(),
@@ -47,6 +45,9 @@ class _CuttingSerialsPageState extends ConsumerState<CuttingSerialsPage> {
   }
 }
 
+/// CuttingRequestPage에서 쓰기 위한 객체 injector
+late StateProvider<CuttingSerial> cuttingSerialProvider;
+
 class CuttingSerialListTable extends ConsumerWidget {
   const CuttingSerialListTable({
     Key? key,
@@ -56,6 +57,8 @@ class CuttingSerialListTable extends ConsumerWidget {
   final List<CuttingSerial> items;
 
   void _pushToNext(BuildContext context, WidgetRef ref, CuttingSerial serial) {
+    cuttingSerialProvider = StateProvider<CuttingSerial>((ref) => serial);
+
     ref.read(cuttingRequestsStateNotifierProvider.notifier).mapEventToState(
           CuttingRequestEvent.fetchRequest(serial),
         );
@@ -67,31 +70,33 @@ class CuttingSerialListTable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return DataTable(
-      showCheckboxColumn: false,
-      columns: const [
-        DataColumn(label: Text('요청일자')),
-        DataColumn(label: Text('요청순번')),
-        DataColumn(label: Text('긴급여부')),
-        DataColumn(label: Text('작업시작일')),
-        DataColumn(label: Text('작업완료일')),
-      ],
-      rows: List.generate(
-        items.length,
-        (index) => DataRow(
-          onSelectChanged: (bool? _) {
-            _pushToNext(context, ref, items[index]);
-          },
-          onLongPress: () {
-            _pushToNext(context, ref, items[index]);
-          },
-          cells: [
-            DataCell(Text(items[index].dateRequested)),
-            DataCell(Text("${items[index].seq}")),
-            DataCell(Text(items[index].urgencyStatus)),
-            DataCell(Text(items[index].dateStart)),
-            DataCell(Text(items[index].dateEnd)),
-          ],
+    return SizedBox(
+      child: DataTable(
+        showCheckboxColumn: false,
+        columns: const [
+          DataColumn(label: Text('요청일자')),
+          DataColumn(label: Text('요청순번')),
+          DataColumn(label: Text('긴급여부')),
+          DataColumn(label: Text('작업시작일')),
+          DataColumn(label: Text('작업완료일')),
+        ],
+        rows: List.generate(
+          items.length,
+          (index) => DataRow(
+            onSelectChanged: (bool? _) {
+              _pushToNext(context, ref, items[index]);
+            },
+            onLongPress: () {
+              _pushToNext(context, ref, items[index]);
+            },
+            cells: [
+              DataCell(Text(items[index].dateRequested)),
+              DataCell(Text("${items[index].seq}")),
+              DataCell(Text(items[index].urgencyStatus)),
+              DataCell(Text(items[index].dateStart)),
+              DataCell(Text(items[index].dateEnd)),
+            ],
+          ),
         ),
       ),
     );

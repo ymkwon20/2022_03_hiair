@@ -29,8 +29,10 @@ class _$FailureTearOff {
     );
   }
 
-  _NoConnection noConnection() {
-    return const _NoConnection();
+  _NoConnection noConnection([String? message]) {
+    return _NoConnection(
+      message,
+    );
   }
 }
 
@@ -39,25 +41,27 @@ const $Failure = _$FailureTearOff();
 
 /// @nodoc
 mixin _$Failure {
+  String? get message => throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String? message) internal,
     required TResult Function(String? message) server,
-    required TResult Function() noConnection,
+    required TResult Function(String? message) noConnection,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String? message)? internal,
     TResult Function(String? message)? server,
-    TResult Function()? noConnection,
+    TResult Function(String? message)? noConnection,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String? message)? internal,
     TResult Function(String? message)? server,
-    TResult Function()? noConnection,
+    TResult Function(String? message)? noConnection,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -83,12 +87,16 @@ mixin _$Failure {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $FailureCopyWith<Failure> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $FailureCopyWith<$Res> {
   factory $FailureCopyWith(Failure value, $Res Function(Failure) then) =
       _$FailureCopyWithImpl<$Res>;
+  $Res call({String? message});
 }
 
 /// @nodoc
@@ -98,12 +106,25 @@ class _$FailureCopyWithImpl<$Res> implements $FailureCopyWith<$Res> {
   final Failure _value;
   // ignore: unused_field
   final $Res Function(Failure) _then;
+
+  @override
+  $Res call({
+    Object? message = freezed,
+  }) {
+    return _then(_value.copyWith(
+      message: message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
 
 /// @nodoc
-abstract class _$InternalCopyWith<$Res> {
+abstract class _$InternalCopyWith<$Res> implements $FailureCopyWith<$Res> {
   factory _$InternalCopyWith(_Internal value, $Res Function(_Internal) then) =
       __$InternalCopyWithImpl<$Res>;
+  @override
   $Res call({String? message});
 }
 
@@ -164,7 +185,7 @@ class _$_Internal extends _Internal {
   TResult when<TResult extends Object?>({
     required TResult Function(String? message) internal,
     required TResult Function(String? message) server,
-    required TResult Function() noConnection,
+    required TResult Function(String? message) noConnection,
   }) {
     return internal(message);
   }
@@ -174,7 +195,7 @@ class _$_Internal extends _Internal {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String? message)? internal,
     TResult Function(String? message)? server,
-    TResult Function()? noConnection,
+    TResult Function(String? message)? noConnection,
   }) {
     return internal?.call(message);
   }
@@ -184,7 +205,7 @@ class _$_Internal extends _Internal {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String? message)? internal,
     TResult Function(String? message)? server,
-    TResult Function()? noConnection,
+    TResult Function(String? message)? noConnection,
     required TResult orElse(),
   }) {
     if (internal != null) {
@@ -232,16 +253,19 @@ abstract class _Internal extends Failure {
   const factory _Internal([String? message]) = _$_Internal;
   const _Internal._() : super._();
 
+  @override
   String? get message;
+  @override
   @JsonKey(ignore: true)
   _$InternalCopyWith<_Internal> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$ServerCopyWith<$Res> {
+abstract class _$ServerCopyWith<$Res> implements $FailureCopyWith<$Res> {
   factory _$ServerCopyWith(_Server value, $Res Function(_Server) then) =
       __$ServerCopyWithImpl<$Res>;
+  @override
   $Res call({String? message});
 }
 
@@ -302,7 +326,7 @@ class _$_Server extends _Server {
   TResult when<TResult extends Object?>({
     required TResult Function(String? message) internal,
     required TResult Function(String? message) server,
-    required TResult Function() noConnection,
+    required TResult Function(String? message) noConnection,
   }) {
     return server(message);
   }
@@ -312,7 +336,7 @@ class _$_Server extends _Server {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String? message)? internal,
     TResult Function(String? message)? server,
-    TResult Function()? noConnection,
+    TResult Function(String? message)? noConnection,
   }) {
     return server?.call(message);
   }
@@ -322,7 +346,7 @@ class _$_Server extends _Server {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String? message)? internal,
     TResult Function(String? message)? server,
-    TResult Function()? noConnection,
+    TResult Function(String? message)? noConnection,
     required TResult orElse(),
   }) {
     if (server != null) {
@@ -370,16 +394,20 @@ abstract class _Server extends Failure {
   const factory _Server([String? message]) = _$_Server;
   const _Server._() : super._();
 
+  @override
   String? get message;
+  @override
   @JsonKey(ignore: true)
   _$ServerCopyWith<_Server> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$NoConnectionCopyWith<$Res> {
+abstract class _$NoConnectionCopyWith<$Res> implements $FailureCopyWith<$Res> {
   factory _$NoConnectionCopyWith(
           _NoConnection value, $Res Function(_NoConnection) then) =
       __$NoConnectionCopyWithImpl<$Res>;
+  @override
+  $Res call({String? message});
 }
 
 /// @nodoc
@@ -391,35 +419,58 @@ class __$NoConnectionCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
 
   @override
   _NoConnection get _value => super._value as _NoConnection;
+
+  @override
+  $Res call({
+    Object? message = freezed,
+  }) {
+    return _then(_NoConnection(
+      message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_NoConnection extends _NoConnection {
-  const _$_NoConnection() : super._();
+  const _$_NoConnection([this.message]) : super._();
+
+  @override
+  final String? message;
 
   @override
   String toString() {
-    return 'Failure.noConnection()';
+    return 'Failure.noConnection(message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _NoConnection);
+        (other.runtimeType == runtimeType &&
+            other is _NoConnection &&
+            const DeepCollectionEquality().equals(other.message, message));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
+
+  @JsonKey(ignore: true)
+  @override
+  _$NoConnectionCopyWith<_NoConnection> get copyWith =>
+      __$NoConnectionCopyWithImpl<_NoConnection>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String? message) internal,
     required TResult Function(String? message) server,
-    required TResult Function() noConnection,
+    required TResult Function(String? message) noConnection,
   }) {
-    return noConnection();
+    return noConnection(message);
   }
 
   @override
@@ -427,9 +478,9 @@ class _$_NoConnection extends _NoConnection {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String? message)? internal,
     TResult Function(String? message)? server,
-    TResult Function()? noConnection,
+    TResult Function(String? message)? noConnection,
   }) {
-    return noConnection?.call();
+    return noConnection?.call(message);
   }
 
   @override
@@ -437,11 +488,11 @@ class _$_NoConnection extends _NoConnection {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String? message)? internal,
     TResult Function(String? message)? server,
-    TResult Function()? noConnection,
+    TResult Function(String? message)? noConnection,
     required TResult orElse(),
   }) {
     if (noConnection != null) {
-      return noConnection();
+      return noConnection(message);
     }
     return orElse();
   }
@@ -482,6 +533,13 @@ class _$_NoConnection extends _NoConnection {
 }
 
 abstract class _NoConnection extends Failure {
-  const factory _NoConnection() = _$_NoConnection;
+  const factory _NoConnection([String? message]) = _$_NoConnection;
   const _NoConnection._() : super._();
+
+  @override
+  String? get message;
+  @override
+  @JsonKey(ignore: true)
+  _$NoConnectionCopyWith<_NoConnection> get copyWith =>
+      throw _privateConstructorUsedError;
 }

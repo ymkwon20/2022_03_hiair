@@ -9,24 +9,33 @@ class LayoutConstant {
   static const double screenTablet = 580;
   static const double screenDesktop = 900;
 
+  static const double _zero = 0.0;
+  static const double _xs = 2.0;
+  static const double _s = 4.0;
+  static const double _m = 8.0;
+  static const double _l = 16.0;
+  static const double _xl = 32.0;
+
   // Spacing
   /// Space Zero = 0.0
-  static const double spaceZero = 0.0;
+  static const double spaceZero = _zero;
 
   /// Space XS = 2.0
-  static const double spaceXS = 2.0;
+  static const double spaceXS = _xs;
 
   /// Space S = 4.0
-  static const double spaceS = 4.0;
+  static const double spaceS = _s;
 
   /// Space M = 8.0
-  static const double spaceM = 8.0;
+  static const double spaceM = _m;
 
   /// Space L = 16.0
-  static const double spaceL = 16.0;
+  static const double spaceL = _l;
 
   /// Space XL = 32.0
-  static const double spaceXL = 32.0;
+  static const double spaceXL = _xl;
+
+  /// TODO: 통일하고 싶다면 추후에 다 바꾸기
 
   // Margin
   /// Margin Zero = 0.0
@@ -84,4 +93,7 @@ class LayoutConstant {
 
   /// Radius XL = 32.0
   static const double radiusXL = 32.0;
+
+  /// Sidebar Folded Width
+  static const double overhangWidth = 70;
 }

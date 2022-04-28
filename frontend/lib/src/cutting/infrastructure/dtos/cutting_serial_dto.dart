@@ -24,6 +24,9 @@ class CuttingSerialDTO {
   /// 작업 완료일
   final String dateEnd;
 
+  ///  NEW1_FN : 서버저장 파일명
+  final String imageFileNm;
+
   const CuttingSerialDTO({
     required this.seq,
     required this.dateRequested,
@@ -31,6 +34,7 @@ class CuttingSerialDTO {
     required this.hasDone,
     required this.dateStart,
     required this.dateEnd,
+    required this.imageFileNm,
   });
 
   factory CuttingSerialDTO.fromDomai(CuttingSerial domain) {
@@ -41,6 +45,7 @@ class CuttingSerialDTO {
       hasDone: domain.hasDone,
       dateStart: domain.dateStart,
       dateEnd: domain.dateEnd,
+      imageFileNm: domain.imageFileNm,
     );
   }
 
@@ -52,6 +57,7 @@ class CuttingSerialDTO {
       hasDone: hasDone,
       dateStart: dateStart,
       dateEnd: dateEnd,
+      imageFileNm: imageFileNm,
     );
   }
 
@@ -85,15 +91,16 @@ class CuttingSerialDTO {
     bool? hasDone,
     String? dateStart,
     String? dateEnd,
+    String? imageFileNm,
   }) {
     return CuttingSerialDTO(
-      seq: seq ?? this.seq,
-      dateRequested: dateRequested ?? this.dateRequested,
-      urgencyStatus: urgencyStatus ?? this.urgencyStatus,
-      hasDone: hasDone ?? this.hasDone,
-      dateStart: dateStart ?? this.dateStart,
-      dateEnd: dateEnd ?? this.dateEnd,
-    );
+        seq: seq ?? this.seq,
+        dateRequested: dateRequested ?? this.dateRequested,
+        urgencyStatus: urgencyStatus ?? this.urgencyStatus,
+        hasDone: hasDone ?? this.hasDone,
+        dateStart: dateStart ?? this.dateStart,
+        dateEnd: dateEnd ?? this.dateEnd,
+        imageFileNm: imageFileNm ?? this.imageFileNm);
   }
 
   Map<String, dynamic> toMap() {
@@ -104,6 +111,7 @@ class CuttingSerialDTO {
       'hasDone': hasDone,
       'startDate': dateStart,
       'endDate': dateEnd,
+      'NEW1_FN': imageFileNm,
     };
   }
 
@@ -117,6 +125,7 @@ class CuttingSerialDTO {
           : true,
       dateStart: map['WORK_ST'] ?? '',
       dateEnd: map['WORK_ET'] ?? '',
+      imageFileNm: map['NEW1_FN'] ?? '',
     );
   }
 

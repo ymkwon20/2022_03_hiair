@@ -7,4 +7,5 @@ abstract class CuttingService {
   Future<List<CuttingSerial>> fetchCuttings();
   Future<List<CuttingRequest>> fetchCuttingRequests(CuttingSerial serial);
   Future<List<CuttingCheck>> fetchCuttingChecks(CuttingSerial serial);
+  Future<void> saveCuttingCheck(CuttingCheck serial);
 }
