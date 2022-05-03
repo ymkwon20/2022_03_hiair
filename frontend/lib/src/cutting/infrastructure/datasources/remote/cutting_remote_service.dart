@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:frontend/src/core/errors/exceptions.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_check.dart';
-import 'package:frontend/src/cutting/domain/entities/cutting_request.dart';
+import 'package:frontend/src/cutting/domain/entities/cutting_check_detail.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_serial.dart';
 
 import 'package:frontend/src/cutting/infrastructure/datasources/cutting_service.dart';
 import 'package:frontend/src/cutting/infrastructure/dtos/cutting_check_dto.dart';
-import 'package:frontend/src/cutting/infrastructure/dtos/cutting_request_dto.dart';
+import 'package:frontend/src/cutting/infrastructure/dtos/cutting_check_detail_dto.dart';
 import 'package:frontend/src/cutting/infrastructure/dtos/cutting_serial_dto.dart';
 
 import 'package:frontend/src/core/errors/dio_extensions.dart';
@@ -101,7 +101,7 @@ class CuttingRemoteService implements CuttingService {
   }
 
   @override
-  Future<List<CuttingRequest>> fetchCuttingRequests(
+  Future<List<CuttingCheckDetail>> fetchCuttingRequests(
       CuttingSerial serial) async {
     try {
       final response = await _dio.get(
@@ -116,7 +116,7 @@ class CuttingRemoteService implements CuttingService {
           .map((dynamic item) => item as Map<String, dynamic>);
 
       return data
-          .map((map) => CuttingRequestDTO.fromMap(map).toDomain())
+          .map((map) => CuttingCheckDetailDTO.fromMap(map).toDomain())
           .toList();
     } on DioError catch (e) {
       if (e.isNoConnectionError) {
@@ -144,10 +144,9 @@ class CuttingRemoteService implements CuttingService {
   }
 
   @override
-  Future<void> saveCuttingCheck(CuttingCheck check) async {
+  Future<void> saveCuttingCheck(Map<String, dynamic> params) async {
     try {
-      await _dio.post("/cut/check",
-          data: CuttingCheckDTO.fromDomain(check).toMap());
+      await _dio.post("/cut/check", data: params);
     } on DioError catch (e) {
       if (e.isNoConnectionError) {
         throw NoConnectionException(

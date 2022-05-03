@@ -17,9 +17,12 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$CuttingCheckSaveEventTearOff {
   const _$CuttingCheckSaveEventTearOff();
 
-  _Saving save(CuttingCheck check) {
+  _Saving save(
+      CuttingSerial serial, CuttingCheck check, CuttingCheckResult result) {
     return _Saving(
+      serial,
       check,
+      result,
     );
   }
 }
@@ -29,21 +32,29 @@ const $CuttingCheckSaveEvent = _$CuttingCheckSaveEventTearOff();
 
 /// @nodoc
 mixin _$CuttingCheckSaveEvent {
+  CuttingSerial get serial => throw _privateConstructorUsedError;
   CuttingCheck get check => throw _privateConstructorUsedError;
+  CuttingCheckResult get result => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CuttingCheck check) save,
+    required TResult Function(
+            CuttingSerial serial, CuttingCheck check, CuttingCheckResult result)
+        save,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(CuttingCheck check)? save,
+    TResult Function(CuttingSerial serial, CuttingCheck check,
+            CuttingCheckResult result)?
+        save,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CuttingCheck check)? save,
+    TResult Function(CuttingSerial serial, CuttingCheck check,
+            CuttingCheckResult result)?
+        save,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -74,7 +85,8 @@ abstract class $CuttingCheckSaveEventCopyWith<$Res> {
   factory $CuttingCheckSaveEventCopyWith(CuttingCheckSaveEvent value,
           $Res Function(CuttingCheckSaveEvent) then) =
       _$CuttingCheckSaveEventCopyWithImpl<$Res>;
-  $Res call({CuttingCheck check});
+  $Res call(
+      {CuttingSerial serial, CuttingCheck check, CuttingCheckResult result});
 }
 
 /// @nodoc
@@ -88,13 +100,23 @@ class _$CuttingCheckSaveEventCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? serial = freezed,
     Object? check = freezed,
+    Object? result = freezed,
   }) {
     return _then(_value.copyWith(
+      serial: serial == freezed
+          ? _value.serial
+          : serial // ignore: cast_nullable_to_non_nullable
+              as CuttingSerial,
       check: check == freezed
           ? _value.check
           : check // ignore: cast_nullable_to_non_nullable
               as CuttingCheck,
+      result: result == freezed
+          ? _value.result
+          : result // ignore: cast_nullable_to_non_nullable
+              as CuttingCheckResult,
     ));
   }
 }
@@ -105,7 +127,8 @@ abstract class _$SavingCopyWith<$Res>
   factory _$SavingCopyWith(_Saving value, $Res Function(_Saving) then) =
       __$SavingCopyWithImpl<$Res>;
   @override
-  $Res call({CuttingCheck check});
+  $Res call(
+      {CuttingSerial serial, CuttingCheck check, CuttingCheckResult result});
 }
 
 /// @nodoc
@@ -120,13 +143,23 @@ class __$SavingCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? serial = freezed,
     Object? check = freezed,
+    Object? result = freezed,
   }) {
     return _then(_Saving(
+      serial == freezed
+          ? _value.serial
+          : serial // ignore: cast_nullable_to_non_nullable
+              as CuttingSerial,
       check == freezed
           ? _value.check
           : check // ignore: cast_nullable_to_non_nullable
               as CuttingCheck,
+      result == freezed
+          ? _value.result
+          : result // ignore: cast_nullable_to_non_nullable
+              as CuttingCheckResult,
     ));
   }
 }
@@ -134,14 +167,18 @@ class __$SavingCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Saving extends _Saving {
-  const _$_Saving(this.check) : super._();
+  const _$_Saving(this.serial, this.check, this.result) : super._();
 
   @override
+  final CuttingSerial serial;
+  @override
   final CuttingCheck check;
+  @override
+  final CuttingCheckResult result;
 
   @override
   String toString() {
-    return 'CuttingCheckSaveEvent.save(check: $check)';
+    return 'CuttingCheckSaveEvent.save(serial: $serial, check: $check, result: $result)';
   }
 
   @override
@@ -149,12 +186,17 @@ class _$_Saving extends _Saving {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Saving &&
-            const DeepCollectionEquality().equals(other.check, check));
+            const DeepCollectionEquality().equals(other.serial, serial) &&
+            const DeepCollectionEquality().equals(other.check, check) &&
+            const DeepCollectionEquality().equals(other.result, result));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(check));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(serial),
+      const DeepCollectionEquality().hash(check),
+      const DeepCollectionEquality().hash(result));
 
   @JsonKey(ignore: true)
   @override
@@ -164,27 +206,33 @@ class _$_Saving extends _Saving {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CuttingCheck check) save,
+    required TResult Function(
+            CuttingSerial serial, CuttingCheck check, CuttingCheckResult result)
+        save,
   }) {
-    return save(check);
+    return save(serial, check, result);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(CuttingCheck check)? save,
+    TResult Function(CuttingSerial serial, CuttingCheck check,
+            CuttingCheckResult result)?
+        save,
   }) {
-    return save?.call(check);
+    return save?.call(serial, check, result);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CuttingCheck check)? save,
+    TResult Function(CuttingSerial serial, CuttingCheck check,
+            CuttingCheckResult result)?
+        save,
     required TResult orElse(),
   }) {
     if (save != null) {
-      return save(check);
+      return save(serial, check, result);
     }
     return orElse();
   }
@@ -219,11 +267,17 @@ class _$_Saving extends _Saving {
 }
 
 abstract class _Saving extends CuttingCheckSaveEvent {
-  const factory _Saving(CuttingCheck check) = _$_Saving;
+  const factory _Saving(
+          CuttingSerial serial, CuttingCheck check, CuttingCheckResult result) =
+      _$_Saving;
   const _Saving._() : super._();
 
   @override
+  CuttingSerial get serial;
+  @override
   CuttingCheck get check;
+  @override
+  CuttingCheckResult get result;
   @override
   @JsonKey(ignore: true)
   _$SavingCopyWith<_Saving> get copyWith => throw _privateConstructorUsedError;

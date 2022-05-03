@@ -3,7 +3,7 @@ import 'package:frontend/src/core/errors/exceptions.dart';
 
 import 'package:frontend/src/core/errors/failure.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_check.dart';
-import 'package:frontend/src/cutting/domain/entities/cutting_request.dart';
+import 'package:frontend/src/cutting/domain/entities/cutting_check_detail.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_serial.dart';
 import 'package:frontend/src/cutting/domain/repositories/i_cutting_repository.dart';
 import 'package:frontend/src/cutting/infrastructure/datasources/cutting_service.dart';
@@ -45,7 +45,7 @@ class CuttingRepository implements ICuttingRepository {
   }
 
   @override
-  Future<Either<Failure, List<CuttingRequest>>> getCuttingRequest(
+  Future<Either<Failure, List<CuttingCheckDetail>>> getCuttingRequest(
       CuttingSerial serial) async {
     try {
       final remoteFetch = await _remoteService.fetchCuttingRequests(serial);
@@ -60,9 +60,10 @@ class CuttingRepository implements ICuttingRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> saveCuttingCheck(CuttingCheck check) async {
+  Future<Either<Failure, Unit>> saveCuttingCheck(
+      Map<String, dynamic> params) async {
     try {
-      await _remoteService.saveCuttingCheck(check);
+      await _remoteService.saveCuttingCheck(params);
       return right(unit);
     } on NoConnectionException catch (e) {
       return left(Failure.noConnection(e.message));

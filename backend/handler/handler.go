@@ -40,6 +40,8 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/fct", a.getFctSerial).Methods("GET")
 	r.HandleFunc("/fct/{serial}", a.getFctItem).Methods("GET")
 	r.HandleFunc("/fct", a.saveFctItem).Methods("POST")
+	r.HandleFunc("/apk", a.fetchApkInfo).Methods("GET")
+	r.HandleFunc("/apk/{version}", a.downloadApk).Methods("GET")
 
 	return a
 }
@@ -182,10 +184,22 @@ func (a *AppHandler) saveCuttingCheck(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO(ymkwon): add query
 	query := fmt.Sprintf(`
-	QUERY '%s'
-	`, "test")
+	EXEC SP_TABLET_FCT_03_MERGE '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s';
+	`,
+		params["date"],
+		params["seq"],
+		params["wo-nb"],
+		params["thickness"],
+		params["width"],
+		params["height"],
+		params["angle"],
+		params["lot"],
+		params["work-id"],
+		params["equip-cd"],
+		params["remark"],
+		params["user-id"],
+	)
 
 	_, err := a.db.CallDML(query)
 	if err != nil {

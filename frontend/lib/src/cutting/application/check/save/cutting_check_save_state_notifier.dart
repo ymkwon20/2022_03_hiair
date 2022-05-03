@@ -15,9 +15,25 @@ class CuttingCheckSaveStateNotifier
 
   Future<void> mapEventToState(CuttingCheckSaveEvent event) async {
     event.when(
-      save: (check) async {
+      save: (serial, check, result) async {
         state = const CuttingCheckSaveState.saving();
-        final failureOrResult = await _save(check);
+
+        final params = {
+          "date": serial.dateRequested,
+          "seq": serial.seq.toString(),
+          "wo-nb": check.workOrder,
+          "width": result.width.toString(),
+          "height": result.height.toString(),
+          "thickness": result.thickness.toString(),
+          "angle": result.angle.toString(),
+          "lot": result.lot,
+          "work-id": result.workId,
+          "equip-cd": result.equipCd,
+          "remark": result.remark,
+          "user-id": result.userId,
+        };
+
+        final failureOrResult = await _save(params);
         state = failureOrResult.fold(
           (l) => CuttingCheckSaveState.failure(mapFailureToString(l)),
           (r) => const CuttingCheckSaveState.saved(),

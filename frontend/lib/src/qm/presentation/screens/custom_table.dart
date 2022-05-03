@@ -118,7 +118,10 @@ class CustomTableHead extends StatelessWidget {
                   header.isNumeric ? Alignment.centerRight : header.alignment,
               child: Text(
                 header.title,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
               ),
             );
           }).toList(),

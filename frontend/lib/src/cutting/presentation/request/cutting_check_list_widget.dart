@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/src/cutting/presentation/request/cutting_check_dialog.dart';
+import 'package:frontend/src/cutting/presentation/request/view_models/cutting_check_result_notifier.dart';
 import 'package:frontend/src/cutting/presentation/request/view_models/cutting_checks_state_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -8,7 +9,7 @@ import 'package:frontend/src/core/widgets/index.dart';
 import 'package:frontend/src/cutting/dependency_injection.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_check.dart';
 
-final cuttingCheck = Provider<CuttingCheck>(
+final standardCuttingCheck = Provider<CuttingCheck>(
   (ref) => throw UnimplementedError(),
 );
 
@@ -79,7 +80,9 @@ class _CuttingCheckWidget extends ConsumerWidget {
                   barrierDismissible: true,
                   builder: (context) {
                     return ProviderScope(overrides: [
-                      cuttingCheck.overrideWithValue(items[index])
+                      standardCuttingCheck.overrideWithValue(items[index]),
+                      cuttingCheckResultNotifier
+                          .overrideWithValue(CuttingCheckResultNotifier()),
                     ], child: const CuttingCheckDialog());
                   },
                 );

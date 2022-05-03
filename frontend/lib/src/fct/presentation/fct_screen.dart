@@ -31,6 +31,10 @@ class _FctScreenState extends ConsumerState<FctScreen>
   int? _selectedIndex;
   Fct? _selectedItem;
 
+  double normalWidth = 80;
+  double qtyWidth = 100;
+  double remarkWidth = 400;
+
   @override
   void initState() {
     super.initState();
@@ -174,13 +178,13 @@ class _FctScreenState extends ConsumerState<FctScreen>
                       _textEditingController.text =
                           fctItemsNotifier.items[index].remark;
                     },
-                    headers: const [
-                      CustomTableHeader(title: "두께"),
-                      CustomTableHeader(title: "가로"),
-                      CustomTableHeader(title: "세로"),
-                      CustomTableHeader(title: "절단수량", width: 100),
-                      CustomTableHeader(title: "원판수량", width: 100),
-                      CustomTableHeader(title: "특이사항", width: 200),
+                    headers: [
+                      CustomTableHeader(title: "두께", width: normalWidth),
+                      CustomTableHeader(title: "가로", width: normalWidth),
+                      CustomTableHeader(title: "세로", width: normalWidth),
+                      CustomTableHeader(title: "절단수량", width: qtyWidth),
+                      CustomTableHeader(title: "원판수량", width: qtyWidth),
+                      CustomTableHeader(title: "특이사항", width: remarkWidth),
                     ],
                     rowBuilder: (context, index) {
                       return state.when(
@@ -211,25 +215,20 @@ class _FctScreenState extends ConsumerState<FctScreen>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: 40 * 6,
+                      width: normalWidth * 3,
                       alignment: Alignment.center,
                       child: const Text(
                         "합계",
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
                       ),
                     ),
-                    const _SumTextBox(
-                      isCut: true,
-                      width: 100,
-                    ),
-                    const _SumTextBox(
-                      isCut: false,
-                      width: 100,
-                    ),
-                    const SizedBox(
-                      width: 200,
-                    ),
+                    _SumTextBox(isCut: true, width: qtyWidth),
+                    _SumTextBox(isCut: false, width: qtyWidth),
+                    SizedBox(width: remarkWidth),
                   ],
                 ),
                 const SizedBox(height: LayoutConstant.spaceXL),
@@ -261,6 +260,7 @@ class _FctScreenState extends ConsumerState<FctScreen>
                   "저장",
                   style: TextStyle(
                     color: Colors.white,
+                    fontSize: 20,
                   ),
                 ),
               ),
@@ -429,6 +429,7 @@ class _SumTextBox extends ConsumerWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
+              fontSize: 24,
             ),
           );
         },

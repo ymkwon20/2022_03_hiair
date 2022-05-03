@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/src/fct/domain/entities/fct.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final fctChangeNotifierProvider = Provider<FctChangeNotifier>(
+final fctChangeNotifierProvider = ChangeNotifierProvider<FctChangeNotifier>(
   (ref) => FctChangeNotifier(items: []),
 );
 

@@ -25,7 +25,7 @@ class _$CuttingRequestStateTearOff {
     return const _Loadinig();
   }
 
-  _Loaded loaded(List<CuttingRequest> requests) {
+  _Loaded loaded(List<CuttingCheckDetail> requests) {
     return _Loaded(
       requests,
     );
@@ -47,7 +47,7 @@ mixin _$CuttingRequestState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<CuttingRequest> requests) loaded,
+    required TResult Function(List<CuttingCheckDetail> requests) loaded,
     required TResult Function(String message) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -55,7 +55,7 @@ mixin _$CuttingRequestState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<CuttingRequest> requests)? loaded,
+    TResult Function(List<CuttingCheckDetail> requests)? loaded,
     TResult Function(String message)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -63,7 +63,7 @@ mixin _$CuttingRequestState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<CuttingRequest> requests)? loaded,
+    TResult Function(List<CuttingCheckDetail> requests)? loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) =>
@@ -153,7 +153,7 @@ class _$_Initial extends _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<CuttingRequest> requests) loaded,
+    required TResult Function(List<CuttingCheckDetail> requests) loaded,
     required TResult Function(String message) failure,
   }) {
     return initial();
@@ -164,7 +164,7 @@ class _$_Initial extends _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<CuttingRequest> requests)? loaded,
+    TResult Function(List<CuttingCheckDetail> requests)? loaded,
     TResult Function(String message)? failure,
   }) {
     return initial?.call();
@@ -175,7 +175,7 @@ class _$_Initial extends _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<CuttingRequest> requests)? loaded,
+    TResult Function(List<CuttingCheckDetail> requests)? loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -269,7 +269,7 @@ class _$_Loadinig extends _Loadinig {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<CuttingRequest> requests) loaded,
+    required TResult Function(List<CuttingCheckDetail> requests) loaded,
     required TResult Function(String message) failure,
   }) {
     return loading();
@@ -280,7 +280,7 @@ class _$_Loadinig extends _Loadinig {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<CuttingRequest> requests)? loaded,
+    TResult Function(List<CuttingCheckDetail> requests)? loaded,
     TResult Function(String message)? failure,
   }) {
     return loading?.call();
@@ -291,7 +291,7 @@ class _$_Loadinig extends _Loadinig {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<CuttingRequest> requests)? loaded,
+    TResult Function(List<CuttingCheckDetail> requests)? loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -348,7 +348,7 @@ abstract class _Loadinig extends CuttingRequestState {
 abstract class _$LoadedCopyWith<$Res> {
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) then) =
       __$LoadedCopyWithImpl<$Res>;
-  $Res call({List<CuttingRequest> requests});
+  $Res call({List<CuttingCheckDetail> requests});
 }
 
 /// @nodoc
@@ -369,7 +369,7 @@ class __$LoadedCopyWithImpl<$Res>
       requests == freezed
           ? _value.requests
           : requests // ignore: cast_nullable_to_non_nullable
-              as List<CuttingRequest>,
+              as List<CuttingCheckDetail>,
     ));
   }
 }
@@ -380,7 +380,7 @@ class _$_Loaded extends _Loaded {
   const _$_Loaded(this.requests) : super._();
 
   @override
-  final List<CuttingRequest> requests;
+  final List<CuttingCheckDetail> requests;
 
   @override
   String toString() {
@@ -409,7 +409,7 @@ class _$_Loaded extends _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<CuttingRequest> requests) loaded,
+    required TResult Function(List<CuttingCheckDetail> requests) loaded,
     required TResult Function(String message) failure,
   }) {
     return loaded(requests);
@@ -420,7 +420,7 @@ class _$_Loaded extends _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<CuttingRequest> requests)? loaded,
+    TResult Function(List<CuttingCheckDetail> requests)? loaded,
     TResult Function(String message)? failure,
   }) {
     return loaded?.call(requests);
@@ -431,7 +431,7 @@ class _$_Loaded extends _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<CuttingRequest> requests)? loaded,
+    TResult Function(List<CuttingCheckDetail> requests)? loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -480,10 +480,10 @@ class _$_Loaded extends _Loaded {
 }
 
 abstract class _Loaded extends CuttingRequestState {
-  const factory _Loaded(List<CuttingRequest> requests) = _$_Loaded;
+  const factory _Loaded(List<CuttingCheckDetail> requests) = _$_Loaded;
   const _Loaded._() : super._();
 
-  List<CuttingRequest> get requests;
+  List<CuttingCheckDetail> get requests;
   @JsonKey(ignore: true)
   _$LoadedCopyWith<_Loaded> get copyWith => throw _privateConstructorUsedError;
 }
@@ -553,7 +553,7 @@ class _$_Failure extends _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<CuttingRequest> requests) loaded,
+    required TResult Function(List<CuttingCheckDetail> requests) loaded,
     required TResult Function(String message) failure,
   }) {
     return failure(message);
@@ -564,7 +564,7 @@ class _$_Failure extends _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<CuttingRequest> requests)? loaded,
+    TResult Function(List<CuttingCheckDetail> requests)? loaded,
     TResult Function(String message)? failure,
   }) {
     return failure?.call(message);
@@ -575,7 +575,7 @@ class _$_Failure extends _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<CuttingRequest> requests)? loaded,
+    TResult Function(List<CuttingCheckDetail> requests)? loaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {

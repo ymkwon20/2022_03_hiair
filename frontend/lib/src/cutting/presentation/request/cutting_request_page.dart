@@ -1,12 +1,17 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:frontend/src/core/constants/index.dart';
+import 'package:frontend/src/core/widgets/flash_bar.dart';
+import 'package:frontend/src/core/widgets/image_dialog.dart';
+import 'package:frontend/src/cutting/application/check/save/cutting_check_save_state.dart';
 import 'package:frontend/src/cutting/presentation/request/cutting_check_list_widget.dart';
 import 'package:frontend/src/cutting/presentation/serial/cutting_serials_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/core/widgets/index.dart';
 import 'package:frontend/src/cutting/dependency_injection.dart';
-import 'package:frontend/src/cutting/domain/entities/cutting_request.dart';
+import 'package:frontend/src/cutting/domain/entities/cutting_check_detail.dart';
 
 class CuttingRequestPage extends ConsumerWidget {
   const CuttingRequestPage({Key? key}) : super(key: key);
@@ -15,8 +20,37 @@ class CuttingRequestPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(cuttingRequestsStateNotifierProvider);
 
+    ref.listen<CuttingCheckSaveState>(
+      cuttingCheckSaveStateNotifierProvider,
+      (previous, current) {
+        current.maybeWhen(
+          saved: () {
+            showFlashBar(
+              context,
+              title: "저장 완료",
+              content: "",
+              backgroundColor: Theme.of(context).primaryColorLight,
+            );
+          },
+          failure: (message) {
+            showFlashBar(
+              context,
+              title: "저장 실패",
+              content: message,
+              backgroundColor: ThemeConstant.errorColor,
+            );
+          },
+          orElse: () {},
+        );
+      },
+    );
+
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        iconTheme: Theme.of(context).iconTheme,
+      ),
       body: state.when(
         initial: () => const InitialStateWidget(),
         loading: () => const LoadingStateWidget(),
@@ -27,16 +61,39 @@ class CuttingRequestPage extends ConsumerWidget {
   }
 }
 
-class CuttingRequestListView extends ConsumerWidget {
+class CuttingRequestListView extends ConsumerStatefulWidget {
   const CuttingRequestListView({
     Key? key,
     required this.items,
   }) : super(key: key);
 
-  final List<CuttingRequest> items;
+  final List<CuttingCheckDetail> items;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CuttingRequestListView> createState() =>
+      _CuttingRequestListViewState();
+}
+
+class _CuttingRequestListViewState
+    extends ConsumerState<CuttingRequestListView> {
+  Uint8List? _cachedBytes;
+  late NetworkAssetBundle _assetBundle;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      _assetBundle = NetworkAssetBundle(Uri.parse(
+          "${LogicConstant.baseImageServerUrl}/${ref.watch(cuttingSerialProvider).imageFileNm}"));
+      final imageData = await _assetBundle.load("");
+      setState(() {
+        _cachedBytes = imageData.buffer.asUint8List();
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -57,16 +114,16 @@ class CuttingRequestListView extends ConsumerWidget {
                   DataColumn(label: Text('Remark')),
                 ],
                 rows: List.generate(
-                  items.length,
+                  widget.items.length,
                   (index) => DataRow(
                     onSelectChanged: (bool? _) {},
                     onLongPress: () {},
                     cells: [
-                      DataCell(Text(items[index].metalCd)),
+                      DataCell(Text(widget.items[index].metalCd)),
                       DataCell(Text(
-                          "${items[index].thickness}*${items[index].width}*${items[index].length}")),
-                      DataCell(Text("${items[index].qty}")),
-                      DataCell(Text(items[index].camNo)),
+                          "${widget.items[index].thickness}*${widget.items[index].width}*${widget.items[index].length}")),
+                      DataCell(Text("${widget.items[index].qty}")),
+                      DataCell(Text(widget.items[index].camNo)),
                       const DataCell(
                         TextField(
                           decoration: InputDecoration(
@@ -90,10 +147,22 @@ class CuttingRequestListView extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: LayoutConstant.spaceL),
-          Image.network(
-            "${LogicConstant.baseImageServerUrl}/${ref.watch(cuttingSerialProvider).imageFileNm}",
-            fit: BoxFit.contain,
-          ),
+          _cachedBytes == null
+              ? const SizedBox()
+              : GestureDetector(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return ImageDialog(
+                        bytes: _cachedBytes!,
+                      );
+                    }));
+                  },
+                  child: Image.memory(
+                    _cachedBytes!,
+                    fit: BoxFit.contain,
+                  ),
+                ),
           const CuttingCheckListWidget(),
         ],
       ),
