@@ -47,7 +47,8 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: Verify formatting
-        run: flutter format --output=none --set-exit-if-changed .
+        run: flutter format --output=none .
+        # run: flutter format --output=none --set-exit-if-changed .
         working-directory: ${{ env.working-directory }}
       
       - name: Analyze project source

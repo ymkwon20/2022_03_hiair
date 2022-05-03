@@ -1,3 +1,3 @@
-abstract class ApkService {
+abstract class VersionService {
   Future<String> fetchLatestApkVersion();
 }

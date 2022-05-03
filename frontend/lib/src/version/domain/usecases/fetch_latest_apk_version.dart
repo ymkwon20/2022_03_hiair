@@ -2,13 +2,13 @@ import 'package:dartz/dartz.dart';
 
 import 'package:frontend/src/core/errors/failure.dart';
 import 'package:frontend/src/core/usecases/usecase.dart';
-import 'package:frontend/src/version/domain/repositories/i_apk_repository.dart';
+import 'package:frontend/src/version/domain/repositories/i_version_repository.dart';
 
 class FetchLatestApkVersion implements Usecase<String, void> {
-  final IApkRepository _repository;
+  final IVersionRepository _repository;
 
   const FetchLatestApkVersion({
-    required IApkRepository repository,
+    required IVersionRepository repository,
   }) : _repository = repository;
 
   @override

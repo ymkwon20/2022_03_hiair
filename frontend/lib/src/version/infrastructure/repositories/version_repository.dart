@@ -2,15 +2,15 @@ import 'package:dartz/dartz.dart';
 import 'package:frontend/src/core/errors/exceptions.dart';
 
 import 'package:frontend/src/core/errors/failure.dart';
-import 'package:frontend/src/version/domain/repositories/i_apk_repository.dart';
-import 'package:frontend/src/version/infrastructure/datasources/apk_service.dart';
+import 'package:frontend/src/version/domain/repositories/i_version_repository.dart';
+import 'package:frontend/src/version/infrastructure/datasources/version_service.dart';
 
-class ApkRepository implements IApkRepository {
-  const ApkRepository({
-    required ApkService remote,
+class VersionRepository implements IVersionRepository {
+  const VersionRepository({
+    required VersionService remote,
   }) : _remote = remote;
 
-  final ApkService _remote;
+  final VersionService _remote;
 
   @override
   Future<Either<Failure, String>> fetchLatestApkVersion() async {

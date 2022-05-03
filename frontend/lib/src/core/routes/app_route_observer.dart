@@ -41,8 +41,6 @@ class AppRouteObserver extends RouteObserver<ModalRoute> {
   // void didStopUserGesture() => log.info('didStopUserGesture');
 }
 
-  
-
 // extension on Route<dynamic> {
 //   String get str => 'route(${settings.name}: ${settings.arguments})';
 // }

@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:frontend/src/core/errors/dio_extensions.dart';
 import 'package:frontend/src/core/errors/exceptions.dart';
-import 'package:frontend/src/version/infrastructure/datasources/apk_service.dart';
+import 'package:frontend/src/version/infrastructure/datasources/version_service.dart';
 
-class ApkRemoteService implements ApkService {
+class VersionRemoteService implements VersionService {
   final Dio _dio;
 
-  const ApkRemoteService({required Dio httpClient}) : _dio = httpClient;
+  const VersionRemoteService({required Dio httpClient}) : _dio = httpClient;
 
   @override
   Future<String> fetchLatestApkVersion() async {
