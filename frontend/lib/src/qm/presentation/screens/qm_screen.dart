@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:frontend/src/qm/application/load/qm_state.dart';
 import 'package:frontend/src/qm/application/save/qm_save_event.dart';
 import 'package:frontend/src/qm/application/save/qm_save_state.dart';
@@ -17,8 +18,6 @@ import 'package:frontend/src/qm/application/load/qm_event.dart';
 import 'package:frontend/src/qm/dependency_injection.dart';
 import 'package:frontend/src/qm/domain/entities/qm_item.dart';
 import 'package:frontend/src/qm/presentation/screens/custom_table.dart';
-
-import '../../../core/presentation/widgets/responsive_widget.dart';
 
 /// 검사 1화면: QM 검사 항목 리스트 제시
 class QmScreen extends StatelessWidget {
@@ -53,7 +52,7 @@ class _QmProductListState extends ConsumerState<QmListWidget>
   QmItem? _selectedQm;
 
   /// scroll에 따른 새 아이템 불러오기 관련
-  bool canLoadeNextPage = false;
+  bool canLoadNextPage = false;
 
   @override
   void initState() {
@@ -62,10 +61,8 @@ class _QmProductListState extends ConsumerState<QmListWidget>
     Future.delayed(
       Duration.zero,
       () {
-        _fetchQmItemsByPage(
-          items: [],
-          page: 1,
-        );
+        ref.read(qmItemsNotifier.notifier).clear();
+        _fetchQmItemsByPage();
       },
     );
     _controller = AnimationController(
@@ -83,13 +80,13 @@ class _QmProductListState extends ConsumerState<QmListWidget>
     super.dispose();
   }
 
-  Future<void> _fetchQmItemsByPage({
-    required List<QmItem> items,
-    required int page,
-  }) async {
-    await ref
-        .read(qmStateNotifierProvider.notifier)
-        .mapEventToState(QmEvent.fetchQmItemsByPage(items, page));
+  Future<void> _fetchQmItemsByPage() async {
+    await ref.read(qmStateNotifierProvider.notifier).mapEventToState(
+          QmEvent.fetchQmItemsByPage(
+            ref.watch(qmItemsNotifier).items,
+            ref.watch(qmItemsNotifier).page,
+          ),
+        );
   }
 
   void _openDrawer(int index) {
@@ -209,11 +206,14 @@ class _QmProductListState extends ConsumerState<QmListWidget>
     );
 
     ref.listen<QmState>(qmStateNotifierProvider, (previous, current) {
-      current.maybeWhen(
-        loaded: (items) {
+      current.when(
+        initial: (_) => canLoadNextPage = true,
+        loading: (_, __) => canLoadNextPage = false,
+        loaded: (items, nextAvailable) {
           ref.read(qmItemsNotifier.notifier).setQmItems(items);
+          canLoadNextPage = nextAvailable;
         },
-        orElse: () {},
+        failure: (_, __) => canLoadNextPage = true,
       );
     });
 
@@ -225,9 +225,15 @@ class _QmProductListState extends ConsumerState<QmListWidget>
         children: [
           NotificationListener<ScrollNotification>(
             onNotification: ((notification) {
-              // TODO: scroll refresh 구현하기
-              // ignore: avoid_print
-              print(notification.metrics.axisDirection);
+              final metrics = notification.metrics;
+              final limit =
+                  metrics.maxScrollExtent - metrics.viewportDimension / 3;
+
+              if (canLoadNextPage && metrics.pixels >= limit) {
+                canLoadNextPage = false;
+                _fetchQmItemsByPage();
+              }
+
               return false;
             }),
             child: Padding(
@@ -235,7 +241,7 @@ class _QmProductListState extends ConsumerState<QmListWidget>
               child: CustomTable(
                 onRowLongPressed: (index) {
                   state.maybeWhen(
-                    loaded: (_) {
+                    loaded: (_, __) {
                       ref.read(qmItemsNotifier).toggleSelectState(index);
                     },
                     orElse: () {},
@@ -243,7 +249,7 @@ class _QmProductListState extends ConsumerState<QmListWidget>
                 },
                 onRowPressed: (index) {
                   state.maybeWhen(
-                    loaded: (_) {
+                    loaded: (_, __) {
                       if (ref.watch(qmItemsNotifier).isMultiSelectMode) {
                         ref.read(qmItemsNotifier).toggleSelectState(index);
                       } else {
@@ -253,10 +259,10 @@ class _QmProductListState extends ConsumerState<QmListWidget>
                     orElse: () {},
                   );
                 },
-                onRefresh: () async => await _fetchQmItemsByPage(
-                  items: [],
-                  page: 1,
-                ),
+                onRefresh: () async {
+                  ref.read(qmItemsNotifier.notifier).clear();
+                  await _fetchQmItemsByPage();
+                },
                 headers: const [
                   CustomTableHeader(title: "작업지시", width: 130),
                   CustomTableHeader(title: "PND"),
@@ -285,7 +291,7 @@ class _QmProductListState extends ConsumerState<QmListWidget>
                         return QmLoadingRow();
                       }
                     },
-                    loaded: (_) {
+                    loaded: (_, __) {
                       return QmLoadedRow(
                         qmItem: notifier.items[index],
                         color: notifier.selectedIndex.contains(index)
@@ -305,7 +311,7 @@ class _QmProductListState extends ConsumerState<QmListWidget>
                 rowCount: state.when(
                     initial: (_) => 0,
                     loading: (prev, length) => prev.length + length,
-                    loaded: (current) => current.length,
+                    loaded: (current, _) => current.length,
                     failure: (prev, message) => prev.length + 1),
               ),
             ),

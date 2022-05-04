@@ -3,7 +3,7 @@ import 'package:frontend/src/core/domain/entities/failure.dart';
 
 import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
 import 'package:frontend/src/image/domain/entities/image_origin.dart';
-import 'package:frontend/src/qm/domain/entities/qm_item.dart';
+import 'package:frontend/src/qm/domain/entities/qm_item_list.dart';
 import 'package:frontend/src/qm/domain/repositories/i_qm_repository.dart';
 import 'package:frontend/src/qm/infrastructure/datasources/qm_service.dart';
 
@@ -14,11 +14,11 @@ class QmRepository implements IQmRepository {
   }) : _remoteService = remote;
 
   @override
-  Future<Either<Failure, List<QmItem>>> fetchQmItems(
+  Future<Either<Failure, QmItemList>> fetchQmItems(
       Map<String, dynamic> params) async {
     try {
       final remoteFetch = await _remoteService.fetchQmItems(params);
-      return right(remoteFetch);
+      return right(remoteFetch.toDomain());
     } on NoConnectionException catch (e) {
       return left(Failure.noConnection(e.message));
     } on InvalidServerResponseException catch (e) {

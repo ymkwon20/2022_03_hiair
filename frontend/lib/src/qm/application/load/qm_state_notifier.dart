@@ -30,7 +30,7 @@ class QmStateNotifier extends StateNotifier<QmState> {
         final resultsOrFailure = await _fetchQmItems(params);
         state = resultsOrFailure.fold(
           (l) => QmState.failure(items, mapFailureToString(l)),
-          (r) => QmState.loaded(items..addAll(r)),
+          (r) => QmState.loaded(items..addAll(r.items), r.isNextAvailable),
         );
       },
     );

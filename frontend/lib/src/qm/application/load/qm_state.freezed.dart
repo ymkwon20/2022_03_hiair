@@ -30,9 +30,10 @@ class _$QmStateTearOff {
     );
   }
 
-  _Loaded loaded(List<QmItem> items) {
+  _Loaded loaded(List<QmItem> items, bool isNextPageAvailable) {
     return _Loaded(
       items,
+      isNextPageAvailable,
     );
   }
 
@@ -55,7 +56,8 @@ mixin _$QmState {
   TResult when<TResult extends Object?>({
     required TResult Function(List<QmItem> items) initial,
     required TResult Function(List<QmItem> items, int itemsPerPage) loading,
-    required TResult Function(List<QmItem> items) loaded,
+    required TResult Function(List<QmItem> items, bool isNextPageAvailable)
+        loaded,
     required TResult Function(List<QmItem> items, String message) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -63,7 +65,7 @@ mixin _$QmState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<QmItem> items)? initial,
     TResult Function(List<QmItem> items, int itemsPerPage)? loading,
-    TResult Function(List<QmItem> items)? loaded,
+    TResult Function(List<QmItem> items, bool isNextPageAvailable)? loaded,
     TResult Function(List<QmItem> items, String message)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -71,7 +73,7 @@ mixin _$QmState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<QmItem> items)? initial,
     TResult Function(List<QmItem> items, int itemsPerPage)? loading,
-    TResult Function(List<QmItem> items)? loaded,
+    TResult Function(List<QmItem> items, bool isNextPageAvailable)? loaded,
     TResult Function(List<QmItem> items, String message)? failure,
     required TResult orElse(),
   }) =>
@@ -199,7 +201,8 @@ class _$_Initial extends _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function(List<QmItem> items) initial,
     required TResult Function(List<QmItem> items, int itemsPerPage) loading,
-    required TResult Function(List<QmItem> items) loaded,
+    required TResult Function(List<QmItem> items, bool isNextPageAvailable)
+        loaded,
     required TResult Function(List<QmItem> items, String message) failure,
   }) {
     return initial(items);
@@ -210,7 +213,7 @@ class _$_Initial extends _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<QmItem> items)? initial,
     TResult Function(List<QmItem> items, int itemsPerPage)? loading,
-    TResult Function(List<QmItem> items)? loaded,
+    TResult Function(List<QmItem> items, bool isNextPageAvailable)? loaded,
     TResult Function(List<QmItem> items, String message)? failure,
   }) {
     return initial?.call(items);
@@ -221,7 +224,7 @@ class _$_Initial extends _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<QmItem> items)? initial,
     TResult Function(List<QmItem> items, int itemsPerPage)? loading,
-    TResult Function(List<QmItem> items)? loaded,
+    TResult Function(List<QmItem> items, bool isNextPageAvailable)? loaded,
     TResult Function(List<QmItem> items, String message)? failure,
     required TResult orElse(),
   }) {
@@ -357,7 +360,8 @@ class _$_Loading extends _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function(List<QmItem> items) initial,
     required TResult Function(List<QmItem> items, int itemsPerPage) loading,
-    required TResult Function(List<QmItem> items) loaded,
+    required TResult Function(List<QmItem> items, bool isNextPageAvailable)
+        loaded,
     required TResult Function(List<QmItem> items, String message) failure,
   }) {
     return loading(items, itemsPerPage);
@@ -368,7 +372,7 @@ class _$_Loading extends _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<QmItem> items)? initial,
     TResult Function(List<QmItem> items, int itemsPerPage)? loading,
-    TResult Function(List<QmItem> items)? loaded,
+    TResult Function(List<QmItem> items, bool isNextPageAvailable)? loaded,
     TResult Function(List<QmItem> items, String message)? failure,
   }) {
     return loading?.call(items, itemsPerPage);
@@ -379,7 +383,7 @@ class _$_Loading extends _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<QmItem> items)? initial,
     TResult Function(List<QmItem> items, int itemsPerPage)? loading,
-    TResult Function(List<QmItem> items)? loaded,
+    TResult Function(List<QmItem> items, bool isNextPageAvailable)? loaded,
     TResult Function(List<QmItem> items, String message)? failure,
     required TResult orElse(),
   }) {
@@ -445,7 +449,7 @@ abstract class _$LoadedCopyWith<$Res> implements $QmStateCopyWith<$Res> {
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) then) =
       __$LoadedCopyWithImpl<$Res>;
   @override
-  $Res call({List<QmItem> items});
+  $Res call({List<QmItem> items, bool isNextPageAvailable});
 }
 
 /// @nodoc
@@ -460,12 +464,17 @@ class __$LoadedCopyWithImpl<$Res> extends _$QmStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? items = freezed,
+    Object? isNextPageAvailable = freezed,
   }) {
     return _then(_Loaded(
       items == freezed
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
               as List<QmItem>,
+      isNextPageAvailable == freezed
+          ? _value.isNextPageAvailable
+          : isNextPageAvailable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -473,14 +482,16 @@ class __$LoadedCopyWithImpl<$Res> extends _$QmStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Loaded extends _Loaded {
-  const _$_Loaded(this.items) : super._();
+  const _$_Loaded(this.items, this.isNextPageAvailable) : super._();
 
   @override
   final List<QmItem> items;
+  @override
+  final bool isNextPageAvailable;
 
   @override
   String toString() {
-    return 'QmState.loaded(items: $items)';
+    return 'QmState.loaded(items: $items, isNextPageAvailable: $isNextPageAvailable)';
   }
 
   @override
@@ -488,12 +499,16 @@ class _$_Loaded extends _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Loaded &&
-            const DeepCollectionEquality().equals(other.items, items));
+            const DeepCollectionEquality().equals(other.items, items) &&
+            const DeepCollectionEquality()
+                .equals(other.isNextPageAvailable, isNextPageAvailable));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(items));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(items),
+      const DeepCollectionEquality().hash(isNextPageAvailable));
 
   @JsonKey(ignore: true)
   @override
@@ -505,10 +520,11 @@ class _$_Loaded extends _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function(List<QmItem> items) initial,
     required TResult Function(List<QmItem> items, int itemsPerPage) loading,
-    required TResult Function(List<QmItem> items) loaded,
+    required TResult Function(List<QmItem> items, bool isNextPageAvailable)
+        loaded,
     required TResult Function(List<QmItem> items, String message) failure,
   }) {
-    return loaded(items);
+    return loaded(items, isNextPageAvailable);
   }
 
   @override
@@ -516,10 +532,10 @@ class _$_Loaded extends _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<QmItem> items)? initial,
     TResult Function(List<QmItem> items, int itemsPerPage)? loading,
-    TResult Function(List<QmItem> items)? loaded,
+    TResult Function(List<QmItem> items, bool isNextPageAvailable)? loaded,
     TResult Function(List<QmItem> items, String message)? failure,
   }) {
-    return loaded?.call(items);
+    return loaded?.call(items, isNextPageAvailable);
   }
 
   @override
@@ -527,12 +543,12 @@ class _$_Loaded extends _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<QmItem> items)? initial,
     TResult Function(List<QmItem> items, int itemsPerPage)? loading,
-    TResult Function(List<QmItem> items)? loaded,
+    TResult Function(List<QmItem> items, bool isNextPageAvailable)? loaded,
     TResult Function(List<QmItem> items, String message)? failure,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(items);
+      return loaded(items, isNextPageAvailable);
     }
     return orElse();
   }
@@ -576,11 +592,13 @@ class _$_Loaded extends _Loaded {
 }
 
 abstract class _Loaded extends QmState {
-  const factory _Loaded(List<QmItem> items) = _$_Loaded;
+  const factory _Loaded(List<QmItem> items, bool isNextPageAvailable) =
+      _$_Loaded;
   const _Loaded._() : super._();
 
   @override
   List<QmItem> get items;
+  bool get isNextPageAvailable;
   @override
   @JsonKey(ignore: true)
   _$LoadedCopyWith<_Loaded> get copyWith => throw _privateConstructorUsedError;
@@ -661,7 +679,8 @@ class _$_Failure extends _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function(List<QmItem> items) initial,
     required TResult Function(List<QmItem> items, int itemsPerPage) loading,
-    required TResult Function(List<QmItem> items) loaded,
+    required TResult Function(List<QmItem> items, bool isNextPageAvailable)
+        loaded,
     required TResult Function(List<QmItem> items, String message) failure,
   }) {
     return failure(items, message);
@@ -672,7 +691,7 @@ class _$_Failure extends _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<QmItem> items)? initial,
     TResult Function(List<QmItem> items, int itemsPerPage)? loading,
-    TResult Function(List<QmItem> items)? loaded,
+    TResult Function(List<QmItem> items, bool isNextPageAvailable)? loaded,
     TResult Function(List<QmItem> items, String message)? failure,
   }) {
     return failure?.call(items, message);
@@ -683,7 +702,7 @@ class _$_Failure extends _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<QmItem> items)? initial,
     TResult Function(List<QmItem> items, int itemsPerPage)? loading,
-    TResult Function(List<QmItem> items)? loaded,
+    TResult Function(List<QmItem> items, bool isNextPageAvailable)? loaded,
     TResult Function(List<QmItem> items, String message)? failure,
     required TResult orElse(),
   }) {

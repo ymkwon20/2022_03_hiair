@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:frontend/src/core/infrastrucutre/dio_extensions.dart';
 import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
-import 'package:frontend/src/qm/domain/entities/qm_item.dart';
 
 import 'package:frontend/src/qm/infrastructure/datasources/qm_service.dart';
-import 'package:frontend/src/qm/infrastructure/dtos/qm_item_dto.dart';
+import 'package:frontend/src/qm/infrastructure/dtos/qm_item_list_dto.dart';
 
 class QmRemoteService implements QmService {
   final Dio _dio;
@@ -16,7 +15,7 @@ class QmRemoteService implements QmService {
   }) : _dio = httpClient;
 
   @override
-  Future<List<QmItem>> fetchQmItems(Map<String, dynamic> params) async {
+  Future<QmItemListDto> fetchQmItems(Map<String, dynamic> params) async {
     try {
       final response = await _dio.get(
         "/qm",
@@ -24,13 +23,8 @@ class QmRemoteService implements QmService {
       );
 
       final results = (response.data as Map<String, dynamic>);
-      // final isNextAvailable = results["is_next_available"] as bool;
 
-      final data = (results["data"] as List<dynamic>)
-          .map((e) => QmItemDto.fromMap(e as Map<String, dynamic>).toDomain())
-          .toList();
-
-      return data;
+      return QmItemListDto.fromMap(results);
     } on DioError catch (e) {
       if (e.isNoConnectionError) {
         throw NoConnectionException(message: e.message);
@@ -48,6 +42,10 @@ class QmRemoteService implements QmService {
       }
 
       if (e.type == DioErrorType.receiveTimeout) {
+        throw ServerConnectionException(message: e.message);
+      }
+
+      if (e.type == DioErrorType.other) {
         throw ServerConnectionException(message: e.message);
       }
 
@@ -79,6 +77,14 @@ class QmRemoteService implements QmService {
         );
       }
 
+      if (e.type == DioErrorType.receiveTimeout) {
+        throw ServerConnectionException(message: e.message);
+      }
+
+      if (e.type == DioErrorType.other) {
+        throw ServerConnectionException(message: e.message);
+      }
+
       rethrow;
     }
   }
@@ -107,6 +113,13 @@ class QmRemoteService implements QmService {
         );
       }
 
+      if (e.type == DioErrorType.receiveTimeout) {
+        throw ServerConnectionException(message: e.message);
+      }
+
+      if (e.type == DioErrorType.other) {
+        throw ServerConnectionException(message: e.message);
+      }
       rethrow;
     }
   }
