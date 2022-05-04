@@ -19,7 +19,7 @@ class CuttingSerial {
   final String dateEnd;
 
   ///  NEW1_FN : 서버저장 파일명
-  final String imageFileNm;
+  final String imageFileName;
 
   const CuttingSerial({
     required this.seq,
@@ -28,7 +28,7 @@ class CuttingSerial {
     required this.hasDone,
     required this.dateStart,
     required this.dateEnd,
-    required this.imageFileNm,
+    required this.imageFileName,
   });
 
   @override
@@ -61,7 +61,7 @@ class CuttingSerial {
     bool? hasDone,
     String? dateStart,
     String? dateEnd,
-    String? imageFileNm,
+    String? imageFileName,
   }) {
     return CuttingSerial(
       seq: seq ?? this.seq,
@@ -70,7 +70,7 @@ class CuttingSerial {
       hasDone: hasDone ?? this.hasDone,
       dateStart: dateStart ?? this.dateStart,
       dateEnd: dateEnd ?? this.dateEnd,
-      imageFileNm: imageFileNm ?? this.imageFileNm,
+      imageFileName: imageFileName ?? this.imageFileName,
     );
   }
 }

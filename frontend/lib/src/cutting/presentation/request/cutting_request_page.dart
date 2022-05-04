@@ -84,7 +84,7 @@ class _CuttingRequestListViewState
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       _assetBundle = NetworkAssetBundle(Uri.parse(
-          "${LogicConstant.baseImageServerUrl}/${ref.watch(cuttingSerialProvider).imageFileNm}"));
+          "${LogicConstant.baseImageServerUrl}/${ref.watch(cuttingSerialProvider).imageFileName}"));
       final imageData = await _assetBundle.load("");
       setState(() {
         _cachedBytes = imageData.buffer.asUint8List();
