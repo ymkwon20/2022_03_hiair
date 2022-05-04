@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import 'package:frontend/src/core/constants/layout_constant.dart';
-import 'package:frontend/src/core/widgets/index.dart';
-import 'package:frontend/src/core/widgets/linked_scroll_controller.dart';
+import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/widgets/index.dart';
+import 'package:frontend/src/core/presentation/widgets/linked_scroll_controller.dart';
 
 /// reference: https://github.com/crizant/flutter_multiplication_table/tree/master/lib
 

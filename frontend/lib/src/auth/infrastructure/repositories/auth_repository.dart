@@ -6,7 +6,7 @@ import 'package:frontend/src/auth/domain/entities/user.dart';
 import 'package:frontend/src/auth/domain/repositories/i_auth_repository.dart';
 import 'package:frontend/src/auth/infrastructure/datasources/local/auth_local_service.dart';
 import 'package:frontend/src/auth/infrastructure/datasources/remote/auth_remote_service.dart';
-import 'package:frontend/src/core/errors/exceptions.dart';
+import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
 
 class AuthRepository implements IAuthRepository {
   final AuthLocalService _localService;

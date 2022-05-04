@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
+import 'package:frontend/src/core/domain/usecases/usecase.dart';
 
-import 'package:frontend/src/core/errors/failure.dart';
-import 'package:frontend/src/core/usecases/usecase.dart';
 import 'package:frontend/src/qm/domain/repositories/i_qm_repository.dart';
 
 class SaveQmList implements Usecase<Unit, List<Map<String, dynamic>>> {

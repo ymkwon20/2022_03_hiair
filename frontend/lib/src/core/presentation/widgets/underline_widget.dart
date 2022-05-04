@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:frontend/src/core/constants/layout_constant.dart';
+import 'package:frontend/src/core/presentation/index.dart';
 
 /// 시각적 의미를 구분 지을수 있게 하는 공통 선 위젯
 ///

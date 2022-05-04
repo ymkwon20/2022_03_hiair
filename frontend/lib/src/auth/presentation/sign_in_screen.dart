@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/auth/application/auth_state.dart';
 import 'package:frontend/src/auth/presentation/sign_in_form_widget.dart';
-import 'package:frontend/src/core/routes/app_route_observer.dart';
+import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/routes/app_route_observer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/auth/dependency_injection.dart';
-import 'package:frontend/src/core/constants/layout_constant.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);

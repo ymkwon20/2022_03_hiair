@@ -1,4 +1,4 @@
-import 'package:frontend/src/core/errors/failure.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/fct/application/fct/fct_event.dart';
 import 'package:frontend/src/fct/application/fct/fct_state.dart';
 import 'package:frontend/src/fct/domain/usecases/get_fct_items.dart';

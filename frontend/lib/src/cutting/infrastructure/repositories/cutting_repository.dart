@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:frontend/src/core/errors/exceptions.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
 
-import 'package:frontend/src/core/errors/failure.dart';
+import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_check.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_check_detail.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_serial.dart';

@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:frontend/src/core/errors/exceptions.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
 
-import 'package:frontend/src/core/errors/failure.dart';
-import 'package:frontend/src/core/image/domain/entities/image_origin.dart';
+import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
+import 'package:frontend/src/image/domain/entities/image_origin.dart';
 import 'package:frontend/src/qm/domain/entities/qm_item.dart';
 import 'package:frontend/src/qm/domain/repositories/i_qm_repository.dart';
 import 'package:frontend/src/qm/infrastructure/datasources/qm_service.dart';

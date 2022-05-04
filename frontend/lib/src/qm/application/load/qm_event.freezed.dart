@@ -17,10 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$QmEventTearOff {
   const _$QmEventTearOff();
 
-  _FetchQmItems fetchQmItemsByPage(int page, List<QmItem> previousItems) {
+  _FetchQmItems fetchQmItemsByPage(List<QmItem> items, int page) {
     return _FetchQmItems(
+      items,
       page,
-      previousItems,
     );
   }
 }
@@ -30,23 +30,22 @@ const $QmEvent = _$QmEventTearOff();
 
 /// @nodoc
 mixin _$QmEvent {
+  List<QmItem> get items => throw _privateConstructorUsedError;
   int get page => throw _privateConstructorUsedError;
-  List<QmItem> get previousItems => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int page, List<QmItem> previousItems)
-        fetchQmItemsByPage,
+    required TResult Function(List<QmItem> items, int page) fetchQmItemsByPage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(int page, List<QmItem> previousItems)? fetchQmItemsByPage,
+    TResult Function(List<QmItem> items, int page)? fetchQmItemsByPage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int page, List<QmItem> previousItems)? fetchQmItemsByPage,
+    TResult Function(List<QmItem> items, int page)? fetchQmItemsByPage,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -75,7 +74,7 @@ mixin _$QmEvent {
 abstract class $QmEventCopyWith<$Res> {
   factory $QmEventCopyWith(QmEvent value, $Res Function(QmEvent) then) =
       _$QmEventCopyWithImpl<$Res>;
-  $Res call({int page, List<QmItem> previousItems});
+  $Res call({List<QmItem> items, int page});
 }
 
 /// @nodoc
@@ -88,18 +87,18 @@ class _$QmEventCopyWithImpl<$Res> implements $QmEventCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? items = freezed,
     Object? page = freezed,
-    Object? previousItems = freezed,
   }) {
     return _then(_value.copyWith(
+      items: items == freezed
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<QmItem>,
       page: page == freezed
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
               as int,
-      previousItems: previousItems == freezed
-          ? _value.previousItems
-          : previousItems // ignore: cast_nullable_to_non_nullable
-              as List<QmItem>,
     ));
   }
 }
@@ -110,7 +109,7 @@ abstract class _$FetchQmItemsCopyWith<$Res> implements $QmEventCopyWith<$Res> {
           _FetchQmItems value, $Res Function(_FetchQmItems) then) =
       __$FetchQmItemsCopyWithImpl<$Res>;
   @override
-  $Res call({int page, List<QmItem> previousItems});
+  $Res call({List<QmItem> items, int page});
 }
 
 /// @nodoc
@@ -125,18 +124,18 @@ class __$FetchQmItemsCopyWithImpl<$Res> extends _$QmEventCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? items = freezed,
     Object? page = freezed,
-    Object? previousItems = freezed,
   }) {
     return _then(_FetchQmItems(
+      items == freezed
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<QmItem>,
       page == freezed
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
               as int,
-      previousItems == freezed
-          ? _value.previousItems
-          : previousItems // ignore: cast_nullable_to_non_nullable
-              as List<QmItem>,
     ));
   }
 }
@@ -144,16 +143,16 @@ class __$FetchQmItemsCopyWithImpl<$Res> extends _$QmEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_FetchQmItems extends _FetchQmItems {
-  const _$_FetchQmItems(this.page, this.previousItems) : super._();
+  const _$_FetchQmItems(this.items, this.page) : super._();
 
   @override
-  final int page;
+  final List<QmItem> items;
   @override
-  final List<QmItem> previousItems;
+  final int page;
 
   @override
   String toString() {
-    return 'QmEvent.fetchQmItemsByPage(page: $page, previousItems: $previousItems)';
+    return 'QmEvent.fetchQmItemsByPage(items: $items, page: $page)';
   }
 
   @override
@@ -161,16 +160,15 @@ class _$_FetchQmItems extends _FetchQmItems {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _FetchQmItems &&
-            const DeepCollectionEquality().equals(other.page, page) &&
-            const DeepCollectionEquality()
-                .equals(other.previousItems, previousItems));
+            const DeepCollectionEquality().equals(other.items, items) &&
+            const DeepCollectionEquality().equals(other.page, page));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(page),
-      const DeepCollectionEquality().hash(previousItems));
+      const DeepCollectionEquality().hash(items),
+      const DeepCollectionEquality().hash(page));
 
   @JsonKey(ignore: true)
   @override
@@ -180,28 +178,27 @@ class _$_FetchQmItems extends _FetchQmItems {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int page, List<QmItem> previousItems)
-        fetchQmItemsByPage,
+    required TResult Function(List<QmItem> items, int page) fetchQmItemsByPage,
   }) {
-    return fetchQmItemsByPage(page, previousItems);
+    return fetchQmItemsByPage(items, page);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(int page, List<QmItem> previousItems)? fetchQmItemsByPage,
+    TResult Function(List<QmItem> items, int page)? fetchQmItemsByPage,
   }) {
-    return fetchQmItemsByPage?.call(page, previousItems);
+    return fetchQmItemsByPage?.call(items, page);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int page, List<QmItem> previousItems)? fetchQmItemsByPage,
+    TResult Function(List<QmItem> items, int page)? fetchQmItemsByPage,
     required TResult orElse(),
   }) {
     if (fetchQmItemsByPage != null) {
-      return fetchQmItemsByPage(page, previousItems);
+      return fetchQmItemsByPage(items, page);
     }
     return orElse();
   }
@@ -236,14 +233,13 @@ class _$_FetchQmItems extends _FetchQmItems {
 }
 
 abstract class _FetchQmItems extends QmEvent {
-  const factory _FetchQmItems(int page, List<QmItem> previousItems) =
-      _$_FetchQmItems;
+  const factory _FetchQmItems(List<QmItem> items, int page) = _$_FetchQmItems;
   const _FetchQmItems._() : super._();
 
   @override
-  int get page;
+  List<QmItem> get items;
   @override
-  List<QmItem> get previousItems;
+  int get page;
   @override
   @JsonKey(ignore: true)
   _$FetchQmItemsCopyWith<_FetchQmItems> get copyWith =>

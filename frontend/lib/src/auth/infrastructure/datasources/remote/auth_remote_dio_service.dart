@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 
 import 'package:frontend/src/auth/infrastructure/datasources/remote/auth_remote_service.dart';
 import 'package:frontend/src/auth/infrastructure/dtos/user_dto.dart';
-import 'package:frontend/src/core/errors/exceptions.dart';
 
-import 'package:frontend/src/core/errors/dio_extensions.dart';
+import 'package:frontend/src/core/infrastrucutre/dio_extensions.dart';
+import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
 
 class AuthRemoteDioService implements AuthRemoteService {
   final Dio _dio;

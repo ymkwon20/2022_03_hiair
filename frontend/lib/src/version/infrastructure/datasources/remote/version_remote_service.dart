@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:frontend/src/core/errors/dio_extensions.dart';
-import 'package:frontend/src/core/errors/exceptions.dart';
+import 'package:frontend/src/core/infrastrucutre/dio_extensions.dart';
+import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
 import 'package:frontend/src/version/infrastructure/datasources/version_service.dart';
 
 class VersionRemoteService implements VersionService {

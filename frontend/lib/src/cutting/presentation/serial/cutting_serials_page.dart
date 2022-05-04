@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/widgets/index.dart';
+import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:frontend/src/cutting/application/check/fetch/cutting_check_event.dart';
 import 'package:frontend/src/cutting/application/request/cutting_request_event.dart';
 import 'package:frontend/src/cutting/application/serial/cutting_serial_event.dart';

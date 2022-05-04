@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/widgets/responsive_widget.dart';
+import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:frontend/src/cutting/presentation/serial/cutting_serials_page.dart';
 
 class CuttingSerialsScreen extends StatelessWidget {

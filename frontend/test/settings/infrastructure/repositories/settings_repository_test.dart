@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/src/core/errors/exceptions.dart';
-import 'package:frontend/src/core/errors/failure.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
+import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
 import 'package:frontend/src/settings/domain/entities/settings_info.dart';
 import 'package:frontend/src/settings/infrastructure/dtos/settings_info_dto.dart';
 import 'package:frontend/src/settings/infrastructure/repositories/settings_repository.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/constants/index.dart';
-import 'package:frontend/src/core/generated/fonts.gen.dart';
+import 'package:frontend/src/core/presentation/fonts.gen.dart';
+import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/qm/dependency_injection.dart';
 import 'package:frontend/src/qm/domain/entities/qm_item.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

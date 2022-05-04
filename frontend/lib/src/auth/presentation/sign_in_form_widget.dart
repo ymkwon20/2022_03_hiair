@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/src/auth/application/auth_event.dart';
 import 'package:frontend/src/auth/application/auth_state.dart';
 import 'package:frontend/src/auth/dependency_injection.dart';
-import 'package:frontend/src/core/constants/index.dart';
-import 'package:frontend/src/core/widgets/index.dart';
+import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// 로그인 Form 위젯

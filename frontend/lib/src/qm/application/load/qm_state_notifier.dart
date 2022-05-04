@@ -1,9 +1,8 @@
 import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
-import 'package:frontend/src/core/constants/logic_constant.dart';
-import 'package:frontend/src/core/errors/failure.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
+import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/qm/application/load/qm_event.dart';
 import 'package:frontend/src/qm/application/load/qm_state.dart';
-import 'package:frontend/src/qm/domain/entities/qm_item.dart';
 import 'package:frontend/src/qm/domain/usecases/fetch_qm_items.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -20,8 +19,8 @@ class QmStateNotifier extends StateNotifier<QmState> {
 
   Future<void> mapEventToState(QmEvent event) async {
     event.when(
-      fetchQmItemsByPage: (int page, List<QmItem> previousItems) async {
-        state = QmState.loading(previousItems, LogicConstant.qmFetchCount);
+      fetchQmItemsByPage: (items, page) async {
+        state = QmState.loading(items, LogicConstant.qmFetchCount);
 
         final params = {
           "wb-cd": _auth.user!.wbCd,
@@ -30,8 +29,8 @@ class QmStateNotifier extends StateNotifier<QmState> {
 
         final resultsOrFailure = await _fetchQmItems(params);
         state = resultsOrFailure.fold(
-          (l) => QmState.failure(previousItems, mapFailureToString(l)),
-          (r) => QmState.loaded(previousItems..addAll(r)),
+          (l) => QmState.failure(items, mapFailureToString(l)),
+          (r) => QmState.loaded(items..addAll(r)),
         );
       },
     );

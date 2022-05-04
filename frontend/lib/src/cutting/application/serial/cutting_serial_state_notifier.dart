@@ -1,4 +1,4 @@
-import 'package:frontend/src/core/errors/failure.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/cutting/application/serial/cutting_serial_event.dart';
 import 'package:frontend/src/cutting/application/serial/cutting_serial_state.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_serial.dart';

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/constants/index.dart';
+import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/qm/application/load/qm_state.dart';
 import 'package:frontend/src/qm/application/save/qm_save_event.dart';
 import 'package:frontend/src/qm/application/save/qm_save_state.dart';
@@ -13,11 +13,12 @@ import 'package:frontend/src/qm/presentation/screens/qm_start_end_button.dart';
 import 'package:frontend/src/qm/presentation/viewmodel/qm_items_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:frontend/src/core/widgets/responsive_widget.dart';
 import 'package:frontend/src/qm/application/load/qm_event.dart';
 import 'package:frontend/src/qm/dependency_injection.dart';
 import 'package:frontend/src/qm/domain/entities/qm_item.dart';
 import 'package:frontend/src/qm/presentation/screens/custom_table.dart';
+
+import '../../../core/presentation/widgets/responsive_widget.dart';
 
 /// 검사 1화면: QM 검사 항목 리스트 제시
 class QmScreen extends StatelessWidget {
@@ -61,7 +62,10 @@ class _QmProductListState extends ConsumerState<QmListWidget>
     Future.delayed(
       Duration.zero,
       () {
-        _fetchQmItemsByPage(page: 1, qmItems: []);
+        _fetchQmItemsByPage(
+          items: [],
+          page: 1,
+        );
       },
     );
     _controller = AnimationController(
@@ -79,16 +83,18 @@ class _QmProductListState extends ConsumerState<QmListWidget>
     super.dispose();
   }
 
-  Future<void> _fetchQmItemsByPage(
-      {required int page, required List<QmItem> qmItems}) async {
-    ref
+  Future<void> _fetchQmItemsByPage({
+    required List<QmItem> items,
+    required int page,
+  }) async {
+    await ref
         .read(qmStateNotifierProvider.notifier)
-        .mapEventToState(QmEvent.fetchQmItemsByPage(page, qmItems));
+        .mapEventToState(QmEvent.fetchQmItemsByPage(items, page));
   }
 
   void _openDrawer(int index) {
     _selectedIndex = index;
-    _selectedQm = ref.watch(qmItemsNotifier).qmItems[_selectedIndex!];
+    _selectedQm = ref.watch(qmItemsNotifier).items[_selectedIndex!];
     _controller.forward();
   }
 
@@ -202,17 +208,14 @@ class _QmProductListState extends ConsumerState<QmListWidget>
       },
     );
 
-    ref.listen<QmState>(
-      qmStateNotifierProvider,
-      (previous, current) {
-        current.maybeWhen(
-          loaded: (items) {
-            ref.read(qmItemsNotifier.notifier).setQmItems(items);
-          },
-          orElse: () {},
-        );
-      },
-    );
+    ref.listen<QmState>(qmStateNotifierProvider, (previous, current) {
+      current.maybeWhen(
+        loaded: (items) {
+          ref.read(qmItemsNotifier.notifier).setQmItems(items);
+        },
+        orElse: () {},
+      );
+    });
 
     final state = ref.watch(qmStateNotifierProvider);
 
@@ -230,17 +233,29 @@ class _QmProductListState extends ConsumerState<QmListWidget>
             child: Padding(
               padding: const EdgeInsets.symmetric(),
               child: CustomTable(
-                onRowLongPressed: ref.read(qmItemsNotifier).toggleSelectState,
+                onRowLongPressed: (index) {
+                  state.maybeWhen(
+                    loaded: (_) {
+                      ref.read(qmItemsNotifier).toggleSelectState(index);
+                    },
+                    orElse: () {},
+                  );
+                },
                 onRowPressed: (index) {
-                  if (ref.watch(qmItemsNotifier).isMultiSelectMode) {
-                    ref.read(qmItemsNotifier).toggleSelectState(index);
-                  } else {
-                    _openDrawer(index);
-                  }
+                  state.maybeWhen(
+                    loaded: (_) {
+                      if (ref.watch(qmItemsNotifier).isMultiSelectMode) {
+                        ref.read(qmItemsNotifier).toggleSelectState(index);
+                      } else {
+                        _openDrawer(index);
+                      }
+                    },
+                    orElse: () {},
+                  );
                 },
                 onRefresh: () async => await _fetchQmItemsByPage(
+                  items: [],
                   page: 1,
-                  qmItems: [],
                 ),
                 headers: const [
                   CustomTableHeader(title: "작업지시", width: 130),
@@ -258,10 +273,10 @@ class _QmProductListState extends ConsumerState<QmListWidget>
                     initial: (_) {
                       return QmLoadingRow();
                     },
-                    loading: (items, page) {
-                      if (index < items.length) {
+                    loading: (results, page) {
+                      if (index < results.length) {
                         return QmLoadedRow(
-                          qmItem: notifier.qmItems[index],
+                          qmItem: notifier.items[index],
                           color: notifier.selectedIndex.contains(index)
                               ? Theme.of(context).selectedRowColor
                               : Colors.transparent,
@@ -272,15 +287,15 @@ class _QmProductListState extends ConsumerState<QmListWidget>
                     },
                     loaded: (_) {
                       return QmLoadedRow(
-                        qmItem: notifier.qmItems[index],
+                        qmItem: notifier.items[index],
                         color: notifier.selectedIndex.contains(index)
                             ? Colors.grey
                             : Colors.transparent,
                       );
                     },
-                    failure: (items, message) {
-                      if (index < items.length) {
-                        return QmLoadedRow(qmItem: notifier.qmItems[index]);
+                    failure: (results, message) {
+                      if (index < results.length) {
+                        return QmLoadedRow(qmItem: notifier.items[index]);
                       } else {
                         return FailureRow(message: message);
                       }

@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:frontend/src/core/errors/dio_extensions.dart';
-import 'package:frontend/src/core/errors/exceptions.dart';
-
+import 'package:frontend/src/core/infrastrucutre/dio_extensions.dart';
+import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
 import 'package:frontend/src/qm/domain/entities/qm_item.dart';
+
 import 'package:frontend/src/qm/infrastructure/datasources/qm_service.dart';
 import 'package:frontend/src/qm/infrastructure/dtos/qm_item_dto.dart';
 
@@ -23,14 +23,14 @@ class QmRemoteService implements QmService {
         queryParameters: params,
       );
 
-      if (response.data == null) {
-        return [];
-      }
+      final results = (response.data as Map<String, dynamic>);
+      // final isNextAvailable = results["is_next_available"] as bool;
 
-      final data = (response.data as List<dynamic>)
-          .map((dynamic item) => item as Map<String, dynamic>);
+      final data = (results["data"] as List<dynamic>)
+          .map((e) => QmItemDto.fromMap(e as Map<String, dynamic>).toDomain())
+          .toList();
 
-      return data.map((map) => QmItemDto.fromMap(map).toDomain()).toList();
+      return data;
     } on DioError catch (e) {
       if (e.isNoConnectionError) {
         throw NoConnectionException(message: e.message);

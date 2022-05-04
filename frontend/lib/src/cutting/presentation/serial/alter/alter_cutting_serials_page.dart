@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/constants/index.dart';
+import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:frontend/src/cutting/application/serial/cutting_serial_event.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:frontend/src/core/presentation/index.dart';
 
-import 'package:frontend/src/core/widgets/index.dart';
 import 'package:frontend/src/cutting/dependency_injection.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_serial.dart';
 

@@ -1,15 +1,15 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:frontend/src/core/constants/index.dart';
-import 'package:frontend/src/core/widgets/flash_bar.dart';
-import 'package:frontend/src/core/widgets/image_dialog.dart';
+import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
+import 'package:frontend/src/core/presentation/widgets/image_dialog.dart';
+import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:frontend/src/cutting/application/check/save/cutting_check_save_state.dart';
 import 'package:frontend/src/cutting/presentation/request/cutting_check_list_widget.dart';
 import 'package:frontend/src/cutting/presentation/serial/cutting_serials_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:frontend/src/core/widgets/index.dart';
 import 'package:frontend/src/cutting/dependency_injection.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_check_detail.dart';
 

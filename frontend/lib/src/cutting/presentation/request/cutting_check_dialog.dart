@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/core/presentation/layout_constant.dart';
+import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:frontend/src/cutting/application/check/save/cutting_check_save_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:frontend/src/core/constants/layout_constant.dart';
-import 'package:frontend/src/core/widgets/underline_widget.dart';
 import 'package:frontend/src/cutting/application/check/save/cutting_check_save_event.dart';
 import 'package:frontend/src/cutting/dependency_injection.dart';
 import 'package:frontend/src/cutting/presentation/request/cutting_check_list_widget.dart';
@@ -53,125 +53,142 @@ class _CuttingCheckDialogState extends ConsumerState {
             borderRadius: BorderRadius.circular(LayoutConstant.radiusM),
             color: Theme.of(context).cardColor,
           ),
-          child: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  _buildRow(
-                    title: "",
-                    standard: "기준정보",
-                    value: "Check",
-                  ),
-                  UnderlineWidget(color: Theme.of(context).shadowColor),
-                  _EditRow(
-                    title: "두께",
-                    standard: "${standard.thickness}",
-                    inputType: TextInputType.number,
-                    value: ref
-                        .watch(cuttingCheckResultNotifier)
-                        .thickness
-                        .toString(),
-                    onSubmit: (value) =>
-                        ref.read(cuttingCheckResultNotifier.notifier).editState(
-                              actual.copyWith(
-                                thickness: double.tryParse(value),
-                              ),
+          child: ScrollConfiguration(
+            behavior: NoGlowBehavior(),
+            child: SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    _buildRow(
+                      title: "",
+                      standard: "기준정보",
+                      value: "Check",
+                    ),
+                    UnderlineWidget(color: Theme.of(context).shadowColor),
+                    _EditRow(
+                      title: "두께",
+                      standard: "${standard.thickness}",
+                      inputType: TextInputType.number,
+                      value: ref
+                          .watch(cuttingCheckResultNotifier)
+                          .thickness
+                          .toString(),
+                      onSubmit: (value) => ref
+                          .read(cuttingCheckResultNotifier.notifier)
+                          .editState(
+                            actual.copyWith(
+                              thickness: double.tryParse(value),
                             ),
-                  ),
-                  _EditRow(
-                    title: "가로",
-                    standard: "${standard.width}",
-                    inputType: TextInputType.number,
-                    value:
-                        ref.watch(cuttingCheckResultNotifier).width.toString(),
-                    onSubmit: (value) =>
-                        ref.read(cuttingCheckResultNotifier.notifier).editState(
-                              actual.copyWith(
-                                width: double.tryParse(value),
-                              ),
+                          ),
+                    ),
+                    _EditRow(
+                      title: "가로",
+                      standard: "${standard.width}",
+                      inputType: TextInputType.number,
+                      value: ref
+                          .watch(cuttingCheckResultNotifier)
+                          .width
+                          .toString(),
+                      onSubmit: (value) => ref
+                          .read(cuttingCheckResultNotifier.notifier)
+                          .editState(
+                            actual.copyWith(
+                              width: double.tryParse(value),
                             ),
-                  ),
-                  _EditRow(
-                    title: "세로",
-                    standard: "${standard.height}",
-                    inputType: TextInputType.number,
-                    value:
-                        ref.watch(cuttingCheckResultNotifier).height.toString(),
-                    onSubmit: (value) =>
-                        ref.read(cuttingCheckResultNotifier.notifier).editState(
-                              actual.copyWith(
-                                height: double.tryParse(value),
-                              ),
+                          ),
+                    ),
+                    _EditRow(
+                      title: "세로",
+                      standard: "${standard.height}",
+                      inputType: TextInputType.number,
+                      value: ref
+                          .watch(cuttingCheckResultNotifier)
+                          .height
+                          .toString(),
+                      onSubmit: (value) => ref
+                          .read(cuttingCheckResultNotifier.notifier)
+                          .editState(
+                            actual.copyWith(
+                              height: double.tryParse(value),
                             ),
-                  ),
-                  _EditRow(
-                    title: "대각",
-                    standard: "",
-                    inputType: TextInputType.number,
-                    value:
-                        ref.watch(cuttingCheckResultNotifier).angle.toString(),
-                    onSubmit: (value) =>
-                        ref.read(cuttingCheckResultNotifier.notifier).editState(
-                              actual.copyWith(
-                                angle: double.tryParse(value),
-                              ),
+                          ),
+                    ),
+                    _EditRow(
+                      title: "대각",
+                      standard: "",
+                      inputType: TextInputType.number,
+                      value: ref
+                          .watch(cuttingCheckResultNotifier)
+                          .angle
+                          .toString(),
+                      onSubmit: (value) => ref
+                          .read(cuttingCheckResultNotifier.notifier)
+                          .editState(
+                            actual.copyWith(
+                              angle: double.tryParse(value),
                             ),
-                  ),
-                  _EditRow(
-                    title: "장비명",
-                    standard: "없음",
-                    value: ref.watch(cuttingCheckResultNotifier).equipCd,
-                    onSubmit: (value) =>
-                        ref.read(cuttingCheckResultNotifier.notifier).editState(
-                              actual.copyWith(workId: value),
-                            ),
-                  ),
-                  _EditRow(
-                    title: "원재료 LOT",
-                    standard: "없음",
-                    value: ref.watch(cuttingCheckResultNotifier).lot,
-                    onSubmit: (value) =>
-                        ref.read(cuttingCheckResultNotifier.notifier).editState(
-                              actual.copyWith(lot: value),
-                            ),
-                  ),
-                  _EditRow(
-                    title: "비고",
-                    standard: "",
-                    value: ref.watch(cuttingCheckResultNotifier).remark,
-                    onSubmit: (value) =>
-                        ref.read(cuttingCheckResultNotifier.notifier).editState(
-                              actual.copyWith(remark: value),
-                            ),
-                  ),
-                  _EditRow(
-                    title: "작업자",
-                    standard: "",
-                    value: ref.watch(cuttingCheckResultNotifier).userId,
-                    onSubmit: (value) =>
-                        ref.read(cuttingCheckResultNotifier.notifier).editState(
-                              actual.copyWith(userId: value),
-                            ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate() == true) {
-                        ref
-                            .read(
-                                cuttingCheckSaveStateNotifierProvider.notifier)
-                            .mapEventToState(
-                              CuttingCheckSaveEvent.save(
-                                ref.watch(cuttingSerialProvider),
-                                standard,
-                                ref.watch(cuttingCheckResultNotifier),
-                              ),
-                            );
-                      }
-                    },
-                    child: const Text("확인"),
-                  )
-                ],
+                          ),
+                    ),
+                    _EditRow(
+                      title: "장비명",
+                      standard: "없음",
+                      value: ref.watch(cuttingCheckResultNotifier).equipCd,
+                      onSubmit: (value) => ref
+                          .read(cuttingCheckResultNotifier.notifier)
+                          .editState(
+                            actual.copyWith(workId: value),
+                          ),
+                    ),
+                    _EditRow(
+                      title: "원재료 LOT",
+                      standard: "없음",
+                      value: ref.watch(cuttingCheckResultNotifier).lot,
+                      onSubmit: (value) => ref
+                          .read(cuttingCheckResultNotifier.notifier)
+                          .editState(
+                            actual.copyWith(lot: value),
+                          ),
+                    ),
+                    _EditRow(
+                      title: "비고",
+                      standard: "",
+                      value: ref.watch(cuttingCheckResultNotifier).remark,
+                      onSubmit: (value) => ref
+                          .read(cuttingCheckResultNotifier.notifier)
+                          .editState(
+                            actual.copyWith(remark: value),
+                          ),
+                    ),
+                    _EditRow(
+                      title: "작업자",
+                      standard: "",
+                      value: ref.watch(cuttingCheckResultNotifier).userId,
+                      onSubmit: (value) => ref
+                          .read(cuttingCheckResultNotifier.notifier)
+                          .editState(
+                            actual.copyWith(userId: value),
+                          ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate() == true) {
+                          ref
+                              .read(cuttingCheckSaveStateNotifierProvider
+                                  .notifier)
+                              .mapEventToState(
+                                CuttingCheckSaveEvent.save(
+                                  ref.watch(cuttingSerialProvider),
+                                  standard,
+                                  ref.watch(cuttingCheckResultNotifier),
+                                ),
+                              );
+                        }
+                      },
+                      child: const Text("확인"),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

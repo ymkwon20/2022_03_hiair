@@ -1,4 +1,4 @@
-import 'package:frontend/src/core/errors/failure.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/version/application/version_event.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

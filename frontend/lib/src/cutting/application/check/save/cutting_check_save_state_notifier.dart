@@ -1,4 +1,4 @@
-import 'package:frontend/src/core/errors/failure.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/cutting/application/check/save/cutting_check_save_event.dart';
 import 'package:frontend/src/cutting/application/check/save/cutting_check_save_state.dart';
 import 'package:frontend/src/cutting/domain/usecases/save_cutting_check.dart';

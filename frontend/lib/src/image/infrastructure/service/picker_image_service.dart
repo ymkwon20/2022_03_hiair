@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:frontend/src/core/errors/exceptions.dart';
-import 'package:frontend/src/core/image/infrastructure/service/i_image_service.dart';
+import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
+import 'package:frontend/src/image/infrastructure/service/i_image_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PickerImageService extends IImageService {

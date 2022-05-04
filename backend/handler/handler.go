@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
@@ -281,13 +282,27 @@ func (a *AppHandler) getQmItemsByWbCd(w http.ResponseWriter, r *http.Request) {
 
 	queryString := r.URL.Query()
 	wbCd := queryString.Get("wb-cd")
-	page := queryString.Get("page")
+	rawPage := queryString.Get("page")
 
-	query := fmt.Sprintf(`
+	page, err := strconv.Atoi(rawPage)
+	if err != nil {
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	currentQuery := fmt.Sprintf(`
 	EXEC SP_TABLET_ORD_01_SELECT '%s', '%s';
-	`, wbCd, page)
+	`, wbCd, strconv.Itoa(page))
 
-	results, err := a.db.CallProcedure(query)
+	// 다음 차수 조회시 오
+	nextQuery := fmt.Sprintf(`
+	EXEC SP_TABLET_ORD_01_SELECT '%s', '%s';
+	`, wbCd, strconv.Itoa(page+1))
+
+	results, err := a.db.CallProcedure(currentQuery)
 	if err != nil {
 		log.Print(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -298,9 +313,34 @@ func (a *AppHandler) getQmItemsByWbCd(w http.ResponseWriter, r *http.Request) {
 		jData, _ := json.Marshal(errMsg)
 		w.Write(jData)
 		return
-
 	}
-	jData, err := json.Marshal(results)
+
+	nextResults, err := a.db.CallProcedure(nextQuery)
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	var isNextAvailable bool
+	if len(nextResults) == 0 {
+		isNextAvailable = false
+	} else {
+		isNextAvailable = true
+	}
+
+	data := make(map[string]interface{})
+	data["is_next_available"] = isNextAvailable
+
+	data["data"] = results
+
+	response, err := json.Marshal(data)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Header().Set("Content-Type", "application/json")
@@ -310,11 +350,11 @@ func (a *AppHandler) getQmItemsByWbCd(w http.ResponseWriter, r *http.Request) {
 		jData, _ := json.Marshal(errMsg)
 		w.Write(jData)
 		return
-
 	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(jData)
+	w.Write(response)
 }
 
 func (a *AppHandler) saveQmItem(w http.ResponseWriter, r *http.Request) {

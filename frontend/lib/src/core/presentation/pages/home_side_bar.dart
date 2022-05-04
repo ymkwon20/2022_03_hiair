@@ -1,13 +1,13 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/pages/home_index_notifier.dart';
+import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/pages/home_index_notifier.dart';
+import 'package:frontend/src/core/presentation/pages/sign_out_dialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/auth/application/auth_event.dart';
 import 'package:frontend/src/auth/dependency_injection.dart';
-import 'package:frontend/src/core/constants/index.dart';
-import 'package:frontend/src/core/pages/sign_out_dialog.dart';
 
 class HomeSideBar extends ConsumerStatefulWidget {
   const HomeSideBar({

@@ -1,5 +1,5 @@
 import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
-import 'package:frontend/src/core/errors/failure.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/qm/application/save/qm_save_event.dart';
 import 'package:frontend/src/qm/application/save/qm_save_state.dart';
 import 'package:frontend/src/qm/domain/usecases/save_qm_item.dart';

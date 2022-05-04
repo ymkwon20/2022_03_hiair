@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/core/presentation/pages/home_alter_screen.dart';
 import 'package:frontend/src/fct/presentation/fct_screen.dart';
 import 'package:frontend/src/fct/presentation/fct_serial_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -6,13 +7,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/auth/presentation/sign_in_screen.dart';
 import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
-import 'package:frontend/src/core/pages/home_alter_screen.dart';
-import 'package:frontend/src/core/routes/app_route_observer.dart';
 import 'package:frontend/src/cutting/presentation/request/cutting_request_screen.dart';
 import 'package:frontend/src/cutting/presentation/serial/cutting_serials_screen.dart';
 import 'package:frontend/src/qm/presentation/prototypes/qm_product_details_screen.dart';
 import 'package:frontend/src/qm/presentation/screens/qm_screen.dart';
 import 'package:frontend/src/settings/settings_screen.dart';
+
+import 'app_route_observer.dart';
 
 final appRouterProvider = Provider(
   (ref) => AppRouter(

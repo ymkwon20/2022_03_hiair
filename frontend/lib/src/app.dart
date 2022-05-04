@@ -6,11 +6,11 @@ import 'package:frontend/src/auth/application/auth_state.dart';
 import 'package:frontend/src/auth/dependency_injection.dart';
 import 'package:frontend/src/auth/domain/entities/user.dart';
 import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
+import 'package:frontend/src/core/presentation/routes/app_router.dart';
 import 'package:frontend/src/settings/settings_scope.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:frontend/src/core/routes/app_router.dart';
-import 'package:frontend/src/core/themes/app_theme.dart';
+import 'package:frontend/src/core/presentation/app_theme.dart';
 
 /// The Widget that configures your application.
 class AppWidget extends ConsumerStatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:frontend/src/core/errors/failure.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_check.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_serial.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

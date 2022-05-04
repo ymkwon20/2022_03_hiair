@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/src/auth/application/auth_event.dart';
 import 'package:frontend/src/auth/dependency_injection.dart';
 import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
-import 'package:frontend/src/core/constants/layout_constant.dart';
-import 'package:frontend/src/core/widgets/underline_widget.dart';
+import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

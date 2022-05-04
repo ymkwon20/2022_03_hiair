@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/widgets/index.dart';
+import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:frontend/src/core/constants/index.dart';
 import 'package:frontend/src/qm/presentation/fakes/inspect_item.dart';
 import 'package:frontend/src/qm/presentation/prototypes/image_pile.dart';
 import 'package:frontend/src/qm/presentation/prototypes/qm_product_details_screen.dart';

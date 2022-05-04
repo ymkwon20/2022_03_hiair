@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/widgets/index.dart';
 
-import 'package:frontend/src/core/constants/index.dart';
-import 'package:frontend/src/core/widgets/index.dart';
 import 'package:frontend/src/qm/presentation/fakes/qm_product.dart';
 
 class QmProductDetailsWidget extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
 
-import 'package:frontend/src/core/errors/failure.dart';
-import 'package:frontend/src/core/usecases/usecase.dart';
+import 'package:frontend/src/core/domain/usecases/usecase.dart';
 import 'package:frontend/src/cutting/domain/repositories/i_cutting_repository.dart';
 
 class SaveCuttingCheck implements Usecase<Unit, Map<String, dynamic>> {

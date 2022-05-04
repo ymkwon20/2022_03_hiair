@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/constants/layout_constant.dart';
+import 'package:frontend/src/core/presentation/index.dart';
 
 // TODO: implement details
 class RectDialog extends StatefulWidget {

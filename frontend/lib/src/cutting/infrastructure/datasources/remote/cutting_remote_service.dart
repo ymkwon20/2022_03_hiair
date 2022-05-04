@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:frontend/src/core/errors/exceptions.dart';
+import 'package:frontend/src/core/infrastrucutre/dio_extensions.dart';
+import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_check.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_check_detail.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_serial.dart';
@@ -8,8 +9,6 @@ import 'package:frontend/src/cutting/infrastructure/datasources/cutting_service.
 import 'package:frontend/src/cutting/infrastructure/dtos/cutting_check_dto.dart';
 import 'package:frontend/src/cutting/infrastructure/dtos/cutting_check_detail_dto.dart';
 import 'package:frontend/src/cutting/infrastructure/dtos/cutting_serial_dto.dart';
-
-import 'package:frontend/src/core/errors/dio_extensions.dart';
 
 /// Cutting Feature에 대한 정보를 외부에서 받아오는 service
 class CuttingRemoteService implements CuttingService {

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:frontend/src/core/errors/dio_extensions.dart';
-import 'package:frontend/src/core/errors/exceptions.dart';
+import 'package:frontend/src/core/infrastrucutre/dio_extensions.dart';
+import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
 
 import 'package:frontend/src/fct/domain/entities/fct.dart';
 import 'package:frontend/src/fct/infrastructure/datasources/i_fct_service.dart';

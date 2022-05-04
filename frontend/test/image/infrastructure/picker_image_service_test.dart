@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/src/core/errors/exceptions.dart';
-import 'package:frontend/src/core/image/infrastructure/service/picker_image_service.dart';
+import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
+import 'package:frontend/src/image/infrastructure/service/picker_image_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mocktail/mocktail.dart';
 

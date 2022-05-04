@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:frontend/src/core/errors/exceptions.dart';
+import 'package:frontend/src/core/domain/entities/failure.dart';
 
-import 'package:frontend/src/core/errors/failure.dart';
+import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
 import 'package:frontend/src/version/domain/repositories/i_version_repository.dart';
 import 'package:frontend/src/version/infrastructure/datasources/version_service.dart';
 

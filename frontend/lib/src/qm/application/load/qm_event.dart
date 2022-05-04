@@ -6,6 +6,6 @@ part 'qm_event.freezed.dart';
 @freezed
 class QmEvent with _$QmEvent {
   const QmEvent._();
-  const factory QmEvent.fetchQmItemsByPage(
-      int page, List<QmItem> previousItems) = _FetchQmItems;
+  const factory QmEvent.fetchQmItemsByPage(List<QmItem> items, int page) =
+      _FetchQmItems;
 }

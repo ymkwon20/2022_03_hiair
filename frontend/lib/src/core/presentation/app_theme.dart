@@ -1,7 +1,7 @@
 // TODO(ymkwon): add theme data for light/dark mode
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/constants/index.dart';
-import 'package:frontend/src/core/generated/fonts.gen.dart';
+import 'package:frontend/src/core/presentation/fonts.gen.dart';
+import 'package:frontend/src/core/presentation/index.dart';
 
 class AppTheme {
   const AppTheme._();

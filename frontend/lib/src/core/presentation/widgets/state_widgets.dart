@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:frontend/src/core/constants/layout_constant.dart';
+import 'package:frontend/src/core/presentation/index.dart';
 
 /// 초기 상태시 위젯
 class InitialStateWidget extends StatelessWidget {

@@ -9,21 +9,25 @@ final qmItemsNotifier = ChangeNotifierProvider(
 class QmItemsNotifier with ChangeNotifier {
   QmItemsNotifier() : super();
 
-  List<QmItem> qmItems = [];
+  int _currentPage = 1;
+
+  List<QmItem> items = [];
 
   final Set<int> selectedIndex = <int>{};
+
+  int get page => _currentPage;
 
   /// 여러가지 선택모드인지 확인
   bool get isMultiSelectMode => selectedIndex.isNotEmpty;
 
   /// 선택된 item
   List<QmItem> get selectedQmItem =>
-      selectedIndex.map((index) => qmItems[index]).toList();
+      selectedIndex.map((index) => items[index]).toList();
 
   /// 선택한 아이템들 모두 값이 비어 있는지(=저장할 수 있는지) 확인
   bool get isStartActive {
     return selectedIndex.firstWhere(
-            (index) => qmItems[index].dateStart.isNotEmpty,
+            (index) => items[index].dateStart.isNotEmpty,
             orElse: () => -1) ==
         -1;
 
@@ -44,8 +48,8 @@ class QmItemsNotifier with ChangeNotifier {
   bool get isEndActive {
     return selectedIndex.firstWhere(
             (index) =>
-                qmItems[index].dateStart.isEmpty ||
-                qmItems[index].dateEnd.isNotEmpty,
+                items[index].dateStart.isEmpty ||
+                items[index].dateEnd.isNotEmpty,
             orElse: () => -1) ==
         -1;
 
@@ -64,20 +68,20 @@ class QmItemsNotifier with ChangeNotifier {
   }
 
   void setNewItemDateStart(int index, String date) {
-    qmItems[index] = qmItems[index].copyWith(
+    items[index] = items[index].copyWith(
       dateStart: date,
     );
   }
 
   void setNewItemDateEnd(int index, String date) {
-    qmItems[index] = qmItems[index].copyWith(
+    items[index] = items[index].copyWith(
       dateEnd: date,
     );
   }
 
   void setNewListDateStart(List<int> indice, String date) {
     for (final index in indice) {
-      qmItems[index] = qmItems[index].copyWith(
+      items[index] = items[index].copyWith(
         dateStart: date,
       );
     }
@@ -86,16 +90,24 @@ class QmItemsNotifier with ChangeNotifier {
 
   void setNewListDateEnd(List<int> indice, String date) {
     for (final index in indice) {
-      qmItems[index] = qmItems[index].copyWith(
+      items[index] = items[index].copyWith(
         dateEnd: date,
       );
     }
     notifyListeners();
   }
 
-  void setQmItems(List<QmItem> items) {
+  void setQmItems(List<QmItem> value) {
+    _currentPage += 1;
     selectedIndex.clear();
-    qmItems = items;
+    items = value;
+    notifyListeners();
+  }
+
+  void clear() {
+    _currentPage = 1;
+    selectedIndex.clear();
+    items.clear();
     notifyListeners();
   }
 

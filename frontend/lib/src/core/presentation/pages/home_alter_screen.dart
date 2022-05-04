@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/constants/layout_constant.dart';
-import 'package:frontend/src/core/pages/home_index_notifier.dart';
-import 'package:frontend/src/core/pages/home_side_bar.dart';
+import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/pages/home_index_notifier.dart';
+import 'package:frontend/src/core/presentation/pages/home_side_bar.dart';
 import 'package:frontend/src/cutting/presentation/serial/cutting_serials_screen.dart';
 import 'package:frontend/src/fct/presentation/fct_serial_screen.dart';
 import 'package:frontend/src/qm/presentation/prototypes/qm_product_details_screen.dart';

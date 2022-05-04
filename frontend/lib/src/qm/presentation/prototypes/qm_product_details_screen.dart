@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/widgets/index.dart';
+import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:frontend/src/qm/presentation/fakes/inspect_spec.dart';
 import 'package:frontend/src/qm/presentation/prototypes/inspect_list_widget.dart';
 import 'package:frontend/src/qm/presentation/prototypes/qm_product_details_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:frontend/src/core/constants/index.dart';
+import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/qm/presentation/fakes/fake_data.dart';
 import 'package:frontend/src/qm/presentation/fakes/qm_product.dart';
 import 'package:frontend/src/qm/presentation/prototypes/insepct_mode.dart';

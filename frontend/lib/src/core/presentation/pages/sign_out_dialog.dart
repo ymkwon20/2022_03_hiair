@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
-import 'package:frontend/src/core/constants/index.dart';
+import 'package:frontend/src/core/presentation/index.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SignOutDialog extends ConsumerStatefulWidget {
