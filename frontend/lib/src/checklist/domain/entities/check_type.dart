@@ -7,4 +7,5 @@ enum CheckType {
   image,
   combo,
   file,
+  readonly,
 }

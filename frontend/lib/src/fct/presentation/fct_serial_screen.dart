@@ -5,8 +5,8 @@ import 'package:frontend/src/fct/application/serial/fct_serial_state.dart';
 import 'package:frontend/src/fct/dependency_injection.dart';
 import 'package:frontend/src/fct/presentation/tablerows/serial/fct_serial_loaded_row.dart';
 import 'package:frontend/src/fct/presentation/tablerows/serial/fct_serial_loading_row.dart';
-import 'package:frontend/src/qm/presentation/screens/custom_table.dart';
-import 'package:frontend/src/qm/presentation/screens/tablerows/qm_failure_row.dart';
+import 'package:frontend/src/workorder/presentation/screens/custom_table.dart';
+import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_failure_row.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -68,7 +68,7 @@ class _FctScreenState extends ConsumerState<FctSerialScreen> {
             return FctSerialLoadedRow(serial: serials[index]);
           },
           failure: (message) {
-            return FailureRow(message: message);
+            return WorkOrderFailureRow(message: message);
           },
         );
       },
