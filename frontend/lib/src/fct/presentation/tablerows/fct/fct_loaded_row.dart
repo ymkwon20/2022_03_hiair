@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/fct/domain/entities/fct.dart';
-import 'package:frontend/src/qm/presentation/screens/custom_table.dart';
+import 'package:frontend/src/workorder/presentation/screens/custom_table.dart';
 
 class FctLoadedRow extends CustomTableRow {
   FctLoadedRow({

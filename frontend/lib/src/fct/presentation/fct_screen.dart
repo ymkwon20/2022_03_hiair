@@ -1,5 +1,7 @@
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/src/workorder/presentation/screens/custom_table.dart';
+import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_failure_row.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,8 +14,6 @@ import 'package:frontend/src/fct/domain/entities/fct.dart';
 import 'package:frontend/src/fct/presentation/tablerows/fct/fct_loaded_row.dart';
 import 'package:frontend/src/fct/presentation/tablerows/fct/fct_loading_row.dart';
 import 'package:frontend/src/fct/presentation/view_model/fct_change_notifier.dart';
-import 'package:frontend/src/qm/presentation/screens/custom_table.dart';
-import 'package:frontend/src/qm/presentation/screens/tablerows/qm_failure_row.dart';
 
 class FctScreen extends ConsumerStatefulWidget {
   const FctScreen({Key? key}) : super(key: key);
@@ -200,7 +200,7 @@ class _FctScreenState extends ConsumerState<FctScreen>
                           );
                         },
                         failure: (message) {
-                          return FailureRow(message: message);
+                          return WorkOrderFailureRow(message: message);
                         },
                       );
                     },

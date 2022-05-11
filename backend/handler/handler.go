@@ -43,6 +43,9 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/fct", a.saveFctItem).Methods("POST")
 	r.HandleFunc("/apk", a.fetchApkInfo).Methods("GET")
 	r.HandleFunc("/apk/{version}", a.downloadApk).Methods("GET")
+	r.HandleFunc("/checklist", a.getChecklist).Methods("GET")
+	r.HandleFunc("/checklist", a.saveCheckitem).Methods("POST")
+	r.HandleFunc("/unit", a.getUnitlist).Methods("GET")
 
 	return a
 }
@@ -536,8 +539,8 @@ func (a *AppHandler) saveFctItem(w http.ResponseWriter, r *http.Request) {
 		params := paramsList[i]
 
 		query := fmt.Sprintf(`
-	EXEC  SP_TABLET_FCT_05_UPDATE '%s', '%s', '%s', '%s', '%s', '%s','%s';
-	`, params["date"], params["seq"], params["wb-cd"], params["metal"], params["remark"], params["qty"], params["user-id"])
+		EXEC  SP_TABLET_FCT_05_UPDATE '%s', '%s', '%s', '%s', '%s', '%s','%s';
+		`, params["date"], params["seq"], params["wb-cd"], params["metal"], params["remark"], params["qty"], params["user-id"])
 
 		_, err := a.db.CallDML(query)
 		if err != nil {
@@ -556,4 +559,128 @@ func (a *AppHandler) saveFctItem(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
+}
+
+func (a *AppHandler) getChecklist(w http.ResponseWriter, r *http.Request) {
+
+	queryString := r.URL.Query()
+	prodPlanSeq := queryString.Get("prod-seq")
+	woNb := queryString.Get("wo-nb")
+	wbCd := queryString.Get("wb-cd")
+	wcCd := queryString.Get("wc-cd")
+	pageCd := queryString.Get("page-cd")
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_CHK_01_SELECT '%s', '%s', '%s', '%s','%s';
+	`, prodPlanSeq, woNb, wcCd, wbCd, pageCd)
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	jData, err := json.Marshal(results)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jData)
+}
+
+func (a *AppHandler) saveCheckitem(w http.ResponseWriter, r *http.Request) {
+
+	var paramsList []map[string]interface{}
+
+	if err := json.NewDecoder(r.Body).Decode(&paramsList); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	for i := 0; i < len(paramsList); i++ {
+		params := paramsList[i]
+
+		query := fmt.Sprintf(`
+		EXEC  SP_TABLET_CHK_01_MERGE '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s';`,
+			params["seq"], params["wo-nb"], params["wc-cd"], params["wb-cd"], params["cks-cd"], params["cks-nm"], params["cks-val"],
+			params["cks-type"], params["bas-cd"], params["bas-val"], params["unit"], params["cbo-cd"], params["div-cd"], params["pht-cd"],
+			params["user-id"], params["org1-fn"], params["new1-fn"],
+		)
+
+		_, err := a.db.CallDML(query)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Header().Set("Content-Type", "application/json")
+
+			errMsg := make(map[string]interface{})
+			errMsg["msg"] = err.Error()
+			jData, _ := json.Marshal(errMsg)
+			w.Write(jData)
+			return
+		}
+
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+}
+
+func (a *AppHandler) getUnitlist(w http.ResponseWriter, r *http.Request) {
+
+	queryString := r.URL.Query()
+	code := queryString.Get("code")
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_CHK_01_COMBOBOX '%s';
+	`, code)
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	jData, err := json.Marshal(results)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jData)
 }

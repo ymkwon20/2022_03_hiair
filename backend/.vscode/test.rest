@@ -3,11 +3,11 @@ GET http://192.168.0.117:9090/cut HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://192.168.0.117:9090/cut/req?date=2022-04-05&seq=1 HTTP/1.1 
+GET http://192.168.0.117:9090/cut/req?date=2022-04-19&seq=1 HTTP/1.1 
 Content-Type: application/json
 
 ###
-GET http://192.168.0.117:9090/cut/check?date=2022-04-05&seq=1 HTTP/1.1 
+GET http://192.168.0.117:9090/cut/check?date=2022-04-19&seq=1 HTTP/1.1 
 Content-Type: application/json
 
 ###
@@ -23,7 +23,7 @@ GET http://192.168.0.117:9090/qm?wb-cd=FWP&page=1 HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://192.168.0.117:9090/fct HTTP/1.1 
+GET http://172.16.30.105:9090/fct HTTP/1.1 
 Content-Type: application/json
 
 ###
@@ -50,3 +50,23 @@ Content-Type: application/json
           "user-id": "test"
 
 }
+
+###
+GET http://192.168.0.117:9090/checklist?prod-seq=595246&wo-nb=P21-063656&wb-cd=FNP&wc-cd=79&page-cd= HTTP/1.1
+Content-Type: application/json
+
+###
+GET http://192.168.0.117:9090/checklist?prod-seq=585862&wo-nb=P20-020514&wb-cd=FWP&wc-cd=258&page-cd= HTTP/1.1
+Content-Type: application/json
+
+###
+GET http://192.168.0.117:9090/checklist?prod-seq=545754&wo-nb=P20-032662&wb-cd=FFL&wc-cd=36&page-cd= HTTP/1.1
+Content-Type: application/json
+
+###
+GET http://192.168.0.117:9090/checklist?prod-seq=592703&wo-nb=P21-067106&wb-cd=FCT&wc-cd=35&page-cd= HTTP/1.1
+Content-Type: application/json
+
+###
+GET http://192.168.0.117:9090/unit?code=TBL_TYPE HTTP/1.1 
+Content-Type: application/json

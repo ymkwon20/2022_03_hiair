@@ -9,8 +9,8 @@ import 'package:frontend/src/auth/presentation/sign_in_screen.dart';
 import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
 import 'package:frontend/src/cutting/presentation/request/cutting_request_screen.dart';
 import 'package:frontend/src/cutting/presentation/serial/cutting_serials_screen.dart';
-import 'package:frontend/src/qm/presentation/prototypes/qm_product_details_screen.dart';
-import 'package:frontend/src/qm/presentation/screens/qm_screen.dart';
+import 'package:frontend/src/workorder/presentation/prototypes/qm_product_details_screen.dart';
+import 'package:frontend/src/workorder/presentation/screens/work_order_screen.dart';
 import 'package:frontend/src/settings/settings_screen.dart';
 
 import 'app_route_observer.dart';
@@ -150,7 +150,7 @@ class AppRouter extends GoRouter {
               pageBuilder: (context, state) {
                 return MaterialPage(
                   key: state.pageKey,
-                  child: const QmScreen(),
+                  child: const WorkOrderScreen(),
                 );
               },
               routes: [

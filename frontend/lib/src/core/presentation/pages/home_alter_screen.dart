@@ -4,8 +4,8 @@ import 'package:frontend/src/core/presentation/pages/home_index_notifier.dart';
 import 'package:frontend/src/core/presentation/pages/home_side_bar.dart';
 import 'package:frontend/src/cutting/presentation/serial/cutting_serials_screen.dart';
 import 'package:frontend/src/fct/presentation/fct_serial_screen.dart';
-import 'package:frontend/src/qm/presentation/prototypes/qm_product_details_screen.dart';
-import 'package:frontend/src/qm/presentation/screens/qm_screen.dart';
+import 'package:frontend/src/workorder/presentation/prototypes/qm_product_details_screen.dart';
+import 'package:frontend/src/workorder/presentation/screens/work_order_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomeAlterScreen extends ConsumerStatefulWidget {
@@ -66,6 +66,7 @@ class _HomeAlterScreenState extends ConsumerState<HomeAlterScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: AnimatedBuilder(
           animation: _controller,
@@ -102,7 +103,7 @@ class HomeAlterWidget extends ConsumerWidget {
   const HomeAlterWidget({Key? key}) : super(key: key);
 
   static const _homeWidgetList = [
-    QmScreen(),
+    WorkOrderScreen(),
     CuttingSerialsScreen(),
     QmProductDetailsScreen(),
     FctSerialScreen(),
