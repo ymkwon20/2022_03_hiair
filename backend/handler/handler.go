@@ -35,9 +35,9 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/cut/check", a.getCuttingCheckSheet).Methods("GET")
 	r.HandleFunc("/cut/check", a.saveCuttingCheck).Methods("POST")
 	r.HandleFunc("/sign-in", a.signIn).Methods("POST")
-	r.HandleFunc("/qm", a.getQmItemsByWbCd).Methods("GET")
-	r.HandleFunc("/qm", a.saveQmItem).Methods("POST")
-	r.HandleFunc("/qms", a.saveQmList).Methods("POST")
+	r.HandleFunc("/order", a.getWorkOrderByWbCd).Methods("GET")
+	r.HandleFunc("/order", a.saveWorkOrder).Methods("POST")
+	r.HandleFunc("/orders", a.saveWorkOrderList).Methods("POST")
 	r.HandleFunc("/fct", a.getFctSerial).Methods("GET")
 	r.HandleFunc("/fct/{serial}", a.getFctItem).Methods("GET")
 	r.HandleFunc("/fct", a.saveFctItem).Methods("POST")
@@ -45,7 +45,12 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/apk/{version}", a.downloadApk).Methods("GET")
 	r.HandleFunc("/checklist", a.getChecklist).Methods("GET")
 	r.HandleFunc("/checklist", a.saveCheckitem).Methods("POST")
+	r.HandleFunc("/checklist/images", a.getCheckimagelist).Methods("GET")
+	r.HandleFunc("/checklist/images", a.saveCheckimage).Methods("POST")
 	r.HandleFunc("/unit", a.getUnitlist).Methods("GET")
+	r.HandleFunc("/wb", a.getWorkbaselist).Methods("GET")
+	r.HandleFunc("/menu", a.getQmMenulist).Methods("GET")
+	r.HandleFunc("/images", imgUploadHandler).Methods("POST")
 
 	return a
 }
@@ -281,10 +286,11 @@ func (a *AppHandler) signIn(w http.ResponseWriter, r *http.Request) {
 	w.Write(jData)
 }
 
-func (a *AppHandler) getQmItemsByWbCd(w http.ResponseWriter, r *http.Request) {
+func (a *AppHandler) getWorkOrderByWbCd(w http.ResponseWriter, r *http.Request) {
 
 	queryString := r.URL.Query()
 	wbCd := queryString.Get("wb-cd")
+	wcCd := queryString.Get("wc-cd")
 	rawPage := queryString.Get("page")
 
 	page, err := strconv.Atoi(rawPage)
@@ -297,13 +303,13 @@ func (a *AppHandler) getQmItemsByWbCd(w http.ResponseWriter, r *http.Request) {
 	}
 
 	currentQuery := fmt.Sprintf(`
-	EXEC SP_TABLET_ORD_01_SELECT '%s', '%s';
-	`, wbCd, strconv.Itoa(page))
+	EXEC SP_TABLET_ORD_02_SELECT '%s', '%s', '%s';
+	`, wcCd, wbCd, strconv.Itoa(page))
 
 	// 다음 차수 조회시 오
 	nextQuery := fmt.Sprintf(`
-	EXEC SP_TABLET_ORD_01_SELECT '%s', '%s';
-	`, wbCd, strconv.Itoa(page+1))
+	EXEC SP_TABLET_ORD_02_SELECT '%s', '%s', '%s';
+	`, wcCd, wbCd, strconv.Itoa(page+1))
 
 	results, err := a.db.CallProcedure(currentQuery)
 	if err != nil {
@@ -341,6 +347,10 @@ func (a *AppHandler) getQmItemsByWbCd(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	data["is_next_available"] = isNextAvailable
 
+	if results == nil {
+		results = make([]interface{}, 0)
+	}
+
 	data["data"] = results
 
 	response, err := json.Marshal(data)
@@ -360,7 +370,7 @@ func (a *AppHandler) getQmItemsByWbCd(w http.ResponseWriter, r *http.Request) {
 	w.Write(response)
 }
 
-func (a *AppHandler) saveQmItem(w http.ResponseWriter, r *http.Request) {
+func (a *AppHandler) saveWorkOrder(w http.ResponseWriter, r *http.Request) {
 	var params map[string]interface{}
 
 	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
@@ -373,10 +383,9 @@ func (a *AppHandler) saveQmItem(w http.ResponseWriter, r *http.Request) {
 		w.Write(jData)
 		return
 	}
-
 	query := fmt.Sprintf(`
-	EXEC  SP_TABLET_ORD_01_UPDATE '%s', '%s', '%s', '%s', '%s', '%s';
-	`, params["plan-seq"], params["wo-nb"], params["wb-cd"], params["prod-gb"], params["date"], params["qty"])
+	EXEC  SP_TABLET_ORD_02_UPDATE '%s', '%s', '%s', '%s', '%s', '%s', '%s';
+	`, params["plan-seq"], params["wo-nb"], params["wc-cd"], params["wb-cd"], params["prod-gb"], params["date"], params["qty"])
 
 	_, err := a.db.CallDML(query)
 	if err != nil {
@@ -395,7 +404,7 @@ func (a *AppHandler) saveQmItem(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (a *AppHandler) saveQmList(w http.ResponseWriter, r *http.Request) {
+func (a *AppHandler) saveWorkOrderList(w http.ResponseWriter, r *http.Request) {
 	var paramsList []map[string]interface{}
 
 	if err := json.NewDecoder(r.Body).Decode(&paramsList); err != nil {
@@ -571,8 +580,49 @@ func (a *AppHandler) getChecklist(w http.ResponseWriter, r *http.Request) {
 	pageCd := queryString.Get("page-cd")
 
 	query := fmt.Sprintf(`
-	EXEC SP_TABLET_CHK_01_SELECT '%s', '%s', '%s', '%s','%s';
+	EXEC SP_TABLET_CHK_02_SELECT '%s', '%s', '%s', '%s','%s';
 	`, prodPlanSeq, woNb, wcCd, wbCd, pageCd)
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	jData, err := json.Marshal(results)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jData)
+}
+
+func (a *AppHandler) getCheckimagelist(w http.ResponseWriter, r *http.Request) {
+
+	queryString := r.URL.Query()
+	prodPlanSeq := queryString.Get("prod-seq")
+	woNb := queryString.Get("wo-nb")
+	wbCd := queryString.Get("wb-cd")
+	wcCd := queryString.Get("wc-cd")
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_PHT_01_SELECT '%s', '%s', '%s', '%s';
+	`, prodPlanSeq, woNb, wcCd, wbCd)
 
 	results, err := a.db.CallProcedure(query)
 	if err != nil {
@@ -622,10 +672,53 @@ func (a *AppHandler) saveCheckitem(w http.ResponseWriter, r *http.Request) {
 		params := paramsList[i]
 
 		query := fmt.Sprintf(`
-		EXEC  SP_TABLET_CHK_01_MERGE '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s';`,
+		EXEC  SP_TABLET_CHK_02_MERGE '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s';`,
 			params["seq"], params["wo-nb"], params["wc-cd"], params["wb-cd"], params["cks-cd"], params["cks-nm"], params["cks-val"],
-			params["cks-type"], params["bas-cd"], params["bas-val"], params["unit"], params["cbo-cd"], params["div-cd"], params["pht-cd"],
-			params["user-id"], params["org1-fn"], params["new1-fn"],
+			params["cks-type"], params["bas-cd"], params["bas-val"], params["unit"], params["unit-cbo-cd"], params["value-cbo-cd"],
+			params["div-cd"], params["pht-cd"], params["user-id"], params["org1-fn"], params["new1-fn"],
+		)
+
+		_, err := a.db.CallDML(query)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Header().Set("Content-Type", "application/json")
+
+			errMsg := make(map[string]interface{})
+			errMsg["msg"] = err.Error()
+			jData, _ := json.Marshal(errMsg)
+			w.Write(jData)
+			return
+		}
+
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+}
+
+func (a *AppHandler) saveCheckimage(w http.ResponseWriter, r *http.Request) {
+
+	var paramsList []map[string]interface{}
+
+	if err := json.NewDecoder(r.Body).Decode(&paramsList); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	for i := 0; i < len(paramsList); i++ {
+		params := paramsList[i]
+
+		query := fmt.Sprintf(`
+		EXEC  SP_TABLET_PHT_01_MERGE '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s';`,
+			params["plan-seq"], params["wo-nb"], params["wc-cd"], params["wb-cd"], params["seq"], params["user-id"], params["name"],
+			params["name"], params["remark"],
 		)
 
 		_, err := a.db.CallDML(query)
@@ -654,6 +747,81 @@ func (a *AppHandler) getUnitlist(w http.ResponseWriter, r *http.Request) {
 
 	query := fmt.Sprintf(`
 	EXEC SP_TABLET_CHK_01_COMBOBOX '%s';
+	`, code)
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	jData, err := json.Marshal(results)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jData)
+}
+
+func (a *AppHandler) getWorkbaselist(w http.ResponseWriter, r *http.Request) {
+
+	queryString := r.URL.Query()
+	code := queryString.Get("code")
+
+	// query := `EXEC SP_TABLET_WBC_01_SELECT;`
+	query := fmt.Sprintf(`EXEC SP_TABLET_WCC_01_SELECT '%s';`, code)
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	jData, err := json.Marshal(results)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jData)
+}
+
+func (a *AppHandler) getQmMenulist(w http.ResponseWriter, r *http.Request) {
+
+	queryString := r.URL.Query()
+	code := queryString.Get("code")
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_QML_01_SELECT '%s';
 	`, code)
 
 	results, err := a.db.CallProcedure(query)

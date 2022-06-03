@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:frontend/src/checklist/domain/entities/check_image.dart';
 
 import 'package:frontend/src/checklist/domain/entities/check_item.dart';
 import 'package:frontend/src/checklist/domain/repositories/i_checklist_repository.dart';
@@ -29,10 +30,40 @@ class ChecklistRepository implements IChecklistRepository {
   }
 
   @override
+  Future<Either<Failure, List<CheckImage>>> fetchCheckimagelist(
+      Map<String, dynamic> params) async {
+    try {
+      final remoteFetch = await _remote.fetchCheckimagelist(params);
+      return right(remoteFetch);
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
+
+  @override
   Future<Either<Failure, Unit>> saveCheckitem(
       List<Map<String, dynamic>> params) async {
     try {
       await _remote.saveCheckitem(params);
+      return right(unit);
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> saveImagelist(
+      List<Map<String, dynamic>> params) async {
+    try {
+      await _remote.saveImagelist(params);
       return right(unit);
     } on NoConnectionException catch (e) {
       return left(Failure.noConnection(e.message));

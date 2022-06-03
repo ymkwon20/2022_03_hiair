@@ -1,3 +1,5 @@
+import 'package:frontend/src/auth/domain/entities/user_type.dart';
+
 class User {
   /// 사용자 id
   final String id;
@@ -8,18 +10,25 @@ class User {
   /// 공정 코드
   final String wbCd;
 
+  /// 공정 코드
+  final String wcCd;
+
   /// 부서 코드
   final String deptCd;
 
   /// 부서 이름
   final String deptNm;
 
+  final UserType type;
+
   const User({
     required this.id,
     required this.name,
     required this.wbCd,
+    required this.wcCd,
     required this.deptCd,
     required this.deptNm,
+    required this.type,
   });
 
   @override
@@ -30,8 +39,10 @@ class User {
         other.id == id &&
         other.name == name &&
         other.wbCd == wbCd &&
+        other.wcCd == wcCd &&
         other.deptCd == deptCd &&
-        other.deptNm == deptNm;
+        other.deptNm == deptNm &&
+        other.type == type;
   }
 
   @override
@@ -39,23 +50,29 @@ class User {
     return id.hashCode ^
         name.hashCode ^
         wbCd.hashCode ^
+        wcCd.hashCode ^
         deptCd.hashCode ^
-        deptNm.hashCode;
+        deptNm.hashCode ^
+        type.hashCode;
   }
 
   User copyWith({
     String? id,
     String? name,
     String? wbCd,
+    String? wcCd,
     String? deptCd,
     String? deptNm,
+    UserType? type,
   }) {
     return User(
       id: id ?? this.id,
       name: name ?? this.name,
       wbCd: wbCd ?? this.wbCd,
+      wcCd: wcCd ?? this.wcCd,
       deptCd: deptCd ?? this.deptCd,
       deptNm: deptNm ?? this.deptNm,
+      type: type ?? this.type,
     );
   }
 }

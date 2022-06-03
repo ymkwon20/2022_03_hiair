@@ -40,6 +40,12 @@ class CuttingCheckDTO {
   /// WB_CD: 정보 없음
   final String wbCd;
 
+  /// WC_CD: 정보 없음
+  final String wcCd;
+
+  /// PRODPLANSEQ: 정보 없음
+  final String seq;
+
   /// SYSNO: 정보 없음
   final String sysNo;
 
@@ -59,6 +65,8 @@ class CuttingCheckDTO {
     required this.hullDiameter,
     required this.yard,
     required this.wbCd,
+    required this.wcCd,
+    required this.seq,
     required this.sysNo,
     required this.hullNo,
   });
@@ -77,6 +85,8 @@ class CuttingCheckDTO {
       hullDiameter: domain.hullDiameter,
       yard: domain.yard,
       wbCd: domain.wbCd,
+      wcCd: domain.wcCd,
+      seq: domain.seq,
       sysNo: domain.sysNo,
       hullNo: domain.hullNo,
     );
@@ -96,6 +106,8 @@ class CuttingCheckDTO {
       hullDiameter: hullDiameter,
       yard: yard,
       wbCd: wbCd,
+      wcCd: wcCd,
+      seq: seq,
       sysNo: sysNo,
       hullNo: hullNo,
     );
@@ -114,6 +126,8 @@ class CuttingCheckDTO {
     String? hullDiameter,
     String? yard,
     String? wbCd,
+    String? wcCd,
+    String? seq,
     String? sysNo,
     String? hullNo,
   }) {
@@ -130,6 +144,8 @@ class CuttingCheckDTO {
       hullDiameter: hullDiameter ?? this.hullDiameter,
       yard: yard ?? this.yard,
       wbCd: wbCd ?? this.wbCd,
+      wcCd: wcCd ?? this.wcCd,
+      seq: seq ?? this.seq,
       sysNo: sysNo ?? this.sysNo,
       hullNo: hullNo ?? this.hullNo,
     );
@@ -152,6 +168,8 @@ class CuttingCheckDTO {
         other.hullDiameter == hullDiameter &&
         other.yard == yard &&
         other.wbCd == wbCd &&
+        other.wcCd == wcCd &&
+        other.seq == seq &&
         other.sysNo == sysNo &&
         other.hullNo == hullNo;
   }
@@ -170,6 +188,8 @@ class CuttingCheckDTO {
         hullDiameter.hashCode ^
         yard.hashCode ^
         wbCd.hashCode ^
+        wcCd.hashCode ^
+        seq.hashCode ^
         sysNo.hashCode ^
         hullNo.hashCode;
   }
@@ -207,6 +227,8 @@ class CuttingCheckDTO {
       hullDiameter: map['HUD'] ?? '',
       yard: map['YARD'] ?? '',
       wbCd: map['WB_CD'] ?? '',
+      wcCd: map['WC_CD'] ?? '',
+      seq: map['PRODPLANSEQ'].toString(),
       sysNo: map['SYSNO'] ?? '',
       hullNo: map['HULLNO'] ?? '',
     );

@@ -1,5 +1,5 @@
-import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
 import 'package:frontend/src/core/dependency_injection.dart';
+import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:frontend/src/workorder/application/load/work_order_state.dart';
 import 'package:frontend/src/workorder/application/load/work_order_state_notifier.dart';
 import 'package:frontend/src/workorder/application/save/work_order_save_state.dart';
@@ -10,14 +10,14 @@ import 'package:frontend/src/workorder/domain/usecases/save_work_order.dart';
 import 'package:frontend/src/workorder/domain/usecases/save_work_order_list.dart';
 import 'package:frontend/src/workorder/infrastructure/datasources/remote/work_order_remote_service.dart';
 import 'package:frontend/src/workorder/infrastructure/datasources/work_order_service.dart';
-import 'package:frontend/src/workorder/infrastructure/repositories/qm_repository.dart';
+import 'package:frontend/src/workorder/infrastructure/repositories/work_order_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //! application
 final workOrderStateNotifierProvider =
     StateNotifierProvider<WorkOrderStateNotifier, WorkOrderState>(
   (ref) => WorkOrderStateNotifier(
-    auth: ref.watch(authChangeNotifierProvider),
+    workbase: ref.watch(workBaseChangeNotifierProvider),
     fetchQmItems: ref.watch(fetchWorkOrderListProvider),
   ),
 );
@@ -25,7 +25,6 @@ final workOrderStateNotifierProvider =
 final workOrderSaveStateNotifierProvider =
     StateNotifierProvider<WorkOrderSaveStateNotifier, WorkOrderSaveState>(
   (ref) => WorkOrderSaveStateNotifier(
-    auth: ref.watch(authChangeNotifierProvider),
     saveWorkOrder: ref.watch(saveWorkOrderProvider),
     saveWorkOrderList: ref.watch(saveWorkOrderListProvider),
   ),

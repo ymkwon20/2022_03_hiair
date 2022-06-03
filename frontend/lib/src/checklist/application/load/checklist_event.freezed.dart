@@ -17,8 +17,25 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$ChecklistEventTearOff {
   const _$ChecklistEventTearOff();
 
-  _FetchChecklist fetchChecklist(WorkOrder order) {
+  _Clear clear() {
+    return const _Clear();
+  }
+
+  _FetchChecklist fetchChecklist(WorkOrder order, String code) {
     return _FetchChecklist(
+      order,
+      code,
+    );
+  }
+
+  _FetchCheckimagelist fetchCheckimagelist(WorkOrder order) {
+    return _FetchCheckimagelist(
+      order,
+    );
+  }
+
+  _FetchChecklistForCut fetchChecklistForCut(CuttingCheck order) {
+    return _FetchChecklistForCut(
       order,
     );
   }
@@ -29,43 +46,55 @@ const $ChecklistEvent = _$ChecklistEventTearOff();
 
 /// @nodoc
 mixin _$ChecklistEvent {
-  WorkOrder get order => throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(WorkOrder order) fetchChecklist,
+    required TResult Function() clear,
+    required TResult Function(WorkOrder order, String code) fetchChecklist,
+    required TResult Function(WorkOrder order) fetchCheckimagelist,
+    required TResult Function(CuttingCheck order) fetchChecklistForCut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(WorkOrder order)? fetchChecklist,
+    TResult Function()? clear,
+    TResult Function(WorkOrder order, String code)? fetchChecklist,
+    TResult Function(WorkOrder order)? fetchCheckimagelist,
+    TResult Function(CuttingCheck order)? fetchChecklistForCut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(WorkOrder order)? fetchChecklist,
+    TResult Function()? clear,
+    TResult Function(WorkOrder order, String code)? fetchChecklist,
+    TResult Function(WorkOrder order)? fetchCheckimagelist,
+    TResult Function(CuttingCheck order)? fetchChecklistForCut,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Clear value) clear,
     required TResult Function(_FetchChecklist value) fetchChecklist,
+    required TResult Function(_FetchCheckimagelist value) fetchCheckimagelist,
+    required TResult Function(_FetchChecklistForCut value) fetchChecklistForCut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Clear value)? clear,
     TResult Function(_FetchChecklist value)? fetchChecklist,
+    TResult Function(_FetchCheckimagelist value)? fetchCheckimagelist,
+    TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Clear value)? clear,
     TResult Function(_FetchChecklist value)? fetchChecklist,
+    TResult Function(_FetchCheckimagelist value)? fetchCheckimagelist,
+    TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $ChecklistEventCopyWith<ChecklistEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -74,7 +103,6 @@ abstract class $ChecklistEventCopyWith<$Res> {
   factory $ChecklistEventCopyWith(
           ChecklistEvent value, $Res Function(ChecklistEvent) then) =
       _$ChecklistEventCopyWithImpl<$Res>;
-  $Res call({WorkOrder order});
 }
 
 /// @nodoc
@@ -85,28 +113,129 @@ class _$ChecklistEventCopyWithImpl<$Res>
   final ChecklistEvent _value;
   // ignore: unused_field
   final $Res Function(ChecklistEvent) _then;
-
-  @override
-  $Res call({
-    Object? order = freezed,
-  }) {
-    return _then(_value.copyWith(
-      order: order == freezed
-          ? _value.order
-          : order // ignore: cast_nullable_to_non_nullable
-              as WorkOrder,
-    ));
-  }
 }
 
 /// @nodoc
-abstract class _$FetchChecklistCopyWith<$Res>
-    implements $ChecklistEventCopyWith<$Res> {
+abstract class _$ClearCopyWith<$Res> {
+  factory _$ClearCopyWith(_Clear value, $Res Function(_Clear) then) =
+      __$ClearCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$ClearCopyWithImpl<$Res> extends _$ChecklistEventCopyWithImpl<$Res>
+    implements _$ClearCopyWith<$Res> {
+  __$ClearCopyWithImpl(_Clear _value, $Res Function(_Clear) _then)
+      : super(_value, (v) => _then(v as _Clear));
+
+  @override
+  _Clear get _value => super._value as _Clear;
+}
+
+/// @nodoc
+
+class _$_Clear extends _Clear {
+  const _$_Clear() : super._();
+
+  @override
+  String toString() {
+    return 'ChecklistEvent.clear()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _Clear);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() clear,
+    required TResult Function(WorkOrder order, String code) fetchChecklist,
+    required TResult Function(WorkOrder order) fetchCheckimagelist,
+    required TResult Function(CuttingCheck order) fetchChecklistForCut,
+  }) {
+    return clear();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? clear,
+    TResult Function(WorkOrder order, String code)? fetchChecklist,
+    TResult Function(WorkOrder order)? fetchCheckimagelist,
+    TResult Function(CuttingCheck order)? fetchChecklistForCut,
+  }) {
+    return clear?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? clear,
+    TResult Function(WorkOrder order, String code)? fetchChecklist,
+    TResult Function(WorkOrder order)? fetchCheckimagelist,
+    TResult Function(CuttingCheck order)? fetchChecklistForCut,
+    required TResult orElse(),
+  }) {
+    if (clear != null) {
+      return clear();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Clear value) clear,
+    required TResult Function(_FetchChecklist value) fetchChecklist,
+    required TResult Function(_FetchCheckimagelist value) fetchCheckimagelist,
+    required TResult Function(_FetchChecklistForCut value) fetchChecklistForCut,
+  }) {
+    return clear(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Clear value)? clear,
+    TResult Function(_FetchChecklist value)? fetchChecklist,
+    TResult Function(_FetchCheckimagelist value)? fetchCheckimagelist,
+    TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
+  }) {
+    return clear?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Clear value)? clear,
+    TResult Function(_FetchChecklist value)? fetchChecklist,
+    TResult Function(_FetchCheckimagelist value)? fetchCheckimagelist,
+    TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
+    required TResult orElse(),
+  }) {
+    if (clear != null) {
+      return clear(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Clear extends ChecklistEvent {
+  const factory _Clear() = _$_Clear;
+  const _Clear._() : super._();
+}
+
+/// @nodoc
+abstract class _$FetchChecklistCopyWith<$Res> {
   factory _$FetchChecklistCopyWith(
           _FetchChecklist value, $Res Function(_FetchChecklist) then) =
       __$FetchChecklistCopyWithImpl<$Res>;
-  @override
-  $Res call({WorkOrder order});
+  $Res call({WorkOrder order, String code});
 }
 
 /// @nodoc
@@ -123,12 +252,17 @@ class __$FetchChecklistCopyWithImpl<$Res>
   @override
   $Res call({
     Object? order = freezed,
+    Object? code = freezed,
   }) {
     return _then(_FetchChecklist(
       order == freezed
           ? _value.order
           : order // ignore: cast_nullable_to_non_nullable
               as WorkOrder,
+      code == freezed
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -136,14 +270,16 @@ class __$FetchChecklistCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_FetchChecklist extends _FetchChecklist {
-  const _$_FetchChecklist(this.order) : super._();
+  const _$_FetchChecklist(this.order, this.code) : super._();
 
   @override
   final WorkOrder order;
+  @override
+  final String code;
 
   @override
   String toString() {
-    return 'ChecklistEvent.fetchChecklist(order: $order)';
+    return 'ChecklistEvent.fetchChecklist(order: $order, code: $code)';
   }
 
   @override
@@ -151,12 +287,15 @@ class _$_FetchChecklist extends _FetchChecklist {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _FetchChecklist &&
-            const DeepCollectionEquality().equals(other.order, order));
+            const DeepCollectionEquality().equals(other.order, order) &&
+            const DeepCollectionEquality().equals(other.code, code));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(order));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(order),
+      const DeepCollectionEquality().hash(code));
 
   @JsonKey(ignore: true)
   @override
@@ -166,27 +305,36 @@ class _$_FetchChecklist extends _FetchChecklist {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(WorkOrder order) fetchChecklist,
+    required TResult Function() clear,
+    required TResult Function(WorkOrder order, String code) fetchChecklist,
+    required TResult Function(WorkOrder order) fetchCheckimagelist,
+    required TResult Function(CuttingCheck order) fetchChecklistForCut,
   }) {
-    return fetchChecklist(order);
+    return fetchChecklist(order, code);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(WorkOrder order)? fetchChecklist,
+    TResult Function()? clear,
+    TResult Function(WorkOrder order, String code)? fetchChecklist,
+    TResult Function(WorkOrder order)? fetchCheckimagelist,
+    TResult Function(CuttingCheck order)? fetchChecklistForCut,
   }) {
-    return fetchChecklist?.call(order);
+    return fetchChecklist?.call(order, code);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(WorkOrder order)? fetchChecklist,
+    TResult Function()? clear,
+    TResult Function(WorkOrder order, String code)? fetchChecklist,
+    TResult Function(WorkOrder order)? fetchCheckimagelist,
+    TResult Function(CuttingCheck order)? fetchChecklistForCut,
     required TResult orElse(),
   }) {
     if (fetchChecklist != null) {
-      return fetchChecklist(order);
+      return fetchChecklist(order, code);
     }
     return orElse();
   }
@@ -194,7 +342,10 @@ class _$_FetchChecklist extends _FetchChecklist {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Clear value) clear,
     required TResult Function(_FetchChecklist value) fetchChecklist,
+    required TResult Function(_FetchCheckimagelist value) fetchCheckimagelist,
+    required TResult Function(_FetchChecklistForCut value) fetchChecklistForCut,
   }) {
     return fetchChecklist(this);
   }
@@ -202,7 +353,10 @@ class _$_FetchChecklist extends _FetchChecklist {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Clear value)? clear,
     TResult Function(_FetchChecklist value)? fetchChecklist,
+    TResult Function(_FetchCheckimagelist value)? fetchCheckimagelist,
+    TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
   }) {
     return fetchChecklist?.call(this);
   }
@@ -210,7 +364,10 @@ class _$_FetchChecklist extends _FetchChecklist {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Clear value)? clear,
     TResult Function(_FetchChecklist value)? fetchChecklist,
+    TResult Function(_FetchCheckimagelist value)? fetchCheckimagelist,
+    TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     required TResult orElse(),
   }) {
     if (fetchChecklist != null) {
@@ -221,13 +378,310 @@ class _$_FetchChecklist extends _FetchChecklist {
 }
 
 abstract class _FetchChecklist extends ChecklistEvent {
-  const factory _FetchChecklist(WorkOrder order) = _$_FetchChecklist;
+  const factory _FetchChecklist(WorkOrder order, String code) =
+      _$_FetchChecklist;
   const _FetchChecklist._() : super._();
 
-  @override
   WorkOrder get order;
-  @override
+  String get code;
   @JsonKey(ignore: true)
   _$FetchChecklistCopyWith<_FetchChecklist> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$FetchCheckimagelistCopyWith<$Res> {
+  factory _$FetchCheckimagelistCopyWith(_FetchCheckimagelist value,
+          $Res Function(_FetchCheckimagelist) then) =
+      __$FetchCheckimagelistCopyWithImpl<$Res>;
+  $Res call({WorkOrder order});
+}
+
+/// @nodoc
+class __$FetchCheckimagelistCopyWithImpl<$Res>
+    extends _$ChecklistEventCopyWithImpl<$Res>
+    implements _$FetchCheckimagelistCopyWith<$Res> {
+  __$FetchCheckimagelistCopyWithImpl(
+      _FetchCheckimagelist _value, $Res Function(_FetchCheckimagelist) _then)
+      : super(_value, (v) => _then(v as _FetchCheckimagelist));
+
+  @override
+  _FetchCheckimagelist get _value => super._value as _FetchCheckimagelist;
+
+  @override
+  $Res call({
+    Object? order = freezed,
+  }) {
+    return _then(_FetchCheckimagelist(
+      order == freezed
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as WorkOrder,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_FetchCheckimagelist extends _FetchCheckimagelist {
+  const _$_FetchCheckimagelist(this.order) : super._();
+
+  @override
+  final WorkOrder order;
+
+  @override
+  String toString() {
+    return 'ChecklistEvent.fetchCheckimagelist(order: $order)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _FetchCheckimagelist &&
+            const DeepCollectionEquality().equals(other.order, order));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(order));
+
+  @JsonKey(ignore: true)
+  @override
+  _$FetchCheckimagelistCopyWith<_FetchCheckimagelist> get copyWith =>
+      __$FetchCheckimagelistCopyWithImpl<_FetchCheckimagelist>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() clear,
+    required TResult Function(WorkOrder order, String code) fetchChecklist,
+    required TResult Function(WorkOrder order) fetchCheckimagelist,
+    required TResult Function(CuttingCheck order) fetchChecklistForCut,
+  }) {
+    return fetchCheckimagelist(order);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? clear,
+    TResult Function(WorkOrder order, String code)? fetchChecklist,
+    TResult Function(WorkOrder order)? fetchCheckimagelist,
+    TResult Function(CuttingCheck order)? fetchChecklistForCut,
+  }) {
+    return fetchCheckimagelist?.call(order);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? clear,
+    TResult Function(WorkOrder order, String code)? fetchChecklist,
+    TResult Function(WorkOrder order)? fetchCheckimagelist,
+    TResult Function(CuttingCheck order)? fetchChecklistForCut,
+    required TResult orElse(),
+  }) {
+    if (fetchCheckimagelist != null) {
+      return fetchCheckimagelist(order);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Clear value) clear,
+    required TResult Function(_FetchChecklist value) fetchChecklist,
+    required TResult Function(_FetchCheckimagelist value) fetchCheckimagelist,
+    required TResult Function(_FetchChecklistForCut value) fetchChecklistForCut,
+  }) {
+    return fetchCheckimagelist(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Clear value)? clear,
+    TResult Function(_FetchChecklist value)? fetchChecklist,
+    TResult Function(_FetchCheckimagelist value)? fetchCheckimagelist,
+    TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
+  }) {
+    return fetchCheckimagelist?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Clear value)? clear,
+    TResult Function(_FetchChecklist value)? fetchChecklist,
+    TResult Function(_FetchCheckimagelist value)? fetchCheckimagelist,
+    TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
+    required TResult orElse(),
+  }) {
+    if (fetchCheckimagelist != null) {
+      return fetchCheckimagelist(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchCheckimagelist extends ChecklistEvent {
+  const factory _FetchCheckimagelist(WorkOrder order) = _$_FetchCheckimagelist;
+  const _FetchCheckimagelist._() : super._();
+
+  WorkOrder get order;
+  @JsonKey(ignore: true)
+  _$FetchCheckimagelistCopyWith<_FetchCheckimagelist> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$FetchChecklistForCutCopyWith<$Res> {
+  factory _$FetchChecklistForCutCopyWith(_FetchChecklistForCut value,
+          $Res Function(_FetchChecklistForCut) then) =
+      __$FetchChecklistForCutCopyWithImpl<$Res>;
+  $Res call({CuttingCheck order});
+}
+
+/// @nodoc
+class __$FetchChecklistForCutCopyWithImpl<$Res>
+    extends _$ChecklistEventCopyWithImpl<$Res>
+    implements _$FetchChecklistForCutCopyWith<$Res> {
+  __$FetchChecklistForCutCopyWithImpl(
+      _FetchChecklistForCut _value, $Res Function(_FetchChecklistForCut) _then)
+      : super(_value, (v) => _then(v as _FetchChecklistForCut));
+
+  @override
+  _FetchChecklistForCut get _value => super._value as _FetchChecklistForCut;
+
+  @override
+  $Res call({
+    Object? order = freezed,
+  }) {
+    return _then(_FetchChecklistForCut(
+      order == freezed
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as CuttingCheck,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_FetchChecklistForCut extends _FetchChecklistForCut {
+  const _$_FetchChecklistForCut(this.order) : super._();
+
+  @override
+  final CuttingCheck order;
+
+  @override
+  String toString() {
+    return 'ChecklistEvent.fetchChecklistForCut(order: $order)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _FetchChecklistForCut &&
+            const DeepCollectionEquality().equals(other.order, order));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(order));
+
+  @JsonKey(ignore: true)
+  @override
+  _$FetchChecklistForCutCopyWith<_FetchChecklistForCut> get copyWith =>
+      __$FetchChecklistForCutCopyWithImpl<_FetchChecklistForCut>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() clear,
+    required TResult Function(WorkOrder order, String code) fetchChecklist,
+    required TResult Function(WorkOrder order) fetchCheckimagelist,
+    required TResult Function(CuttingCheck order) fetchChecklistForCut,
+  }) {
+    return fetchChecklistForCut(order);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? clear,
+    TResult Function(WorkOrder order, String code)? fetchChecklist,
+    TResult Function(WorkOrder order)? fetchCheckimagelist,
+    TResult Function(CuttingCheck order)? fetchChecklistForCut,
+  }) {
+    return fetchChecklistForCut?.call(order);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? clear,
+    TResult Function(WorkOrder order, String code)? fetchChecklist,
+    TResult Function(WorkOrder order)? fetchCheckimagelist,
+    TResult Function(CuttingCheck order)? fetchChecklistForCut,
+    required TResult orElse(),
+  }) {
+    if (fetchChecklistForCut != null) {
+      return fetchChecklistForCut(order);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Clear value) clear,
+    required TResult Function(_FetchChecklist value) fetchChecklist,
+    required TResult Function(_FetchCheckimagelist value) fetchCheckimagelist,
+    required TResult Function(_FetchChecklistForCut value) fetchChecklistForCut,
+  }) {
+    return fetchChecklistForCut(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Clear value)? clear,
+    TResult Function(_FetchChecklist value)? fetchChecklist,
+    TResult Function(_FetchCheckimagelist value)? fetchCheckimagelist,
+    TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
+  }) {
+    return fetchChecklistForCut?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Clear value)? clear,
+    TResult Function(_FetchChecklist value)? fetchChecklist,
+    TResult Function(_FetchCheckimagelist value)? fetchCheckimagelist,
+    TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
+    required TResult orElse(),
+  }) {
+    if (fetchChecklistForCut != null) {
+      return fetchChecklistForCut(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchChecklistForCut extends ChecklistEvent {
+  const factory _FetchChecklistForCut(CuttingCheck order) =
+      _$_FetchChecklistForCut;
+  const _FetchChecklistForCut._() : super._();
+
+  CuttingCheck get order;
+  @JsonKey(ignore: true)
+  _$FetchChecklistForCutCopyWith<_FetchChecklistForCut> get copyWith =>
       throw _privateConstructorUsedError;
 }

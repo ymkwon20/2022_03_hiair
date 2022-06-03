@@ -1,6 +1,6 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:frontend/src/checklist/presentation/widgets/check_combobox.dart';
-import 'package:frontend/src/checklist/presentation/widgets/check_textfield.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/checklist/domain/entities/check_item.dart';
@@ -8,13 +8,21 @@ import 'package:frontend/src/checklist/domain/entities/check_type.dart';
 import 'package:frontend/src/checklist/presentation/viewmodel/checklist_notifier.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 
+import 'check_combobox.dart';
+import 'check_imagebox.dart';
+import 'check_textfield.dart';
+
 class CheckitemWidget extends ConsumerStatefulWidget {
   const CheckitemWidget({
     Key? key,
     required this.focusNodes,
+    required this.textControllers,
+    required this.scrollController,
   }) : super(key: key);
 
   final List<FocusNode> focusNodes;
+  final List<TextEditingController> textControllers;
+  final ScrollController scrollController;
 
   @override
   ConsumerState<CheckitemWidget> createState() => _CheckitemWidgetState();
@@ -23,18 +31,17 @@ class CheckitemWidget extends ConsumerStatefulWidget {
 class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
   static const _fontSize = 22.0;
 
-  late TextEditingController _controller;
+  int get index => ref.watch(currentCheckItemIndex);
+  CheckItem get item => ref.watch(currentCheckItem);
+
+  TextEditingController get controller => widget.textControllers[index];
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
     WidgetsBinding.instance!.addPostFrameCallback(
       (_) {
-        final item = ref.watch(checkItemProvider);
-        final index = ref.watch(checkIndexProvider);
-
-        _controller.text = item.checkSheetValue;
+        controller.text = item.checkSheetValue;
         widget.focusNodes[index].addListener(_focusChanged);
       },
     );
@@ -42,30 +49,33 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
 
   @override
   void deactivate() {
-    final index = ref.watch(checkIndexProvider);
     widget.focusNodes[index].removeListener(_focusChanged);
     super.deactivate();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
   void _focusChanged() {
-    final index = ref.watch(checkIndexProvider);
-    final item = ref.watch(checkItemProvider);
-    if (!widget.focusNodes[index].hasFocus) {
+    if (!widget.focusNodes[index].hasFocus && isTextType) {
       ref.read(checklistNotifierProvider.notifier).editCheckItem(
             index,
-            item.copyWith(checkSheetValue: _controller.text),
+            item.copyWith(checkSheetValue: controller.text),
           );
     }
   }
 
   void _focusToNextValid(int index) {
     final items = ref.watch(checklistNotifierProvider).items;
+
+    if (index < items.length - 1) {
+      widget.scrollController.jumpTo((index + 1) * 250);
+    }
+
+    _setSpecificValue();
+
     if (items.length == index + 1) return;
 
     for (var i = index + 1; i < items.length; i++) {
@@ -74,6 +84,12 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
         break;
       }
     }
+  }
+
+  bool get isTextType {
+    return item.checkType == CheckType.string ||
+        item.checkType == CheckType.date ||
+        item.checkType == CheckType.number;
   }
 
   bool isFocusable(CheckType checkType) {
@@ -93,11 +109,102 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
     }
   }
 
+  /// PM 요구사항
+  ///
+  /// 메뉴얼로 특정값이 채워지면 특정 값을 집어넣으라 함
+  /// 유지보수성이 매우 떨어짐
+  /// 변경하고 싶으면 PM에게 문의
+  /// "8.HI-AIR자료/QM팀/검사report data_검토R1의 복사본.xlsx" 참고
+  void _setSpecificValue() {
+    final items = ref.watch(checklistNotifierProvider).items;
+    if (items[index].checkSheetName == "Test Duct Φ") {
+      final velocity =
+          double.tryParse(widget.textControllers[index - 1].text) ?? 0;
+
+      final duct =
+          (math.pow(double.tryParse(controller.text) ?? 0, 2) * math.pi / 4);
+
+      /// Test Duct A
+      widget.textControllers[index + 1].text = duct.toStringAsFixed(2);
+      ref.read(checklistNotifierProvider.notifier).editCheckItem(
+            index + 1,
+            items[index + 1].copyWith(checkSheetValue: duct.toStringAsFixed(2)),
+          );
+
+      /// Air Volume
+      final volume1 = duct * velocity * 60;
+      widget.textControllers[index + 2].text = volume1.toStringAsFixed(2);
+      ref.read(checklistNotifierProvider.notifier).editCheckItem(
+            index + 2,
+            items[index + 2]
+                .copyWith(checkSheetValue: volume1.toStringAsFixed(2)),
+          );
+
+      final volume2 = volume1 * 60;
+      widget.textControllers[index + 3].text = volume2.toStringAsFixed(2);
+      ref.read(checklistNotifierProvider.notifier).editCheckItem(
+            index + 3,
+            items[index + 3]
+                .copyWith(checkSheetValue: volume2.toStringAsFixed(2)),
+          );
+
+      final volume3 = volume2 * 60;
+      widget.textControllers[index + 4].text = volume3.toStringAsFixed(2);
+      ref.read(checklistNotifierProvider.notifier).editCheckItem(
+            index + 4,
+            items[index + 4]
+                .copyWith(checkSheetValue: volume3.toStringAsFixed(2)),
+          );
+    }
+
+    if (items[index].checkSheetName == "Current 1") {
+      final value1 = double.tryParse(controller.text) ?? 0;
+      final value2 =
+          double.tryParse(widget.textControllers[index + 1].text) ?? 0;
+      final value3 =
+          double.tryParse(widget.textControllers[index + 2].text) ?? 0;
+
+      final value = ((value1 + value2 + value3) / 3).toStringAsFixed(2);
+      widget.textControllers[index + 3].text = value;
+      ref.read(checklistNotifierProvider.notifier).editCheckItem(
+            index + 3,
+            items[index + 3].copyWith(checkSheetValue: value),
+          );
+    }
+
+    if (items[index].checkSheetName == "Current 2") {
+      final value1 =
+          double.tryParse(widget.textControllers[index - 1].text) ?? 0;
+      final value2 = double.tryParse(widget.textControllers[index].text) ?? 0;
+      final value3 =
+          double.tryParse(widget.textControllers[index + 1].text) ?? 0;
+
+      final value = ((value1 + value2 + value3) / 3).toStringAsFixed(2);
+      widget.textControllers[index + 2].text = value;
+      ref.read(checklistNotifierProvider.notifier).editCheckItem(
+            index + 2,
+            items[index + 2].copyWith(checkSheetValue: value),
+          );
+    }
+
+    if (items[index].checkSheetName == "Current 3") {
+      final value1 =
+          double.tryParse(widget.textControllers[index - 2].text) ?? 0;
+      final value2 =
+          double.tryParse(widget.textControllers[index - 1].text) ?? 0;
+      final value3 = double.tryParse(widget.textControllers[index].text) ?? 0;
+
+      final value = ((value1 + value2 + value3) / 3).toStringAsFixed(2);
+      widget.textControllers[index + 1].text = value;
+      ref.read(checklistNotifierProvider.notifier).editCheckItem(
+            index + 1,
+            items[index + 1].copyWith(checkSheetValue: value),
+          );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final index = ref.watch(checkIndexProvider);
-    final item = ref.watch(checkItemProvider);
-
     return Container(
       margin: const EdgeInsets.symmetric(
         horizontal: LayoutConstant.paddingL,
@@ -135,30 +242,37 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
                     fontSize: 20,
                   ),
                 ),
-                const SizedBox(height: LayoutConstant.spaceS),
-                Container(
+                SizedBox(
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: LayoutConstant.paddingS,
-                  ),
-                  decoration: item.standard != ""
-                      ? BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(LayoutConstant.radiusS),
-                          border: Border.all(
-                            width: LayoutConstant.spaceXS,
-                            color: Theme.of(context).dividerColor,
+                  height: LayoutConstant.spaceXL * 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: LayoutConstant.paddingS,
+                        ),
+                        decoration: item.standard != ""
+                            ? BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    LayoutConstant.radiusS),
+                                border: Border.all(
+                                  width: LayoutConstant.spaceXS,
+                                  color: Theme.of(context).dividerColor,
+                                ),
+                              )
+                            : null,
+                        child: Text(
+                          item.standard,
+                          style: const TextStyle(
+                            fontSize: 22,
                           ),
-                        )
-                      : null,
-                  child: Text(
-                    item.standard,
-                    style: const TextStyle(
-                      fontSize: 22,
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: LayoutConstant.spaceM),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -169,22 +283,29 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
                         fontSize: 20,
                       ),
                     ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: _buildCheckPart(index, item),
+                    SizedBox(
+                      width: double.infinity,
+                      height: LayoutConstant.spaceXL * 2,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: _buildCheckPart(index, item),
+                            ),
                           ),
-                        ),
-                        if (item.unit != "")
+                          const SizedBox(width: LayoutConstant.spaceM),
                           Expanded(
                             flex: 1,
-                            child: _buildUnitPart(item),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: _buildUnitPart(item),
+                            ),
                           ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -200,7 +321,7 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
     switch (item.checkType) {
       case CheckType.number:
         return CheckTextfield(
-          controller: _controller,
+          controller: controller,
           type: TextInputType.number,
           focusNode: widget.focusNodes[index],
           fontSize: _fontSize,
@@ -208,7 +329,7 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
         );
       case CheckType.string:
         return CheckTextfield(
-          controller: _controller,
+          controller: controller,
           type: TextInputType.text,
           focusNode: widget.focusNodes[index],
           fontSize: _fontSize,
@@ -216,7 +337,7 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
         );
       case CheckType.date:
         return CheckTextfield(
-          controller: _controller,
+          controller: controller,
           type: TextInputType.datetime,
           focusNode: widget.focusNodes[index],
           fontSize: _fontSize,
@@ -240,24 +361,18 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
       case CheckType.image:
         return Focus(
           focusNode: widget.focusNodes[index],
-          child: ProviderScope(
-            overrides: [
-              checkIndexProvider.overrideWithValue(index),
-              checkItemProvider.overrideWithValue(item),
-            ],
-            // child: const CheckImagebox(),
-            child: const Text("image example"),
+          child: CheckImagebox(
+            index: index,
+            item: item,
           ),
         );
       case CheckType.combo:
-        return ProviderScope(
-          overrides: [
-            checkIndexProvider.overrideWithValue(index),
-            checkItemProvider.overrideWithValue(item),
-          ],
-          child: Focus(
-            focusNode: widget.focusNodes[index],
-            child: const CheckComboBox(),
+        return Focus(
+          focusNode: widget.focusNodes[index],
+          child: CheckComboBox(
+            item: item,
+            index: index,
+            isUnitType: false,
           ),
         );
 
@@ -269,35 +384,19 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
   }
 
   Widget _buildUnitPart(CheckItem item) {
-    switch (item.checkType) {
-      case CheckType.number:
+    switch (item.unitType) {
+      case UnitType.string:
         return Text(
           item.unit,
           style: const TextStyle(fontSize: _fontSize),
         );
-      case CheckType.combo:
-        return GestureDetector(
-          onTap: () {},
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: LayoutConstant.paddingS,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(LayoutConstant.radiusS),
-              border: Border.all(
-                width: LayoutConstant.spaceXS,
-                color: item.combos.isNotEmpty
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).dividerColor,
-              ),
-            ),
-            // todo: add logic for units
-            child: const Text(
-              "SELECT",
-              style: TextStyle(
-                fontSize: _fontSize,
-              ),
-            ),
+      case UnitType.combo:
+        return Focus(
+          focusNode: widget.focusNodes[index],
+          child: CheckComboBox(
+            item: item,
+            index: index,
+            isUnitType: true,
           ),
         );
 
@@ -387,11 +486,11 @@ class _BottomModalState extends State<_BottomModal> {
                     diameterRatio: 1.2,
                     physics: const FixedExtentScrollPhysics(),
                     childDelegate: ListWheelChildBuilderDelegate(
-                      childCount: widget.item.combos.length,
+                      childCount: widget.item.valueCombos.length,
                       builder: (context, index) {
                         return Center(
                           child: Text(
-                            widget.item.combos[index].name,
+                            widget.item.valueCombos[index].name,
                             style: TextStyle(
                               fontWeight: hasSameIndex(index)
                                   ? FontWeight.bold
@@ -444,7 +543,7 @@ class _BottomModalState extends State<_BottomModal> {
                     ///           페이지까지 같이 이동 되버리기
                     ///           때문에 주의
                     Navigator.of(context)
-                        .pop(widget.item.combos[_currentIndex]);
+                        .pop(widget.item.valueCombos[_currentIndex]);
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(LayoutConstant.paddingS),

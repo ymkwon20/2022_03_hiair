@@ -1,4 +1,3 @@
-import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/workorder/application/save/work_order_save_event.dart';
 import 'package:frontend/src/workorder/application/save/work_order_save_state.dart';
@@ -12,15 +11,12 @@ class WorkOrderSaveStateNotifier extends StateNotifier<WorkOrderSaveState> {
   WorkOrderSaveStateNotifier({
     required SaveWorkOrder saveWorkOrder,
     required SaveWorkOrderList saveWorkOrderList,
-    required AuthChangeNotifier auth,
   })  : _saveWorkOrder = saveWorkOrder,
         _saveWorkOrderList = saveWorkOrderList,
-        _auth = auth,
         super(const WorkOrderSaveState.none());
 
   final SaveWorkOrder _saveWorkOrder;
   final SaveWorkOrderList _saveWorkOrderList;
-  final AuthChangeNotifier _auth;
 
   Future<void> mapEventToState(WorkOrderSaveEvent event) async {
     event.when(
@@ -31,7 +27,7 @@ class WorkOrderSaveStateNotifier extends StateNotifier<WorkOrderSaveState> {
   }
 
   Future<void> _processSaveQmItem(
-      WorkOrder item, WorkOrderStatus status, int index) async {
+      WorkOrder item, WorkOrderSaveStatus status, int index) async {
     state = const WorkOrderSaveState.saving();
 
     final date = DateFormat("yyyy-MM-dd").format(DateTime.now());
@@ -44,18 +40,21 @@ class WorkOrderSaveStateNotifier extends StateNotifier<WorkOrderSaveState> {
     /// E: 종료
     late String qmStatus;
     switch (status) {
-      case WorkOrderStatus.start:
+      case WorkOrderSaveStatus.start:
         qmStatus = "S";
         break;
-      case WorkOrderStatus.end:
+      case WorkOrderSaveStatus.end:
         qmStatus = "E";
         break;
+      case WorkOrderSaveStatus.all:
+        qmStatus = "A";
     }
 
     final params = {
       "plan-seq": item.planSeq.toString(),
       "wo-nb": item.code,
-      "wb-cd": _auth.user!.wbCd,
+      "wb-cd": item.wbCd,
+      "wc-cd": item.wcCd,
       "prod-gb": qmStatus,
       "date": date,
       "qty": item.qty.toString(),
@@ -68,18 +67,21 @@ class WorkOrderSaveStateNotifier extends StateNotifier<WorkOrderSaveState> {
     );
   }
 
-  Future<void> _processSaveQmList(
-      List<WorkOrder> list, WorkOrderStatus status, List<int> indice) async {
+  Future<void> _processSaveQmList(List<WorkOrder> list,
+      WorkOrderSaveStatus status, List<int> indice) async {
     state = const WorkOrderSaveState.saving();
 
     /// _processSaveQmItem(_,__,___) 참고
     late String qmStatus;
     switch (status) {
-      case WorkOrderStatus.start:
+      case WorkOrderSaveStatus.start:
         qmStatus = "S";
         break;
-      case WorkOrderStatus.end:
+      case WorkOrderSaveStatus.end:
         qmStatus = "E";
+        break;
+      case WorkOrderSaveStatus.all:
+        qmStatus = "A";
         break;
     }
 
@@ -91,7 +93,8 @@ class WorkOrderSaveStateNotifier extends StateNotifier<WorkOrderSaveState> {
       final mapData = {
         "plan-seq": item.planSeq.toString(),
         "wo-nb": item.code,
-        "wb-cd": _auth.user!.wbCd,
+        "wb-cd": item.wbCd,
+        "wc-cd": item.wcCd,
         "prod-gb": qmStatus,
         "date": date,
         "qty": item.qty.toString(),

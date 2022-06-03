@@ -29,6 +29,12 @@ class _$ChecklistSaveStateTearOff {
     return const _Saved();
   }
 
+  _SavedAndNext savedAndNext(WorkOrderSaveStatus status) {
+    return _SavedAndNext(
+      status,
+    );
+  }
+
   _Failure failure(String message) {
     return _Failure(
       message,
@@ -46,6 +52,7 @@ mixin _$ChecklistSaveState {
     required TResult Function() init,
     required TResult Function() saving,
     required TResult Function() saved,
+    required TResult Function(WorkOrderSaveStatus status) savedAndNext,
     required TResult Function(String message) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -54,6 +61,7 @@ mixin _$ChecklistSaveState {
     TResult Function()? init,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function(WorkOrderSaveStatus status)? savedAndNext,
     TResult Function(String message)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -62,6 +70,7 @@ mixin _$ChecklistSaveState {
     TResult Function()? init,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function(WorkOrderSaveStatus status)? savedAndNext,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) =>
@@ -71,6 +80,7 @@ mixin _$ChecklistSaveState {
     required TResult Function(_Init value) init,
     required TResult Function(_Saving value) saving,
     required TResult Function(_Saved value) saved,
+    required TResult Function(_SavedAndNext value) savedAndNext,
     required TResult Function(_Failure value) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -79,6 +89,7 @@ mixin _$ChecklistSaveState {
     TResult Function(_Init value)? init,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_SavedAndNext value)? savedAndNext,
     TResult Function(_Failure value)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -87,6 +98,7 @@ mixin _$ChecklistSaveState {
     TResult Function(_Init value)? init,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_SavedAndNext value)? savedAndNext,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) =>
@@ -151,6 +163,7 @@ class _$_Init extends _Init {
     required TResult Function() init,
     required TResult Function() saving,
     required TResult Function() saved,
+    required TResult Function(WorkOrderSaveStatus status) savedAndNext,
     required TResult Function(String message) failure,
   }) {
     return init();
@@ -162,6 +175,7 @@ class _$_Init extends _Init {
     TResult Function()? init,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function(WorkOrderSaveStatus status)? savedAndNext,
     TResult Function(String message)? failure,
   }) {
     return init?.call();
@@ -173,6 +187,7 @@ class _$_Init extends _Init {
     TResult Function()? init,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function(WorkOrderSaveStatus status)? savedAndNext,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -188,6 +203,7 @@ class _$_Init extends _Init {
     required TResult Function(_Init value) init,
     required TResult Function(_Saving value) saving,
     required TResult Function(_Saved value) saved,
+    required TResult Function(_SavedAndNext value) savedAndNext,
     required TResult Function(_Failure value) failure,
   }) {
     return init(this);
@@ -199,6 +215,7 @@ class _$_Init extends _Init {
     TResult Function(_Init value)? init,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_SavedAndNext value)? savedAndNext,
     TResult Function(_Failure value)? failure,
   }) {
     return init?.call(this);
@@ -210,6 +227,7 @@ class _$_Init extends _Init {
     TResult Function(_Init value)? init,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_SavedAndNext value)? savedAndNext,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -266,6 +284,7 @@ class _$_Saving extends _Saving {
     required TResult Function() init,
     required TResult Function() saving,
     required TResult Function() saved,
+    required TResult Function(WorkOrderSaveStatus status) savedAndNext,
     required TResult Function(String message) failure,
   }) {
     return saving();
@@ -277,6 +296,7 @@ class _$_Saving extends _Saving {
     TResult Function()? init,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function(WorkOrderSaveStatus status)? savedAndNext,
     TResult Function(String message)? failure,
   }) {
     return saving?.call();
@@ -288,6 +308,7 @@ class _$_Saving extends _Saving {
     TResult Function()? init,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function(WorkOrderSaveStatus status)? savedAndNext,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -303,6 +324,7 @@ class _$_Saving extends _Saving {
     required TResult Function(_Init value) init,
     required TResult Function(_Saving value) saving,
     required TResult Function(_Saved value) saved,
+    required TResult Function(_SavedAndNext value) savedAndNext,
     required TResult Function(_Failure value) failure,
   }) {
     return saving(this);
@@ -314,6 +336,7 @@ class _$_Saving extends _Saving {
     TResult Function(_Init value)? init,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_SavedAndNext value)? savedAndNext,
     TResult Function(_Failure value)? failure,
   }) {
     return saving?.call(this);
@@ -325,6 +348,7 @@ class _$_Saving extends _Saving {
     TResult Function(_Init value)? init,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_SavedAndNext value)? savedAndNext,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -381,6 +405,7 @@ class _$_Saved extends _Saved {
     required TResult Function() init,
     required TResult Function() saving,
     required TResult Function() saved,
+    required TResult Function(WorkOrderSaveStatus status) savedAndNext,
     required TResult Function(String message) failure,
   }) {
     return saved();
@@ -392,6 +417,7 @@ class _$_Saved extends _Saved {
     TResult Function()? init,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function(WorkOrderSaveStatus status)? savedAndNext,
     TResult Function(String message)? failure,
   }) {
     return saved?.call();
@@ -403,6 +429,7 @@ class _$_Saved extends _Saved {
     TResult Function()? init,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function(WorkOrderSaveStatus status)? savedAndNext,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -418,6 +445,7 @@ class _$_Saved extends _Saved {
     required TResult Function(_Init value) init,
     required TResult Function(_Saving value) saving,
     required TResult Function(_Saved value) saved,
+    required TResult Function(_SavedAndNext value) savedAndNext,
     required TResult Function(_Failure value) failure,
   }) {
     return saved(this);
@@ -429,6 +457,7 @@ class _$_Saved extends _Saved {
     TResult Function(_Init value)? init,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_SavedAndNext value)? savedAndNext,
     TResult Function(_Failure value)? failure,
   }) {
     return saved?.call(this);
@@ -440,6 +469,7 @@ class _$_Saved extends _Saved {
     TResult Function(_Init value)? init,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_SavedAndNext value)? savedAndNext,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -453,6 +483,159 @@ class _$_Saved extends _Saved {
 abstract class _Saved extends ChecklistSaveState {
   const factory _Saved() = _$_Saved;
   const _Saved._() : super._();
+}
+
+/// @nodoc
+abstract class _$SavedAndNextCopyWith<$Res> {
+  factory _$SavedAndNextCopyWith(
+          _SavedAndNext value, $Res Function(_SavedAndNext) then) =
+      __$SavedAndNextCopyWithImpl<$Res>;
+  $Res call({WorkOrderSaveStatus status});
+}
+
+/// @nodoc
+class __$SavedAndNextCopyWithImpl<$Res>
+    extends _$ChecklistSaveStateCopyWithImpl<$Res>
+    implements _$SavedAndNextCopyWith<$Res> {
+  __$SavedAndNextCopyWithImpl(
+      _SavedAndNext _value, $Res Function(_SavedAndNext) _then)
+      : super(_value, (v) => _then(v as _SavedAndNext));
+
+  @override
+  _SavedAndNext get _value => super._value as _SavedAndNext;
+
+  @override
+  $Res call({
+    Object? status = freezed,
+  }) {
+    return _then(_SavedAndNext(
+      status == freezed
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as WorkOrderSaveStatus,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_SavedAndNext extends _SavedAndNext {
+  const _$_SavedAndNext(this.status) : super._();
+
+  @override
+  final WorkOrderSaveStatus status;
+
+  @override
+  String toString() {
+    return 'ChecklistSaveState.savedAndNext(status: $status)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SavedAndNext &&
+            const DeepCollectionEquality().equals(other.status, status));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(status));
+
+  @JsonKey(ignore: true)
+  @override
+  _$SavedAndNextCopyWith<_SavedAndNext> get copyWith =>
+      __$SavedAndNextCopyWithImpl<_SavedAndNext>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() init,
+    required TResult Function() saving,
+    required TResult Function() saved,
+    required TResult Function(WorkOrderSaveStatus status) savedAndNext,
+    required TResult Function(String message) failure,
+  }) {
+    return savedAndNext(status);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? saving,
+    TResult Function()? saved,
+    TResult Function(WorkOrderSaveStatus status)? savedAndNext,
+    TResult Function(String message)? failure,
+  }) {
+    return savedAndNext?.call(status);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? saving,
+    TResult Function()? saved,
+    TResult Function(WorkOrderSaveStatus status)? savedAndNext,
+    TResult Function(String message)? failure,
+    required TResult orElse(),
+  }) {
+    if (savedAndNext != null) {
+      return savedAndNext(status);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Init value) init,
+    required TResult Function(_Saving value) saving,
+    required TResult Function(_Saved value) saved,
+    required TResult Function(_SavedAndNext value) savedAndNext,
+    required TResult Function(_Failure value) failure,
+  }) {
+    return savedAndNext(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Init value)? init,
+    TResult Function(_Saving value)? saving,
+    TResult Function(_Saved value)? saved,
+    TResult Function(_SavedAndNext value)? savedAndNext,
+    TResult Function(_Failure value)? failure,
+  }) {
+    return savedAndNext?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Init value)? init,
+    TResult Function(_Saving value)? saving,
+    TResult Function(_Saved value)? saved,
+    TResult Function(_SavedAndNext value)? savedAndNext,
+    TResult Function(_Failure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (savedAndNext != null) {
+      return savedAndNext(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SavedAndNext extends ChecklistSaveState {
+  const factory _SavedAndNext(WorkOrderSaveStatus status) = _$_SavedAndNext;
+  const _SavedAndNext._() : super._();
+
+  WorkOrderSaveStatus get status;
+  @JsonKey(ignore: true)
+  _$SavedAndNextCopyWith<_SavedAndNext> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -521,6 +704,7 @@ class _$_Failure extends _Failure {
     required TResult Function() init,
     required TResult Function() saving,
     required TResult Function() saved,
+    required TResult Function(WorkOrderSaveStatus status) savedAndNext,
     required TResult Function(String message) failure,
   }) {
     return failure(message);
@@ -532,6 +716,7 @@ class _$_Failure extends _Failure {
     TResult Function()? init,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function(WorkOrderSaveStatus status)? savedAndNext,
     TResult Function(String message)? failure,
   }) {
     return failure?.call(message);
@@ -543,6 +728,7 @@ class _$_Failure extends _Failure {
     TResult Function()? init,
     TResult Function()? saving,
     TResult Function()? saved,
+    TResult Function(WorkOrderSaveStatus status)? savedAndNext,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -558,6 +744,7 @@ class _$_Failure extends _Failure {
     required TResult Function(_Init value) init,
     required TResult Function(_Saving value) saving,
     required TResult Function(_Saved value) saved,
+    required TResult Function(_SavedAndNext value) savedAndNext,
     required TResult Function(_Failure value) failure,
   }) {
     return failure(this);
@@ -569,6 +756,7 @@ class _$_Failure extends _Failure {
     TResult Function(_Init value)? init,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_SavedAndNext value)? savedAndNext,
     TResult Function(_Failure value)? failure,
   }) {
     return failure?.call(this);
@@ -580,6 +768,7 @@ class _$_Failure extends _Failure {
     TResult Function(_Init value)? init,
     TResult Function(_Saving value)? saving,
     TResult Function(_Saved value)? saved,
+    TResult Function(_SavedAndNext value)? savedAndNext,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {

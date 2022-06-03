@@ -1,5 +1,6 @@
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/src/fct/presentation/view_models/fct_change_notifier.dart';
 import 'package:frontend/src/workorder/presentation/screens/custom_table.dart';
 import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_failure_row.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +14,6 @@ import 'package:frontend/src/fct/dependency_injection.dart';
 import 'package:frontend/src/fct/domain/entities/fct.dart';
 import 'package:frontend/src/fct/presentation/tablerows/fct/fct_loaded_row.dart';
 import 'package:frontend/src/fct/presentation/tablerows/fct/fct_loading_row.dart';
-import 'package:frontend/src/fct/presentation/view_model/fct_change_notifier.dart';
 
 class FctScreen extends ConsumerStatefulWidget {
   const FctScreen({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class _FctScreenState extends ConsumerState<FctScreen>
   int? _selectedIndex;
   Fct? _selectedItem;
 
-  double normalWidth = 80;
+  double normalWidth = 100;
   double qtyWidth = 100;
   double remarkWidth = 400;
 
@@ -149,6 +149,7 @@ class _FctScreenState extends ConsumerState<FctScreen>
 
     return Scaffold(
       extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

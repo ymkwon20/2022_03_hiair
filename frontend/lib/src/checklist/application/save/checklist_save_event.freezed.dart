@@ -17,9 +17,23 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$ChecklistSaveEventTearOff {
   const _$ChecklistSaveEventTearOff();
 
-  _SaveCheckItem saveChecklist(List<CheckItem> items) {
-    return _SaveCheckItem(
+  _SaveCheckList saveChecklist(List<CheckItem> items) {
+    return _SaveCheckList(
       items,
+    );
+  }
+
+  _SaveImageList saveImagelist(List<CheckImage> items) {
+    return _SaveImageList(
+      items,
+    );
+  }
+
+  _SaveCheckItemAndMore saveChecklistAndMore(
+      List<CheckItem> items, WorkOrderSaveStatus status) {
+    return _SaveCheckItemAndMore(
+      items,
+      status,
     );
   }
 }
@@ -29,43 +43,52 @@ const $ChecklistSaveEvent = _$ChecklistSaveEventTearOff();
 
 /// @nodoc
 mixin _$ChecklistSaveEvent {
-  List<CheckItem> get items => throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<CheckItem> items) saveChecklist,
+    required TResult Function(List<CheckImage> items) saveImagelist,
+    required TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)
+        saveChecklistAndMore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<CheckItem> items)? saveChecklist,
+    TResult Function(List<CheckImage> items)? saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+        saveChecklistAndMore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<CheckItem> items)? saveChecklist,
+    TResult Function(List<CheckImage> items)? saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+        saveChecklistAndMore,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_SaveCheckItem value) saveChecklist,
+    required TResult Function(_SaveCheckList value) saveChecklist,
+    required TResult Function(_SaveImageList value) saveImagelist,
+    required TResult Function(_SaveCheckItemAndMore value) saveChecklistAndMore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_SaveCheckItem value)? saveChecklist,
+    TResult Function(_SaveCheckList value)? saveChecklist,
+    TResult Function(_SaveImageList value)? saveImagelist,
+    TResult Function(_SaveCheckItemAndMore value)? saveChecklistAndMore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SaveCheckItem value)? saveChecklist,
+    TResult Function(_SaveCheckList value)? saveChecklist,
+    TResult Function(_SaveImageList value)? saveImagelist,
+    TResult Function(_SaveCheckItemAndMore value)? saveChecklistAndMore,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $ChecklistSaveEventCopyWith<ChecklistSaveEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -74,7 +97,6 @@ abstract class $ChecklistSaveEventCopyWith<$Res> {
   factory $ChecklistSaveEventCopyWith(
           ChecklistSaveEvent value, $Res Function(ChecklistSaveEvent) then) =
       _$ChecklistSaveEventCopyWithImpl<$Res>;
-  $Res call({List<CheckItem> items});
 }
 
 /// @nodoc
@@ -85,46 +107,32 @@ class _$ChecklistSaveEventCopyWithImpl<$Res>
   final ChecklistSaveEvent _value;
   // ignore: unused_field
   final $Res Function(ChecklistSaveEvent) _then;
-
-  @override
-  $Res call({
-    Object? items = freezed,
-  }) {
-    return _then(_value.copyWith(
-      items: items == freezed
-          ? _value.items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<CheckItem>,
-    ));
-  }
 }
 
 /// @nodoc
-abstract class _$SaveCheckItemCopyWith<$Res>
-    implements $ChecklistSaveEventCopyWith<$Res> {
-  factory _$SaveCheckItemCopyWith(
-          _SaveCheckItem value, $Res Function(_SaveCheckItem) then) =
-      __$SaveCheckItemCopyWithImpl<$Res>;
-  @override
+abstract class _$SaveCheckListCopyWith<$Res> {
+  factory _$SaveCheckListCopyWith(
+          _SaveCheckList value, $Res Function(_SaveCheckList) then) =
+      __$SaveCheckListCopyWithImpl<$Res>;
   $Res call({List<CheckItem> items});
 }
 
 /// @nodoc
-class __$SaveCheckItemCopyWithImpl<$Res>
+class __$SaveCheckListCopyWithImpl<$Res>
     extends _$ChecklistSaveEventCopyWithImpl<$Res>
-    implements _$SaveCheckItemCopyWith<$Res> {
-  __$SaveCheckItemCopyWithImpl(
-      _SaveCheckItem _value, $Res Function(_SaveCheckItem) _then)
-      : super(_value, (v) => _then(v as _SaveCheckItem));
+    implements _$SaveCheckListCopyWith<$Res> {
+  __$SaveCheckListCopyWithImpl(
+      _SaveCheckList _value, $Res Function(_SaveCheckList) _then)
+      : super(_value, (v) => _then(v as _SaveCheckList));
 
   @override
-  _SaveCheckItem get _value => super._value as _SaveCheckItem;
+  _SaveCheckList get _value => super._value as _SaveCheckList;
 
   @override
   $Res call({
     Object? items = freezed,
   }) {
-    return _then(_SaveCheckItem(
+    return _then(_SaveCheckList(
       items == freezed
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
@@ -135,8 +143,8 @@ class __$SaveCheckItemCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SaveCheckItem extends _SaveCheckItem {
-  const _$_SaveCheckItem(this.items) : super._();
+class _$_SaveCheckList extends _SaveCheckList {
+  const _$_SaveCheckList(this.items) : super._();
 
   @override
   final List<CheckItem> items;
@@ -150,7 +158,7 @@ class _$_SaveCheckItem extends _SaveCheckItem {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _SaveCheckItem &&
+            other is _SaveCheckList &&
             const DeepCollectionEquality().equals(other.items, items));
   }
 
@@ -160,13 +168,16 @@ class _$_SaveCheckItem extends _SaveCheckItem {
 
   @JsonKey(ignore: true)
   @override
-  _$SaveCheckItemCopyWith<_SaveCheckItem> get copyWith =>
-      __$SaveCheckItemCopyWithImpl<_SaveCheckItem>(this, _$identity);
+  _$SaveCheckListCopyWith<_SaveCheckList> get copyWith =>
+      __$SaveCheckListCopyWithImpl<_SaveCheckList>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<CheckItem> items) saveChecklist,
+    required TResult Function(List<CheckImage> items) saveImagelist,
+    required TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)
+        saveChecklistAndMore,
   }) {
     return saveChecklist(items);
   }
@@ -175,6 +186,9 @@ class _$_SaveCheckItem extends _SaveCheckItem {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<CheckItem> items)? saveChecklist,
+    TResult Function(List<CheckImage> items)? saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+        saveChecklistAndMore,
   }) {
     return saveChecklist?.call(items);
   }
@@ -183,6 +197,9 @@ class _$_SaveCheckItem extends _SaveCheckItem {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<CheckItem> items)? saveChecklist,
+    TResult Function(List<CheckImage> items)? saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+        saveChecklistAndMore,
     required TResult orElse(),
   }) {
     if (saveChecklist != null) {
@@ -194,7 +211,9 @@ class _$_SaveCheckItem extends _SaveCheckItem {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_SaveCheckItem value) saveChecklist,
+    required TResult Function(_SaveCheckList value) saveChecklist,
+    required TResult Function(_SaveImageList value) saveImagelist,
+    required TResult Function(_SaveCheckItemAndMore value) saveChecklistAndMore,
   }) {
     return saveChecklist(this);
   }
@@ -202,7 +221,9 @@ class _$_SaveCheckItem extends _SaveCheckItem {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_SaveCheckItem value)? saveChecklist,
+    TResult Function(_SaveCheckList value)? saveChecklist,
+    TResult Function(_SaveImageList value)? saveImagelist,
+    TResult Function(_SaveCheckItemAndMore value)? saveChecklistAndMore,
   }) {
     return saveChecklist?.call(this);
   }
@@ -210,7 +231,9 @@ class _$_SaveCheckItem extends _SaveCheckItem {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SaveCheckItem value)? saveChecklist,
+    TResult Function(_SaveCheckList value)? saveChecklist,
+    TResult Function(_SaveImageList value)? saveImagelist,
+    TResult Function(_SaveCheckItemAndMore value)? saveChecklistAndMore,
     required TResult orElse(),
   }) {
     if (saveChecklist != null) {
@@ -220,14 +243,314 @@ class _$_SaveCheckItem extends _SaveCheckItem {
   }
 }
 
-abstract class _SaveCheckItem extends ChecklistSaveEvent {
-  const factory _SaveCheckItem(List<CheckItem> items) = _$_SaveCheckItem;
-  const _SaveCheckItem._() : super._();
+abstract class _SaveCheckList extends ChecklistSaveEvent {
+  const factory _SaveCheckList(List<CheckItem> items) = _$_SaveCheckList;
+  const _SaveCheckList._() : super._();
+
+  List<CheckItem> get items;
+  @JsonKey(ignore: true)
+  _$SaveCheckListCopyWith<_SaveCheckList> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$SaveImageListCopyWith<$Res> {
+  factory _$SaveImageListCopyWith(
+          _SaveImageList value, $Res Function(_SaveImageList) then) =
+      __$SaveImageListCopyWithImpl<$Res>;
+  $Res call({List<CheckImage> items});
+}
+
+/// @nodoc
+class __$SaveImageListCopyWithImpl<$Res>
+    extends _$ChecklistSaveEventCopyWithImpl<$Res>
+    implements _$SaveImageListCopyWith<$Res> {
+  __$SaveImageListCopyWithImpl(
+      _SaveImageList _value, $Res Function(_SaveImageList) _then)
+      : super(_value, (v) => _then(v as _SaveImageList));
 
   @override
-  List<CheckItem> get items;
+  _SaveImageList get _value => super._value as _SaveImageList;
+
   @override
+  $Res call({
+    Object? items = freezed,
+  }) {
+    return _then(_SaveImageList(
+      items == freezed
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<CheckImage>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_SaveImageList extends _SaveImageList {
+  const _$_SaveImageList(this.items) : super._();
+
+  @override
+  final List<CheckImage> items;
+
+  @override
+  String toString() {
+    return 'ChecklistSaveEvent.saveImagelist(items: $items)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SaveImageList &&
+            const DeepCollectionEquality().equals(other.items, items));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(items));
+
   @JsonKey(ignore: true)
-  _$SaveCheckItemCopyWith<_SaveCheckItem> get copyWith =>
+  @override
+  _$SaveImageListCopyWith<_SaveImageList> get copyWith =>
+      __$SaveImageListCopyWithImpl<_SaveImageList>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<CheckItem> items) saveChecklist,
+    required TResult Function(List<CheckImage> items) saveImagelist,
+    required TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)
+        saveChecklistAndMore,
+  }) {
+    return saveImagelist(items);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<CheckItem> items)? saveChecklist,
+    TResult Function(List<CheckImage> items)? saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+        saveChecklistAndMore,
+  }) {
+    return saveImagelist?.call(items);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<CheckItem> items)? saveChecklist,
+    TResult Function(List<CheckImage> items)? saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+        saveChecklistAndMore,
+    required TResult orElse(),
+  }) {
+    if (saveImagelist != null) {
+      return saveImagelist(items);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_SaveCheckList value) saveChecklist,
+    required TResult Function(_SaveImageList value) saveImagelist,
+    required TResult Function(_SaveCheckItemAndMore value) saveChecklistAndMore,
+  }) {
+    return saveImagelist(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_SaveCheckList value)? saveChecklist,
+    TResult Function(_SaveImageList value)? saveImagelist,
+    TResult Function(_SaveCheckItemAndMore value)? saveChecklistAndMore,
+  }) {
+    return saveImagelist?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_SaveCheckList value)? saveChecklist,
+    TResult Function(_SaveImageList value)? saveImagelist,
+    TResult Function(_SaveCheckItemAndMore value)? saveChecklistAndMore,
+    required TResult orElse(),
+  }) {
+    if (saveImagelist != null) {
+      return saveImagelist(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SaveImageList extends ChecklistSaveEvent {
+  const factory _SaveImageList(List<CheckImage> items) = _$_SaveImageList;
+  const _SaveImageList._() : super._();
+
+  List<CheckImage> get items;
+  @JsonKey(ignore: true)
+  _$SaveImageListCopyWith<_SaveImageList> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$SaveCheckItemAndMoreCopyWith<$Res> {
+  factory _$SaveCheckItemAndMoreCopyWith(_SaveCheckItemAndMore value,
+          $Res Function(_SaveCheckItemAndMore) then) =
+      __$SaveCheckItemAndMoreCopyWithImpl<$Res>;
+  $Res call({List<CheckItem> items, WorkOrderSaveStatus status});
+}
+
+/// @nodoc
+class __$SaveCheckItemAndMoreCopyWithImpl<$Res>
+    extends _$ChecklistSaveEventCopyWithImpl<$Res>
+    implements _$SaveCheckItemAndMoreCopyWith<$Res> {
+  __$SaveCheckItemAndMoreCopyWithImpl(
+      _SaveCheckItemAndMore _value, $Res Function(_SaveCheckItemAndMore) _then)
+      : super(_value, (v) => _then(v as _SaveCheckItemAndMore));
+
+  @override
+  _SaveCheckItemAndMore get _value => super._value as _SaveCheckItemAndMore;
+
+  @override
+  $Res call({
+    Object? items = freezed,
+    Object? status = freezed,
+  }) {
+    return _then(_SaveCheckItemAndMore(
+      items == freezed
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<CheckItem>,
+      status == freezed
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as WorkOrderSaveStatus,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_SaveCheckItemAndMore extends _SaveCheckItemAndMore {
+  const _$_SaveCheckItemAndMore(this.items, this.status) : super._();
+
+  @override
+  final List<CheckItem> items;
+  @override
+  final WorkOrderSaveStatus status;
+
+  @override
+  String toString() {
+    return 'ChecklistSaveEvent.saveChecklistAndMore(items: $items, status: $status)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SaveCheckItemAndMore &&
+            const DeepCollectionEquality().equals(other.items, items) &&
+            const DeepCollectionEquality().equals(other.status, status));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(items),
+      const DeepCollectionEquality().hash(status));
+
+  @JsonKey(ignore: true)
+  @override
+  _$SaveCheckItemAndMoreCopyWith<_SaveCheckItemAndMore> get copyWith =>
+      __$SaveCheckItemAndMoreCopyWithImpl<_SaveCheckItemAndMore>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<CheckItem> items) saveChecklist,
+    required TResult Function(List<CheckImage> items) saveImagelist,
+    required TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)
+        saveChecklistAndMore,
+  }) {
+    return saveChecklistAndMore(items, status);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<CheckItem> items)? saveChecklist,
+    TResult Function(List<CheckImage> items)? saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+        saveChecklistAndMore,
+  }) {
+    return saveChecklistAndMore?.call(items, status);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<CheckItem> items)? saveChecklist,
+    TResult Function(List<CheckImage> items)? saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+        saveChecklistAndMore,
+    required TResult orElse(),
+  }) {
+    if (saveChecklistAndMore != null) {
+      return saveChecklistAndMore(items, status);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_SaveCheckList value) saveChecklist,
+    required TResult Function(_SaveImageList value) saveImagelist,
+    required TResult Function(_SaveCheckItemAndMore value) saveChecklistAndMore,
+  }) {
+    return saveChecklistAndMore(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_SaveCheckList value)? saveChecklist,
+    TResult Function(_SaveImageList value)? saveImagelist,
+    TResult Function(_SaveCheckItemAndMore value)? saveChecklistAndMore,
+  }) {
+    return saveChecklistAndMore?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_SaveCheckList value)? saveChecklist,
+    TResult Function(_SaveImageList value)? saveImagelist,
+    TResult Function(_SaveCheckItemAndMore value)? saveChecklistAndMore,
+    required TResult orElse(),
+  }) {
+    if (saveChecklistAndMore != null) {
+      return saveChecklistAndMore(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SaveCheckItemAndMore extends ChecklistSaveEvent {
+  const factory _SaveCheckItemAndMore(
+          List<CheckItem> items, WorkOrderSaveStatus status) =
+      _$_SaveCheckItemAndMore;
+  const _SaveCheckItemAndMore._() : super._();
+
+  List<CheckItem> get items;
+  WorkOrderSaveStatus get status;
+  @JsonKey(ignore: true)
+  _$SaveCheckItemAndMoreCopyWith<_SaveCheckItemAndMore> get copyWith =>
       throw _privateConstructorUsedError;
 }

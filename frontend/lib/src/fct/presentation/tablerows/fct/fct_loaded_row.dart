@@ -6,16 +6,35 @@ class FctLoadedRow extends CustomTableRow {
   FctLoadedRow({
     required Fct fct,
     Color? color,
+    TextStyle style = const TextStyle(
+      fontSize: 20,
+    ),
   }) : super(
           contents: [
-            Text(fct.thickness.toString()),
-            Text(fct.width.toString()),
-            Text(fct.length.toString()),
-            Text(fct.cutQty.toString()),
-            Text(fct.panQty.toString()),
+            Text(
+              fct.thickness.toString(),
+              style: style,
+            ),
+            Text(
+              fct.width.toString(),
+              style: style,
+            ),
+            Text(
+              fct.length.toString(),
+              style: style,
+            ),
+            Text(
+              fct.cutQty.toString(),
+              style: style,
+            ),
+            Text(
+              fct.panQty.toString(),
+              style: style,
+            ),
             Text(
               fct.remark.toString(),
               overflow: TextOverflow.ellipsis,
+              style: style,
             ),
           ],
           color: color ?? Colors.transparent,

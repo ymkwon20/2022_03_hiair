@@ -1,63 +1,47 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/src/checklist/application/save/checklist_save_state.dart';
-import 'package:frontend/src/checklist/dependency_injection.dart';
-import 'package:frontend/src/core/presentation/index.dart';
-import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
-import 'package:frontend/src/core/presentation/widgets/index.dart';
-import 'package:frontend/src/workorder/application/load/work_order_event.dart';
-import 'package:frontend/src/workorder/application/load/work_order_state.dart';
-import 'package:frontend/src/workorder/application/save/work_order_save_event.dart';
-import 'package:frontend/src/workorder/application/save/work_order_save_state.dart';
-import 'package:frontend/src/workorder/domain/entities/work_order.dart';
-import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_failure_row.dart';
-import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_loading_row.dart';
-import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_loaded_row.dart';
-import 'package:frontend/src/workorder/presentation/screens/work_order_drawer.dart';
-import 'package:frontend/src/workorder/presentation/viewmodel/work_order_list_notifier.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/pages/custom_route.dart';
+import 'package:frontend/src/core/presentation/routes/app_route_observer.dart';
+import 'package:frontend/src/workorder/application/load/work_order_event.dart';
+import 'package:frontend/src/workorder/application/save/work_order_save_event.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
+import 'package:frontend/src/workorder/domain/entities/work_order_status.dart';
 import 'package:frontend/src/workorder/presentation/screens/custom_table.dart';
+import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_failure_row.dart';
+import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_loaded_row.dart';
+import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_loading_row.dart';
+import 'package:frontend/src/workorder/presentation/screens/work_order_popup.dart';
+import 'package:frontend/src/workorder/presentation/viewmodel/qm_work_order_notifier.dart';
+import 'package:frontend/src/workorder/presentation/viewmodel/work_order_list_notifier.dart';
 
 /// 검사 1화면: QM 검사 항목 리스트 제시
-class WorkOrderScreen extends StatelessWidget {
-  const WorkOrderScreen({Key? key}) : super(key: key);
+class WorkOrderScreen extends ConsumerStatefulWidget {
+  const WorkOrderScreen({
+    Key? key,
+    this.isQm = false,
+    this.canSaveBothStartAndEnd = false,
+  }) : super(key: key);
+
+  final bool isQm;
+  final bool canSaveBothStartAndEnd;
 
   @override
-  Widget build(BuildContext context) {
-    return const ResponsiveWidget(
-      mobile: WorkOrderListWidget(),
-      tablet: WorkOrderListWidget(),
-      desktop: WorkOrderListWidget(),
-    );
-  }
+  ConsumerState<WorkOrderScreen> createState() => _WorkOrderListWidgetState();
 }
 
-class WorkOrderListWidget extends ConsumerStatefulWidget {
-  const WorkOrderListWidget({Key? key}) : super(key: key);
-
-  @override
-  ConsumerState<WorkOrderListWidget> createState() =>
-      _WorkOrderListWidgetState();
-}
-
-class _WorkOrderListWidgetState extends ConsumerState<WorkOrderListWidget>
-    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
-  late AnimationController _controller;
-
-  /// Pressed 관련
-  int? _selectedIndex;
-  WorkOrder? _selectedOrder;
-
+class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
+    with SingleTickerProviderStateMixin, RouteAware {
   /// scroll에 따른 새 아이템 불러오기 관련
   bool canLoadNextPage = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
     Future.delayed(
       Duration.zero,
       () {
@@ -65,19 +49,25 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderListWidget>
         _fetchQmItemsByPage();
       },
     );
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 300,
-      ),
-    );
   }
 
   @override
   void dispose() {
-    _controller.dispose();
-    WidgetsBinding.instance!.removeObserver(this);
+    ref.watch(routeObserverProvider).unsubscribe(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    ref
+        .watch(routeObserverProvider)
+        .subscribe(this, ModalRoute.of(context)! as PageRoute);
+  }
+
+  @override
+  void didPopNext() {
+    setState(() {});
   }
 
   Future<void> _fetchQmItemsByPage() async {
@@ -89,131 +79,41 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderListWidget>
         );
   }
 
-  void _openDrawer(int index) {
-    setState(() {
-      _selectedIndex = index;
-      _selectedOrder = ref.watch(workOrderListNotifier).items[_selectedIndex!];
-      _controller.forward();
-    });
-  }
-
-  Future<void> _closeDrawer() async {
-    await _controller.reverse();
-    setState(() {
-      _selectedOrder = null;
+  void _onTap(int index) {
+    if (widget.isQm) {
       ref
-          .read(workOrderSaveStateNotifierProvider.notifier)
-          .mapEventToState(const WorkOrderSaveEvent.resetToNone());
-    });
+          .read(qmWorkOrderNotifierProvider.notifier)
+          .setWorkOrder(ref.watch(workOrderListNotifier).items[index]);
+      context.push("/qm/$index");
+    } else {
+      if (ref.watch(workOrderListNotifier).isMultiSelectMode) {
+        ref.read(workOrderListNotifier).toggleSelectState(index);
+      } else {
+        // _openDrawer(index);
+
+        Navigator.of(context).push(
+          CustomSlideRoute(
+            backgroundColor: Colors.black.withOpacity(.2),
+            builder: (context) => ProviderScope(
+              overrides: [
+                workOrderIndexNotifier.overrideWithValue(index),
+                workOrderNotifier.overrideWithValue(
+                    ref.watch(workOrderListNotifier).items[index]),
+              ],
+              child: WorkOrderPopup(
+                canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              ),
+            ),
+          ),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<WorkOrderSaveState>(
-      workOrderSaveStateNotifierProvider,
-      (previous, current) {
-        current.maybeWhen(
-          oneSaved: (index, date, status) {
-            switch (status) {
-              case WorkOrderStatus.start:
-                ref
-                    .read(workOrderListNotifier.notifier)
-                    .setNewItemDateStart(index, date);
-                break;
-              case WorkOrderStatus.end:
-                ref
-                    .read(workOrderListNotifier.notifier)
-                    .setNewItemDateEnd(index, date);
-                break;
-            }
-            _closeDrawer();
-            showFlashBar(
-              context,
-              title: "저장 완료",
-              content: "",
-              backgroundColor: Theme.of(context).primaryColorLight,
-            );
-          },
-          multipleSaved: (indice, date, status) {
-            switch (status) {
-              case WorkOrderStatus.start:
-                ref
-                    .read(workOrderListNotifier.notifier)
-                    .setNewListDateStart(indice, date);
-                break;
-              case WorkOrderStatus.end:
-                ref
-                    .read(workOrderListNotifier.notifier)
-                    .setNewListDateEnd(indice, date);
-                break;
-            }
-            _closeDrawer();
-            showFlashBar(
-              context,
-              title: "저장 완료",
-              content: "",
-              backgroundColor: Theme.of(context).primaryColorLight,
-            );
-          },
-          failure: (message) {
-            _closeDrawer();
-            showFlashBar(
-              context,
-              title: "저장 오류",
-              content: message,
-              backgroundColor: Theme.of(context).errorColor,
-            );
-          },
-          orElse: () {
-            ref.read(workOrderListNotifier.notifier).clearSelection();
-          },
-        );
-      },
-    );
-
-    ref.listen<WorkOrderState>(workOrderStateNotifierProvider,
-        (previous, current) {
-      current.when(
-        initial: (_) => canLoadNextPage = true,
-        loading: (_, __) => canLoadNextPage = false,
-        loaded: (items, nextAvailable) {
-          ref.read(workOrderListNotifier.notifier).setOrderList(items);
-          canLoadNextPage = nextAvailable;
-        },
-        failure: (_, __) => canLoadNextPage = true,
-      );
-    });
-
-    ref.listen<ChecklistSaveState>(
-      checklistSaveStateNotifierProvider,
-      (previous, current) {
-        current.maybeWhen(
-          saved: () {
-            ref
-                .read(workOrderSaveStateNotifierProvider.notifier)
-                .mapEventToState(
-                  WorkOrderSaveEvent.saveWorkOrder(
-                    _selectedOrder!,
-                    WorkOrderStatus.end,
-                    _selectedIndex!,
-                  ),
-                );
-          },
-          failure: (message) {
-            _closeDrawer();
-            showFlashBar(
-              context,
-              title: "저장 오류",
-              content: message,
-              backgroundColor: Theme.of(context).errorColor,
-            );
-          },
-          orElse: () {},
-        );
-      },
-    );
-
     final state = ref.watch(workOrderStateNotifierProvider);
+    final notifier = ref.watch(workOrderListNotifier);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -235,111 +135,108 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderListWidget>
 
               return false;
             }),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(),
-              child: CustomTable(
-                onRowLongPressed: (index) {
-                  state.maybeWhen(
-                    loaded: (_, __) {
+            child: CustomTable(
+              onRowLongPressed: (index) {
+                state.maybeWhen(
+                  loaded: (_, __) {
+                    if (!widget.isQm) {
                       ref.read(workOrderListNotifier).toggleSelectState(index);
-                    },
-                    orElse: () {},
-                  );
-                },
-                onRowPressed: (index) {
-                  state.maybeWhen(
-                    loaded: (_, __) {
-                      if (ref.watch(workOrderListNotifier).isMultiSelectMode) {
-                        ref
-                            .read(workOrderListNotifier)
-                            .toggleSelectState(index);
-                      } else {
-                        _openDrawer(index);
-                      }
-                    },
-                    orElse: () {},
-                  );
-                },
-                onRefresh: () async {
-                  ref.read(workOrderListNotifier.notifier).clear();
-                  await _fetchQmItemsByPage();
-                },
-                headers: const [
-                  CustomTableHeader(title: "작업지시", width: 130),
-                  CustomTableHeader(title: "PND"),
-                  CustomTableHeader(title: "Yard"),
-                  CustomTableHeader(title: "Hull No", width: 120),
-                  CustomTableHeader(title: "구역"),
-                  CustomTableHeader(title: "Sys No"),
-                  CustomTableHeader(title: "품번", width: 120),
-                  CustomTableHeader(title: "수량", width: 50),
-                ],
-                rowBuilder: (context, index) {
-                  final notifier = ref.watch(workOrderListNotifier);
-                  return state.when(
-                    initial: (_) {
-                      return WorkOrderLoadingRow();
-                    },
-                    loading: (results, page) {
-                      if (index < results.length) {
-                        return WorkOrderLoadedRow(
-                          order: notifier.items[index],
-                          color: notifier.selectedIndex.contains(index)
-                              ? Theme.of(context).selectedRowColor
-                              : Colors.transparent,
-                        );
-                      } else {
-                        return WorkOrderLoadingRow();
-                      }
-                    },
-                    loaded: (_, __) {
+                    }
+                  },
+                  orElse: () {},
+                );
+              },
+              onRowPressed: (index) {
+                state.maybeWhen(
+                  loaded: (_, __) {
+                    _onTap(index);
+                  },
+                  orElse: () {},
+                );
+              },
+              onRefresh: () async {
+                ref.read(workOrderListNotifier.notifier).clear();
+                await _fetchQmItemsByPage();
+              },
+              headers: [
+                CustomTableHeader(
+                  title: "현공정",
+                  width: 150,
+                  canOrder: true,
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                ),
+                CustomTableHeader(
+                  title: "현공정 상태",
+                  width: 150,
+                  canOrder: true,
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                ),
+                const CustomTableHeader(title: "Yard", width: 150),
+                const CustomTableHeader(title: "Hull No", width: 150),
+                const CustomTableHeader(title: "구역"),
+                const CustomTableHeader(title: "Sys No"),
+                const CustomTableHeader(title: "품번", width: 130),
+                const CustomTableHeader(title: "수량", width: 50),
+              ],
+              rowBuilder: (context, index) {
+                return state.when(
+                  initial: (_) {
+                    return WorkOrderLoadingRow();
+                  },
+                  loading: (results, page) {
+                    if (index < results.length) {
                       return WorkOrderLoadedRow(
                         order: notifier.items[index],
-                        color: notifier.selectedIndex.contains(index)
-                            ? Colors.grey
-                            : Colors.transparent,
+                        color: _getColor(index),
                       );
-                    },
-                    failure: (results, message) {
-                      if (index < results.length) {
-                        return WorkOrderLoadedRow(order: notifier.items[index]);
-                      } else {
-                        return WorkOrderFailureRow(message: message);
-                      }
-                    },
-                  );
-                },
-                rowCount: state.when(
-                    initial: (_) => 0,
-                    loading: (prev, length) => prev.length + length,
-                    loaded: (current, _) => current.length,
-                    failure: (prev, message) => prev.length + 1),
-              ),
-            ),
-          ),
-          WorkOrderDrawer(
-            drawerController: _controller,
-            workOrder: _selectedOrder,
-            onStartPressed: () {
-              if (_selectedOrder != null) {
-                ref
-                    .read(workOrderSaveStateNotifierProvider.notifier)
-                    .mapEventToState(
-                      WorkOrderSaveEvent.saveWorkOrder(
-                        _selectedOrder!,
-                        WorkOrderStatus.start,
-                        _selectedIndex!,
-                      ),
+                    } else {
+                      return WorkOrderLoadingRow();
+                    }
+                  },
+                  loaded: (_, __) {
+                    return WorkOrderLoadedRow(
+                      order: notifier.items[index],
+                      color: _getColor(index),
                     );
-              }
-            },
-            onClose: _closeDrawer,
+                  },
+                  failure: (results, message) {
+                    if (index < results.length) {
+                      return WorkOrderLoadedRow(order: notifier.items[index]);
+                    } else {
+                      return WorkOrderFailureRow(message: message);
+                    }
+                  },
+                );
+              },
+              rowCount: state.when(
+                  initial: (_) => 0,
+                  loading: (prev, length) => prev.length + length,
+                  loaded: (current, _) => current.length,
+                  failure: (prev, message) => prev.length + 1),
+            ),
           ),
           _buildFabBackground(),
           _buildFab(),
         ],
       ),
     );
+  }
+
+  Color _getColor(int index) {
+    Color color;
+    final notifier = ref.watch(workOrderListNotifier);
+
+    if (notifier.items[index].status == WorkOrderStatus.resuming) {
+      color = Colors.amber;
+    } else {
+      color = Colors.transparent;
+    }
+
+    if (notifier.selectedIndex.contains(index)) {
+      color = Theme.of(context).selectedRowColor;
+    }
+
+    return color;
   }
 
   Widget _buildFab() {
@@ -375,7 +272,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderListWidget>
                       .mapEventToState(
                         WorkOrderSaveEvent.saveWorkOrderList(
                           ref.watch(workOrderListNotifier).selectedQmItem,
-                          WorkOrderStatus.start,
+                          WorkOrderSaveStatus.start,
                           ref
                               .watch(workOrderListNotifier)
                               .selectedIndex
@@ -395,7 +292,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderListWidget>
                       .mapEventToState(
                         WorkOrderSaveEvent.saveWorkOrderList(
                           ref.watch(workOrderListNotifier).selectedQmItem,
-                          WorkOrderStatus.end,
+                          WorkOrderSaveStatus.end,
                           ref
                               .watch(workOrderListNotifier)
                               .selectedIndex

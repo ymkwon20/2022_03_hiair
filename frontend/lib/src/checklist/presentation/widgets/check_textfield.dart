@@ -21,7 +21,7 @@ class CheckTextfield extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return TextFormField(
+    return TextField(
       controller: controller,
       focusNode: focusNode,
       keyboardType: type,
@@ -49,7 +49,7 @@ class CheckTextfield extends ConsumerWidget {
           ),
         ),
       ),
-      onEditingComplete: () async {
+      onEditingComplete: () {
         focusNode.unfocus();
         onComplete.call();
       },

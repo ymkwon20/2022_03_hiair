@@ -9,3 +9,8 @@ enum CheckType {
   file,
   readonly,
 }
+
+enum UnitType {
+  string,
+  combo,
+}

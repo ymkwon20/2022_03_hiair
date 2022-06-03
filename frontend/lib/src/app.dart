@@ -7,7 +7,12 @@ import 'package:frontend/src/auth/dependency_injection.dart';
 import 'package:frontend/src/auth/domain/entities/user.dart';
 import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
 import 'package:frontend/src/core/presentation/routes/app_router.dart';
+import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:frontend/src/settings/settings_scope.dart';
+import 'package:frontend/src/work_base/application/work_base_event.dart';
+import 'package:frontend/src/work_base/application/work_base_state.dart';
+import 'package:frontend/src/work_base/dependency_injection.dart';
+import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/core/presentation/app_theme.dart';
@@ -47,12 +52,46 @@ class _MyAppState extends ConsumerState<AppWidget> {
         },
         authenticated: (User user) {
           ref.read(authChangeNotifierProvider).setUser(user);
+
+          ref
+              .read(workBaseStateNotifierProvider.notifier)
+              .mapEventToState(const WorkBaseEvent.fetchWorkBases());
         },
-        failure: (String message) {},
+        failure: (String message) {
+          showFlashBar(
+            context,
+            title: "조회 오류",
+            content: "로그인에 실패했습니다. \n$message",
+            backgroundColor: Theme.of(context).errorColor,
+          );
+        },
       );
     });
 
+    ref.listen<WorkBaseState>(
+      workBaseStateNotifierProvider,
+      (previous, current) {
+        current.maybeWhen(
+          loaded: (items) {
+            ref
+                .read(workBaseChangeNotifierProvider.notifier)
+                .setWorkBases(items);
+          },
+          failure: (message) {
+            showFlashBar(
+              context,
+              title: "조회 오류",
+              content: "메뉴 목록을 조회하는데 실패했습니다.\n$message",
+              backgroundColor: Theme.of(context).errorColor,
+            );
+          },
+          orElse: () {},
+        );
+      },
+    );
+
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
       localizationsDelegates: const [
         AppLocalizations.delegate,
