@@ -41,19 +41,30 @@ class CheckItem {
   final String originalFileName;
 
   /// CBO_CD: 콤보박스 코드
-  final String comboCd;
+  final String unitComboCd;
+
+  /// CKS_TYPE_CBO_CD: 단위값 콤보박스 코드
+  final String valueComboCd;
 
   /// 콤보박스 리스트
-  final List<Combo> combos;
+  final List<Combo> valueCombos;
 
   /// UNIT: 단위 값 정보
   final String unit;
+
+  /// unit이 어떤 유형인지 구분
+  final UnitType unitType;
+
+  /// 콤보박스 리스트
+  final List<Combo> unitCombos;
 
   /// DIV_CD: 정보없음. QM1 구분하는 값으로 추정됨
   final String divCd;
 
   /// PHT_CD: 정보없음
   final String phtCd;
+
+  final bool isLocal;
 
   const CheckItem({
     required this.planSeq,
@@ -68,11 +79,15 @@ class CheckItem {
     required this.standard,
     required this.imageFileName,
     required this.originalFileName,
-    required this.comboCd,
-    required this.combos,
+    required this.unitComboCd,
+    required this.valueComboCd,
+    required this.valueCombos,
     required this.unit,
+    required this.unitType,
+    required this.unitCombos,
     required this.divCd,
     required this.phtCd,
+    required this.isLocal,
   });
 
   bool get hasValue {
@@ -98,6 +113,15 @@ class CheckItem {
     }
   }
 
+  bool get isUnitFilled {
+    switch (unitType) {
+      case UnitType.string:
+        return true;
+      case UnitType.combo:
+        return unit != "";
+    }
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -115,11 +139,15 @@ class CheckItem {
         other.standard == standard &&
         other.imageFileName == imageFileName &&
         other.originalFileName == originalFileName &&
-        other.comboCd == comboCd &&
-        listEquals(other.combos, combos) &&
+        other.unitComboCd == unitComboCd &&
+        other.valueComboCd == valueComboCd &&
+        listEquals(other.valueCombos, valueCombos) &&
         other.unit == unit &&
+        other.unitType == unitType &&
+        listEquals(other.unitCombos, unitCombos) &&
         other.divCd == divCd &&
-        other.phtCd == phtCd;
+        other.phtCd == phtCd &&
+        other.isLocal == isLocal;
   }
 
   @override
@@ -136,11 +164,15 @@ class CheckItem {
         standard.hashCode ^
         imageFileName.hashCode ^
         originalFileName.hashCode ^
-        comboCd.hashCode ^
-        combos.hashCode ^
+        unitComboCd.hashCode ^
+        valueComboCd.hashCode ^
+        valueCombos.hashCode ^
         unit.hashCode ^
+        unitType.hashCode ^
+        unitCombos.hashCode ^
         divCd.hashCode ^
-        phtCd.hashCode;
+        phtCd.hashCode ^
+        isLocal.hashCode;
   }
 
   CheckItem copyWith({
@@ -156,11 +188,15 @@ class CheckItem {
     String? standard,
     String? imageFileName,
     String? originalFileName,
-    String? comboCd,
-    List<Combo>? combos,
+    String? unitComboCd,
+    String? valueComboCd,
+    List<Combo>? valueCombos,
     String? unit,
+    UnitType? unitType,
+    List<Combo>? unitCombos,
     String? divCd,
     String? phtCd,
+    bool? isLocal,
   }) {
     return CheckItem(
       planSeq: planSeq ?? this.planSeq,
@@ -175,11 +211,15 @@ class CheckItem {
       standard: standard ?? this.standard,
       imageFileName: imageFileName ?? this.imageFileName,
       originalFileName: originalFileName ?? this.originalFileName,
-      comboCd: comboCd ?? this.comboCd,
-      combos: combos ?? this.combos,
+      unitComboCd: unitComboCd ?? this.unitComboCd,
+      valueComboCd: valueComboCd ?? this.valueComboCd,
+      valueCombos: valueCombos ?? this.valueCombos,
       unit: unit ?? this.unit,
+      unitType: unitType ?? this.unitType,
+      unitCombos: unitCombos ?? this.unitCombos,
       divCd: divCd ?? this.divCd,
       phtCd: phtCd ?? this.phtCd,
+      isLocal: isLocal ?? this.isLocal,
     );
   }
 }

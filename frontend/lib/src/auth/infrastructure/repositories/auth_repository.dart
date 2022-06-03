@@ -25,7 +25,6 @@ class AuthRepository implements IAuthRepository {
       final storedUserDto = await _localService.read();
       return storedUserDto?.toDomain();
     } on PlatformException {
-      // TODO(ymkwon): null로 던질 것인지 아니면 함수형 Either로 던질 것인지 생각해보기
       return null;
     }
   }

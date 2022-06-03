@@ -1,9 +1,7 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:frontend/src/core/presentation/image_widget.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
-import 'package:frontend/src/core/presentation/widgets/image_dialog.dart';
 import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:frontend/src/cutting/application/check/save/cutting_check_save_state.dart';
 import 'package:frontend/src/cutting/presentation/request/cutting_check_list_widget.dart';
@@ -61,7 +59,7 @@ class CuttingRequestPage extends ConsumerWidget {
   }
 }
 
-class CuttingRequestListView extends ConsumerStatefulWidget {
+class CuttingRequestListView extends ConsumerWidget {
   const CuttingRequestListView({
     Key? key,
     required this.items,
@@ -70,30 +68,7 @@ class CuttingRequestListView extends ConsumerStatefulWidget {
   final List<CuttingCheckDetail> items;
 
   @override
-  ConsumerState<CuttingRequestListView> createState() =>
-      _CuttingRequestListViewState();
-}
-
-class _CuttingRequestListViewState
-    extends ConsumerState<CuttingRequestListView> {
-  Uint8List? _cachedBytes;
-  late NetworkAssetBundle _assetBundle;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      _assetBundle = NetworkAssetBundle(Uri.parse(
-          "${LogicConstant.baseImageServerUrl}/${ref.watch(cuttingSerialProvider).imageFileName}"));
-      final imageData = await _assetBundle.load("");
-      setState(() {
-        _cachedBytes = imageData.buffer.asUint8List();
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -114,16 +89,16 @@ class _CuttingRequestListViewState
                   DataColumn(label: Text('Remark')),
                 ],
                 rows: List.generate(
-                  widget.items.length,
+                  items.length,
                   (index) => DataRow(
                     onSelectChanged: (bool? _) {},
                     onLongPress: () {},
                     cells: [
-                      DataCell(Text(widget.items[index].metalCd)),
+                      DataCell(Text(items[index].metalCd)),
                       DataCell(Text(
-                          "${widget.items[index].thickness}*${widget.items[index].width}*${widget.items[index].length}")),
-                      DataCell(Text("${widget.items[index].qty}")),
-                      DataCell(Text(widget.items[index].camNo)),
+                          "${items[index].thickness}*${items[index].width}*${items[index].length}")),
+                      DataCell(Text("${items[index].qty}")),
+                      DataCell(Text(items[index].camNo)),
                       const DataCell(
                         TextField(
                           decoration: InputDecoration(
@@ -147,22 +122,11 @@ class _CuttingRequestListViewState
             ),
           ),
           const SizedBox(height: LayoutConstant.spaceL),
-          _cachedBytes == null
-              ? const SizedBox()
-              : GestureDetector(
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return ImageDialog(
-                        bytes: _cachedBytes!,
-                      );
-                    }));
-                  },
-                  child: Image.memory(
-                    _cachedBytes!,
-                    fit: BoxFit.contain,
-                  ),
-                ),
+          ImageWidget(
+            isLocal: false,
+            imagePath:
+                "${LogicConstant.baseImageServerUrl}/${ref.watch(cuttingSerialProvider).imageFileName}",
+          ),
           const CuttingCheckListWidget(),
         ],
       ),

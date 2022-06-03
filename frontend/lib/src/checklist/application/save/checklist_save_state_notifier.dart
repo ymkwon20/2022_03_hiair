@@ -1,6 +1,13 @@
 import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
+import 'package:frontend/src/checklist/domain/entities/check_image.dart';
+import 'package:frontend/src/checklist/domain/entities/check_item.dart';
+import 'package:frontend/src/checklist/domain/usecases/save_imagelist.dart';
+import 'package:frontend/src/checklist/infrastructure/dtos/check_image_dto.dart';
 import 'package:frontend/src/checklist/infrastructure/dtos/check_item_dto.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
+import 'package:frontend/src/image/domain/usecases/save_images.dart';
+import 'package:frontend/src/workorder/application/save/work_order_save_event.dart';
+import 'package:frontend/src/workorder/presentation/viewmodel/qm_work_order_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/checklist/application/save/checklist_save_event.dart';
@@ -10,29 +17,117 @@ import 'package:frontend/src/checklist/domain/usecases/save_checklist.dart';
 class ChecklistSaveStateNotifier extends StateNotifier<ChecklistSaveState> {
   ChecklistSaveStateNotifier({
     required SaveChecklist saveChecklist,
+    required SaveImagelist saveImagelist,
+    required SaveImages saveImages,
     required AuthChangeNotifier authNotifier,
+    required QmWorkOrderNotifier workOrderNotifier,
   })  : _saveChecklist = saveChecklist,
+        _saveImagelist = saveImagelist,
+        _saveImages = saveImages,
         _authNotifier = authNotifier,
+        _workOrderNotifier = workOrderNotifier,
         super(const ChecklistSaveState.init());
 
+  final SaveImages _saveImages;
   final SaveChecklist _saveChecklist;
+  final SaveImagelist _saveImagelist;
   final AuthChangeNotifier _authNotifier;
+  final QmWorkOrderNotifier _workOrderNotifier;
 
   Future<void> mapEventToState(ChecklistSaveEvent event) async {
     event.when(
-      saveChecklist: (items) async {
-        state = const ChecklistSaveState.saving();
-        final List<Map<String, dynamic>> parameterList = items.map((item) {
-          final params = CheckItemDto.fromDomain(item).toMap();
-          params["user-id"] = _authNotifier.user!.id;
-          return params;
-        }).toList();
+      saveChecklist: _processSave,
+      saveChecklistAndMore: _processSave,
+      saveImagelist: _saveImageInfos,
+    );
+  }
 
-        final resultsOrFailure = await _saveChecklist(parameterList);
-        state = resultsOrFailure.fold(
-          (l) => ChecklistSaveState.failure(mapFailureToString(l)),
-          (r) => const ChecklistSaveState.saved(),
-        );
+  Future<void> _processSave(List<CheckItem> items,
+      [WorkOrderSaveStatus? status]) async {
+    state = const ChecklistSaveState.saving();
+
+    // 저장 정보를 담기 위한 파라미터 리스트
+    final parameterList = <Map<String, dynamic>>[];
+    // 저장 이미지 path 리스트
+    final imagePathList = <String>[];
+    for (final item in items) {
+      /// 1. 저장 정보 파라미터 만들기
+      final params = CheckItemDto.fromDomain(item).toMap();
+      params["user-id"] = _authNotifier.user!.id;
+      parameterList.add(params);
+
+      /// 2. 저장 이미지 path 따로 저장
+      if (item.imageFileName != "") {
+        imagePathList.add(item.imageFileName);
+      }
+    }
+
+    // 체크리스트 정보 저장
+    final resultsOrFailure = await _saveChecklist(parameterList);
+    resultsOrFailure.fold(
+      (l) {
+        state = ChecklistSaveState.failure(mapFailureToString(l));
+      },
+      (r) async {
+        // 이미지를 추가했을 때는 이미지에 대한 정보 저장
+        if (imagePathList.isNotEmpty) {
+          final failureOrSuccess = await _saveImages(imagePathList);
+          failureOrSuccess.fold(
+            (l) => state = const ChecklistSaveState.failure("이미지 저장 실패"),
+            (r) {
+              if (status == null) {
+                state = const ChecklistSaveState.saved();
+              } else {
+                state = ChecklistSaveState.savedAndNext(status);
+              }
+            },
+          );
+        } else {
+          if (status == null) {
+            state = const ChecklistSaveState.saved();
+          } else {
+            state = ChecklistSaveState.savedAndNext(status);
+          }
+        }
+      },
+    );
+  }
+
+  Future<void> _saveImageInfos(List<CheckImage> items) async {
+    state = const ChecklistSaveState.saving();
+    final parameterList = <Map<String, dynamic>>[];
+
+    final imagePathList = <String>[];
+    for (final item in items) {
+      /// 1. 저장 정보 파라미터 만들기
+      final params = CheckImageDto.fromDomain(item).toMap();
+      params["user-id"] = _authNotifier.user!.id;
+      params["wo-nb"] = _workOrderNotifier.order!.code;
+      params["wc-cd"] = _workOrderNotifier.order!.wcCd;
+      params["wb-cd"] = _workOrderNotifier.order!.wbCd;
+      params["plan-seq"] = _workOrderNotifier.order!.planSeq.toString();
+      parameterList.add(params);
+
+      /// 2. 저장 이미지 path 따로 저장
+      if (item.path != "") {
+        imagePathList.add(item.path);
+      }
+    }
+
+    final resultsOrFailure = await _saveImagelist(parameterList);
+    resultsOrFailure.fold(
+      (l) => state = ChecklistSaveState.failure(mapFailureToString(l)),
+      (r) async {
+        // 이미지를 추가했을 때는 이미지에 대한 정보 저장
+        if (imagePathList.isNotEmpty) {
+          final failureOrSuccess = await _saveImages(imagePathList);
+          state = failureOrSuccess.fold(
+            (l) => const ChecklistSaveState.failure("이미지 저장 실패"),
+            (r) => const ChecklistSaveState.saved(),
+          );
+        } else {
+          state = const ChecklistSaveState.saved();
+        }
       },
     );
   }

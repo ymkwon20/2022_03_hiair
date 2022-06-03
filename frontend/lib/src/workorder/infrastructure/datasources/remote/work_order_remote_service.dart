@@ -18,9 +18,13 @@ class WorkOrderRemoteService implements WorkOrderService {
       Map<String, dynamic> params) async {
     try {
       final response = await _dio.get(
-        "/qm",
+        "/order",
         queryParameters: params,
       );
+
+      if (response.data == null) {
+        return const WorkOrderListDto(isNextAvailable: false, items: []);
+      }
 
       final results = (response.data as Map<String, dynamic>);
 
@@ -56,7 +60,7 @@ class WorkOrderRemoteService implements WorkOrderService {
   @override
   Future<void> saveWorkOrder(Map<String, dynamic> params) async {
     try {
-      await _dio.post("/qm", data: params);
+      await _dio.post("/order", data: params);
     } on DioError catch (e) {
       if (e.isNoConnectionError) {
         throw NoConnectionException(
@@ -92,7 +96,7 @@ class WorkOrderRemoteService implements WorkOrderService {
   @override
   Future<void> saveWorkOrderList(List<Map<String, dynamic>> params) async {
     try {
-      await _dio.post("/qms", data: params);
+      await _dio.post("/orders", data: params);
     } on DioError catch (e) {
       if (e.isNoConnectionError) {
         throw NoConnectionException(

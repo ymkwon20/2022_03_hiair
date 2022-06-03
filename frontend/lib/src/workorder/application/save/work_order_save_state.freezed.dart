@@ -25,7 +25,7 @@ class _$WorkOrderSaveStateTearOff {
     return const _Saving();
   }
 
-  _Saved oneSaved(int index, String date, WorkOrderStatus status) {
+  _Saved oneSaved(int index, String date, WorkOrderSaveStatus status) {
     return _Saved(
       index,
       date,
@@ -34,7 +34,7 @@ class _$WorkOrderSaveStateTearOff {
   }
 
   _MultipleSaved multipleSaved(
-      List<int> indice, String date, WorkOrderStatus status) {
+      List<int> indice, String date, WorkOrderSaveStatus status) {
     return _MultipleSaved(
       indice,
       date,
@@ -58,10 +58,11 @@ mixin _$WorkOrderSaveState {
   TResult when<TResult extends Object?>({
     required TResult Function() none,
     required TResult Function() saving,
-    required TResult Function(int index, String date, WorkOrderStatus status)
+    required TResult Function(
+            int index, String date, WorkOrderSaveStatus status)
         oneSaved,
     required TResult Function(
-            List<int> indice, String date, WorkOrderStatus status)
+            List<int> indice, String date, WorkOrderSaveStatus status)
         multipleSaved,
     required TResult Function(String message) failure,
   }) =>
@@ -70,8 +71,9 @@ mixin _$WorkOrderSaveState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? saving,
-    TResult Function(int index, String date, WorkOrderStatus status)? oneSaved,
-    TResult Function(List<int> indice, String date, WorkOrderStatus status)?
+    TResult Function(int index, String date, WorkOrderSaveStatus status)?
+        oneSaved,
+    TResult Function(List<int> indice, String date, WorkOrderSaveStatus status)?
         multipleSaved,
     TResult Function(String message)? failure,
   }) =>
@@ -80,8 +82,9 @@ mixin _$WorkOrderSaveState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? saving,
-    TResult Function(int index, String date, WorkOrderStatus status)? oneSaved,
-    TResult Function(List<int> indice, String date, WorkOrderStatus status)?
+    TResult Function(int index, String date, WorkOrderSaveStatus status)?
+        oneSaved,
+    TResult Function(List<int> indice, String date, WorkOrderSaveStatus status)?
         multipleSaved,
     TResult Function(String message)? failure,
     required TResult orElse(),
@@ -174,10 +177,11 @@ class _$_None extends _None {
   TResult when<TResult extends Object?>({
     required TResult Function() none,
     required TResult Function() saving,
-    required TResult Function(int index, String date, WorkOrderStatus status)
+    required TResult Function(
+            int index, String date, WorkOrderSaveStatus status)
         oneSaved,
     required TResult Function(
-            List<int> indice, String date, WorkOrderStatus status)
+            List<int> indice, String date, WorkOrderSaveStatus status)
         multipleSaved,
     required TResult Function(String message) failure,
   }) {
@@ -189,8 +193,9 @@ class _$_None extends _None {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? saving,
-    TResult Function(int index, String date, WorkOrderStatus status)? oneSaved,
-    TResult Function(List<int> indice, String date, WorkOrderStatus status)?
+    TResult Function(int index, String date, WorkOrderSaveStatus status)?
+        oneSaved,
+    TResult Function(List<int> indice, String date, WorkOrderSaveStatus status)?
         multipleSaved,
     TResult Function(String message)? failure,
   }) {
@@ -202,8 +207,9 @@ class _$_None extends _None {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? saving,
-    TResult Function(int index, String date, WorkOrderStatus status)? oneSaved,
-    TResult Function(List<int> indice, String date, WorkOrderStatus status)?
+    TResult Function(int index, String date, WorkOrderSaveStatus status)?
+        oneSaved,
+    TResult Function(List<int> indice, String date, WorkOrderSaveStatus status)?
         multipleSaved,
     TResult Function(String message)? failure,
     required TResult orElse(),
@@ -300,10 +306,11 @@ class _$_Saving extends _Saving {
   TResult when<TResult extends Object?>({
     required TResult Function() none,
     required TResult Function() saving,
-    required TResult Function(int index, String date, WorkOrderStatus status)
+    required TResult Function(
+            int index, String date, WorkOrderSaveStatus status)
         oneSaved,
     required TResult Function(
-            List<int> indice, String date, WorkOrderStatus status)
+            List<int> indice, String date, WorkOrderSaveStatus status)
         multipleSaved,
     required TResult Function(String message) failure,
   }) {
@@ -315,8 +322,9 @@ class _$_Saving extends _Saving {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? saving,
-    TResult Function(int index, String date, WorkOrderStatus status)? oneSaved,
-    TResult Function(List<int> indice, String date, WorkOrderStatus status)?
+    TResult Function(int index, String date, WorkOrderSaveStatus status)?
+        oneSaved,
+    TResult Function(List<int> indice, String date, WorkOrderSaveStatus status)?
         multipleSaved,
     TResult Function(String message)? failure,
   }) {
@@ -328,8 +336,9 @@ class _$_Saving extends _Saving {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? saving,
-    TResult Function(int index, String date, WorkOrderStatus status)? oneSaved,
-    TResult Function(List<int> indice, String date, WorkOrderStatus status)?
+    TResult Function(int index, String date, WorkOrderSaveStatus status)?
+        oneSaved,
+    TResult Function(List<int> indice, String date, WorkOrderSaveStatus status)?
         multipleSaved,
     TResult Function(String message)? failure,
     required TResult orElse(),
@@ -390,7 +399,7 @@ abstract class _Saving extends WorkOrderSaveState {
 abstract class _$SavedCopyWith<$Res> {
   factory _$SavedCopyWith(_Saved value, $Res Function(_Saved) then) =
       __$SavedCopyWithImpl<$Res>;
-  $Res call({int index, String date, WorkOrderStatus status});
+  $Res call({int index, String date, WorkOrderSaveStatus status});
 }
 
 /// @nodoc
@@ -420,7 +429,7 @@ class __$SavedCopyWithImpl<$Res> extends _$WorkOrderSaveStateCopyWithImpl<$Res>
       status == freezed
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as WorkOrderStatus,
+              as WorkOrderSaveStatus,
     ));
   }
 }
@@ -435,7 +444,7 @@ class _$_Saved extends _Saved {
   @override
   final String date;
   @override
-  final WorkOrderStatus status;
+  final WorkOrderSaveStatus status;
 
   @override
   String toString() {
@@ -469,10 +478,11 @@ class _$_Saved extends _Saved {
   TResult when<TResult extends Object?>({
     required TResult Function() none,
     required TResult Function() saving,
-    required TResult Function(int index, String date, WorkOrderStatus status)
+    required TResult Function(
+            int index, String date, WorkOrderSaveStatus status)
         oneSaved,
     required TResult Function(
-            List<int> indice, String date, WorkOrderStatus status)
+            List<int> indice, String date, WorkOrderSaveStatus status)
         multipleSaved,
     required TResult Function(String message) failure,
   }) {
@@ -484,8 +494,9 @@ class _$_Saved extends _Saved {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? saving,
-    TResult Function(int index, String date, WorkOrderStatus status)? oneSaved,
-    TResult Function(List<int> indice, String date, WorkOrderStatus status)?
+    TResult Function(int index, String date, WorkOrderSaveStatus status)?
+        oneSaved,
+    TResult Function(List<int> indice, String date, WorkOrderSaveStatus status)?
         multipleSaved,
     TResult Function(String message)? failure,
   }) {
@@ -497,8 +508,9 @@ class _$_Saved extends _Saved {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? saving,
-    TResult Function(int index, String date, WorkOrderStatus status)? oneSaved,
-    TResult Function(List<int> indice, String date, WorkOrderStatus status)?
+    TResult Function(int index, String date, WorkOrderSaveStatus status)?
+        oneSaved,
+    TResult Function(List<int> indice, String date, WorkOrderSaveStatus status)?
         multipleSaved,
     TResult Function(String message)? failure,
     required TResult orElse(),
@@ -551,13 +563,13 @@ class _$_Saved extends _Saved {
 }
 
 abstract class _Saved extends WorkOrderSaveState {
-  const factory _Saved(int index, String date, WorkOrderStatus status) =
+  const factory _Saved(int index, String date, WorkOrderSaveStatus status) =
       _$_Saved;
   const _Saved._() : super._();
 
   int get index;
   String get date;
-  WorkOrderStatus get status;
+  WorkOrderSaveStatus get status;
   @JsonKey(ignore: true)
   _$SavedCopyWith<_Saved> get copyWith => throw _privateConstructorUsedError;
 }
@@ -567,7 +579,7 @@ abstract class _$MultipleSavedCopyWith<$Res> {
   factory _$MultipleSavedCopyWith(
           _MultipleSaved value, $Res Function(_MultipleSaved) then) =
       __$MultipleSavedCopyWithImpl<$Res>;
-  $Res call({List<int> indice, String date, WorkOrderStatus status});
+  $Res call({List<int> indice, String date, WorkOrderSaveStatus status});
 }
 
 /// @nodoc
@@ -599,7 +611,7 @@ class __$MultipleSavedCopyWithImpl<$Res>
       status == freezed
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as WorkOrderStatus,
+              as WorkOrderSaveStatus,
     ));
   }
 }
@@ -614,7 +626,7 @@ class _$_MultipleSaved extends _MultipleSaved {
   @override
   final String date;
   @override
-  final WorkOrderStatus status;
+  final WorkOrderSaveStatus status;
 
   @override
   String toString() {
@@ -648,10 +660,11 @@ class _$_MultipleSaved extends _MultipleSaved {
   TResult when<TResult extends Object?>({
     required TResult Function() none,
     required TResult Function() saving,
-    required TResult Function(int index, String date, WorkOrderStatus status)
+    required TResult Function(
+            int index, String date, WorkOrderSaveStatus status)
         oneSaved,
     required TResult Function(
-            List<int> indice, String date, WorkOrderStatus status)
+            List<int> indice, String date, WorkOrderSaveStatus status)
         multipleSaved,
     required TResult Function(String message) failure,
   }) {
@@ -663,8 +676,9 @@ class _$_MultipleSaved extends _MultipleSaved {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? saving,
-    TResult Function(int index, String date, WorkOrderStatus status)? oneSaved,
-    TResult Function(List<int> indice, String date, WorkOrderStatus status)?
+    TResult Function(int index, String date, WorkOrderSaveStatus status)?
+        oneSaved,
+    TResult Function(List<int> indice, String date, WorkOrderSaveStatus status)?
         multipleSaved,
     TResult Function(String message)? failure,
   }) {
@@ -676,8 +690,9 @@ class _$_MultipleSaved extends _MultipleSaved {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? saving,
-    TResult Function(int index, String date, WorkOrderStatus status)? oneSaved,
-    TResult Function(List<int> indice, String date, WorkOrderStatus status)?
+    TResult Function(int index, String date, WorkOrderSaveStatus status)?
+        oneSaved,
+    TResult Function(List<int> indice, String date, WorkOrderSaveStatus status)?
         multipleSaved,
     TResult Function(String message)? failure,
     required TResult orElse(),
@@ -731,12 +746,13 @@ class _$_MultipleSaved extends _MultipleSaved {
 
 abstract class _MultipleSaved extends WorkOrderSaveState {
   const factory _MultipleSaved(
-      List<int> indice, String date, WorkOrderStatus status) = _$_MultipleSaved;
+          List<int> indice, String date, WorkOrderSaveStatus status) =
+      _$_MultipleSaved;
   const _MultipleSaved._() : super._();
 
   List<int> get indice;
   String get date;
-  WorkOrderStatus get status;
+  WorkOrderSaveStatus get status;
   @JsonKey(ignore: true)
   _$MultipleSavedCopyWith<_MultipleSaved> get copyWith =>
       throw _privateConstructorUsedError;
@@ -807,10 +823,11 @@ class _$_Failure extends _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() none,
     required TResult Function() saving,
-    required TResult Function(int index, String date, WorkOrderStatus status)
+    required TResult Function(
+            int index, String date, WorkOrderSaveStatus status)
         oneSaved,
     required TResult Function(
-            List<int> indice, String date, WorkOrderStatus status)
+            List<int> indice, String date, WorkOrderSaveStatus status)
         multipleSaved,
     required TResult Function(String message) failure,
   }) {
@@ -822,8 +839,9 @@ class _$_Failure extends _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? saving,
-    TResult Function(int index, String date, WorkOrderStatus status)? oneSaved,
-    TResult Function(List<int> indice, String date, WorkOrderStatus status)?
+    TResult Function(int index, String date, WorkOrderSaveStatus status)?
+        oneSaved,
+    TResult Function(List<int> indice, String date, WorkOrderSaveStatus status)?
         multipleSaved,
     TResult Function(String message)? failure,
   }) {
@@ -835,8 +853,9 @@ class _$_Failure extends _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function()? saving,
-    TResult Function(int index, String date, WorkOrderStatus status)? oneSaved,
-    TResult Function(List<int> indice, String date, WorkOrderStatus status)?
+    TResult Function(int index, String date, WorkOrderSaveStatus status)?
+        oneSaved,
+    TResult Function(List<int> indice, String date, WorkOrderSaveStatus status)?
         multipleSaved,
     TResult Function(String message)? failure,
     required TResult orElse(),

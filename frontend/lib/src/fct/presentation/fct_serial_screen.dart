@@ -44,39 +44,44 @@ class _FctScreenState extends ConsumerState<FctSerialScreen> {
 
     final state = ref.watch(fctSerialStateNotifierProvider);
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: Theme.of(context).iconTheme,
+        ),
         body: CustomTable(
-      onRowPressed: (index) {
-        ref.read(fctStateNotifierProvider.notifier).mapEventToState(
-            FctEvent.getFctItems(
-                ref.watch(fctSerialProvider.notifier).state[index]));
+          onRowPressed: (index) {
+            ref.read(fctStateNotifierProvider.notifier).mapEventToState(
+                FctEvent.getFctItems(
+                    ref.watch(fctSerialProvider.notifier).state[index]));
 
-        context.push("/fct/request");
-      },
-      onRefresh: () async {},
-      headers: const [
-        CustomTableHeader(title: "날짜", width: 130),
-      ],
-      rowBuilder: (context, index) {
-        return state.when(
-          init: () {
-            return FctSerialLoadingRow();
+            context.push("/fct/request");
           },
-          loading: () {
-            return FctSerialLoadingRow();
+          onRefresh: () async {},
+          headers: const [
+            CustomTableHeader(title: "날짜", width: 160),
+          ],
+          rowBuilder: (context, index) {
+            return state.when(
+              init: () {
+                return FctSerialLoadingRow();
+              },
+              loading: () {
+                return FctSerialLoadingRow();
+              },
+              loaded: (serials) {
+                return FctSerialLoadedRow(serial: serials[index]);
+              },
+              failure: (message) {
+                return WorkOrderFailureRow(message: message);
+              },
+            );
           },
-          loaded: (serials) {
-            return FctSerialLoadedRow(serial: serials[index]);
-          },
-          failure: (message) {
-            return WorkOrderFailureRow(message: message);
-          },
-        );
-      },
-      rowCount: state.when(
-          init: () => 0,
-          loading: () => 1,
-          loaded: (current) => current.length.toInt(),
-          failure: (message) => 1),
-    ));
+          rowCount: state.when(
+              init: () => 0,
+              loading: () => 1,
+              loaded: (current) => current.length.toInt(),
+              failure: (message) => 1),
+        ));
   }
 }

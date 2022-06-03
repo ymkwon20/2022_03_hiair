@@ -18,7 +18,7 @@ class _$WorkOrderSaveEventTearOff {
   const _$WorkOrderSaveEventTearOff();
 
   _SaveWorkOrder saveWorkOrder(
-      WorkOrder item, WorkOrderStatus status, int index) {
+      WorkOrder item, WorkOrderSaveStatus status, int index) {
     return _SaveWorkOrder(
       item,
       status,
@@ -27,7 +27,7 @@ class _$WorkOrderSaveEventTearOff {
   }
 
   _SaveWorkOrderList saveWorkOrderList(
-      List<WorkOrder> list, WorkOrderStatus status, List<int> indice) {
+      List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice) {
     return _SaveWorkOrderList(
       list,
       status,
@@ -47,30 +47,31 @@ const $WorkOrderSaveEvent = _$WorkOrderSaveEventTearOff();
 mixin _$WorkOrderSaveEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(WorkOrder item, WorkOrderStatus status, int index)
+    required TResult Function(
+            WorkOrder item, WorkOrderSaveStatus status, int index)
         saveWorkOrder,
     required TResult Function(
-            List<WorkOrder> list, WorkOrderStatus status, List<int> indice)
+            List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice)
         saveWorkOrderList,
     required TResult Function() resetToNone,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(WorkOrder item, WorkOrderStatus status, int index)?
+    TResult Function(WorkOrder item, WorkOrderSaveStatus status, int index)?
         saveWorkOrder,
     TResult Function(
-            List<WorkOrder> list, WorkOrderStatus status, List<int> indice)?
+            List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice)?
         saveWorkOrderList,
     TResult Function()? resetToNone,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(WorkOrder item, WorkOrderStatus status, int index)?
+    TResult Function(WorkOrder item, WorkOrderSaveStatus status, int index)?
         saveWorkOrder,
     TResult Function(
-            List<WorkOrder> list, WorkOrderStatus status, List<int> indice)?
+            List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice)?
         saveWorkOrderList,
     TResult Function()? resetToNone,
     required TResult orElse(),
@@ -122,7 +123,7 @@ abstract class _$SaveWorkOrderCopyWith<$Res> {
   factory _$SaveWorkOrderCopyWith(
           _SaveWorkOrder value, $Res Function(_SaveWorkOrder) then) =
       __$SaveWorkOrderCopyWithImpl<$Res>;
-  $Res call({WorkOrder item, WorkOrderStatus status, int index});
+  $Res call({WorkOrder item, WorkOrderSaveStatus status, int index});
 }
 
 /// @nodoc
@@ -150,7 +151,7 @@ class __$SaveWorkOrderCopyWithImpl<$Res>
       status == freezed
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as WorkOrderStatus,
+              as WorkOrderSaveStatus,
       index == freezed
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
@@ -167,7 +168,7 @@ class _$_SaveWorkOrder extends _SaveWorkOrder {
   @override
   final WorkOrder item;
   @override
-  final WorkOrderStatus status;
+  final WorkOrderSaveStatus status;
   @override
   final int index;
 
@@ -201,10 +202,11 @@ class _$_SaveWorkOrder extends _SaveWorkOrder {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(WorkOrder item, WorkOrderStatus status, int index)
+    required TResult Function(
+            WorkOrder item, WorkOrderSaveStatus status, int index)
         saveWorkOrder,
     required TResult Function(
-            List<WorkOrder> list, WorkOrderStatus status, List<int> indice)
+            List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice)
         saveWorkOrderList,
     required TResult Function() resetToNone,
   }) {
@@ -214,10 +216,10 @@ class _$_SaveWorkOrder extends _SaveWorkOrder {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(WorkOrder item, WorkOrderStatus status, int index)?
+    TResult Function(WorkOrder item, WorkOrderSaveStatus status, int index)?
         saveWorkOrder,
     TResult Function(
-            List<WorkOrder> list, WorkOrderStatus status, List<int> indice)?
+            List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice)?
         saveWorkOrderList,
     TResult Function()? resetToNone,
   }) {
@@ -227,10 +229,10 @@ class _$_SaveWorkOrder extends _SaveWorkOrder {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(WorkOrder item, WorkOrderStatus status, int index)?
+    TResult Function(WorkOrder item, WorkOrderSaveStatus status, int index)?
         saveWorkOrder,
     TResult Function(
-            List<WorkOrder> list, WorkOrderStatus status, List<int> indice)?
+            List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice)?
         saveWorkOrderList,
     TResult Function()? resetToNone,
     required TResult orElse(),
@@ -278,11 +280,11 @@ class _$_SaveWorkOrder extends _SaveWorkOrder {
 
 abstract class _SaveWorkOrder extends WorkOrderSaveEvent {
   const factory _SaveWorkOrder(
-      WorkOrder item, WorkOrderStatus status, int index) = _$_SaveWorkOrder;
+      WorkOrder item, WorkOrderSaveStatus status, int index) = _$_SaveWorkOrder;
   const _SaveWorkOrder._() : super._();
 
   WorkOrder get item;
-  WorkOrderStatus get status;
+  WorkOrderSaveStatus get status;
   int get index;
   @JsonKey(ignore: true)
   _$SaveWorkOrderCopyWith<_SaveWorkOrder> get copyWith =>
@@ -294,7 +296,8 @@ abstract class _$SaveWorkOrderListCopyWith<$Res> {
   factory _$SaveWorkOrderListCopyWith(
           _SaveWorkOrderList value, $Res Function(_SaveWorkOrderList) then) =
       __$SaveWorkOrderListCopyWithImpl<$Res>;
-  $Res call({List<WorkOrder> list, WorkOrderStatus status, List<int> indice});
+  $Res call(
+      {List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice});
 }
 
 /// @nodoc
@@ -322,7 +325,7 @@ class __$SaveWorkOrderListCopyWithImpl<$Res>
       status == freezed
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as WorkOrderStatus,
+              as WorkOrderSaveStatus,
       indice == freezed
           ? _value.indice
           : indice // ignore: cast_nullable_to_non_nullable
@@ -339,7 +342,7 @@ class _$_SaveWorkOrderList extends _SaveWorkOrderList {
   @override
   final List<WorkOrder> list;
   @override
-  final WorkOrderStatus status;
+  final WorkOrderSaveStatus status;
   @override
   final List<int> indice;
 
@@ -373,10 +376,11 @@ class _$_SaveWorkOrderList extends _SaveWorkOrderList {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(WorkOrder item, WorkOrderStatus status, int index)
+    required TResult Function(
+            WorkOrder item, WorkOrderSaveStatus status, int index)
         saveWorkOrder,
     required TResult Function(
-            List<WorkOrder> list, WorkOrderStatus status, List<int> indice)
+            List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice)
         saveWorkOrderList,
     required TResult Function() resetToNone,
   }) {
@@ -386,10 +390,10 @@ class _$_SaveWorkOrderList extends _SaveWorkOrderList {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(WorkOrder item, WorkOrderStatus status, int index)?
+    TResult Function(WorkOrder item, WorkOrderSaveStatus status, int index)?
         saveWorkOrder,
     TResult Function(
-            List<WorkOrder> list, WorkOrderStatus status, List<int> indice)?
+            List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice)?
         saveWorkOrderList,
     TResult Function()? resetToNone,
   }) {
@@ -399,10 +403,10 @@ class _$_SaveWorkOrderList extends _SaveWorkOrderList {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(WorkOrder item, WorkOrderStatus status, int index)?
+    TResult Function(WorkOrder item, WorkOrderSaveStatus status, int index)?
         saveWorkOrder,
     TResult Function(
-            List<WorkOrder> list, WorkOrderStatus status, List<int> indice)?
+            List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice)?
         saveWorkOrderList,
     TResult Function()? resetToNone,
     required TResult orElse(),
@@ -450,12 +454,12 @@ class _$_SaveWorkOrderList extends _SaveWorkOrderList {
 
 abstract class _SaveWorkOrderList extends WorkOrderSaveEvent {
   const factory _SaveWorkOrderList(
-          List<WorkOrder> list, WorkOrderStatus status, List<int> indice) =
+          List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice) =
       _$_SaveWorkOrderList;
   const _SaveWorkOrderList._() : super._();
 
   List<WorkOrder> get list;
-  WorkOrderStatus get status;
+  WorkOrderSaveStatus get status;
   List<int> get indice;
   @JsonKey(ignore: true)
   _$SaveWorkOrderListCopyWith<_SaveWorkOrderList> get copyWith =>
@@ -503,10 +507,11 @@ class _$_ResetToNone extends _ResetToNone {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(WorkOrder item, WorkOrderStatus status, int index)
+    required TResult Function(
+            WorkOrder item, WorkOrderSaveStatus status, int index)
         saveWorkOrder,
     required TResult Function(
-            List<WorkOrder> list, WorkOrderStatus status, List<int> indice)
+            List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice)
         saveWorkOrderList,
     required TResult Function() resetToNone,
   }) {
@@ -516,10 +521,10 @@ class _$_ResetToNone extends _ResetToNone {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(WorkOrder item, WorkOrderStatus status, int index)?
+    TResult Function(WorkOrder item, WorkOrderSaveStatus status, int index)?
         saveWorkOrder,
     TResult Function(
-            List<WorkOrder> list, WorkOrderStatus status, List<int> indice)?
+            List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice)?
         saveWorkOrderList,
     TResult Function()? resetToNone,
   }) {
@@ -529,10 +534,10 @@ class _$_ResetToNone extends _ResetToNone {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(WorkOrder item, WorkOrderStatus status, int index)?
+    TResult Function(WorkOrder item, WorkOrderSaveStatus status, int index)?
         saveWorkOrder,
     TResult Function(
-            List<WorkOrder> list, WorkOrderStatus status, List<int> indice)?
+            List<WorkOrder> list, WorkOrderSaveStatus status, List<int> indice)?
         saveWorkOrderList,
     TResult Function()? resetToNone,
     required TResult orElse(),

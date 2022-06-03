@@ -44,20 +44,31 @@ class CheckItemDto {
   ///  ORG1_FN : 파일명
   final String originalFileName;
 
-  /// CBO_CD: 콤보박스 코드
-  final String comboCd;
+  /// CBO_CD: 단위값 콤보박스 코드
+  final String unitComboCd;
+
+  /// CKS_TYPE_CBO_CD: 단위값 콤보박스 코드
+  final String valueComboCd;
 
   /// 콤보박스 리스트
-  final List<ComboDto> combos;
+  final List<ComboDto> valueCombos;
 
   /// UNIT: 단위 값 정보
   final String unit;
+
+  /// unit 유형 구분
+  final UnitType unitType;
+
+  /// 콤보박스 리스트
+  final List<ComboDto> unitCombos;
 
   /// DIV_CD: 정보없음. QM1 구분하는 값으로 추정됨
   final String divCd;
 
   /// PHT_CD: 정보없음
   final String phtCd;
+
+  final bool isLocal;
 
   const CheckItemDto({
     required this.planSeq,
@@ -72,11 +83,15 @@ class CheckItemDto {
     required this.standard,
     required this.imageFileName,
     required this.originalFileName,
-    required this.comboCd,
-    required this.combos,
+    required this.unitComboCd,
+    required this.valueComboCd,
+    required this.valueCombos,
     required this.unit,
+    required this.unitType,
+    required this.unitCombos,
     required this.divCd,
     required this.phtCd,
+    required this.isLocal,
   });
 
   factory CheckItemDto.fromDomain(CheckItem domain) {
@@ -93,11 +108,16 @@ class CheckItemDto {
       standard: domain.standard,
       imageFileName: domain.imageFileName,
       originalFileName: domain.originalFileName,
-      comboCd: domain.comboCd,
+      valueComboCd: domain.valueComboCd,
+      unitComboCd: domain.unitComboCd,
       unit: domain.unit,
       divCd: domain.divCd,
       phtCd: domain.phtCd,
-      combos: domain.combos.map((e) => ComboDto.fromDomain(e)).toList(),
+      valueCombos:
+          domain.valueCombos.map((e) => ComboDto.fromDomain(e)).toList(),
+      unitCombos: domain.unitCombos.map((e) => ComboDto.fromDomain(e)).toList(),
+      unitType: domain.unitType,
+      isLocal: domain.isLocal,
     );
   }
 
@@ -115,11 +135,15 @@ class CheckItemDto {
       standard: standard,
       imageFileName: imageFileName,
       originalFileName: originalFileName,
-      comboCd: comboCd,
+      unitComboCd: unitComboCd,
+      valueComboCd: valueComboCd,
       unit: unit,
       divCd: divCd,
       phtCd: phtCd,
-      combos: combos.map((e) => e.toDomain()).toList(),
+      valueCombos: valueCombos.map((e) => e.toDomain()).toList(),
+      unitCombos: unitCombos.map((e) => e.toDomain()).toList(),
+      unitType: unitType,
+      isLocal: isLocal,
     );
   }
 
@@ -140,11 +164,15 @@ class CheckItemDto {
         other.standard == standard &&
         other.imageFileName == imageFileName &&
         other.originalFileName == originalFileName &&
-        other.comboCd == comboCd &&
+        other.unitComboCd == unitComboCd &&
+        other.valueComboCd == valueComboCd &&
+        listEquals(other.valueCombos, valueCombos) &&
         other.unit == unit &&
-        other.phtCd == phtCd &&
+        other.unitType == unitType &&
+        listEquals(other.unitCombos, unitCombos) &&
         other.divCd == divCd &&
-        listEquals(other.combos, combos);
+        other.phtCd == phtCd &&
+        other.isLocal == isLocal;
   }
 
   @override
@@ -161,11 +189,15 @@ class CheckItemDto {
         standard.hashCode ^
         imageFileName.hashCode ^
         originalFileName.hashCode ^
-        comboCd.hashCode ^
+        unitComboCd.hashCode ^
+        valueComboCd.hashCode ^
+        valueCombos.hashCode ^
         unit.hashCode ^
+        unitType.hashCode ^
+        unitCombos.hashCode ^
         divCd.hashCode ^
         phtCd.hashCode ^
-        combos.hashCode;
+        isLocal.hashCode;
   }
 
   CheckItemDto copyWith({
@@ -181,11 +213,15 @@ class CheckItemDto {
     String? standard,
     String? imageFileName,
     String? originalFileName,
-    String? comboCd,
+    String? unitComboCd,
+    String? valueComboCd,
+    List<ComboDto>? valueCombos,
     String? unit,
-    String? phtCd,
+    UnitType? unitType,
+    List<ComboDto>? unitCombos,
     String? divCd,
-    List<ComboDto>? combos,
+    String? phtCd,
+    bool? isLocal,
   }) {
     return CheckItemDto(
       planSeq: planSeq ?? this.planSeq,
@@ -200,11 +236,15 @@ class CheckItemDto {
       standard: standard ?? this.standard,
       imageFileName: imageFileName ?? this.imageFileName,
       originalFileName: originalFileName ?? this.originalFileName,
-      comboCd: comboCd ?? this.comboCd,
-      combos: combos ?? this.combos,
+      unitComboCd: unitComboCd ?? this.unitComboCd,
+      valueComboCd: valueComboCd ?? this.valueComboCd,
+      valueCombos: valueCombos ?? this.valueCombos,
       unit: unit ?? this.unit,
+      unitType: unitType ?? this.unitType,
+      unitCombos: unitCombos ?? this.unitCombos,
       divCd: divCd ?? this.divCd,
       phtCd: phtCd ?? this.phtCd,
+      isLocal: isLocal ?? this.isLocal,
     );
   }
 
@@ -222,7 +262,8 @@ class CheckItemDto {
       'bas-val': standard,
       'new1-fn': imageFileName,
       'org1-fn': originalFileName,
-      'cbo-cd': comboCd,
+      'value-cbo-cd': valueComboCd,
+      'unit-cbo-cd': unitComboCd,
       // 'combos': combos.map((x) => x.toMap()).toList(),
       'unit': unit,
       'div-cd': divCd,
@@ -231,27 +272,40 @@ class CheckItemDto {
   }
 
   factory CheckItemDto.fromMap(Map<String, dynamic> map) {
-    late final CheckType type;
+    late final CheckType checkType;
 
-    final rawType = map['CKS_TYPE'] ?? "";
-    if (rawType == "N") {
-      type = CheckType.number;
-    } else if (rawType == "S") {
-      type = CheckType.string;
-    } else if (rawType == "C") {
-      type = CheckType.checkbox;
-    } else if (rawType == "I") {
-      type = CheckType.image;
-    } else if (rawType == "D") {
-      type = CheckType.date;
-    } else if (rawType == "B") {
-      type = CheckType.combo;
-    } else if (rawType == "A") {
-      type = CheckType.file;
-    } else if (rawType == "R") {
-      type = CheckType.readonly;
+    final rawCheck = map['CKS_TYPE'] ?? "";
+    if (rawCheck == "N") {
+      checkType = CheckType.number;
+    } else if (rawCheck == "S") {
+      checkType = CheckType.string;
+    } else if (rawCheck == "C") {
+      checkType = CheckType.checkbox;
+    } else if (rawCheck == "I") {
+      checkType = CheckType.image;
+    } else if (rawCheck == "D") {
+      checkType = CheckType.date;
+    } else if (rawCheck == "B") {
+      checkType = CheckType.combo;
+    } else if (rawCheck == "A") {
+      checkType = CheckType.file;
+    } else if (rawCheck == "R") {
+      checkType = CheckType.readonly;
     } else {
       throw const InvalidServerResponseException(message: "invalid check type");
+    }
+
+    late final UnitType unitType;
+    late final String unit;
+
+    final rawUnit = map["UNIT"] ?? "";
+
+    if (rawUnit == "B") {
+      unit = "";
+      unitType = UnitType.combo;
+    } else {
+      unit = rawUnit;
+      unitType = UnitType.string;
     }
 
     return CheckItemDto(
@@ -259,7 +313,7 @@ class CheckItemDto {
       workOrder: map['WO_NB'] ?? '',
       wbCd: map['WB_CD'] ?? '',
       wcCd: map['WC_CD'] ?? '',
-      checkType: type,
+      checkType: checkType,
       checkSheetCd: map['CKS_CD'] ?? '',
       checkSheetName: map['CKS_NM'] ?? '',
       checkSheetValue: map['CKS_VAL'] ?? '',
@@ -267,11 +321,15 @@ class CheckItemDto {
       standard: map['BAS_VAL'] ?? '',
       imageFileName: map['NEW1_FN'] ?? '',
       originalFileName: map['ORG1_FN'] ?? '',
-      comboCd: map['CBO_CD'] ?? '',
-      combos: [],
-      unit: map['UNIT'] ?? '',
+      unitComboCd: map['CBO_CD'] ?? '',
+      valueComboCd: map['CKS_CBO_CD'] ?? '',
+      valueCombos: [],
       phtCd: map['PHT_CD'] ?? '',
       divCd: map['DIV_CD'] ?? '',
+      unitCombos: [],
+      unit: unit,
+      unitType: unitType,
+      isLocal: false,
     );
   }
 

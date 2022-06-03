@@ -34,6 +34,11 @@ class _CuttingSerialsPageState extends ConsumerState<CuttingSerialsPage> {
     final state = ref.watch(cuttingSerialsStateNotifierProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: Theme.of(context).iconTheme,
+      ),
       body: state.when(
         initial: () => const InitialStateWidget(),
         loading: () => const LoadingStateWidget(),

@@ -1,206 +1,172 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/auth/application/auth_event.dart';
-import 'package:frontend/src/auth/dependency_injection.dart';
-import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
 import 'package:frontend/src/core/presentation/index.dart';
-import 'package:frontend/src/core/presentation/widgets/index.dart';
-import 'package:go_router/go_router.dart';
+import 'package:frontend/src/core/presentation/pages/custom_route.dart';
+import 'package:frontend/src/core/presentation/pages/dialog.dart';
+import 'package:frontend/src/core/presentation/pages/menu_item.dart';
+import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authChangeNotifierProvider).user;
+  ConsumerState<HomeScreen> createState() => _HomeAlterScreenState();
+}
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return _buildLogoutPopup(
-                      context,
-                      name: user!.name,
-                      onNoTap: Navigator.of(context).pop,
-                      onYesTap: () {
-                        Navigator.of(context).pop();
-                        ref
-                            .read(authStateNotifierProvider.notifier)
-                            .mapEventToState(
-                              const AuthEvent.signOut(),
-                            );
-                      },
-                    );
-                  },
-                );
-              },
-              icon: const Icon(Icons.settings))
-        ],
-        iconTheme: Theme.of(context).iconTheme,
-      ),
-      body: SizedBox.expand(
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 500,
-            childAspectRatio: 2 / 2,
-            crossAxisSpacing: 20,
-            mainAxisSpacing: 20,
+class _HomeAlterScreenState extends ConsumerState<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  // static final _opacitySideBarTween =
+  //     CurveTween(curve: const Interval(0.3, 0.7, curve: Curves.ease));
+
+  static final _opacityHomeTween =
+      CurveTween(curve: const Interval(0.6, 1, curve: Curves.ease));
+
+  // static final _slideSideBarTween = Tween<Offset>(
+  //   begin: const Offset(0, 1),
+  //   end: const Offset(0, 0),
+  // ).chain(CurveTween(curve: const Interval(0, 0.8, curve: Curves.ease)));
+
+  static final _slideHomeTween = Tween<Offset>(
+    begin: const Offset(0, 1),
+    end: const Offset(0, 0),
+  ).chain(CurveTween(curve: const Interval(0.2, 1.0, curve: Curves.ease)));
+
+  /// transition 전환에 이어 seamless한 경험을 주기 위해 애니메이션을 발동시키는 타이밍
+  static const int _transitionMilliseconds = 600;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+
+    WidgetsBinding.instance!.addPostFrameCallback(
+      (_) {
+        Future.delayed(
+          const Duration(
+            milliseconds: _transitionMilliseconds,
           ),
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                context.pushNamed(_mockMenus[index].routeName);
-              },
-              child: Container(
-                margin: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: _mockMenus[index].cardColor,
+          () => _controller.forward(),
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+                SlideTransition(
+                  position: _slideHomeTween.animate(_controller),
+                  child: FadeTransition(
+                    opacity: _opacityHomeTween.animate(_controller),
+                    child: const HomeAlterWidget(),
+                  ),
                 ),
-                alignment: Alignment.center,
-                child: Text(
-                  _mockMenus[index].title,
-                ),
-              ),
+                // SlideTransition(
+                //   position: _slideSideBarTween.animate(_controller),
+                //   child: FadeTransition(
+                //     opacity: _opacitySideBarTween.animate(_controller),
+                //     child: HomeSideBar(
+                //       fadeController: _controller,
+                //     ),
+                //   ),
+                // ),
+              ],
             );
           },
-          itemCount: _mockMenus.length,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLogoutPopup(
-    BuildContext context, {
-    required String name,
-    required VoidCallback onYesTap,
-    required VoidCallback onNoTap,
-  }) {
-    return AlertDialog(
-      backgroundColor: Theme.of(context).cardColor,
-      contentPadding: const EdgeInsets.all(0),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: double.infinity,
-            padding:
-                const EdgeInsets.symmetric(vertical: LayoutConstant.paddingM),
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(LayoutConstant.radiusS - 1),
-                )),
-            alignment: Alignment.center,
-            child: const Text(
-              "로그 아웃",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-          const UnderlineWidget(),
-          const SizedBox(height: LayoutConstant.spaceM),
-          Text.rich(
-            TextSpan(
-              text: "$name 님\n",
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-              children: const [
-                TextSpan(
-                  text: "로그아웃 하시겠습니까?",
-                  style: TextStyle(fontWeight: FontWeight.normal),
-                ),
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: LayoutConstant.spaceM),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: _buildButton(
-                  context,
-                  name: "No",
-                  onTap: onNoTap,
-                ),
-              ),
-              Expanded(
-                child: _buildButton(
-                  context,
-                  name: "Yes",
-                  onTap: onYesTap,
-                  isPrimary: true,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildButton(
-    BuildContext context, {
-    VoidCallback? onTap,
-    required String name,
-    bool isPrimary = false,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: LayoutConstant.paddingM,
-        ),
-        child: Text(
-          name,
-          textAlign: TextAlign.center,
-          style: isPrimary
-              ? TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontWeight: FontWeight.bold,
-                )
-              : null,
         ),
       ),
     );
   }
 }
 
-const _mockMenus = <MockMenu>[
-  MockMenu(
-    title: 'QM',
-    cardColor: Colors.red,
-    routeName: 'qm1',
-  ),
-  MockMenu(
-    title: 'Cutting',
-    cardColor: Colors.blue,
-    routeName: 'cut',
-  ),
-  // MockMenu(
-  //   title: 'Alter-Cutting',
-  //   cardColor: Colors.indigo,
-  //   routeName: 'alter-cut',
-  // ),
-];
+class HomeAlterWidget extends ConsumerWidget {
+  const HomeAlterWidget({Key? key}) : super(key: key);
 
-class MockMenu {
-  final String title;
-  final Color cardColor;
-  final String routeName;
+  void onSelected(BuildContext context, MenuEntity item) {
+    switch (item) {
+      case MenuItems.itemPages:
+        Navigator.of(context).push(
+          CustomScaleRoute(
+            builder: (context) => const PageListDialog(),
+            backgroundColor: Colors.black.withOpacity(.2),
+          ),
+        );
+        break;
+      case MenuItems.itemSignOut:
+        Navigator.of(context).push(
+          CustomScaleRoute(
+            builder: (context) => const SignOutDialog(),
+            backgroundColor: Colors.black.withOpacity(.2),
+          ),
+        );
+        break;
+    }
+  }
 
-  const MockMenu({
-    required this.title,
-    required this.cardColor,
-    required this.routeName,
-  });
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Padding(
+          padding:
+              const EdgeInsets.symmetric(horizontal: LayoutConstant.paddingM),
+          child: Text(
+            "${ref.watch(workBaseChangeNotifierProvider).workBase?.wcName ?? ""} | ${ref.watch(workBaseChangeNotifierProvider).workBase?.wbName ?? ""}",
+            style: Theme.of(context).textTheme.headline5,
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: Theme.of(context).iconTheme,
+        actions: [
+          PopupMenuButton<MenuEntity>(
+              onSelected: (item) => onSelected(context, item),
+              itemBuilder: (context) => [
+                    ...MenuItems.admin
+                        .map((item) => buildMenuItem(context, item))
+                        .toList(),
+                    const PopupMenuDivider(),
+                    ...MenuItems.notAdmin
+                        .map((item) => buildMenuItem(context, item))
+                        .toList(),
+                  ]),
+        ],
+      ),
+      body: ref.watch(workBaseChangeNotifierProvider).page,
+    );
+  }
+
+  PopupMenuItem<MenuEntity> buildMenuItem(
+      BuildContext context, MenuEntity item) {
+    return PopupMenuItem<MenuEntity>(
+      value: item,
+      child: Row(
+        children: [
+          Icon(item.icon, color: Theme.of(context).iconTheme.color),
+          const SizedBox(width: LayoutConstant.spaceL),
+          Text(item.text),
+        ],
+      ),
+    );
+  }
 }

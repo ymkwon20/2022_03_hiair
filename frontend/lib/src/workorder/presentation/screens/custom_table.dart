@@ -14,7 +14,7 @@ class CustomTable extends StatefulWidget {
     this.columnSpace = 40,
     required this.rowBuilder,
     required this.rowCount,
-    this.rowHeight = 50,
+    this.rowHeight = 70,
     this.onRowPressed,
     this.onRowLongPressed,
     this.onRefresh,
@@ -38,6 +38,8 @@ class _CustomTableState extends State<CustomTable> {
   late ScrollController _headController;
   late ScrollController _bodyController;
 
+  late ValueNotifier<bool> refreshNotifier;
+
   final widthList = <double>[];
 
   @override
@@ -47,28 +49,36 @@ class _CustomTableState extends State<CustomTable> {
     _headController = _controllers.addAndGet();
     _bodyController = _controllers.addAndGet();
     // long click 때 check box 보여줄 때 사용하기 위해서 삽입
-    widthList.addAll(widget.headers
-        .map((header) =>
-            header.width ?? header.title.length * widget.columnSpace)
-        .toList());
+    widthList.addAll(
+      widget.headers
+          .map(
+            (header) =>
+                header.width ?? header.title.length * widget.columnSpace,
+          )
+          .toList(),
+    );
+    refreshNotifier = ValueNotifier<bool>(false);
   }
 
   @override
   void dispose() {
     _headController.dispose();
     _bodyController.dispose();
+    refreshNotifier.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         CustomTableHead(
           scrollController: _headController,
           widthList: widthList,
           headers: widget.headers,
           height: widget.rowHeight,
+          refreshNotifier: refreshNotifier,
         ),
         Expanded(
           child: CustomTableBody(
@@ -80,6 +90,7 @@ class _CustomTableState extends State<CustomTable> {
             onRowPressed: widget.onRowPressed,
             onRowLongPressed: widget.onRowLongPressed,
             onRefresh: widget.onRefresh,
+            refreshNotifier: refreshNotifier,
           ),
         ),
       ],
@@ -94,6 +105,7 @@ class CustomTableHead extends StatelessWidget {
 
   final List<double> widthList;
   final List<CustomTableHeader> headers;
+  final ValueNotifier<bool> refreshNotifier;
 
   const CustomTableHead({
     Key? key,
@@ -101,31 +113,101 @@ class CustomTableHead extends StatelessWidget {
     required this.height,
     required this.widthList,
     required this.headers,
+    required this.refreshNotifier,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
+      height: 2 * height / 3,
       child: SingleChildScrollView(
         controller: scrollController,
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: headers.mapIndexed((index, header) {
-            return Container(
-              width: widthList[index],
-              alignment:
-                  header.isNumeric ? Alignment.centerRight : header.alignment,
-              child: Text(
-                header.title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+          children: headers.mapIndexed(
+            (index, header) {
+              return SizedBox(
+                width: widthList[index],
+                child: CustomHeaderCell(
+                  index: index,
+                  header: header,
+                  refreshNotifier: refreshNotifier,
                 ),
-              ),
-            );
-          }).toList(),
+              );
+            },
+          ).toList(),
         ),
+      ),
+    );
+  }
+}
+
+class CustomHeaderCell extends StatefulWidget {
+  const CustomHeaderCell({
+    Key? key,
+    required this.index,
+    required this.header,
+    required this.refreshNotifier,
+  }) : super(key: key);
+
+  final CustomTableHeader header;
+  final int index;
+  final ValueNotifier<bool> refreshNotifier;
+
+  @override
+  State<CustomHeaderCell> createState() => _CustomHeaderCellState();
+}
+
+class _CustomHeaderCellState extends State<CustomHeaderCell> {
+  bool? isAscending;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.refreshNotifier.addListener(_resetFlag);
+  }
+
+  @override
+  void dispose() {
+    widget.refreshNotifier.removeListener(_resetFlag);
+    super.dispose();
+  }
+
+  void _resetFlag() {
+    setState(() {
+      isAscending = null;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (widget.header.canOrder) {
+          setState(() {
+            isAscending = !(isAscending ?? false);
+          });
+
+          widget.header.onTap?.call(widget.index, isAscending!);
+        }
+      },
+      behavior: HitTestBehavior.translucent,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            widget.header.title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+          if (widget.header.canOrder && isAscending != null) ...[
+            const SizedBox(width: LayoutConstant.spaceS),
+            Icon(isAscending! ? Icons.arrow_upward : Icons.arrow_downward),
+          ],
+        ],
       ),
     );
   }
@@ -136,12 +218,16 @@ class CustomTableHeader {
   final double? width;
   final bool isNumeric;
   final AlignmentGeometry alignment;
+  final bool canOrder;
+  final void Function(int, bool)? onTap;
 
   const CustomTableHeader({
     required this.title,
     this.width,
     this.isNumeric = false,
     this.alignment = Alignment.center,
+    this.canOrder = false,
+    this.onTap,
   });
 }
 
@@ -169,6 +255,8 @@ class CustomTableBody extends StatelessWidget {
   final void Function(int)? onRowLongPressed;
   final Future<void> Function()? onRefresh;
 
+  final ValueNotifier<bool> refreshNotifier;
+
   const CustomTableBody({
     Key? key,
     required this.scrollController,
@@ -176,6 +264,7 @@ class CustomTableBody extends StatelessWidget {
     required this.rowBuilder,
     required this.rowCount,
     required this.rowHeight,
+    required this.refreshNotifier,
     this.onRowPressed,
     this.onRowLongPressed,
     this.onRefresh,
@@ -194,7 +283,13 @@ class CustomTableBody extends StatelessWidget {
             child: SizedBox(
               width: widthList.reduce((value, element) => value + element),
               child: RefreshIndicator(
-                onRefresh: onRefresh ?? () async {},
+                onRefresh: () async {
+                  if (onRefresh != null) {
+                    refreshNotifier.value = !refreshNotifier.value;
+
+                    await onRefresh!.call();
+                  }
+                },
                 child: ListView.builder(
                   itemCount: rowCount,
                   physics: const AlwaysScrollableScrollPhysics(),

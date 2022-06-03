@@ -1,3 +1,5 @@
+import 'package:frontend/src/workorder/domain/entities/work_order_status.dart';
+
 class WorkOrder {
   /// WO_NB: 작업지시번호
   final String code;
@@ -13,6 +15,9 @@ class WorkOrder {
 
   /// CLOSE_DT: 작업완료일
   final String dateEnd;
+
+  /// BEF_CLOSE_DT: 이전 작업 완료일
+  final String dateEndBefore;
 
   /// ship: 구역
   final String ship;
@@ -37,11 +42,17 @@ class WorkOrder {
   // Yard: 내용 없음
   final String yard;
 
-  /// WB_CD: (추론)작업장 코드
+  /// WB_CD: (추론)공정 코드
   final String wbCd;
 
-  /// WC_CD: (추론) 공정 코드
+  /// WB_NM: 공정 이름
+  final String wbNm;
+
+  /// WC_CD: (추론) 작업장 코드
   final String wcCd;
+
+  /// 공정 진행 상태
+  final WorkOrderStatus status;
 
   const WorkOrder({
     required this.code,
@@ -49,6 +60,7 @@ class WorkOrder {
     required this.datePlanned,
     required this.dateStart,
     required this.dateEnd,
+    required this.dateEndBefore,
     required this.ship,
     required this.planSeq,
     required this.hullNo,
@@ -56,7 +68,9 @@ class WorkOrder {
     required this.sysNo,
     required this.yard,
     required this.wbCd,
+    required this.wbNm,
     required this.wcCd,
+    required this.status,
   });
 
   @override
@@ -69,6 +83,7 @@ class WorkOrder {
         other.datePlanned == datePlanned &&
         other.dateStart == dateStart &&
         other.dateEnd == dateEnd &&
+        other.dateEndBefore == dateEndBefore &&
         other.ship == ship &&
         other.planSeq == planSeq &&
         other.hullNo == hullNo &&
@@ -76,7 +91,9 @@ class WorkOrder {
         other.sysNo == sysNo &&
         other.yard == yard &&
         other.wbCd == wbCd &&
-        other.wcCd == wcCd;
+        other.wbNm == wbNm &&
+        other.wcCd == wcCd &&
+        other.status == status;
   }
 
   @override
@@ -86,6 +103,7 @@ class WorkOrder {
         datePlanned.hashCode ^
         dateStart.hashCode ^
         dateEnd.hashCode ^
+        dateEndBefore.hashCode ^
         ship.hashCode ^
         planSeq.hashCode ^
         hullNo.hashCode ^
@@ -93,7 +111,9 @@ class WorkOrder {
         sysNo.hashCode ^
         yard.hashCode ^
         wbCd.hashCode ^
-        wcCd.hashCode;
+        wbNm.hashCode ^
+        wcCd.hashCode ^
+        status.hashCode;
   }
 
   WorkOrder copyWith({
@@ -102,6 +122,7 @@ class WorkOrder {
     String? datePlanned,
     String? dateStart,
     String? dateEnd,
+    String? dateEndBefore,
     String? ship,
     int? planSeq,
     String? hullNo,
@@ -109,7 +130,9 @@ class WorkOrder {
     String? sysNo,
     String? yard,
     String? wbCd,
+    String? wbNm,
     String? wcCd,
+    WorkOrderStatus? status,
   }) {
     return WorkOrder(
       code: code ?? this.code,
@@ -117,6 +140,7 @@ class WorkOrder {
       datePlanned: datePlanned ?? this.datePlanned,
       dateStart: dateStart ?? this.dateStart,
       dateEnd: dateEnd ?? this.dateEnd,
+      dateEndBefore: dateEndBefore ?? this.dateEndBefore,
       ship: ship ?? this.ship,
       planSeq: planSeq ?? this.planSeq,
       hullNo: hullNo ?? this.hullNo,
@@ -124,7 +148,9 @@ class WorkOrder {
       sysNo: sysNo ?? this.sysNo,
       yard: yard ?? this.yard,
       wbCd: wbCd ?? this.wbCd,
+      wbNm: wbNm ?? this.wbNm,
       wcCd: wcCd ?? this.wcCd,
+      status: status ?? this.status,
     );
   }
 }

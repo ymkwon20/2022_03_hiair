@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/presentation/pages/home_alter_screen.dart';
+import 'package:frontend/src/core/presentation/pages/home_screen.dart';
+import 'package:frontend/src/core/presentation/pages/menu_screen.dart';
 import 'package:frontend/src/fct/presentation/fct_screen.dart';
 import 'package:frontend/src/fct/presentation/fct_serial_screen.dart';
+import 'package:frontend/src/workorder/presentation/screens/qm_details_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -9,8 +11,6 @@ import 'package:frontend/src/auth/presentation/sign_in_screen.dart';
 import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
 import 'package:frontend/src/cutting/presentation/request/cutting_request_screen.dart';
 import 'package:frontend/src/cutting/presentation/serial/cutting_serials_screen.dart';
-import 'package:frontend/src/workorder/presentation/prototypes/qm_product_details_screen.dart';
-import 'package:frontend/src/workorder/presentation/screens/work_order_screen.dart';
 import 'package:frontend/src/settings/settings_screen.dart';
 
 import 'app_route_observer.dart';
@@ -55,7 +55,7 @@ class AppRouter extends GoRouter {
             if (!loggedIn && !isLogging) return "/sign-in";
 
             if (loggedIn && isLogging) {
-              return "/";
+              return "/menu";
             }
             // if (loggedIn && isLogging) return "/";
 
@@ -89,15 +89,15 @@ class AppRouter extends GoRouter {
               },
             ),
 
-            /// 홈 화면
+            /// Menu
             GoRoute(
-              name: 'home',
-              path: '/',
+              name: 'menu',
+              path: '/menu',
               pageBuilder: (context, state) {
                 return CustomTransitionPage(
                   key: state.pageKey,
                   // child: const HomeScreen(),
-                  child: const HomeAlterScreen(),
+                  child: const MenuScreen(),
                   transitionDuration: const Duration(milliseconds: 1200),
                   transitionsBuilder:
                       (context, animation, secondAnimation, child) {
@@ -112,23 +112,21 @@ class AppRouter extends GoRouter {
                   },
                 );
               },
-              routes: [
-                // GoRoute(
-                //     path: 'qm',
-                //     builder: (context, state) {
-                //       return const QmScreen();
-                //     }),
-                // GoRoute(
-                //     path: 'cut',
-                //     builder: (context, state) {
-                //       return const CuttingSerialsScreen();
-                //     }),
-                // GoRoute(
-                //     path: 'fct',
-                //     builder: (context, state) {
-                //       return const FctSerialScreen();
-                //     }),
-              ],
+              routes: [],
+            ),
+
+            /// 홈 화면
+            GoRoute(
+              name: 'home',
+              path: '/',
+              pageBuilder: (context, state) {
+                return MaterialPage(
+                  key: state.pageKey,
+                  // child: const HomeScreen(),
+                  child: const HomeScreen(),
+                );
+              },
+              routes: [],
             ),
 
             /// 설정 화면
@@ -144,42 +142,7 @@ class AppRouter extends GoRouter {
             ),
 
             /// 검사 1 화면: 검사항목 리스트
-            GoRoute(
-              name: 'qm1',
-              path: '/qm',
-              pageBuilder: (context, state) {
-                return MaterialPage(
-                  key: state.pageKey,
-                  child: const WorkOrderScreen(),
-                );
-              },
-              routes: [
-                /// 검사 2 화면: 검사항목 세부사항
-                // GoRoute(
-                //     name: 'qm2',
-                //     path: ':id', // /qm/23120323
-                //     pageBuilder: (context, state) {
-                //       final productNo = state.params['id']!;
-                //       return MaterialPage(
-                //         key: state.pageKey,
-                //         child: QmProductDetailsScreen(
-                //           projectNo: productNo,
-                //         ),
-                //       );
-                //     }),
 
-                /// (Prototype) 검사 2 화면: 검사항목 세부사항
-                GoRoute(
-                    name: 'qm2-2',
-                    path: ':id', // /qm/23120323
-                    pageBuilder: (context, state) {
-                      return MaterialPage(
-                        key: state.pageKey,
-                        child: const QmProductDetailsScreen(),
-                      );
-                    }),
-              ],
-            ),
             GoRoute(
               name: "cut",
               path: '/cut',
@@ -203,7 +166,7 @@ class AppRouter extends GoRouter {
               ],
             ),
 
-            /// FCT 화면  ),
+            /// FCT 화면
             GoRoute(
               name: "fct",
               path: '/fct',
@@ -224,7 +187,21 @@ class AppRouter extends GoRouter {
                   },
                 ),
               ],
-            )
+            ),
+
+            /// QM 화면
+            GoRoute(
+              name: "qm",
+              path: '/qm/:index',
+              pageBuilder: (context, state) {
+                final index = int.parse(state.params["index"]!);
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: QmDetailsScreen(index: index),
+                );
+              },
+              routes: [],
+            ),
           ],
         );
 }

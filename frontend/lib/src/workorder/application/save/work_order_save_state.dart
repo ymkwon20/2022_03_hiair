@@ -9,8 +9,9 @@ class WorkOrderSaveState with _$WorkOrderSaveState {
   const factory WorkOrderSaveState.none() = _None;
   const factory WorkOrderSaveState.saving() = _Saving;
   const factory WorkOrderSaveState.oneSaved(
-      int index, String date, WorkOrderStatus status) = _Saved;
+      int index, String date, WorkOrderSaveStatus status) = _Saved;
   const factory WorkOrderSaveState.multipleSaved(
-      List<int> indice, String date, WorkOrderStatus status) = _MultipleSaved;
+          List<int> indice, String date, WorkOrderSaveStatus status) =
+      _MultipleSaved;
   const factory WorkOrderSaveState.failure(String message) = _Failure;
 }

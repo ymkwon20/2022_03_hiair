@@ -31,6 +31,12 @@ class _$ChecklistStateTearOff {
     );
   }
 
+  _ImageLoaded imageLoaded(List<CheckImage> checklist) {
+    return _ImageLoaded(
+      checklist,
+    );
+  }
+
   _Failure failure(String message) {
     return _Failure(
       message,
@@ -48,6 +54,7 @@ mixin _$ChecklistState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<CheckItem> checklist) loaded,
+    required TResult Function(List<CheckImage> checklist) imageLoaded,
     required TResult Function(String message) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -56,6 +63,7 @@ mixin _$ChecklistState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<CheckItem> checklist)? loaded,
+    TResult Function(List<CheckImage> checklist)? imageLoaded,
     TResult Function(String message)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -64,6 +72,7 @@ mixin _$ChecklistState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<CheckItem> checklist)? loaded,
+    TResult Function(List<CheckImage> checklist)? imageLoaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) =>
@@ -73,6 +82,7 @@ mixin _$ChecklistState {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
+    required TResult Function(_ImageLoaded value) imageLoaded,
     required TResult Function(_Failure value) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -81,6 +91,7 @@ mixin _$ChecklistState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_ImageLoaded value)? imageLoaded,
     TResult Function(_Failure value)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -89,6 +100,7 @@ mixin _$ChecklistState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_ImageLoaded value)? imageLoaded,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) =>
@@ -153,6 +165,7 @@ class _$_Initial extends _Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<CheckItem> checklist) loaded,
+    required TResult Function(List<CheckImage> checklist) imageLoaded,
     required TResult Function(String message) failure,
   }) {
     return initial();
@@ -164,6 +177,7 @@ class _$_Initial extends _Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<CheckItem> checklist)? loaded,
+    TResult Function(List<CheckImage> checklist)? imageLoaded,
     TResult Function(String message)? failure,
   }) {
     return initial?.call();
@@ -175,6 +189,7 @@ class _$_Initial extends _Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<CheckItem> checklist)? loaded,
+    TResult Function(List<CheckImage> checklist)? imageLoaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -190,6 +205,7 @@ class _$_Initial extends _Initial {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
+    required TResult Function(_ImageLoaded value) imageLoaded,
     required TResult Function(_Failure value) failure,
   }) {
     return initial(this);
@@ -201,6 +217,7 @@ class _$_Initial extends _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_ImageLoaded value)? imageLoaded,
     TResult Function(_Failure value)? failure,
   }) {
     return initial?.call(this);
@@ -212,6 +229,7 @@ class _$_Initial extends _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_ImageLoaded value)? imageLoaded,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -268,6 +286,7 @@ class _$_Loading extends _Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<CheckItem> checklist) loaded,
+    required TResult Function(List<CheckImage> checklist) imageLoaded,
     required TResult Function(String message) failure,
   }) {
     return loading();
@@ -279,6 +298,7 @@ class _$_Loading extends _Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<CheckItem> checklist)? loaded,
+    TResult Function(List<CheckImage> checklist)? imageLoaded,
     TResult Function(String message)? failure,
   }) {
     return loading?.call();
@@ -290,6 +310,7 @@ class _$_Loading extends _Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<CheckItem> checklist)? loaded,
+    TResult Function(List<CheckImage> checklist)? imageLoaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -305,6 +326,7 @@ class _$_Loading extends _Loading {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
+    required TResult Function(_ImageLoaded value) imageLoaded,
     required TResult Function(_Failure value) failure,
   }) {
     return loading(this);
@@ -316,6 +338,7 @@ class _$_Loading extends _Loading {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_ImageLoaded value)? imageLoaded,
     TResult Function(_Failure value)? failure,
   }) {
     return loading?.call(this);
@@ -327,6 +350,7 @@ class _$_Loading extends _Loading {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_ImageLoaded value)? imageLoaded,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -407,6 +431,7 @@ class _$_Loaded extends _Loaded {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<CheckItem> checklist) loaded,
+    required TResult Function(List<CheckImage> checklist) imageLoaded,
     required TResult Function(String message) failure,
   }) {
     return loaded(checklist);
@@ -418,6 +443,7 @@ class _$_Loaded extends _Loaded {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<CheckItem> checklist)? loaded,
+    TResult Function(List<CheckImage> checklist)? imageLoaded,
     TResult Function(String message)? failure,
   }) {
     return loaded?.call(checklist);
@@ -429,6 +455,7 @@ class _$_Loaded extends _Loaded {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<CheckItem> checklist)? loaded,
+    TResult Function(List<CheckImage> checklist)? imageLoaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -444,6 +471,7 @@ class _$_Loaded extends _Loaded {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
+    required TResult Function(_ImageLoaded value) imageLoaded,
     required TResult Function(_Failure value) failure,
   }) {
     return loaded(this);
@@ -455,6 +483,7 @@ class _$_Loaded extends _Loaded {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_ImageLoaded value)? imageLoaded,
     TResult Function(_Failure value)? failure,
   }) {
     return loaded?.call(this);
@@ -466,6 +495,7 @@ class _$_Loaded extends _Loaded {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_ImageLoaded value)? imageLoaded,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -483,6 +513,159 @@ abstract class _Loaded extends ChecklistState {
   List<CheckItem> get checklist;
   @JsonKey(ignore: true)
   _$LoadedCopyWith<_Loaded> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$ImageLoadedCopyWith<$Res> {
+  factory _$ImageLoadedCopyWith(
+          _ImageLoaded value, $Res Function(_ImageLoaded) then) =
+      __$ImageLoadedCopyWithImpl<$Res>;
+  $Res call({List<CheckImage> checklist});
+}
+
+/// @nodoc
+class __$ImageLoadedCopyWithImpl<$Res>
+    extends _$ChecklistStateCopyWithImpl<$Res>
+    implements _$ImageLoadedCopyWith<$Res> {
+  __$ImageLoadedCopyWithImpl(
+      _ImageLoaded _value, $Res Function(_ImageLoaded) _then)
+      : super(_value, (v) => _then(v as _ImageLoaded));
+
+  @override
+  _ImageLoaded get _value => super._value as _ImageLoaded;
+
+  @override
+  $Res call({
+    Object? checklist = freezed,
+  }) {
+    return _then(_ImageLoaded(
+      checklist == freezed
+          ? _value.checklist
+          : checklist // ignore: cast_nullable_to_non_nullable
+              as List<CheckImage>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_ImageLoaded extends _ImageLoaded {
+  const _$_ImageLoaded(this.checklist) : super._();
+
+  @override
+  final List<CheckImage> checklist;
+
+  @override
+  String toString() {
+    return 'ChecklistState.imageLoaded(checklist: $checklist)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ImageLoaded &&
+            const DeepCollectionEquality().equals(other.checklist, checklist));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(checklist));
+
+  @JsonKey(ignore: true)
+  @override
+  _$ImageLoadedCopyWith<_ImageLoaded> get copyWith =>
+      __$ImageLoadedCopyWithImpl<_ImageLoaded>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<CheckItem> checklist) loaded,
+    required TResult Function(List<CheckImage> checklist) imageLoaded,
+    required TResult Function(String message) failure,
+  }) {
+    return imageLoaded(checklist);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<CheckItem> checklist)? loaded,
+    TResult Function(List<CheckImage> checklist)? imageLoaded,
+    TResult Function(String message)? failure,
+  }) {
+    return imageLoaded?.call(checklist);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<CheckItem> checklist)? loaded,
+    TResult Function(List<CheckImage> checklist)? imageLoaded,
+    TResult Function(String message)? failure,
+    required TResult orElse(),
+  }) {
+    if (imageLoaded != null) {
+      return imageLoaded(checklist);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_ImageLoaded value) imageLoaded,
+    required TResult Function(_Failure value) failure,
+  }) {
+    return imageLoaded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Loaded value)? loaded,
+    TResult Function(_ImageLoaded value)? imageLoaded,
+    TResult Function(_Failure value)? failure,
+  }) {
+    return imageLoaded?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Loaded value)? loaded,
+    TResult Function(_ImageLoaded value)? imageLoaded,
+    TResult Function(_Failure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (imageLoaded != null) {
+      return imageLoaded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ImageLoaded extends ChecklistState {
+  const factory _ImageLoaded(List<CheckImage> checklist) = _$_ImageLoaded;
+  const _ImageLoaded._() : super._();
+
+  List<CheckImage> get checklist;
+  @JsonKey(ignore: true)
+  _$ImageLoadedCopyWith<_ImageLoaded> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -550,6 +733,7 @@ class _$_Failure extends _Failure {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(List<CheckItem> checklist) loaded,
+    required TResult Function(List<CheckImage> checklist) imageLoaded,
     required TResult Function(String message) failure,
   }) {
     return failure(message);
@@ -561,6 +745,7 @@ class _$_Failure extends _Failure {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<CheckItem> checklist)? loaded,
+    TResult Function(List<CheckImage> checklist)? imageLoaded,
     TResult Function(String message)? failure,
   }) {
     return failure?.call(message);
@@ -572,6 +757,7 @@ class _$_Failure extends _Failure {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<CheckItem> checklist)? loaded,
+    TResult Function(List<CheckImage> checklist)? imageLoaded,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -587,6 +773,7 @@ class _$_Failure extends _Failure {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
+    required TResult Function(_ImageLoaded value) imageLoaded,
     required TResult Function(_Failure value) failure,
   }) {
     return failure(this);
@@ -598,6 +785,7 @@ class _$_Failure extends _Failure {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_ImageLoaded value)? imageLoaded,
     TResult Function(_Failure value)? failure,
   }) {
     return failure?.call(this);
@@ -609,6 +797,7 @@ class _$_Failure extends _Failure {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_ImageLoaded value)? imageLoaded,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {

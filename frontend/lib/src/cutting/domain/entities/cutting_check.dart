@@ -36,6 +36,12 @@ class CuttingCheck {
   /// WB_CD: 정보 없음
   final String wbCd;
 
+  /// WC_CD: 정보 없음
+  final String wcCd;
+
+  /// PRODPLANSEQ: 정보 없음
+  final String seq;
+
   /// SYSNO: 정보 없음
   final String sysNo;
 
@@ -55,6 +61,8 @@ class CuttingCheck {
     required this.hullDiameter,
     required this.yard,
     required this.wbCd,
+    required this.wcCd,
+    required this.seq,
     required this.sysNo,
     required this.hullNo,
   });
@@ -72,6 +80,8 @@ class CuttingCheck {
     String? hullDiameter,
     String? yard,
     String? wbCd,
+    String? wcCd,
+    String? seq,
     String? sysNo,
     String? hullNo,
   }) {
@@ -88,6 +98,8 @@ class CuttingCheck {
       hullDiameter: hullDiameter ?? this.hullDiameter,
       yard: yard ?? this.yard,
       wbCd: wbCd ?? this.wbCd,
+      wcCd: wcCd ?? this.wcCd,
+      seq: seq ?? this.seq,
       sysNo: sysNo ?? this.sysNo,
       hullNo: hullNo ?? this.hullNo,
     );
@@ -110,6 +122,8 @@ class CuttingCheck {
         other.hullDiameter == hullDiameter &&
         other.yard == yard &&
         other.wbCd == wbCd &&
+        other.wcCd == wcCd &&
+        other.seq == seq &&
         other.sysNo == sysNo &&
         other.hullNo == hullNo;
   }
@@ -128,6 +142,8 @@ class CuttingCheck {
         hullDiameter.hashCode ^
         yard.hashCode ^
         wbCd.hashCode ^
+        wcCd.hashCode ^
+        seq.hashCode ^
         sysNo.hashCode ^
         hullNo.hashCode;
   }
