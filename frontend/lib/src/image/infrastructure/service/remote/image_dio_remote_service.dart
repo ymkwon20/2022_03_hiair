@@ -20,7 +20,6 @@ class ImageDioRemoteService implements IImageRemoteService {
       final imageParams = <MapEntry<String, MultipartFile>>[];
 
       for (final imagePath in images) {
-        // TODO:add image name
         final img = MultipartFile.fromFileSync(imagePath, filename: imagePath);
         imageParams.add(MapEntry("file", img));
       }
