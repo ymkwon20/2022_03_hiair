@@ -14,6 +14,6 @@ class SettingsStateNotifier extends StateNotifier<SettingsState> {
   }) : super(const SettingsState.empty());
 
   Future<void> mapEventToState(SettingsEvent event) async {
-    // TODO: implement this
+    // TODO: implement
   }
 }
