@@ -25,7 +25,7 @@ class ChecklistPage extends StatelessWidget {
         return SizedBox(
           width: _widthCurve.animate(widthController).value *
               MediaQuery.of(context).size.width /
-              3,
+              2.5,
           child: Row(
             children: [
               widthController.value == 1.0

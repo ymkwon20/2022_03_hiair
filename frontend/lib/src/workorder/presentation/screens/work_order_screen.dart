@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/src/core/presentation/pages/dialog.dart';
+import 'package:frontend/src/workorder/application/load/work_order_state.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -110,10 +112,37 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
     }
   }
 
+  void _navigateTo(String filterKey) {
+    ref.watch(workOrderStateNotifierProvider).maybeWhen(
+          loaded: (_, __) {
+            ref.read(workOrderColumnNotifier.notifier).state = filterKey;
+            Navigator.of(context).push(
+              CustomScaleRoute(
+                backgroundColor: Colors.black.withOpacity(.2),
+                builder: (_) => CustomTableHeaderDialog(filterKey: filterKey),
+              ),
+            );
+          },
+          orElse: () {},
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(workOrderStateNotifierProvider);
-    final notifier = ref.watch(workOrderListNotifier);
+    final orderListNotifier = ref.watch(workOrderListNotifier);
+
+    ref.listen<WorkOrderState>(workOrderStateNotifierProvider,
+        ((previous, current) {
+      current.when(
+        initial: (orders) {},
+        loading: (orders, count) {},
+        loaded: (orders, isNextPageAvailable) {
+          ref.read(workOrderListNotifier.notifier).setItems(orders);
+        },
+        failure: (orders, message) {},
+      );
+    }));
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -164,18 +193,53 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                   width: 150,
                   canOrder: true,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  additionalChild: _buildColumnIcon(0),
                 ),
                 CustomTableHeader(
                   title: "현공정 상태",
                   width: 150,
                   canOrder: true,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  additionalChild: _buildColumnIcon(1),
                 ),
-                const CustomTableHeader(title: "Yard", width: 150),
-                const CustomTableHeader(title: "Hull No", width: 150),
-                const CustomTableHeader(title: "구역"),
-                const CustomTableHeader(title: "Sys No"),
-                const CustomTableHeader(title: "품번", width: 130),
+                CustomTableHeader(
+                  title: "Yard",
+                  width: 150,
+                  onLongTap: () {
+                    _navigateTo("yard");
+                  },
+                  additionalChild: _buildFilterIcon("yard"),
+                ),
+                CustomTableHeader(
+                  title: "Hull No",
+                  width: 150,
+                  onLongTap: () {
+                    _navigateTo("hullNo");
+                  },
+                  additionalChild: _buildFilterIcon("hullNo"),
+                ),
+                CustomTableHeader(
+                  title: "구역",
+                  onLongTap: () {
+                    _navigateTo("ship");
+                  },
+                  additionalChild: _buildFilterIcon("ship"),
+                ),
+                CustomTableHeader(
+                  title: "Sys No",
+                  onLongTap: () {
+                    _navigateTo("sysNo");
+                  },
+                  additionalChild: _buildFilterIcon("sysNo"),
+                ),
+                CustomTableHeader(
+                  title: "품번",
+                  width: 130,
+                  onLongTap: () {
+                    _navigateTo("itemNo");
+                  },
+                  additionalChild: _buildFilterIcon("itemNo"),
+                ),
                 const CustomTableHeader(title: "수량", width: 50),
               ],
               rowBuilder: (context, index) {
@@ -186,7 +250,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                   loading: (results, page) {
                     if (index < results.length) {
                       return WorkOrderLoadedRow(
-                        order: notifier.items[index],
+                        order: orderListNotifier.filteredItems[index],
                         color: _getColor(index),
                       );
                     } else {
@@ -195,13 +259,14 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                   },
                   loaded: (_, __) {
                     return WorkOrderLoadedRow(
-                      order: notifier.items[index],
+                      order: orderListNotifier.filteredItems[index],
                       color: _getColor(index),
                     );
                   },
                   failure: (results, message) {
                     if (index < results.length) {
-                      return WorkOrderLoadedRow(order: notifier.items[index]);
+                      return WorkOrderLoadedRow(
+                          order: orderListNotifier.filteredItems[index]);
                     } else {
                       return WorkOrderFailureRow(message: message);
                     }
@@ -209,10 +274,13 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                 );
               },
               rowCount: state.when(
-                  initial: (_) => 0,
-                  loading: (prev, length) => prev.length + length,
-                  loaded: (current, _) => current.length,
-                  failure: (prev, message) => prev.length + 1),
+                initial: (_) => orderListNotifier.filteredItems.length,
+                loading: (prev, length) =>
+                    orderListNotifier.filteredItems.length + length,
+                loaded: (current, _) => orderListNotifier.filteredItems.length,
+                failure: (prev, message) =>
+                    orderListNotifier.filteredItems.length + 1,
+              ),
             ),
           ),
           _buildFabBackground(),
@@ -246,7 +314,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
           ? LayoutConstant.spaceXL
           : -100,
       bottom: ref.watch(workOrderListNotifier).isMultiSelectMode
-          ? LayoutConstant.spaceL
+          ? LayoutConstant.spaceS
           : -100,
       child: AnimatedScale(
         scale: ref.watch(workOrderListNotifier).isMultiSelectMode ? 1 : 0,
@@ -259,10 +327,10 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
               "시작/종료",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: 26,
               ),
             ),
-            const SizedBox(height: LayoutConstant.spaceS),
+            const SizedBox(height: LayoutConstant.spaceM),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -306,18 +374,22 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                 ),
               ],
             ),
-            const SizedBox(height: LayoutConstant.spaceM),
+            const SizedBox(height: LayoutConstant.spaceS),
             const Text(
               "또는",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontWeight: FontWeight.w600),
             ),
             TextButton(
               onPressed: () {
                 ref.read(workOrderListNotifier.notifier).clearSelection();
               },
-              child: const Text("선택 취소"),
+              child: const Text(
+                "선택 취소",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ],
         ),
@@ -325,7 +397,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
     );
   }
 
-  Widget _buildFabBackground({double radius = 230}) {
+  Widget _buildFabBackground({double radius = 200}) {
     return Positioned(
       bottom: -radius,
       right: -radius,
@@ -338,12 +410,12 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
           height: radius * 2,
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColorLight,
-            shape: BoxShape.circle,
+            borderRadius: BorderRadius.circular(LayoutConstant.radiusM),
             boxShadow: [
               BoxShadow(
                 color: Theme.of(context).shadowColor,
                 offset: const Offset(-1, 1),
-                blurRadius: 2,
+                blurRadius: LayoutConstant.radiusXS,
               ),
             ],
           ),
@@ -356,7 +428,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
     required String tooltip,
     required IconData icon,
     required Color backgroundColor,
-    double radius = 40,
+    double radius = 60,
     bool active = true,
     VoidCallback? onTap,
   }) {
@@ -381,5 +453,23 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
         ),
       ),
     );
+  }
+
+  Widget? _buildColumnIcon(int index) {
+    if (ref.watch(workOrderListNotifier).sortedColumn[index] == null) {
+      return null;
+    } else if (ref.watch(workOrderListNotifier).sortedColumn[index]!) {
+      return const Icon(Icons.arrow_upward);
+    } else {
+      return const Icon(Icons.arrow_downward);
+    }
+  }
+
+  Widget? _buildFilterIcon(String filterKey) {
+    if (ref.watch(workOrderListNotifier).filterMap[filterKey] == null) {
+      return null;
+    } else {
+      return const Icon(Icons.filter_alt);
+    }
   }
 }

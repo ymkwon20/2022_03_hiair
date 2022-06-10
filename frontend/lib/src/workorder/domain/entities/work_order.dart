@@ -73,6 +73,15 @@ class WorkOrder {
     required this.status,
   });
 
+  String? getProp(String key) => <String, String>{
+        "wbNm": wbNm,
+        "yard": yard,
+        "hullNo": hullNo,
+        "ship": ship,
+        "sysNo": sysNo,
+        "itemNo": itemNo,
+      }[key];
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

@@ -202,7 +202,7 @@ class _WorkOrderPopupState extends ConsumerState<WorkOrderPopup>
       },
     );
 
-    final width = MediaQuery.of(context).size.width / 3;
+    final width = MediaQuery.of(context).size.width / 2.5;
     final workOrder = ref.watch(workOrderNotifier);
 
     return Material(

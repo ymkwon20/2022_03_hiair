@@ -10,6 +10,7 @@ class AppTheme {
     brightness: Brightness.light,
     primarySwatch: ThemeConstant.dominantColor,
     errorColor: ThemeConstant.errorColor,
+    selectedRowColor: Colors.grey[500],
     fontFamily: FontFamily.maruburi,
   );
 
@@ -17,6 +18,7 @@ class AppTheme {
     brightness: Brightness.dark,
     primarySwatch: ThemeConstant.dominantColor,
     errorColor: ThemeConstant.errorColor,
+    selectedRowColor: Colors.grey[500],
     fontFamily: FontFamily.maruburi,
   );
 }

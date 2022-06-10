@@ -236,7 +236,7 @@ class _QmStartEndButtonsState extends ConsumerState<WorkOrderStartEndButtons>
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 17,
+                fontSize: 22,
               ),
             ),
             const SizedBox(height: LayoutConstant.spaceS),
@@ -244,7 +244,7 @@ class _QmStartEndButtonsState extends ConsumerState<WorkOrderStartEndButtons>
               value.isNotEmpty ? value : "없음",
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 22,
                 fontWeight:
                     value.isNotEmpty ? FontWeight.w400 : FontWeight.w200,
               ),
@@ -298,6 +298,7 @@ class _QmStartEndButtonsState extends ConsumerState<WorkOrderStartEndButtons>
                     name,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
+                      fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                       fontFamily: FontFamily.iropke,

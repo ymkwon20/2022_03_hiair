@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/workorder/domain/entities/work_order.dart';
-import 'package:frontend/src/workorder/domain/entities/work_order_status.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final workOrderListNotifier = ChangeNotifierProvider(
+import 'package:frontend/src/workorder/domain/entities/work_order.dart';
+import 'package:frontend/src/workorder/domain/entities/work_order_status.dart';
+
+final workOrderListNotifier = ChangeNotifierProvider.autoDispose(
   (ref) => WorkOrderListNotifier(),
 );
 
@@ -15,6 +16,45 @@ final workOrderIndexNotifier = Provider<int>(
   (ref) => throw UnimplementedError(),
 );
 
+final workOrderColumnNotifier = StateProvider<String>(
+  (_) => "",
+);
+
+final columnFilterProvider =
+    StateProvider.autoDispose<List<WorkOrderFilterItem>>((ref) {
+  final workOrders = ref.watch(workOrderListNotifier).items;
+  final column = ref.watch(workOrderColumnNotifier);
+  final filterMap = ref.watch(workOrderListNotifier).filterMap[column];
+
+  final itemList = workOrders
+      .map((e) => e.getProp(column) ?? "")
+      .where((element) => element != "")
+      .toSet();
+
+  return itemList.map<WorkOrderFilterItem>((original) {
+    if (filterMap == null) {
+      return WorkOrderFilterItem(isSelected: false, name: original);
+    }
+
+    for (final filter in filterMap) {
+      if (original == filter) {
+        return WorkOrderFilterItem(isSelected: true, name: original);
+      }
+    }
+    return WorkOrderFilterItem(isSelected: false, name: original);
+  }).toList();
+});
+
+class WorkOrderFilterItem {
+  final bool isSelected;
+  final String name;
+
+  const WorkOrderFilterItem({
+    required this.isSelected,
+    required this.name,
+  });
+}
+
 class WorkOrderListNotifier with ChangeNotifier {
   /// 현재 페이지 번호
   int _currentPage = 1;
@@ -25,12 +65,44 @@ class WorkOrderListNotifier with ChangeNotifier {
 
   final Set<int> selectedIndex = <int>{};
 
+  final Map<String, Set<String>> filterMap = {};
+
   final Map<int, bool> sortedColumn = <int, bool>{};
 
   int get page => _currentPage;
 
   /// 여러가지 선택모드인지 확인
   bool get isMultiSelectMode => selectedIndex.isNotEmpty;
+
+  List<WorkOrder> get filteredItems {
+    return items.where((item) {
+      if (filterMap.isEmpty) {
+        return true;
+      }
+
+      final List<bool> canBeIn = [];
+
+      filterMap.forEach(
+        (key, values) {
+          if (values.toList().contains(item.getProp(key))) {
+            canBeIn.add(true);
+          } else {
+            canBeIn.add(false);
+          }
+        },
+      );
+
+      late final bool result;
+
+      if (canBeIn.isEmpty) {
+        result = true;
+      } else {
+        result = canBeIn.reduce((value, element) => value && element);
+      }
+
+      return result;
+    }).toList();
+  }
 
   /// 선택된 item
   List<WorkOrder> get selectedQmItem =>
@@ -79,8 +151,29 @@ class WorkOrderListNotifier with ChangeNotifier {
     // return isActive;
   }
 
+  void removeFilter(String key) {
+    filterMap.remove(key);
+    notifyListeners();
+  }
+
+  void clearFilter() {
+    filterMap.clear();
+    notifyListeners();
+  }
+
+  /// filter 값 넣기
+  void setFilter(String key, List<String> value) {
+    filterMap[key] = Set.from(value);
+    if (filterMap[key]!.isEmpty) {
+      filterMap.remove(key);
+    }
+    notifyListeners();
+  }
+
+  /// workOrder 넣기
   void setItems(List<WorkOrder> items) {
     _items = items;
+    notifyListeners();
   }
 
   void setNewItemDateStart(int index, String date) {
@@ -95,6 +188,7 @@ class WorkOrderListNotifier with ChangeNotifier {
     //   dateEnd: date,
     // );
     _items.removeAt(index);
+    notifyListeners();
   }
 
   void setNewListDateStart(List<int> indice, String date) {
@@ -126,6 +220,7 @@ class WorkOrderListNotifier with ChangeNotifier {
     _currentPage = 1;
     selectedIndex.clear();
     _items.clear();
+    clearFilter();
     notifyListeners();
   }
 
@@ -143,11 +238,20 @@ class WorkOrderListNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  void sort(int index, bool isAscending) {
-    sortedColumn.addAll({index: isAscending});
+  void sort(int index, int tertiary) {
+    switch (tertiary) {
+      case 0:
+        sortedColumn.remove(index);
+        break;
+      case 1:
+        sortedColumn.addAll({index: true});
+        break;
+      case 2:
+        sortedColumn.addAll({index: false});
+        break;
+    }
 
     _items.sort(_compareBetween);
-
     notifyListeners();
   }
 
@@ -170,9 +274,14 @@ class WorkOrderListNotifier with ChangeNotifier {
       // 더이상 진행안하고 리턴
       return wbComp;
     } else {
-      // 공정에 관한 정보가 없다면 무조건 상태에 대한 정보 하나밖에 없는 것이다
-      int statusComp = (statusAscending! ? 1 : -1) *
-          a.status.toString().compareTo(b.status.toString());
+      late int statusComp;
+      if (statusAscending != null) {
+        statusComp = (statusAscending ? 1 : -1) *
+            a.status.toString().compareTo(b.status.toString());
+      } else {
+        statusComp = a.status.toString().compareTo(b.status.toString());
+      }
+
       return statusComp;
     }
   }

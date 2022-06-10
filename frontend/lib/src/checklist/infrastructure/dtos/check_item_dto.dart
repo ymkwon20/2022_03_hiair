@@ -275,12 +275,14 @@ class CheckItemDto {
     late final CheckType checkType;
 
     final rawCheck = map['CKS_TYPE'] ?? "";
+    String checkSheetValue = map['CKS_VAL'] ?? '';
     if (rawCheck == "N") {
       checkType = CheckType.number;
     } else if (rawCheck == "S") {
       checkType = CheckType.string;
     } else if (rawCheck == "C") {
       checkType = CheckType.checkbox;
+      checkSheetValue = "1";
     } else if (rawCheck == "I") {
       checkType = CheckType.image;
     } else if (rawCheck == "D") {
@@ -316,7 +318,7 @@ class CheckItemDto {
       checkType: checkType,
       checkSheetCd: map['CKS_CD'] ?? '',
       checkSheetName: map['CKS_NM'] ?? '',
-      checkSheetValue: map['CKS_VAL'] ?? '',
+      checkSheetValue: checkSheetValue,
       standardCd: map['BAS_CD'] ?? '',
       standard: map['BAS_VAL'] ?? '',
       imageFileName: map['NEW1_FN'] ?? '',

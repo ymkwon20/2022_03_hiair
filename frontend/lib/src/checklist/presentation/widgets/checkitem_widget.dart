@@ -226,6 +226,7 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
             "${index + 1}. ${item.checkSheetName}",
             style: Theme.of(context).textTheme.headline5?.copyWith(
                   fontWeight: FontWeight.bold,
+                  fontSize: 26,
                 ),
           ),
           const SizedBox(height: LayoutConstant.spaceS),
@@ -239,7 +240,7 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
                   '기준값',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 24,
                   ),
                 ),
                 SizedBox(
@@ -280,7 +281,7 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
                       '실제값',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: 24,
                       ),
                     ),
                     SizedBox(
@@ -408,159 +409,5 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
           ),
         );
     }
-  }
-}
-
-class _BottomModal extends StatefulWidget {
-  const _BottomModal({
-    Key? key,
-    required this.item,
-  }) : super(key: key);
-
-  final CheckItem item;
-
-  @override
-  State<_BottomModal> createState() => _BottomModalState();
-}
-
-class _BottomModalState extends State<_BottomModal> {
-  int _currentIndex = 0;
-
-  bool hasSameIndex(int index) => _currentIndex == index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 250,
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(
-            LayoutConstant.radiusL,
-          ),
-          topRight: Radius.circular(
-            LayoutConstant.radiusL,
-          ),
-        ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: LayoutConstant.paddingM),
-            child: Text(
-              widget.item.checkSheetName,
-              style: Theme.of(context).textTheme.headline6?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            height: LayoutConstant.spaceXS,
-            color: Theme.of(context).dividerColor,
-          ),
-          Expanded(
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Center(
-                  child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).selectedRowColor,
-                    ),
-                  ),
-                ),
-                SizedBox.expand(
-                  child: ListWheelScrollView.useDelegate(
-                    onSelectedItemChanged: (int index) {
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                    },
-                    itemExtent: 50,
-                    perspective: 0.005,
-                    diameterRatio: 1.2,
-                    physics: const FixedExtentScrollPhysics(),
-                    childDelegate: ListWheelChildBuilderDelegate(
-                      childCount: widget.item.valueCombos.length,
-                      builder: (context, index) {
-                        return Center(
-                          child: Text(
-                            widget.item.valueCombos[index].name,
-                            style: TextStyle(
-                              fontWeight: hasSameIndex(index)
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                              fontSize: hasSameIndex(index) ? 25 : 20,
-                              color: hasSameIndex(index)
-                                  ? Theme.of(context).colorScheme.secondary
-                                  : null,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(
-              LayoutConstant.paddingL,
-            ),
-            alignment: Alignment.centerRight,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    /// Caution: GoRoute의 pop을 이용하면
-                    ///           페이지까지 같이 이동 되버리기
-                    ///           때문에 주의
-                    Navigator.of(context).pop();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(LayoutConstant.paddingS),
-                    child: Text(
-                      'Cancel',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Theme.of(context).unselectedWidgetColor,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: LayoutConstant.spaceM),
-                TextButton(
-                  onPressed: () {
-                    /// Caution: GoRoute의 pop을 이용하면
-                    ///           페이지까지 같이 이동 되버리기
-                    ///           때문에 주의
-                    Navigator.of(context)
-                        .pop(widget.item.valueCombos[_currentIndex]);
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(LayoutConstant.paddingS),
-                    child: Text(
-                      'Select',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

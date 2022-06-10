@@ -18,7 +18,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //! application
 final checklistStateNotifierProvider =
-    StateNotifierProvider<ChecklistStateNotifier, ChecklistState>(
+    StateNotifierProvider.autoDispose<ChecklistStateNotifier, ChecklistState>(
   (ref) => ChecklistStateNotifier(
     fetchChecklist: ref.watch(fetchChecklistProvider),
     fetchCheckimagelist: ref.watch(fetchCheckimagelistProvider),

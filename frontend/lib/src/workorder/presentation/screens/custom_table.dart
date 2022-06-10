@@ -78,7 +78,6 @@ class _CustomTableState extends State<CustomTable> {
           widthList: widthList,
           headers: widget.headers,
           height: widget.rowHeight,
-          refreshNotifier: refreshNotifier,
         ),
         Expanded(
           child: CustomTableBody(
@@ -105,7 +104,6 @@ class CustomTableHead extends StatelessWidget {
 
   final List<double> widthList;
   final List<CustomTableHeader> headers;
-  final ValueNotifier<bool> refreshNotifier;
 
   const CustomTableHead({
     Key? key,
@@ -113,7 +111,6 @@ class CustomTableHead extends StatelessWidget {
     required this.height,
     required this.widthList,
     required this.headers,
-    required this.refreshNotifier,
   }) : super(key: key);
 
   @override
@@ -131,7 +128,6 @@ class CustomTableHead extends StatelessWidget {
                 child: CustomHeaderCell(
                   index: index,
                   header: header,
-                  refreshNotifier: refreshNotifier,
                 ),
               );
             },
@@ -147,36 +143,28 @@ class CustomHeaderCell extends StatefulWidget {
     Key? key,
     required this.index,
     required this.header,
-    required this.refreshNotifier,
+    this.color,
   }) : super(key: key);
 
   final CustomTableHeader header;
   final int index;
-  final ValueNotifier<bool> refreshNotifier;
+  final Color? color;
 
   @override
   State<CustomHeaderCell> createState() => _CustomHeaderCellState();
 }
 
 class _CustomHeaderCellState extends State<CustomHeaderCell> {
-  bool? isAscending;
+  int tertiary = 0;
+
+  Color? internalColor;
 
   @override
-  void initState() {
-    super.initState();
-    widget.refreshNotifier.addListener(_resetFlag);
-  }
-
-  @override
-  void dispose() {
-    widget.refreshNotifier.removeListener(_resetFlag);
-    super.dispose();
-  }
-
-  void _resetFlag() {
-    setState(() {
-      isAscending = null;
-    });
+  void didUpdateWidget(covariant CustomHeaderCell oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.header.additionalChild != widget.header.additionalChild) {
+      setState(() {});
+    }
   }
 
   @override
@@ -184,30 +172,49 @@ class _CustomHeaderCellState extends State<CustomHeaderCell> {
     return GestureDetector(
       onTap: () {
         if (widget.header.canOrder) {
-          setState(() {
-            isAscending = !(isAscending ?? false);
-          });
-
-          widget.header.onTap?.call(widget.index, isAscending!);
+          tertiary += 1;
         }
+
+        widget.header.onTap?.call(widget.index, tertiary % 3);
       },
+      onTapDown: (_) {
+        setState(() {
+          internalColor = Theme.of(context).primaryColorLight;
+        });
+      },
+      onTapUp: (_) {
+        setState(() {
+          internalColor = null;
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          internalColor = null;
+        });
+      },
+      onLongPress: widget.header.onLongTap?.call,
       behavior: HitTestBehavior.translucent,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            widget.header.title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
+      child: Container(
+        color: internalColor ?? widget.color,
+        width: double.infinity,
+        height: double.infinity,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              widget.header.title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
             ),
-          ),
-          if (widget.header.canOrder && isAscending != null) ...[
-            const SizedBox(width: LayoutConstant.spaceS),
-            Icon(isAscending! ? Icons.arrow_upward : Icons.arrow_downward),
+            if (widget.header.additionalChild != null) ...[
+              const SizedBox(width: LayoutConstant.spaceS),
+              widget.header.additionalChild!,
+            ]
           ],
-        ],
+        ),
       ),
     );
   }
@@ -217,17 +224,23 @@ class CustomTableHeader {
   final String title;
   final double? width;
   final bool isNumeric;
-  final AlignmentGeometry alignment;
   final bool canOrder;
-  final void Function(int, bool)? onTap;
+  final AlignmentGeometry alignment;
+  final void Function(int, int)? onTap;
+  final void Function()? onLongTap;
+  final Widget? additionalChild;
+  final Color? color;
 
   const CustomTableHeader({
+    this.canOrder = false,
     required this.title,
     this.width,
     this.isNumeric = false,
     this.alignment = Alignment.center,
-    this.canOrder = false,
     this.onTap,
+    this.onLongTap,
+    this.additionalChild,
+    this.color,
   });
 }
 

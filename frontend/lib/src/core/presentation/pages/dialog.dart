@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:frontend/src/auth/application/auth_event.dart';
 import 'package:frontend/src/auth/dependency_injection.dart';
 import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
 import 'package:frontend/src/checklist/presentation/viewmodel/checklist_notifier.dart';
-
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/widgets/no_glow_behavior.dart';
 import 'package:frontend/src/image/domain/entities/image_source.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:frontend/src/workorder/presentation/viewmodel/work_order_list_notifier.dart';
 
 /// 팝업 dialog
 class Dialog extends StatelessWidget {
@@ -90,6 +91,7 @@ class PageListDialog extends ConsumerWidget {
               "페이지 선택",
               style: TextStyle(
                 color: Colors.white,
+                fontSize: 24,
               ),
             ),
           ),
@@ -98,6 +100,7 @@ class PageListDialog extends ConsumerWidget {
             child: ScrollConfiguration(
               behavior: NoGlowBehavior(),
               child: ListView.separated(
+                padding: EdgeInsets.zero,
                 separatorBuilder: (context, index) {
                   return Container(
                     width: double.infinity,
@@ -118,22 +121,29 @@ class PageListDialog extends ConsumerWidget {
                         child: Row(
                           children: [
                             Expanded(
-                                child: Padding(
-                              padding:
-                                  const EdgeInsets.all(LayoutConstant.paddingL),
-                              child: Text(items[index].wcName),
-                            )),
-                            Container(
-                              width: LayoutConstant.spaceXS,
-                              height: 50,
-                              color: Theme.of(context).dividerColor,
-                            ),
-                            Expanded(
-                                flex: 2,
+                                flex: 3,
                                 child: Padding(
                                   padding: const EdgeInsets.all(
                                       LayoutConstant.paddingL),
-                                  child: Text(items[index].wbName),
+                                  child: Text(
+                                    items[index].wcName,
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
+                                )),
+                            Container(
+                              width: LayoutConstant.spaceXS,
+                              height: 60,
+                              color: Theme.of(context).dividerColor,
+                            ),
+                            Expanded(
+                                flex: 4,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(
+                                      LayoutConstant.paddingL),
+                                  child: Text(
+                                    items[index].wbName,
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
                                 )),
                           ],
                         )),
@@ -157,6 +167,7 @@ class SignOutDialog extends ConsumerWidget {
     final user = ref.watch(authChangeNotifierProvider).user;
 
     return Dialog(
+      width: MediaQuery.of(context).size.width / 3,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -173,6 +184,7 @@ class SignOutDialog extends ConsumerWidget {
               "로그 아웃",
               style: TextStyle(
                 color: Colors.white,
+                fontSize: 24,
               ),
             ),
           ),
@@ -182,11 +194,12 @@ class SignOutDialog extends ConsumerWidget {
               text: "${user!.name} 님\n",
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
+                fontSize: 22,
               ),
               children: const [
                 TextSpan(
                   text: "로그아웃 하시겠습니까?",
-                  style: TextStyle(fontWeight: FontWeight.normal),
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 22),
                 ),
               ],
             ),
@@ -246,8 +259,9 @@ class _Button extends StatelessWidget {
               ? TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
                   fontWeight: FontWeight.bold,
+                  fontSize: 22,
                 )
-              : null,
+              : const TextStyle(fontSize: 22),
         ),
       ),
     );
@@ -311,6 +325,156 @@ class ImagePickerDialog extends ConsumerWidget {
               ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class CustomTableHeaderDialog extends ConsumerWidget {
+  const CustomTableHeaderDialog({
+    Key? key,
+    required this.filterKey,
+  }) : super(key: key);
+
+  final String filterKey;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final filterList = ref.watch(columnFilterProvider);
+    final currentFilterMap = ref.watch(workOrderListNotifier).filterMap;
+
+    void _onTap(int index) {
+      if (filterList[index].isSelected) {
+        final newFilterList = currentFilterMap[filterKey]?.toList() ?? [];
+
+        newFilterList.remove(filterList[index].name);
+
+        ref
+            .read(workOrderListNotifier.notifier)
+            .setFilter(filterKey, newFilterList);
+      } else {
+        final newFilterList = currentFilterMap[filterKey]?.toList() ?? [];
+
+        newFilterList.add(filterList[index].name);
+
+        ref.read(workOrderListNotifier.notifier).setFilter(
+              filterKey,
+              newFilterList,
+            );
+      }
+    }
+
+    return Dialog(
+      width: MediaQuery.of(context).size.width / 2,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding:
+                const EdgeInsets.symmetric(vertical: LayoutConstant.paddingM),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(LayoutConstant.radiusM),
+              ),
+            ),
+            alignment: Alignment.center,
+            child: const Text(
+              "필터",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (ref
+                      .watch(workOrderListNotifier)
+                      .filterMap
+                      .keys
+                      .contains(filterKey)) {
+                    ref
+                        .read(workOrderListNotifier.notifier)
+                        .removeFilter(filterKey);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: LayoutConstant.paddingL,
+                    vertical: LayoutConstant.paddingM,
+                  ),
+                  child: Text(
+                    "필터 제거",
+                    style: TextStyle(
+                      color: ref
+                              .watch(workOrderListNotifier)
+                              .filterMap
+                              .keys
+                              .contains(filterKey)
+                          ? Theme.of(context).primaryColorDark
+                          : Theme.of(context).disabledColor,
+                      fontSize: 22,
+                      fontWeight: ref
+                              .watch(workOrderListNotifier)
+                              .filterMap
+                              .keys
+                              .contains(filterKey)
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
+                  ),
+                ),
+              )),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 3,
+            child: ScrollConfiguration(
+              behavior: NoGlowBehavior(),
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: LayoutConstant.paddingS,
+                        vertical: LayoutConstant.paddingL),
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () => _onTap(index),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: filterList[index].isSelected,
+                            onChanged: (_) => _onTap(index),
+                          ),
+                          Flexible(
+                            child: RichText(
+                              text: TextSpan(
+                                text: filterList[index].name,
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.color,
+                                ),
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                padding: EdgeInsets.zero,
+                itemCount: filterList.length,
+              ),
+            ),
+          ),
+          const SizedBox(height: LayoutConstant.spaceM),
         ],
       ),
     );

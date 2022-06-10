@@ -78,7 +78,7 @@ class _HomeAlterScreenState extends ConsumerState<HomeScreen>
                   position: _slideHomeTween.animate(_controller),
                   child: FadeTransition(
                     opacity: _opacityHomeTween.animate(_controller),
-                    child: const HomeAlterWidget(),
+                    child: const HomeWidget(),
                   ),
                 ),
                 // SlideTransition(
@@ -99,8 +99,8 @@ class _HomeAlterScreenState extends ConsumerState<HomeScreen>
   }
 }
 
-class HomeAlterWidget extends ConsumerWidget {
-  const HomeAlterWidget({Key? key}) : super(key: key);
+class HomeWidget extends ConsumerWidget {
+  const HomeWidget({Key? key}) : super(key: key);
 
   void onSelected(BuildContext context, MenuEntity item) {
     switch (item) {

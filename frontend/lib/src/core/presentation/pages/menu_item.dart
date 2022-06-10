@@ -20,12 +20,12 @@ class MenuItems {
   ];
 
   static const itemPages = MenuEntity(
-    text: "Pages",
+    text: "화면",
     icon: Icons.pages,
   );
 
   static const itemSignOut = MenuEntity(
-    text: "Sign Out",
+    text: "로그아웃",
     icon: Icons.logout,
   );
 }

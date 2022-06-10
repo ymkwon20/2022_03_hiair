@@ -30,7 +30,7 @@ class WorkOrderStateNotifier extends StateNotifier<WorkOrderState> {
 
         final resultsOrFailure = await _fetchItems(params);
         state = resultsOrFailure.fold(
-          (l) => state = WorkOrderState.failure(items, mapFailureToString(l)),
+          (l) => WorkOrderState.failure(items, mapFailureToString(l)),
           (r) =>
               WorkOrderState.loaded(items..addAll(r.items), r.isNextAvailable),
         );
