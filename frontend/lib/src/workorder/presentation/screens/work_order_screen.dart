@@ -311,11 +311,11 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 200),
       right: ref.watch(workOrderListNotifier).isMultiSelectMode
-          ? LayoutConstant.spaceXL
-          : -100,
+          ? 1.7 * LayoutConstant.spaceXL
+          : -120,
       bottom: ref.watch(workOrderListNotifier).isMultiSelectMode
-          ? LayoutConstant.spaceS
-          : -100,
+          ? LayoutConstant.spaceM
+          : -120,
       child: AnimatedScale(
         scale: ref.watch(workOrderListNotifier).isMultiSelectMode ? 1 : 0,
         duration: const Duration(milliseconds: 400),
@@ -323,14 +323,6 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              "시작/종료",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 26,
-              ),
-            ),
-            const SizedBox(height: LayoutConstant.spaceM),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -347,9 +339,9 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                               .toList(),
                         ),
                       ),
-                  tooltip: "Start",
+                  title: "시작",
+                  width: 60,
                   backgroundColor: ThemeConstant.accentColor,
-                  icon: Icons.play_arrow,
                   active:
                       ref.read(workOrderListNotifier.notifier).isStartActive,
                 ),
@@ -367,12 +359,31 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                               .toList(),
                         ),
                       ),
-                  tooltip: "End",
-                  icon: Icons.stop,
+                  title: "완료",
+                  width: 60,
                   backgroundColor: Theme.of(context).primaryColorDark,
                   active: ref.read(workOrderListNotifier.notifier).isEndActive,
                 ),
               ],
+            ),
+            const SizedBox(height: LayoutConstant.spaceS),
+            _buildFabButton(
+              // onTap: () => ref
+              //     .read(workOrderSaveStateNotifierProvider.notifier)
+              //     .mapEventToState(
+              //       WorkOrderSaveEvent.saveWorkOrderList(
+              //         ref.watch(workOrderListNotifier).selectedQmItem,
+              //         WorkOrderSaveStatus.start,
+              //         ref
+              //             .watch(workOrderListNotifier)
+              //             .selectedIndex
+              //             .toList(),
+              //       ),
+              //     ),
+              title: "시작/완료",
+              width: 120 + LayoutConstant.spaceM,
+              backgroundColor: ThemeConstant.accentColor,
+              active: true,
             ),
             const SizedBox(height: LayoutConstant.spaceS),
             const Text(
@@ -397,7 +408,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
     );
   }
 
-  Widget _buildFabBackground({double radius = 200}) {
+  Widget _buildFabBackground({double radius = 240}) {
     return Positioned(
       bottom: -radius,
       right: -radius,
@@ -424,31 +435,34 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
     );
   }
 
-  Tooltip _buildFabButton({
-    required String tooltip,
-    required IconData icon,
+  Widget _buildFabButton({
+    required String title,
     required Color backgroundColor,
-    double radius = 60,
+    required double width,
     bool active = true,
     VoidCallback? onTap,
   }) {
-    return Tooltip(
-      message: tooltip,
-      child: GestureDetector(
-        onTap: active ? onTap : null,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeInOutQuart,
-          width: radius,
-          height: radius,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: active ? backgroundColor : Theme.of(context).disabledColor,
-          ),
-          alignment: Alignment.center,
-          child: Icon(
-            icon,
+    return GestureDetector(
+      onTap: active ? onTap : null,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOutQuart,
+        width: width,
+        padding: const EdgeInsets.symmetric(
+          vertical: LayoutConstant.paddingM,
+        ),
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: active ? backgroundColor : Theme.of(context).disabledColor,
+          borderRadius: BorderRadius.circular(LayoutConstant.radiusS),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          title,
+          style: const TextStyle(
             color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
           ),
         ),
       ),
