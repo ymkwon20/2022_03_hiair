@@ -1,8 +1,8 @@
 class LogicConstant {
   const LogicConstant._();
 
-  static const String baseApiServerUrl = "http://192.168.0.117:9090";
-  // static const String baseApiServerUrl = "http://172.16.30.105:9090";
+  // static const String baseApiServerUrl = "http://192.168.0.117:9090";
+  static const String baseApiServerUrl = "http://172.16.30.105:9090";
   static const String baseImageServerUrl = "http://172.16.30.105/IMAGE/CAM_NO";
   static const String baseFileServerUrl = "http://172.16.30.105/IMAGE/PIC/QM";
 

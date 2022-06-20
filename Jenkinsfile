@@ -7,15 +7,17 @@ pipeline {
         GO111MODULE = 'on'
     }
     stages {
-        stage('Backend Compile') {
+        stage('Backend Compile'){
             steps {
-		echo '----Backend Build----'
-                sh 'cd backend'
-		sh 'go mod init'
-		sh 'go mod tidy'
-                sh 'go build main.go'
+                echo '----Backend Build----'
+                sh 'pwd'
+                dir('backend') {
+                    sh 'pwd'
+                    sh 'go build main.go'
+                }
+                sh 'pwd'
             }
+            
         }
     }
 }
-
