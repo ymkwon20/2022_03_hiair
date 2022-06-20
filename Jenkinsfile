@@ -11,7 +11,8 @@ pipeline {
             steps {
 		echo '----Backend Build----'
                 sh 'cd backend'
-                sh 'go build'
+		sh 'go mod tidy'
+                sh 'go build main.go'
             }
         }
     }
