@@ -1,4 +1,4 @@
-import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
 import 'package:frontend/src/checklist/domain/entities/check_image.dart';
 import 'package:frontend/src/checklist/domain/entities/check_item.dart';
 import 'package:frontend/src/checklist/domain/usecases/save_imagelist.dart';
@@ -7,7 +7,7 @@ import 'package:frontend/src/checklist/infrastructure/dtos/check_item_dto.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/image/domain/usecases/save_images.dart';
 import 'package:frontend/src/workorder/application/save/work_order_save_event.dart';
-import 'package:frontend/src/workorder/presentation/viewmodel/qm_work_order_notifier.dart';
+import 'package:frontend/src/workorder/presentation/viewmodels/qm_work_order_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/checklist/application/save/checklist_save_event.dart';
@@ -98,7 +98,7 @@ class ChecklistSaveStateNotifier extends StateNotifier<ChecklistSaveState> {
     final parameterList = <Map<String, dynamic>>[];
 
     final imagePathList = <String>[];
-    for (final item in items) {
+    for (final item in items.where((item) => item.shouldSave).toList()) {
       /// 1. 저장 정보 파라미터 만들기
       final params = CheckImageDto.fromDomain(item).toMap();
       params["user-id"] = _authNotifier.user!.id;
@@ -109,7 +109,7 @@ class ChecklistSaveStateNotifier extends StateNotifier<ChecklistSaveState> {
       parameterList.add(params);
 
       /// 2. 저장 이미지 path 따로 저장
-      if (item.path != "") {
+      if (item.path != "" && item.isLocal) {
         imagePathList.add(item.path);
       }
     }

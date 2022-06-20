@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
-import 'package:frontend/src/core/presentation/pages/dialog.dart';
+import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/pages/menu_item.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,10 +10,10 @@ class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeAlterScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeAlterScreenState extends ConsumerState<HomeScreen>
+class _HomeScreenState extends ConsumerState<HomeScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 

@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/auth/presentation/sign_in_screen.dart';
-import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
 import 'package:frontend/src/cutting/presentation/request/cutting_request_screen.dart';
 import 'package:frontend/src/cutting/presentation/serial/cutting_serials_screen.dart';
 import 'package:frontend/src/settings/settings_screen.dart';

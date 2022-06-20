@@ -1,4 +1,5 @@
 import 'package:frontend/src/auth/domain/entities/auth_failure.dart';
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/auth/application/auth_event.dart';
@@ -9,14 +10,17 @@ import 'package:frontend/src/auth/domain/usecases/sign_out.dart';
 
 class AuthStateNotifier extends StateNotifier<AuthState> {
   AuthStateNotifier({
+    required AuthChangeNotifier authNotifier,
     required LoadStoredUser loadStoredUser,
     required SignIn signIn,
     required SignOut signOut,
-  })  : _loadStoredUser = loadStoredUser,
+  })  : _authNotifier = authNotifier,
+        _loadStoredUser = loadStoredUser,
         _signIn = signIn,
         _signOut = signOut,
         super(const AuthState.initial());
 
+  final AuthChangeNotifier _authNotifier;
   final LoadStoredUser _loadStoredUser;
   final SignIn _signIn;
   final SignOut _signOut;
@@ -31,6 +35,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         } else {
           state = AuthState.authenticated(storedUser);
         }
+        _authNotifier.changeCheckStatus();
       },
       signIn: (Map<String, dynamic> params) async {
         state = const AuthState.loading();

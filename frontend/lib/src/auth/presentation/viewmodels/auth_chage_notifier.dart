@@ -7,17 +7,25 @@ final authChangeNotifierProvider = Provider(
 );
 
 class AuthChangeNotifier with ChangeNotifier {
+  bool _isLoginChecked = false;
+
   User? _user;
 
   User? get user => _user;
   bool get isLoggedIn => _user != null;
+
+  bool get isLoginChecked => _isLoginChecked;
+
+  void changeCheckStatus() {
+    _isLoginChecked = true;
+  }
 
   void setUser(User user) {
     _user = user;
     notifyListeners();
   }
 
-  void emptyUser() {
+  void emptUser() {
     _user = null;
     notifyListeners();
   }

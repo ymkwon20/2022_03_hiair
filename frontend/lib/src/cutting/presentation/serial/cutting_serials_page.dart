@@ -38,6 +38,13 @@ class _CuttingSerialsPageState extends ConsumerState<CuttingSerialsPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: Theme.of(context).iconTheme,
+        title: Text(
+          "네스팅 요청서 작성",
+          style: TextStyle(
+            color: Theme.of(context).iconTheme.color,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: state.when(
         initial: () => const InitialStateWidget(),

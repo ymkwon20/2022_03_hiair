@@ -3,13 +3,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/auth/application/auth_event.dart';
 import 'package:frontend/src/auth/dependency_injection.dart';
-import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
-import 'package:frontend/src/checklist/presentation/viewmodel/checklist_notifier.dart';
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
+import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/widgets/no_glow_behavior.dart';
 import 'package:frontend/src/image/domain/entities/image_source.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
-import 'package:frontend/src/workorder/presentation/viewmodel/work_order_list_notifier.dart';
+import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 
 /// 팝업 dialog
 class Dialog extends StatelessWidget {
@@ -289,9 +289,7 @@ class ImagePickerDialog extends ConsumerWidget {
             alignment: Alignment.center,
             child: const Text(
               "이미지 추가",
-              style: TextStyle(
-                color: Colors.white,
-              ),
+              style: TextStyle(color: Colors.white),
             ),
           ),
           const SizedBox(height: LayoutConstant.spaceM),
@@ -476,6 +474,61 @@ class CustomTableHeaderDialog extends ConsumerWidget {
           ),
           const SizedBox(height: LayoutConstant.spaceM),
         ],
+      ),
+    );
+  }
+}
+
+class SavingDialog extends StatelessWidget {
+  const SavingDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: AlertDialog(
+        shape: const RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.all(Radius.circular(LayoutConstant.radiusM))),
+        backgroundColor: Colors.black87,
+        content: Padding(
+          padding: const EdgeInsets.all(LayoutConstant.paddingL),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _getLoadingIndicator(),
+              _getHeader(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _getLoadingIndicator() {
+    return const Padding(
+      padding: EdgeInsets.only(bottom: LayoutConstant.paddingL),
+      child: SizedBox(
+        width: LayoutConstant.spaceXL,
+        height: LayoutConstant.spaceXL,
+        child: CircularProgressIndicator(
+          strokeWidth: LayoutConstant.spaceXS,
+        ),
+      ),
+    );
+  }
+
+  Widget _getHeader() {
+    return const Padding(
+      padding: EdgeInsets.only(bottom: LayoutConstant.paddingS),
+      child: Text(
+        "저장 중 ...",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+        ),
+        textAlign: TextAlign.center,
       ),
     );
   }

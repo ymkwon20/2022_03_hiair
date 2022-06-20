@@ -62,6 +62,10 @@ class FctRemoteService implements IFctService {
         "/fct/$serial",
       );
 
+      if (response.data == null) {
+        return [];
+      }
+
       final data = (response.data as List<dynamic>)
           .map((dynamic item) => item as Map<String, dynamic>);
 

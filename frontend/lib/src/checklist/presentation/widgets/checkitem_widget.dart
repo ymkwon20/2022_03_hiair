@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/checklist/domain/entities/check_item.dart';
 import 'package:frontend/src/checklist/domain/entities/check_type.dart';
-import 'package:frontend/src/checklist/presentation/viewmodel/checklist_notifier.dart';
+import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 
 import 'check_combobox.dart';

@@ -11,7 +11,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 final fetchImageProvider = Provider(
-  (ref) => FetchImage(repository: ref.watch(imageRepositoryProvider)),
+  (ref) => FetchImages(repository: ref.watch(imageRepositoryProvider)),
 );
 
 final saveImagesProvider = Provider(

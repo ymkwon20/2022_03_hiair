@@ -155,14 +155,12 @@ class CustomHeaderCell extends StatefulWidget {
 }
 
 class _CustomHeaderCellState extends State<CustomHeaderCell> {
-  int tertiary = 0;
-
   Color? internalColor;
 
   @override
   void didUpdateWidget(covariant CustomHeaderCell oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.header.additionalChild != widget.header.additionalChild) {
+    if (oldWidget.header.children != widget.header.children) {
       setState(() {});
     }
   }
@@ -171,11 +169,7 @@ class _CustomHeaderCellState extends State<CustomHeaderCell> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.header.canOrder) {
-          tertiary += 1;
-        }
-
-        widget.header.onTap?.call(widget.index, tertiary % 3);
+        widget.header.onTap?.call(widget.header.name);
       },
       onTapDown: (_) {
         setState(() {
@@ -209,9 +203,14 @@ class _CustomHeaderCellState extends State<CustomHeaderCell> {
                 fontSize: 20,
               ),
             ),
-            if (widget.header.additionalChild != null) ...[
-              const SizedBox(width: LayoutConstant.spaceS),
-              widget.header.additionalChild!,
+            if (widget.header.children.isNotEmpty) ...[
+              // const SizedBox(width: LayoutConstant.spaceS),
+              // widget.header.additionalChild!,
+
+              for (var child in widget.header.children) ...[
+                const SizedBox(),
+                child
+              ],
             ]
           ],
         ),
@@ -221,25 +220,28 @@ class _CustomHeaderCellState extends State<CustomHeaderCell> {
 }
 
 class CustomTableHeader {
+  /// name: onTap 같은 이벤트 발생시 key값으로 사용하기 위한 field
+  final String name;
   final String title;
   final double? width;
   final bool isNumeric;
   final bool canOrder;
   final AlignmentGeometry alignment;
-  final void Function(int, int)? onTap;
+  final void Function(String)? onTap;
   final void Function()? onLongTap;
-  final Widget? additionalChild;
+  final List<Widget> children;
   final Color? color;
 
   const CustomTableHeader({
-    this.canOrder = false,
+    required this.name,
     required this.title,
     this.width,
     this.isNumeric = false,
+    this.canOrder = false,
     this.alignment = Alignment.center,
     this.onTap,
     this.onLongTap,
-    this.additionalChild,
+    this.children = const [],
     this.color,
   });
 }

@@ -67,7 +67,7 @@ class WorkOrderListNotifier with ChangeNotifier {
 
   final Map<String, Set<String>> filterMap = {};
 
-  final Map<int, bool> sortedColumn = <int, bool>{};
+  final Map<String, bool> sortedColumn = <String, bool>{};
 
   int get page => _currentPage;
 
@@ -105,7 +105,7 @@ class WorkOrderListNotifier with ChangeNotifier {
   }
 
   /// 선택된 item
-  List<WorkOrder> get selectedQmItem =>
+  List<WorkOrder> get selectedItem =>
       selectedIndex.map((index) => _items[index]).toList();
 
   /// 선택한 아이템들 모두 값이 비어 있는지(=저장할 수 있는지) 확인
@@ -181,6 +181,7 @@ class WorkOrderListNotifier with ChangeNotifier {
       dateStart: date,
       status: WorkOrderStatus.resuming,
     );
+    notifyListeners();
   }
 
   void setNewItemDateEnd(int index) {
@@ -195,16 +196,23 @@ class WorkOrderListNotifier with ChangeNotifier {
     for (final index in indice) {
       _items[index] = _items[index].copyWith(
         dateStart: date,
+        status: WorkOrderStatus.resuming,
       );
     }
     notifyListeners();
   }
 
-  void setNewListDateEnd(List<int> indice, String date) {
-    for (final index in indice) {
-      _items[index] = _items[index].copyWith(
-        dateEnd: date,
-      );
+  void setNewListDateEnd(List<int> indice) {
+    /// * mistake
+    // for (final index in indice) {
+    //   _items.removeAt(index);
+    // }
+
+    // list 가 순서에 맞게 들어오지 않음
+    indice.sort((a, b) => a.compareTo(b));
+
+    for (var i = indice.length - 1; i >= 0; i--) {
+      _items.removeAt(indice[i]);
     }
     notifyListeners();
   }
@@ -220,6 +228,7 @@ class WorkOrderListNotifier with ChangeNotifier {
     _currentPage = 1;
     selectedIndex.clear();
     _items.clear();
+    sortedColumn.clear();
     clearFilter();
     notifyListeners();
   }
@@ -238,51 +247,75 @@ class WorkOrderListNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  void sort(int index, int tertiary) {
-    switch (tertiary) {
-      case 0:
-        sortedColumn.remove(index);
-        break;
-      case 1:
-        sortedColumn.addAll({index: true});
-        break;
-      case 2:
-        sortedColumn.addAll({index: false});
-        break;
+  void sort(String key) {
+    // 추후에 따로 사용될 수 있을 여지가 있어서 저장해놓음
+
+    var ascending = sortedColumn[key];
+
+    if (ascending != null) {
+      if (ascending) {
+        sortedColumn[key] = !ascending;
+      } else {
+        sortedColumn.clear();
+      }
+    } else {
+      sortedColumn.clear();
+      sortedColumn.addAll({key: true});
     }
 
-    _items.sort(_compareBetween);
+    // switch (tertiary) {
+    //   case 0:
+    //     sortedColumn.remove(key);
+    //     break;
+    //   case 1:
+    //     sortedColumn.addAll({key: true});
+    //     break;
+    //   case 2:
+    //     sortedColumn.addAll({key: false});
+    //     break;
+    // }
+
+    items.sort((a, b) {
+      final ascending = sortedColumn[key];
+
+      if (ascending != null) {
+        return (ascending ? 1 : -1) *
+            a.getProp(key)!.compareTo(b.getProp(key)!);
+      }
+
+      return a.getProp(key)!.compareTo(b.getProp(key)!);
+    });
     notifyListeners();
   }
 
-  int _compareBetween(WorkOrder a, WorkOrder b) {
-    final wbAscending = sortedColumn[0];
-    final statusAscending = sortedColumn[1];
+  // int _compareBetween(WorkOrder a, WorkOrder b) {
+  // final wbAscending = sortedColumn[0];
+  // final statusAscending = sortedColumn[1];
 
-    if (wbAscending != null) {
-      // 공정 이름으로 정렬
-      int wbComp = (wbAscending ? 1 : -1) * a.wbNm.compareTo(b.wbNm);
+  // if (wbAscending != null) {
+  //   // 공정 이름으로 정렬
+  //   int wbComp = (wbAscending ? 1 : -1) * a.wbNm.compareTo(b.wbNm);
 
-      // 현 공정 상태도 있으면 그것으로도 정렬
-      if (statusAscending != null) {
-        if (wbComp == 0) {
-          return (statusAscending ? 1 : -1) *
-              a.status.toString().compareTo(b.status.toString());
-        }
-      }
+  //   // 현 공정 상태도 있으면 그것으로도 정렬
+  //   if (statusAscending != null) {
+  //     if (wbComp == 0) {
+  //       return (statusAscending ? 1 : -1) *
+  //           a.status.toString().compareTo(b.status.toString());
+  //     }
+  //   }
 
-      // 더이상 진행안하고 리턴
-      return wbComp;
-    } else {
-      late int statusComp;
-      if (statusAscending != null) {
-        statusComp = (statusAscending ? 1 : -1) *
-            a.status.toString().compareTo(b.status.toString());
-      } else {
-        statusComp = a.status.toString().compareTo(b.status.toString());
-      }
+  //   // 더이상 진행안하고 리턴
+  //   return wbComp;
+  // } else {
+  //   late int statusComp;
+  //   if (statusAscending != null) {
+  //     statusComp = (statusAscending ? 1 : -1) *
+  //         a.status.toString().compareTo(b.status.toString());
+  //   } else {
+  //     statusComp = a.status.toString().compareTo(b.status.toString());
+  //   }
 
-      return statusComp;
-    }
-  }
+  //   return statusComp;
+  // }
+  // }
 }

@@ -4,12 +4,14 @@ class CheckImage {
   final String path;
   final String remark;
   final bool isLocal;
+  final bool shouldSave;
 
   const CheckImage({
     required this.seq,
     required this.path,
     required this.remark,
     this.isLocal = false,
+    this.shouldSave = true,
   });
 
   factory CheckImage.local({
@@ -22,6 +24,7 @@ class CheckImage {
       path: path,
       remark: remark,
       isLocal: true,
+      shouldSave: true,
     );
   }
 
@@ -35,6 +38,7 @@ class CheckImage {
       path: path,
       remark: remark,
       isLocal: false,
+      shouldSave: false,
     );
   }
 
@@ -46,12 +50,17 @@ class CheckImage {
         other.seq == seq &&
         other.path == path &&
         other.remark == remark &&
-        other.isLocal == isLocal;
+        other.isLocal == isLocal &&
+        other.shouldSave == shouldSave;
   }
 
   @override
   int get hashCode {
-    return seq.hashCode ^ path.hashCode ^ remark.hashCode ^ isLocal.hashCode;
+    return seq.hashCode ^
+        path.hashCode ^
+        remark.hashCode ^
+        isLocal.hashCode ^
+        shouldSave.hashCode;
   }
 
   CheckImage copyWith({
@@ -59,12 +68,14 @@ class CheckImage {
     String? path,
     String? remark,
     bool? isLocal,
+    bool? shouldSave,
   }) {
     return CheckImage(
       seq: seq ?? this.seq,
       path: path ?? this.path,
       remark: remark ?? this.remark,
       isLocal: isLocal ?? this.isLocal,
+      shouldSave: shouldSave ?? this.shouldSave,
     );
   }
 }

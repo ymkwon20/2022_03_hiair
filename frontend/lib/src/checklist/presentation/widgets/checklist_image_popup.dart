@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:frontend/src/checklist/application/load/checklist_state.dart';
 import 'package:frontend/src/checklist/application/save/checklist_save_event.dart';
 import 'package:frontend/src/checklist/application/save/checklist_save_state.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
-import 'package:frontend/src/checklist/presentation/viewmodel/checklist_notifier.dart';
+import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
 import 'package:frontend/src/core/presentation/image_widget.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
-import 'package:frontend/src/core/presentation/pages/dialog.dart';
+import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/no_glow_behavior.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ChecklistImagePopup extends ConsumerStatefulWidget {
   const ChecklistImagePopup({Key? key}) : super(key: key);
@@ -68,7 +69,7 @@ class _ChecklistPopupState extends ConsumerState<ChecklistImagePopup> {
         children: [
           GestureDetector(
             onTap: () {
-              ref.read(checkimagelistNotifierProvider.notifier).clear();
+              // ref.read(checkimagelistNotifierProvider.notifier).clear();
               Navigator.of(context).pop();
             },
             child: Container(
@@ -102,16 +103,18 @@ class _ChecklistPopupState extends ConsumerState<ChecklistImagePopup> {
                           onPressed: () {
                             if (!ref
                                 .read(checkimagelistNotifierProvider.notifier)
-                                .hasEdit) {
+                                .shouldSave) {
                               Navigator.of(context).pop();
                             } else {
                               ref
                                   .read(checklistSaveStateNotifierProvider
                                       .notifier)
                                   .mapEventToState(
-                                    ChecklistSaveEvent.saveImagelist(ref
-                                        .watch(checkimagelistNotifierProvider)
-                                        .items),
+                                    ChecklistSaveEvent.saveImagelist(
+                                      ref
+                                          .watch(checkimagelistNotifierProvider)
+                                          .items,
+                                    ),
                                   );
                             }
                           },
@@ -168,18 +171,33 @@ class _CheckImageListWidgetState extends ConsumerState<CheckImageListWidget> {
                 ),
                 child: Row(
                   children: [
-                    ImageWidget(
-                      imagePath: items[index].isLocal
-                          ? items[index].path
-                          : "${LogicConstant.baseFileServerUrl}/${items[index].path}",
-                      isLocal: items[index].isLocal,
+                    SizedBox(
+                      width: 150,
+                      child: ImageWidget(
+                        imagePath: items[index].isLocal
+                            ? items[index].path
+                            : "${LogicConstant.baseFileServerUrl}/${items[index].path}",
+                        isLocal: items[index].isLocal,
+                      ),
                     ),
-                    const Spacer(),
+                    const SizedBox(width: LayoutConstant.spaceM),
+                    Expanded(
+                      child: CheckImageRemarkWidget(
+                        remark: items[index].remark,
+                        onEditingComplete: (remark) {
+                          ref
+                              .read(checkimagelistNotifierProvider.notifier)
+                              .editRemarkAt(index, remark);
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: LayoutConstant.spaceM),
                     if (items[index].isLocal)
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           ref
-                              .read(checklistNotifierProvider.notifier)
+                              .read(checkimagelistNotifierProvider.notifier)
                               .removeAt(index);
                         },
                         child: Padding(
@@ -223,6 +241,57 @@ class _CheckImageListWidgetState extends ConsumerState<CheckImageListWidget> {
           },
           itemCount: ref.watch(checkimagelistNotifierProvider).items.length + 1,
         ),
+      ),
+    );
+  }
+}
+
+class CheckImageRemarkWidget extends StatefulWidget {
+  const CheckImageRemarkWidget({
+    Key? key,
+    required this.remark,
+    required this.onEditingComplete,
+  }) : super(key: key);
+
+  final String remark;
+  final void Function(String) onEditingComplete;
+
+  @override
+  State<CheckImageRemarkWidget> createState() => _CheckImageRemarkWidgetState();
+}
+
+class _CheckImageRemarkWidgetState extends State<CheckImageRemarkWidget> {
+  late FocusNode _node;
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _node = FocusNode(debugLabel: widget.remark);
+    _controller = TextEditingController();
+    _controller.text = widget.remark;
+  }
+
+  @override
+  void dispose() {
+    _node.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Focus(
+      focusNode: _node,
+      onFocusChange: (isFocus) {
+        if (!isFocus) {
+          if (widget.remark != _controller.text) {
+            widget.onEditingComplete.call(_controller.text);
+          }
+        }
+      },
+      child: TextField(
+        controller: _controller,
       ),
     );
   }

@@ -1,22 +1,19 @@
-import 'dart:typed_data';
+import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
 import 'package:frontend/src/core/presentation/index.dart';
 
-class ImageDialog extends StatefulWidget {
+class ImageDialog extends StatelessWidget {
   const ImageDialog({
     Key? key,
-    required this.bytes,
+    required this.imagePath,
+    required this.isLocal,
   }) : super(key: key);
 
-  final Uint8List bytes;
-
-  @override
-  State<ImageDialog> createState() => _ImageDialogState();
-}
-
-class _ImageDialogState extends State<ImageDialog>
-    with SingleTickerProviderStateMixin {
+  final String imagePath;
+  final bool isLocal;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +26,11 @@ class _ImageDialogState extends State<ImageDialog>
             color: Colors.black,
           ),
           InteractiveViewer(
-            child: Image.memory(
-              widget.bytes,
-            ),
+            child: isLocal
+                ? Image.file(
+                    File(imagePath),
+                  )
+                : CachedNetworkImage(imageUrl: imagePath),
           ),
           Positioned(
             top: LayoutConstant.spaceXL,

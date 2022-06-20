@@ -1,3 +1,5 @@
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
+import 'package:frontend/src/checklist/domain/usecases/fetch_and_save_checklist.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/workorder/application/save/work_order_save_event.dart';
 import 'package:frontend/src/workorder/application/save/work_order_save_state.dart';
@@ -11,22 +13,28 @@ class WorkOrderSaveStateNotifier extends StateNotifier<WorkOrderSaveState> {
   WorkOrderSaveStateNotifier({
     required SaveWorkOrder saveWorkOrder,
     required SaveWorkOrderList saveWorkOrderList,
+    required FetchAndSaveChecklist fetchAndSaveChecklist,
+    required AuthChangeNotifier authNotifier,
   })  : _saveWorkOrder = saveWorkOrder,
         _saveWorkOrderList = saveWorkOrderList,
+        _fetchAndSaveChecklist = fetchAndSaveChecklist,
+        _authNotifier = authNotifier,
         super(const WorkOrderSaveState.none());
 
   final SaveWorkOrder _saveWorkOrder;
   final SaveWorkOrderList _saveWorkOrderList;
+  final FetchAndSaveChecklist _fetchAndSaveChecklist;
+  final AuthChangeNotifier _authNotifier;
 
   Future<void> mapEventToState(WorkOrderSaveEvent event) async {
     event.when(
-      saveWorkOrder: _processSaveQmItem,
-      saveWorkOrderList: _processSaveQmList,
+      saveWorkOrder: _processSaveWorkorder,
+      saveWorkOrderList: _processSaveWorkorderList,
       resetToNone: () => state = const WorkOrderSaveState.none(),
     );
   }
 
-  Future<void> _processSaveQmItem(
+  Future<void> _processSaveWorkorder(
       WorkOrder item, WorkOrderSaveStatus status, int index) async {
     state = const WorkOrderSaveState.saving();
 
@@ -67,11 +75,12 @@ class WorkOrderSaveStateNotifier extends StateNotifier<WorkOrderSaveState> {
     );
   }
 
-  Future<void> _processSaveQmList(List<WorkOrder> list,
+  Future<void> _processSaveWorkorderList(List<WorkOrder> list,
       WorkOrderSaveStatus status, List<int> indice) async {
     state = const WorkOrderSaveState.saving();
 
-    /// _processSaveQmItem(_,__,___) 참고
+    final date = DateFormat("yyyy-MM-dd").format(DateTime.now());
+
     late String qmStatus;
     switch (status) {
       case WorkOrderSaveStatus.start:
@@ -85,10 +94,9 @@ class WorkOrderSaveStateNotifier extends StateNotifier<WorkOrderSaveState> {
         break;
     }
 
-    final date = DateFormat("yyyy-MM-dd").format(DateTime.now());
-
     final params = <Map<String, dynamic>>[];
 
+    var isSuccess = false;
     for (final item in list) {
       final mapData = {
         "plan-seq": item.planSeq.toString(),
@@ -98,14 +106,42 @@ class WorkOrderSaveStateNotifier extends StateNotifier<WorkOrderSaveState> {
         "prod-gb": qmStatus,
         "date": date,
         "qty": item.qty.toString(),
+        "page-cd": "",
+        "user-id": _authNotifier.user!.id,
       };
-      params.add(mapData);
+
+      switch (status) {
+        case WorkOrderSaveStatus.start:
+          isSuccess = true;
+          break;
+        default:
+          final failureOrSuccess = await _fetchAndSaveChecklist(mapData);
+
+          failureOrSuccess.fold(
+            (l) {
+              state = WorkOrderSaveState.failure(mapFailureToString(l));
+              isSuccess = false;
+            },
+            (r) {
+              isSuccess = true;
+            },
+          );
+          break;
+      }
+
+      if (!isSuccess) {
+        break;
+      } else {
+        params.add(mapData);
+      }
     }
 
-    final resultsOrFailure = await _saveWorkOrderList(params);
-    state = resultsOrFailure.fold(
-      (l) => WorkOrderSaveState.failure(mapFailureToString(l)),
-      (r) => WorkOrderSaveState.multipleSaved(indice, date, status),
-    );
+    if (isSuccess) {
+      final resultsOrFailure = await _saveWorkOrderList(params);
+      state = resultsOrFailure.fold(
+        (l) => WorkOrderSaveState.failure(mapFailureToString(l)),
+        (r) => WorkOrderSaveState.multipleSaved(indice, date, status),
+      );
+    }
   }
 }

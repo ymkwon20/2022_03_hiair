@@ -1,4 +1,4 @@
-import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/work_base/application/work_base_event.dart';
 import 'package:frontend/src/work_base/application/work_base_state.dart';

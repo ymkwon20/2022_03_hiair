@@ -5,7 +5,7 @@ import 'package:frontend/src/checklist/dependency_injection.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/widgets/index.dart';
-import 'package:frontend/src/cutting/presentation/request/view_models/cutting_checks_state_notifier.dart';
+import 'package:frontend/src/cutting/presentation/request/viewmodels/cutting_checks_state_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/cutting/dependency_injection.dart';

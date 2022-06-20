@@ -3,4 +3,5 @@ abstract class IImageLocalService {
 
   Future<String?> takeOnePicture();
   Future<String?> pickImage();
+  Future<List<String>?> pickMultiImages();
 }

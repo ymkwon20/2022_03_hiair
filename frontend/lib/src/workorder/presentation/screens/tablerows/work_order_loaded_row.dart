@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/workorder/domain/entities/work_order.dart';
-import 'package:frontend/src/workorder/domain/entities/work_order_status.dart';
 import 'package:frontend/src/workorder/presentation/screens/custom_table.dart';
 
 class WorkOrderLoadedRow extends CustomTableRow {
@@ -17,7 +16,7 @@ class WorkOrderLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
-              order.status == WorkOrderStatus.waiting ? "대기" : "진행중",
+              order.statusKr,
               style: style,
             ),
             Text(

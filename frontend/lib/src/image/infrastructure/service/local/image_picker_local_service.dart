@@ -37,6 +37,17 @@ class ImagePickerLocalService extends IImageLocalService {
     }
   }
 
+  @override
+  Future<List<String>?> pickMultiImages() async {
+    if (defaultTargetPlatform == TargetPlatform.iOS ||
+        defaultTargetPlatform == TargetPlatform.android) {
+      final images = await _picker.pickMultiImage();
+      return images?.map((image) => image.path).toList();
+    } else {
+      throw UnsupportedPlatformException();
+    }
+  }
+
   /// 파일이름을 현재 시간으로 바꿈
   String? _toNewNamePath(XFile? file) {
     if (file == null) {

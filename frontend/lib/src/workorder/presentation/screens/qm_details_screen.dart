@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/checklist/presentation/viewmodel/checklist_notifier.dart';
+import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -15,14 +15,14 @@ import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:frontend/src/qm/application/menu/qm_menu_event.dart';
 import 'package:frontend/src/qm/application/menu/qm_menu_state.dart';
 import 'package:frontend/src/qm/dependency_injection.dart';
-import 'package:frontend/src/qm/presentation/view_models/qm_menulist_notifier.dart';
+import 'package:frontend/src/qm/presentation/viewmodels/qm_menulist_notifier.dart';
 import 'package:frontend/src/workorder/application/save/work_order_save_event.dart';
 import 'package:frontend/src/workorder/application/save/work_order_save_state.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 import 'package:frontend/src/workorder/presentation/screens/qm_details_widget.dart';
 import 'package:frontend/src/workorder/presentation/screens/work_order_start_end_button.dart';
-import 'package:frontend/src/workorder/presentation/viewmodel/qm_work_order_notifier.dart';
-import 'package:frontend/src/workorder/presentation/viewmodel/work_order_list_notifier.dart';
+import 'package:frontend/src/workorder/presentation/viewmodels/qm_work_order_notifier.dart';
+import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 
 class QmDetailsScreen extends StatelessWidget {
   const QmDetailsScreen({

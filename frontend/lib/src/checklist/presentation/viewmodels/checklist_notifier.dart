@@ -45,11 +45,6 @@ class ChecklistNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeAt(int index) {
-    items.removeAt(index);
-    notifyListeners();
-  }
-
   bool get isNotCompleted =>
       items.any((item) => !item.hasValue || !item.isUnitFilled);
 
@@ -58,17 +53,16 @@ class ChecklistNotifier extends ChangeNotifier {
 
 class CheckimagelistNotifier with ChangeNotifier {
   CheckimagelistNotifier({
-    required FetchImage fetchImage,
+    required FetchImages fetchImage,
   }) : _fetchImage = fetchImage;
 
-  final FetchImage _fetchImage;
+  final FetchImages _fetchImage;
 
-  bool hasEdit = false;
+  bool get shouldSave => items.any((element) => element.shouldSave);
 
   List<CheckImage> items = [];
 
   void setCheckimagelist(List<CheckImage> value) {
-    hasEdit = false;
     items = value;
     notifyListeners();
   }
@@ -78,21 +72,30 @@ class CheckimagelistNotifier with ChangeNotifier {
 
     resultsOrFailure.fold(
       (failure) {},
-      (path) {
-        if (path != null) {
-          hasEdit = true;
-          items.add(
-            CheckImage.local(
-              seq: items.length + 1,
-              path: path,
-              remark: "",
-            ),
+      (imagePaths) {
+        if (imagePaths.isNotEmpty) {
+          items.addAll(
+            imagePaths
+                .map((path) => CheckImage.local(
+                      seq: items.length + 1,
+                      path: path,
+                      remark: "",
+                    ))
+                .toList(),
           );
 
           notifyListeners();
         }
       },
     );
+  }
+
+  void editRemarkAt(int index, String remark) {
+    items[index] = items[index].copyWith(
+      remark: remark,
+      shouldSave: true,
+    );
+    notifyListeners();
   }
 
   void clear() {

@@ -17,6 +17,8 @@ class ImageRepository implements IImageRepository {
   })  : _local = local,
         _remote = remote;
 
+  // ! deprecated
+  // - 이미지 여러장 pick 하기 위해 fetchImages로 변경
   @override
   Future<Either<Failure, String?>> fetchImage(ImageSource source) async {
     try {
@@ -34,9 +36,19 @@ class ImageRepository implements IImageRepository {
   }
 
   @override
-  Future<Either<Failure, List<String?>?>> fetchImages() async {
-    // TODO: implement fetchImages
-    throw UnimplementedError();
+  Future<Either<Failure, List<String>>> fetchImages(ImageSource source) async {
+    try {
+      switch (source) {
+        case ImageSource.gallery:
+          final results = await _local.pickMultiImages();
+          return right(results ?? []);
+        case ImageSource.camera:
+          final results = await _local.takeOnePicture();
+          return right(results == null ? [] : [results]);
+      }
+    } on UnsupportedPlatformException {
+      return left(const Failure.internal("지원하지 않는 플랫폼"));
+    }
   }
 
   @override

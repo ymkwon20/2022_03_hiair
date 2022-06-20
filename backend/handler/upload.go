@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 
@@ -31,7 +32,7 @@ func imgUploadHandler(w http.ResponseWriter, r *http.Request) {
 	// They are accessible only after ParseMultipartForm is called
 	files := r.MultipartForm.File["file"]
 
-	fmt.Println(files)
+	log.Println(files)
 
 	for _, fileHeader := range files {
 		// Restrict the size of each uploaded file to 20MB.
@@ -46,8 +47,10 @@ func imgUploadHandler(w http.ResponseWriter, r *http.Request) {
 
 			errMsg := make(map[string]interface{})
 			errMsg["msg"] = fmt.Sprintf("The uploaded image is too big: %s. Please use an image less than 1MB in size", fileHeader.Filename)
+
 			jData, _ := json.Marshal(errMsg)
 			w.Write(jData)
+
 			return
 		}
 
@@ -61,6 +64,7 @@ func imgUploadHandler(w http.ResponseWriter, r *http.Request) {
 			errMsg["msg"] = err.Error()
 			jData, _ := json.Marshal(errMsg)
 			w.Write(jData)
+
 			return
 		}
 
@@ -76,6 +80,7 @@ func imgUploadHandler(w http.ResponseWriter, r *http.Request) {
 			errMsg["msg"] = err.Error()
 			jData, _ := json.Marshal(errMsg)
 			w.Write(jData)
+
 			return
 		}
 
@@ -88,6 +93,7 @@ func imgUploadHandler(w http.ResponseWriter, r *http.Request) {
 			errMsg["msg"] = "The provided file format is not allowed. Please upload a JPEG or PNG"
 			jData, _ := json.Marshal(errMsg)
 			w.Write(jData)
+
 			return
 		}
 
@@ -101,6 +107,7 @@ func imgUploadHandler(w http.ResponseWriter, r *http.Request) {
 			errMsg["msg"] = err.Error()
 			jData, _ := json.Marshal(errMsg)
 			w.Write(jData)
+
 			return
 		}
 
@@ -116,6 +123,7 @@ func imgUploadHandler(w http.ResponseWriter, r *http.Request) {
 			errMsg["msg"] = err.Error()
 			jData, _ := json.Marshal(errMsg)
 			w.Write(jData)
+
 			return
 		}
 
@@ -131,6 +139,7 @@ func imgUploadHandler(w http.ResponseWriter, r *http.Request) {
 			errMsg["msg"] = err.Error()
 			jData, _ := json.Marshal(errMsg)
 			w.Write(jData)
+
 			return
 		}
 
@@ -146,6 +155,7 @@ func imgUploadHandler(w http.ResponseWriter, r *http.Request) {
 			errMsg["msg"] = err.Error()
 			jData, _ := json.Marshal(errMsg)
 			w.Write(jData)
+
 			return
 		}
 	}
@@ -156,5 +166,6 @@ func imgUploadHandler(w http.ResponseWriter, r *http.Request) {
 	errMsg := make(map[string]interface{})
 	errMsg["msg"] = "uploaded successfully"
 	jData, _ := json.Marshal(errMsg)
+
 	w.Write(jData)
 }

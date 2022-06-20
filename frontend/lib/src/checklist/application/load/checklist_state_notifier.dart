@@ -23,7 +23,7 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
         state = const ChecklistState.loading();
 
         final params = {
-          "prod-seq": order.planSeq,
+          "plan-seq": order.planSeq,
           "wo-nb": order.code,
           "wb-cd": order.wbCd,
           "wc-cd": order.wcCd,
@@ -43,7 +43,7 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
         state = const ChecklistState.loading();
 
         final params = {
-          "prod-seq": order.seq,
+          "plan-seq": order.seq,
           "wo-nb": order.workOrder,
           "wb-cd": order.wbCd,
           "wc-cd": order.wcCd,
@@ -59,7 +59,7 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
         state = const ChecklistState.loading();
 
         final params = {
-          "prod-seq": order.planSeq,
+          "plan-seq": order.planSeq,
           "wo-nb": order.code,
           "wb-cd": order.wbCd,
           "wc-cd": order.wcCd,

@@ -1,3 +1,5 @@
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
+import 'package:frontend/src/checklist/dependency_injection.dart';
 import 'package:frontend/src/core/dependency_injection.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:frontend/src/workorder/application/load/work_order_state.dart';
@@ -27,6 +29,8 @@ final workOrderSaveStateNotifierProvider =
   (ref) => WorkOrderSaveStateNotifier(
     saveWorkOrder: ref.watch(saveWorkOrderProvider),
     saveWorkOrderList: ref.watch(saveWorkOrderListProvider),
+    authNotifier: ref.watch(authChangeNotifierProvider),
+    fetchAndSaveChecklist: ref.watch(fetchAndSaveChecklistProvider),
   ),
 );
 

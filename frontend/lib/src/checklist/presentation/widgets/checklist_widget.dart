@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/application/load/checklist_state.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
 import 'package:frontend/src/checklist/domain/entities/check_item.dart';
-import 'package:frontend/src/checklist/presentation/viewmodel/checklist_notifier.dart';
+import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checkitem_widget.dart';
 import 'package:frontend/src/core/presentation/layout_constant.dart';
 import 'package:frontend/src/core/presentation/widgets/no_glow_behavior.dart';

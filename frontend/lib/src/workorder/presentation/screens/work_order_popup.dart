@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/application/save/checklist_save_event.dart';
 import 'package:frontend/src/checklist/application/save/checklist_save_state.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
-import 'package:frontend/src/checklist/presentation/viewmodel/checklist_notifier.dart';
+import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_widget.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
@@ -14,7 +15,7 @@ import 'package:frontend/src/workorder/application/save/work_order_save_event.da
 import 'package:frontend/src/workorder/application/save/work_order_save_state.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 import 'package:frontend/src/workorder/presentation/screens/work_order_start_end_button.dart';
-import 'package:frontend/src/workorder/presentation/viewmodel/work_order_list_notifier.dart';
+import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 
 /// 작업지시 시작, 완료하는 drawer
 class WorkOrderPopup extends ConsumerStatefulWidget {
@@ -106,65 +107,13 @@ class _WorkOrderPopupState extends ConsumerState<WorkOrderPopup>
       (previous, current) {
         current.maybeWhen(
           oneSaved: (index, date, status) {
-            switch (status) {
-              case WorkOrderSaveStatus.start:
-                ref
-                    .read(workOrderListNotifier.notifier)
-                    .setNewItemDateStart(index, date);
-                break;
-              case WorkOrderSaveStatus.end:
-                ref
-                    .read(workOrderListNotifier.notifier)
-                    .setNewItemDateEnd(index);
-                break;
-              case WorkOrderSaveStatus.all:
-                ref
-                    .read(workOrderListNotifier.notifier)
-                    .setNewItemDateEnd(index);
-                break;
-            }
             _closeDrawer();
-            showFlashBar(
-              context,
-              title: "저장 완료",
-              content: "",
-              backgroundColor: Theme.of(context).primaryColorLight,
-            );
           },
           multipleSaved: (indice, date, status) {
-            switch (status) {
-              case WorkOrderSaveStatus.start:
-                ref
-                    .read(workOrderListNotifier.notifier)
-                    .setNewListDateStart(indice, date);
-                break;
-              case WorkOrderSaveStatus.end:
-                ref
-                    .read(workOrderListNotifier.notifier)
-                    .setNewListDateEnd(indice, date);
-                break;
-              case WorkOrderSaveStatus.all:
-                ref
-                    .read(workOrderListNotifier.notifier)
-                    .setNewListDateEnd(indice, date);
-                break;
-            }
             _closeDrawer();
-            showFlashBar(
-              context,
-              title: "저장 완료",
-              content: "",
-              backgroundColor: Theme.of(context).primaryColorLight,
-            );
           },
           failure: (message) {
             _closeDrawer();
-            showFlashBar(
-              context,
-              title: "저장 오류",
-              content: message,
-              backgroundColor: Theme.of(context).errorColor,
-            );
           },
           orElse: () {
             ref.read(workOrderListNotifier.notifier).clearSelection();
@@ -177,7 +126,20 @@ class _WorkOrderPopupState extends ConsumerState<WorkOrderPopup>
       checklistSaveStateNotifierProvider,
       (previous, current) {
         current.maybeWhen(
+          saving: () {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return const SavingDialog();
+              },
+            );
+          },
+          saved: () {
+            Navigator.of(context).pop();
+          },
           savedAndNext: (status) {
+            Navigator.of(context).pop();
             ref
                 .read(workOrderSaveStateNotifierProvider.notifier)
                 .mapEventToState(
@@ -189,6 +151,7 @@ class _WorkOrderPopupState extends ConsumerState<WorkOrderPopup>
                 );
           },
           failure: (message) {
+            Navigator.of(context).pop();
             _closeDrawer();
             showFlashBar(
               context,

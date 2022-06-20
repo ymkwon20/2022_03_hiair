@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/checklist/domain/entities/check_item.dart';
 import 'package:frontend/src/checklist/domain/entities/combo.dart';
-import 'package:frontend/src/checklist/presentation/viewmodel/checklist_notifier.dart';
+import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
 
 class CheckComboBox extends ConsumerStatefulWidget {
   const CheckComboBox({

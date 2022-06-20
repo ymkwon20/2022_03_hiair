@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:frontend/src/cutting/application/check/save/cutting_check_save_event.dart';
 import 'package:frontend/src/cutting/dependency_injection.dart';
 import 'package:frontend/src/cutting/presentation/request/cutting_check_list_widget.dart';
-import 'package:frontend/src/cutting/presentation/request/view_models/cutting_check_result_notifier.dart';
+import 'package:frontend/src/cutting/presentation/request/viewmodels/cutting_check_result_notifier.dart';
 import 'package:frontend/src/cutting/presentation/serial/cutting_serials_page.dart';
 
 class CuttingCheckDialog extends ConsumerStatefulWidget {

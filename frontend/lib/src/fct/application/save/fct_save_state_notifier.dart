@@ -1,4 +1,4 @@
-import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/fct/application/save/fct_save_event.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

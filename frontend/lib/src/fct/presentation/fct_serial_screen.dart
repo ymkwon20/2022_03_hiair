@@ -48,6 +48,13 @@ class _FctScreenState extends ConsumerState<FctSerialScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           iconTheme: Theme.of(context).iconTheme,
+          title: Text(
+            "철판불출확인",
+            style: TextStyle(
+              color: Theme.of(context).iconTheme.color,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
         body: CustomTable(
           onRowPressed: (index) {
@@ -59,7 +66,7 @@ class _FctScreenState extends ConsumerState<FctSerialScreen> {
           },
           onRefresh: () async {},
           headers: const [
-            CustomTableHeader(title: "날짜", width: 160),
+            CustomTableHeader(name: "date", title: "날짜", width: 160),
           ],
           rowBuilder: (context, index) {
             return state.when(

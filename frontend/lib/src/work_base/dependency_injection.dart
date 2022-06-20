@@ -1,4 +1,4 @@
-import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
 import 'package:frontend/src/core/dependency_injection.dart';
 import 'package:frontend/src/work_base/application/work_base_state.dart';
 import 'package:frontend/src/work_base/application/work_base_state_notifier.dart';

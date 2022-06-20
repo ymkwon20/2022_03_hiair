@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/auth/application/auth_state.dart';
 import 'package:frontend/src/auth/presentation/sign_in_form_widget.dart';
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/routes/app_route_observer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -80,7 +81,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with RouteAware {
         duration: const Duration(milliseconds: _slideFadeMilliseconds),
         curve: Curves.easeOutSine,
         child: AnimatedOpacity(
-          opacity: _isOn ? 1.0 : 0.0,
+          opacity: _isOn || ref.watch(authChangeNotifierProvider).user == null
+              ? 1.0
+              : 0.0,
           duration: const Duration(milliseconds: _slideFadeMilliseconds),
           curve: Curves.easeOutCubic,
           child: Stack(

@@ -22,6 +22,7 @@ class CuttingRequestPage extends ConsumerWidget {
       cuttingCheckSaveStateNotifierProvider,
       (previous, current) {
         current.maybeWhen(
+          saving: () {},
           saved: () {
             showFlashBar(
               context,
@@ -48,6 +49,13 @@ class CuttingRequestPage extends ConsumerWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         iconTheme: Theme.of(context).iconTheme,
+        title: Text(
+          "네스팅 요청서 작성",
+          style: TextStyle(
+            color: Theme.of(context).iconTheme.color,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: state.when(
         initial: () => const InitialStateWidget(),
@@ -99,22 +107,8 @@ class CuttingRequestListView extends ConsumerWidget {
                           "${items[index].thickness}*${items[index].width}*${items[index].length}")),
                       DataCell(Text("${items[index].qty}")),
                       DataCell(Text(items[index].camNo)),
-                      const DataCell(
-                        TextField(
-                          decoration: InputDecoration(
-                            border:
-                                OutlineInputBorder(borderSide: BorderSide.none),
-                          ),
-                        ),
-                      ),
-                      const DataCell(
-                        TextField(
-                          decoration: InputDecoration(
-                            border:
-                                OutlineInputBorder(borderSide: BorderSide.none),
-                          ),
-                        ),
-                      ),
+                      const DataCell(Text("")),
+                      const DataCell(Text("")),
                     ],
                   ),
                 ),

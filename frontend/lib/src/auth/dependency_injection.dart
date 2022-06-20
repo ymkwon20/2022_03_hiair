@@ -10,6 +10,7 @@ import 'package:frontend/src/auth/infrastructure/datasources/local/auth_local_se
 import 'package:frontend/src/auth/infrastructure/datasources/remote/auth_remote_dio_service.dart';
 import 'package:frontend/src/auth/infrastructure/datasources/remote/auth_remote_service.dart';
 import 'package:frontend/src/auth/infrastructure/repositories/auth_repository.dart';
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
 import 'package:frontend/src/core/dependency_injection.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -17,6 +18,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final authStateNotifierProvider =
     StateNotifierProvider<AuthStateNotifier, AuthState>(
   (ref) => AuthStateNotifier(
+    authNotifier: ref.watch(authChangeNotifierProvider),
     loadStoredUser: ref.watch(loadStoredUserUsecaseProvider),
     signIn: ref.watch(signInUsecaseProvider),
     signOut: ref.watch(signOutUsecaseProvider),

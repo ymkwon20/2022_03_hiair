@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/widgets/index.dart';
-import 'package:frontend/src/workorder/presentation/viewmodel/qm_work_order_notifier.dart';
+import 'package:frontend/src/workorder/presentation/viewmodels/qm_work_order_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QmDetailsWidget extends ConsumerWidget {

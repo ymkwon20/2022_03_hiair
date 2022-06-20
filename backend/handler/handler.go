@@ -302,29 +302,11 @@ func (a *AppHandler) getWorkOrderByWbCd(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	currentQuery := fmt.Sprintf(`
+	query := fmt.Sprintf(`
 	EXEC SP_TABLET_ORD_02_SELECT '%s', '%s', '%s';
 	`, wcCd, wbCd, strconv.Itoa(page))
 
-	// 다음 차수 조회시 오
-	nextQuery := fmt.Sprintf(`
-	EXEC SP_TABLET_ORD_02_SELECT '%s', '%s', '%s';
-	`, wcCd, wbCd, strconv.Itoa(page+1))
-
-	results, err := a.db.CallProcedure(currentQuery)
-	if err != nil {
-		log.Print(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Header().Set("Content-Type", "application/json")
-
-		errMsg := make(map[string]interface{})
-		errMsg["msg"] = err.Error()
-		jData, _ := json.Marshal(errMsg)
-		w.Write(jData)
-		return
-	}
-
-	nextResults, err := a.db.CallProcedure(nextQuery)
+	results, err := a.db.CallProcedure(query)
 	if err != nil {
 		log.Print(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -338,10 +320,12 @@ func (a *AppHandler) getWorkOrderByWbCd(w http.ResponseWriter, r *http.Request) 
 	}
 
 	var isNextAvailable bool
-	if len(nextResults) == 0 {
+	if results == nil {
+		isNextAvailable = false
+	} else if len(results) == 0 {
 		isNextAvailable = false
 	} else {
-		isNextAvailable = true
+		isNextAvailable = results[0].(map[string]interface{})["CAN_LOAD_NEXT"].(bool)
 	}
 
 	data := make(map[string]interface{})
@@ -573,7 +557,7 @@ func (a *AppHandler) saveFctItem(w http.ResponseWriter, r *http.Request) {
 func (a *AppHandler) getChecklist(w http.ResponseWriter, r *http.Request) {
 
 	queryString := r.URL.Query()
-	prodPlanSeq := queryString.Get("prod-seq")
+	prodPlanSeq := queryString.Get("plan-seq")
 	woNb := queryString.Get("wo-nb")
 	wbCd := queryString.Get("wb-cd")
 	wcCd := queryString.Get("wc-cd")
@@ -615,7 +599,7 @@ func (a *AppHandler) getChecklist(w http.ResponseWriter, r *http.Request) {
 func (a *AppHandler) getCheckimagelist(w http.ResponseWriter, r *http.Request) {
 
 	queryString := r.URL.Query()
-	prodPlanSeq := queryString.Get("prod-seq")
+	prodPlanSeq := queryString.Get("plan-seq")
 	woNb := queryString.Get("wo-nb")
 	wbCd := queryString.Get("wb-cd")
 	wcCd := queryString.Get("wc-cd")

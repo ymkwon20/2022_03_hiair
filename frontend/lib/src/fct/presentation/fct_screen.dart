@@ -1,6 +1,7 @@
-import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/src/fct/presentation/view_models/fct_change_notifier.dart';
+import 'package:frontend/src/core/presentation/widgets/dialog.dart';
+import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
+import 'package:frontend/src/fct/presentation/viewmodels/fct_change_notifier.dart';
 import 'package:frontend/src/workorder/presentation/screens/custom_table.dart';
 import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_failure_row.dart';
 import 'package:go_router/go_router.dart';
@@ -52,47 +53,6 @@ class _FctScreenState extends ConsumerState<FctScreen>
     super.dispose();
   }
 
-  void _showFlashBar({
-    required String title,
-    required String content,
-    Color? backgroundColor,
-    Color? textColor,
-  }) {
-    showFlash(
-      context: context,
-      duration: const Duration(seconds: 2),
-      builder: (context, controller) {
-        return Padding(
-          padding: const EdgeInsets.all(LayoutConstant.paddingM),
-          child: Flash.bar(
-            position: FlashPosition.top,
-            enableVerticalDrag: true,
-            horizontalDismissDirection: HorizontalDismissDirection.horizontal,
-            borderRadius: BorderRadius.circular(LayoutConstant.radiusS),
-            backgroundColor: backgroundColor,
-            controller: controller,
-            child: FlashBar(
-              content: Row(
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: textColor),
-                  ),
-                  const SizedBox(width: LayoutConstant.spaceM),
-                  Text(
-                    content,
-                    style: TextStyle(color: textColor),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   void _editRemark() {
     setState(() {
       ref.read(fctChangeNotifierProvider).setValue(
@@ -123,16 +83,28 @@ class _FctScreenState extends ConsumerState<FctScreen>
       fctSaveStateNotifierProvider,
       (previous, current) {
         current.maybeWhen(
+          saving: () {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return const SavingDialog();
+              },
+            );
+          },
           saved: () {
             context.pop();
-            _showFlashBar(
+            showFlashBar(
+              context,
               title: "저장 완료",
               content: "",
               backgroundColor: Theme.of(context).primaryColorLight,
             );
           },
           failure: (message) {
-            _showFlashBar(
+            context.pop();
+            showFlashBar(
+              context,
               title: "저장 오류",
               content: message,
               backgroundColor: ThemeConstant.errorColor,
@@ -180,12 +152,18 @@ class _FctScreenState extends ConsumerState<FctScreen>
                           fctItemsNotifier.items[index].remark;
                     },
                     headers: [
-                      CustomTableHeader(title: "두께", width: normalWidth),
-                      CustomTableHeader(title: "가로", width: normalWidth),
-                      CustomTableHeader(title: "세로", width: normalWidth),
-                      CustomTableHeader(title: "절단수량", width: qtyWidth),
-                      CustomTableHeader(title: "원판수량", width: qtyWidth),
-                      CustomTableHeader(title: "특이사항", width: remarkWidth),
+                      CustomTableHeader(
+                          name: "thickness", title: "두께", width: normalWidth),
+                      CustomTableHeader(
+                          name: "width", title: "가로", width: normalWidth),
+                      CustomTableHeader(
+                          name: "length", title: "세로", width: normalWidth),
+                      CustomTableHeader(
+                          name: "cutQty", title: "절단수량", width: qtyWidth),
+                      CustomTableHeader(
+                          name: "panQty", title: "원판수량", width: qtyWidth),
+                      CustomTableHeader(
+                          name: "remark", title: "특이사항", width: remarkWidth),
                     ],
                     rowBuilder: (context, index) {
                       return state.when(
@@ -277,7 +255,7 @@ class _FctScreenState extends ConsumerState<FctScreen>
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
-        final width = MediaQuery.of(context).size.width / 3;
+        final width = MediaQuery.of(context).size.width * 1 / 2;
         return Positioned(
           top: LayoutConstant.spaceXL,
           bottom: LayoutConstant.spaceL,
@@ -345,7 +323,7 @@ class _FctScreenState extends ConsumerState<FctScreen>
                               autofocus: true,
                               keyboardType: TextInputType.multiline,
                               textInputAction: TextInputAction.done,
-                              maxLines: 15,
+                              maxLines: 7,
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.symmetric(
                                   vertical: LayoutConstant.paddingL,

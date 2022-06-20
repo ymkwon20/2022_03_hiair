@@ -4,8 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:frontend/src/auth/application/auth_event.dart';
 import 'package:frontend/src/auth/application/auth_state.dart';
 import 'package:frontend/src/auth/dependency_injection.dart';
-import 'package:frontend/src/auth/domain/entities/user.dart';
-import 'package:frontend/src/auth/presentation/view_model/auth_chage_notifier.dart';
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
 import 'package:frontend/src/core/presentation/routes/app_router.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:frontend/src/settings/settings_scope.dart';
@@ -43,30 +42,33 @@ class _MyAppState extends ConsumerState<AppWidget> {
   @override
   Widget build(BuildContext context) {
     final _router = ref.watch(appRouterProvider);
-    ref.listen<AuthState>(authStateNotifierProvider, (previous, current) {
-      current.when(
-        initial: () {},
-        loading: () {},
-        unauthenticated: () {
-          ref.read(authChangeNotifierProvider).emptyUser();
-        },
-        authenticated: (User user) {
-          ref.read(authChangeNotifierProvider).setUser(user);
+    ref.listen<AuthState>(
+      authStateNotifierProvider,
+      (previous, current) {
+        current.when(
+          initial: () {},
+          loading: () {},
+          unauthenticated: () {
+            ref.read(authChangeNotifierProvider).emptUser();
+          },
+          authenticated: (user) {
+            ref.read(authChangeNotifierProvider).setUser(user);
 
-          ref
-              .read(workBaseStateNotifierProvider.notifier)
-              .mapEventToState(const WorkBaseEvent.fetchWorkBases());
-        },
-        failure: (String message) {
-          showFlashBar(
-            context,
-            title: "조회 오류",
-            content: "로그인에 실패했습니다. \n$message",
-            backgroundColor: Theme.of(context).errorColor,
-          );
-        },
-      );
-    });
+            ref
+                .read(workBaseStateNotifierProvider.notifier)
+                .mapEventToState(const WorkBaseEvent.fetchWorkBases());
+          },
+          failure: (message) {
+            showFlashBar(
+              context,
+              title: "조회 오류",
+              content: "로그인에 실패했습니다. \n$message",
+              backgroundColor: Theme.of(context).errorColor,
+            );
+          },
+        );
+      },
+    );
 
     ref.listen<WorkBaseState>(
       workBaseStateNotifierProvider,

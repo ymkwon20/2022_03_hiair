@@ -73,6 +73,15 @@ class WorkOrder {
     required this.status,
   });
 
+  String get statusKr {
+    switch (status) {
+      case WorkOrderStatus.waiting:
+        return "대기";
+      case WorkOrderStatus.resuming:
+        return "진행중";
+    }
+  }
+
   String? getProp(String key) => <String, String>{
         "wbNm": wbNm,
         "yard": yard,
@@ -80,6 +89,8 @@ class WorkOrder {
         "ship": ship,
         "sysNo": sysNo,
         "itemNo": itemNo,
+        "status": statusKr,
+        "qty": qty.toString(),
       }[key];
 
   @override

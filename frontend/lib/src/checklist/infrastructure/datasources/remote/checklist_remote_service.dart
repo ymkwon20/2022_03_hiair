@@ -158,6 +158,11 @@ class ChecklistRemoteService implements ChecklistService {
     try {
       final params = {"code": code};
       final response = await _dio.get("/unit", queryParameters: params);
+
+      if (response.data == null) {
+        return [];
+      }
+
       final data = (response.data as List<dynamic>)
           .map((dynamic item) => item as Map<String, dynamic>);
       return data.map((e) => ComboDto.fromMap(e).toDomain()).toList();

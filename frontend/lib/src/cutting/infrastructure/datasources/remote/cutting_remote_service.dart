@@ -24,6 +24,10 @@ class CuttingRemoteService implements CuttingService {
     try {
       final response = await _dio.get("/cut");
 
+      if (response.data == null) {
+        return [];
+      }
+
       final data = (response.data as List<dynamic>)
           .map((dynamic item) => item as Map<String, dynamic>);
 
@@ -70,6 +74,10 @@ class CuttingRemoteService implements CuttingService {
         },
       );
 
+      if (response.data == null) {
+        return [];
+      }
+
       final data = (response.data as List<dynamic>)
           .map((dynamic item) => item as Map<String, dynamic>);
 
@@ -110,6 +118,10 @@ class CuttingRemoteService implements CuttingService {
           "seq": serial.seq,
         },
       );
+
+      if (response.data == null) {
+        return [];
+      }
 
       final data = (response.data as List<dynamic>)
           .map((dynamic item) => item as Map<String, dynamic>);

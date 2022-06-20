@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://192.168.35.242:9090/order?page=1&code=FP2 HTTP/1.1
+GET http://192.168.0.117:9090/order?page=1&code=FP2 HTTP/1.1
 ###
 POST http://192.168.35.242:9090/sign-in HTTP/1.1
 Content-Type: application/json
@@ -65,19 +65,19 @@ Content-Type: application/json
 }
 
 ###
-GET http://192.168.0.117:9090/checklist?prod-seq=581646&wo-nb=P21-024730&wb-cd=FNP&wc-cd=79&page-cd=QM2 HTTP/1.1
+GET http://192.168.0.117:9090/checklist?plan-seq=581646&wo-nb=P21-024730&wb-cd=FNP&wc-cd=79&page-cd=QM2 HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://192.168.0.117:9090/checklist?prod-seq=545754&wo-nb=P20-032662&wb-cd=FFL&wc-cd=36&page-cd= HTTP/1.1
+GET http://192.168.0.117:9090/checklist?plan-seq=545754&wo-nb=P20-032662&wb-cd=FFL&wc-cd=36&page-cd= HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://192.168.0.117:9090/checklist?prod-seq=579442&wo-nb=P21-024609&wb-cd=FNP&wc-cd=27&page-cd=QM1 HTTP/1.1
+GET http://192.168.0.117:9090/checklist?plan-seq=579442&wo-nb=P21-024609&wb-cd=FNP&wc-cd=27&page-cd=QM1 HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://192.168.0.117:9090/checklist?prod-seq=592415&wo-nb=P21-056129&wb-cd=FCT&wc-cd=35&page-cd= HTTP/1.1
+GET http://192.168.0.117:9090/checklist?plan-seq=592415&wo-nb=P21-056129&wb-cd=FCT&wc-cd=35&page-cd= HTTP/1.1
 Content-Type: application/json
 
 ###
@@ -89,9 +89,9 @@ GET http://192.168.0.117:9090/menu?code=Q HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://192.168.0.117:9090/wb HTTP/1.1
+GET http://172.16.30.105:9090/wb HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://192.168.0.117:9090/order?page=1&wb-cd=FP2&wc-cd=33 HTTP/1.1
+GET http://192.168.0.117:9090/order?page=14&wb-cd=FRL&wc-cd=23 HTTP/1.1
 Content-Type: application/json
