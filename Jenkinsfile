@@ -19,5 +19,12 @@ pipeline {
             }
             
         }
+	stage('query'){
+	    steps {
+		sh(script:'''
+		    sqlcmd -q "select * from FAN.dbo.TB_WC WHERE WC_CD = '100'"
+		''')
+	    }
+	}
     }
 }
