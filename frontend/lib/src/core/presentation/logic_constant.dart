@@ -13,5 +13,6 @@ class LogicConstant {
   ///
   /// ! 2022-06-16
   /// - 150개로 수정
+  ///
   static const int qmFetchCount = 150;
 }
