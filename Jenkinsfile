@@ -24,7 +24,7 @@ pipeline {
 	stage('Frontend'){
             steps {
                 script {
-                    if (TAG == DEFAULT_VERSION ){
+                    if (TAG != DEFAULT_VERSION ){
                         
                         echo '----Start frontend compiling----'
                         dir('frontend') {
