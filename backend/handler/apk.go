@@ -29,9 +29,20 @@ func (a *AppHandler) fetchApkInfo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	query := fmt.Sprintf(`
-	EXEC  SP_TABLET_FCT_05_UPDATE '%s', '%s', '%s', '%s', '%s', '%s','%s';
-	`, params["date"], params["seq"], params["wb-cd"], params["metal"], params["remark"], params["qty"], params["user-id"])
+	query := `
+	SELECT  A.APK_NM,
+			A.APK_V,
+			A.FILE_PATH,
+			A.RMK
+	FROM (
+		SELECT A.*, 
+				ROW_NUMBER() OVER(PARTITION BY A.APK_V
+				ORDER BY A.CRT_DT DESC, A.UDT_DT DESC) AS ROW_NO 
+			FROM APK_VERSION A
+		) A
+	WHERE A.ROW_NO = 1
+	ORDER BY A.CRT_DT DESC, A.UDT_DT DESC
+	`
 
 	_, err := a.db.CallDML(query)
 	if err != nil {
