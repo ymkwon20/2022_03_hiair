@@ -8,7 +8,7 @@ pipeline {
     environment {
         GO111MODULE = 'on'
         MSSQL_CREDS = credentials('sql-server-credentials')
-        BUILD_FILE_NAME = "apk-release.apk"
+        BUILD_FILE_NAME = "app-release.apk"
         DB_ADR = "172.16.30.105"
     }
     stages {
@@ -35,7 +35,7 @@ pipeline {
                         }
                         
                         echo '----Move the new compiled version to a designated directory'
-                        dir('frontend\\build\\app\\outputs\\flutter-apk\\') {
+                        dir('frontend/build/app/outputs/flutter-apk') {
                             fileOperations([
                                 folderCreateOperation('${APK_HOME}/${TAG}'),
                                 fileCopyOperation(includes: '${BUILD_FILE_NAME}', targetLocation: "${APK_HOME}/${TAG}"),
