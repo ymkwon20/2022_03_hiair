@@ -35,7 +35,7 @@ pipeline {
                         }
                         
                         echo '----Move the new compiled version to a designated directory'
-                        dir('frontend\\build\\app\\outputs\\flutter-apk') {
+                        dir('frontend\\build\\app\\outputs\\flutter-apk\\') {
                             fileOperations([
                                 folderCreateOperation('${APK_HOME}/${TAG}'),
                                 fileCopyOperation(includes: '${BUILD_FILE_NAME}', targetLocation: "${APK_HOME}/${TAG}"),
