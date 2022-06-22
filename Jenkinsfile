@@ -44,14 +44,14 @@ pipeline {
                         
                         echo '----Update the version info in Database----'
                         sh(script:"""
-    		                sqlcmd -U $MSSQL_CREDS_USR -P $MSSQL_CREDS_PSW -S ${DB_ADR} \
-    		                -q "EXEC FAN.dbo.SP_TABLET_APK_01_SELECT '${TAG}','${BUILD_FILE_NAME}','${APK_HOME}/${TAG}/${BUILD_FILE_NAME}';"
+                            sqlcmd -U $MSSQL_CREDS_USR -P $MSSQL_CREDS_PSW -S ${DB_ADR} \
+                            -q "EXEC FAN.dbo.SP_TABLET_APK_01_SELECT '${TAG}','${BUILD_FILE_NAME}','${APK_HOME}/${TAG}/${BUILD_FILE_NAME}';"
                         """)
                         
                         echo '----End frontend----'
                     }
                 }
-	    }
+            }
         }
     }
 }
