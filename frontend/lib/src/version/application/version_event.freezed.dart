@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$VersionEventTearOff {
   const _$VersionEventTearOff();
 
-  _FetchLatestVersionNo fetchLatestApkVersionNo() {
+  _FetchLatestVersionNo fetchLatestVersion() {
     return const _FetchLatestVersionNo();
   }
 }
@@ -29,34 +29,33 @@ const $VersionEvent = _$VersionEventTearOff();
 mixin _$VersionEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() fetchLatestApkVersionNo,
+    required TResult Function() fetchLatestVersion,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? fetchLatestApkVersionNo,
+    TResult Function()? fetchLatestVersion,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchLatestApkVersionNo,
+    TResult Function()? fetchLatestVersion,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_FetchLatestVersionNo value)
-        fetchLatestApkVersionNo,
+    required TResult Function(_FetchLatestVersionNo value) fetchLatestVersion,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_FetchLatestVersionNo value)? fetchLatestApkVersionNo,
+    TResult Function(_FetchLatestVersionNo value)? fetchLatestVersion,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_FetchLatestVersionNo value)? fetchLatestApkVersionNo,
+    TResult Function(_FetchLatestVersionNo value)? fetchLatestVersion,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -104,7 +103,7 @@ class _$_FetchLatestVersionNo extends _FetchLatestVersionNo {
 
   @override
   String toString() {
-    return 'VersionEvent.fetchLatestApkVersionNo()';
+    return 'VersionEvent.fetchLatestVersion()';
   }
 
   @override
@@ -119,27 +118,27 @@ class _$_FetchLatestVersionNo extends _FetchLatestVersionNo {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() fetchLatestApkVersionNo,
+    required TResult Function() fetchLatestVersion,
   }) {
-    return fetchLatestApkVersionNo();
+    return fetchLatestVersion();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? fetchLatestApkVersionNo,
+    TResult Function()? fetchLatestVersion,
   }) {
-    return fetchLatestApkVersionNo?.call();
+    return fetchLatestVersion?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchLatestApkVersionNo,
+    TResult Function()? fetchLatestVersion,
     required TResult orElse(),
   }) {
-    if (fetchLatestApkVersionNo != null) {
-      return fetchLatestApkVersionNo();
+    if (fetchLatestVersion != null) {
+      return fetchLatestVersion();
     }
     return orElse();
   }
@@ -147,28 +146,27 @@ class _$_FetchLatestVersionNo extends _FetchLatestVersionNo {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_FetchLatestVersionNo value)
-        fetchLatestApkVersionNo,
+    required TResult Function(_FetchLatestVersionNo value) fetchLatestVersion,
   }) {
-    return fetchLatestApkVersionNo(this);
+    return fetchLatestVersion(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_FetchLatestVersionNo value)? fetchLatestApkVersionNo,
+    TResult Function(_FetchLatestVersionNo value)? fetchLatestVersion,
   }) {
-    return fetchLatestApkVersionNo?.call(this);
+    return fetchLatestVersion?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_FetchLatestVersionNo value)? fetchLatestApkVersionNo,
+    TResult Function(_FetchLatestVersionNo value)? fetchLatestVersion,
     required TResult orElse(),
   }) {
-    if (fetchLatestApkVersionNo != null) {
-      return fetchLatestApkVersionNo(this);
+    if (fetchLatestVersion != null) {
+      return fetchLatestVersion(this);
     }
     return orElse();
   }

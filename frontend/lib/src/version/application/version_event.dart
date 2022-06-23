@@ -5,5 +5,5 @@ part 'version_event.freezed.dart';
 @freezed
 class VersionEvent with _$VersionEvent {
   const VersionEvent._();
-  const factory VersionEvent.fetchLatestApkVersionNo() = _FetchLatestVersionNo;
+  const factory VersionEvent.fetchLatestVersion() = _FetchLatestVersionNo;
 }

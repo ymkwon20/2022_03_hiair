@@ -21,14 +21,16 @@ class _$VersionStateTearOff {
     return const _Init();
   }
 
-  _Loading loading() {
-    return const _Loading();
+  _Checking checking() {
+    return const _Checking();
   }
 
-  _Loaded loaded(String version) {
-    return _Loaded(
-      version,
-    );
+  _Outdated outdated() {
+    return const _Outdated();
+  }
+
+  _UpToDate upToDate() {
+    return const _UpToDate();
   }
 
   _Failure failure(String message) {
@@ -46,24 +48,27 @@ mixin _$VersionState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() loading,
-    required TResult Function(String version) loaded,
+    required TResult Function() checking,
+    required TResult Function() outdated,
+    required TResult Function() upToDate,
     required TResult Function(String message) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
-    TResult Function(String version)? loaded,
+    TResult Function()? checking,
+    TResult Function()? outdated,
+    TResult Function()? upToDate,
     TResult Function(String message)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
-    TResult Function(String version)? loaded,
+    TResult Function()? checking,
+    TResult Function()? outdated,
+    TResult Function()? upToDate,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) =>
@@ -71,24 +76,27 @@ mixin _$VersionState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Init value) init,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Checking value) checking,
+    required TResult Function(_Outdated value) outdated,
+    required TResult Function(_UpToDate value) upToDate,
     required TResult Function(_Failure value) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Init value)? init,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Checking value)? checking,
+    TResult Function(_Outdated value)? outdated,
+    TResult Function(_UpToDate value)? upToDate,
     TResult Function(_Failure value)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Init value)? init,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Checking value)? checking,
+    TResult Function(_Outdated value)? outdated,
+    TResult Function(_UpToDate value)? upToDate,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) =>
@@ -150,8 +158,9 @@ class _$_Init extends _Init {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() loading,
-    required TResult Function(String version) loaded,
+    required TResult Function() checking,
+    required TResult Function() outdated,
+    required TResult Function() upToDate,
     required TResult Function(String message) failure,
   }) {
     return init();
@@ -161,8 +170,9 @@ class _$_Init extends _Init {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
-    TResult Function(String version)? loaded,
+    TResult Function()? checking,
+    TResult Function()? outdated,
+    TResult Function()? upToDate,
     TResult Function(String message)? failure,
   }) {
     return init?.call();
@@ -172,8 +182,9 @@ class _$_Init extends _Init {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
-    TResult Function(String version)? loaded,
+    TResult Function()? checking,
+    TResult Function()? outdated,
+    TResult Function()? upToDate,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -187,8 +198,9 @@ class _$_Init extends _Init {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Init value) init,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Checking value) checking,
+    required TResult Function(_Outdated value) outdated,
+    required TResult Function(_UpToDate value) upToDate,
     required TResult Function(_Failure value) failure,
   }) {
     return init(this);
@@ -198,8 +210,9 @@ class _$_Init extends _Init {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Init value)? init,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Checking value)? checking,
+    TResult Function(_Outdated value)? outdated,
+    TResult Function(_UpToDate value)? upToDate,
     TResult Function(_Failure value)? failure,
   }) {
     return init?.call(this);
@@ -209,8 +222,9 @@ class _$_Init extends _Init {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Init value)? init,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Checking value)? checking,
+    TResult Function(_Outdated value)? outdated,
+    TResult Function(_UpToDate value)? upToDate,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -227,35 +241,35 @@ abstract class _Init extends VersionState {
 }
 
 /// @nodoc
-abstract class _$LoadingCopyWith<$Res> {
-  factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
-      __$LoadingCopyWithImpl<$Res>;
+abstract class _$CheckingCopyWith<$Res> {
+  factory _$CheckingCopyWith(_Checking value, $Res Function(_Checking) then) =
+      __$CheckingCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$LoadingCopyWithImpl<$Res> extends _$VersionStateCopyWithImpl<$Res>
-    implements _$LoadingCopyWith<$Res> {
-  __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
-      : super(_value, (v) => _then(v as _Loading));
+class __$CheckingCopyWithImpl<$Res> extends _$VersionStateCopyWithImpl<$Res>
+    implements _$CheckingCopyWith<$Res> {
+  __$CheckingCopyWithImpl(_Checking _value, $Res Function(_Checking) _then)
+      : super(_value, (v) => _then(v as _Checking));
 
   @override
-  _Loading get _value => super._value as _Loading;
+  _Checking get _value => super._value as _Checking;
 }
 
 /// @nodoc
 
-class _$_Loading extends _Loading {
-  const _$_Loading() : super._();
+class _$_Checking extends _Checking {
+  const _$_Checking() : super._();
 
   @override
   String toString() {
-    return 'VersionState.loading()';
+    return 'VersionState.checking()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Loading);
+        (other.runtimeType == runtimeType && other is _Checking);
   }
 
   @override
@@ -265,35 +279,38 @@ class _$_Loading extends _Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() loading,
-    required TResult Function(String version) loaded,
+    required TResult Function() checking,
+    required TResult Function() outdated,
+    required TResult Function() upToDate,
     required TResult Function(String message) failure,
   }) {
-    return loading();
+    return checking();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
-    TResult Function(String version)? loaded,
+    TResult Function()? checking,
+    TResult Function()? outdated,
+    TResult Function()? upToDate,
     TResult Function(String message)? failure,
   }) {
-    return loading?.call();
+    return checking?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
-    TResult Function(String version)? loaded,
+    TResult Function()? checking,
+    TResult Function()? outdated,
+    TResult Function()? upToDate,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
-    if (loading != null) {
-      return loading();
+    if (checking != null) {
+      return checking();
     }
     return orElse();
   }
@@ -302,137 +319,119 @@ class _$_Loading extends _Loading {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Init value) init,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Checking value) checking,
+    required TResult Function(_Outdated value) outdated,
+    required TResult Function(_UpToDate value) upToDate,
     required TResult Function(_Failure value) failure,
   }) {
-    return loading(this);
+    return checking(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Init value)? init,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Checking value)? checking,
+    TResult Function(_Outdated value)? outdated,
+    TResult Function(_UpToDate value)? upToDate,
     TResult Function(_Failure value)? failure,
   }) {
-    return loading?.call(this);
+    return checking?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Init value)? init,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Checking value)? checking,
+    TResult Function(_Outdated value)? outdated,
+    TResult Function(_UpToDate value)? upToDate,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
-    if (loading != null) {
-      return loading(this);
+    if (checking != null) {
+      return checking(this);
     }
     return orElse();
   }
 }
 
-abstract class _Loading extends VersionState {
-  const factory _Loading() = _$_Loading;
-  const _Loading._() : super._();
+abstract class _Checking extends VersionState {
+  const factory _Checking() = _$_Checking;
+  const _Checking._() : super._();
 }
 
 /// @nodoc
-abstract class _$LoadedCopyWith<$Res> {
-  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) then) =
-      __$LoadedCopyWithImpl<$Res>;
-  $Res call({String version});
+abstract class _$OutdatedCopyWith<$Res> {
+  factory _$OutdatedCopyWith(_Outdated value, $Res Function(_Outdated) then) =
+      __$OutdatedCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$LoadedCopyWithImpl<$Res> extends _$VersionStateCopyWithImpl<$Res>
-    implements _$LoadedCopyWith<$Res> {
-  __$LoadedCopyWithImpl(_Loaded _value, $Res Function(_Loaded) _then)
-      : super(_value, (v) => _then(v as _Loaded));
+class __$OutdatedCopyWithImpl<$Res> extends _$VersionStateCopyWithImpl<$Res>
+    implements _$OutdatedCopyWith<$Res> {
+  __$OutdatedCopyWithImpl(_Outdated _value, $Res Function(_Outdated) _then)
+      : super(_value, (v) => _then(v as _Outdated));
 
   @override
-  _Loaded get _value => super._value as _Loaded;
-
-  @override
-  $Res call({
-    Object? version = freezed,
-  }) {
-    return _then(_Loaded(
-      version == freezed
-          ? _value.version
-          : version // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
+  _Outdated get _value => super._value as _Outdated;
 }
 
 /// @nodoc
 
-class _$_Loaded extends _Loaded {
-  const _$_Loaded(this.version) : super._();
-
-  @override
-  final String version;
+class _$_Outdated extends _Outdated {
+  const _$_Outdated() : super._();
 
   @override
   String toString() {
-    return 'VersionState.loaded(version: $version)';
+    return 'VersionState.outdated()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _Loaded &&
-            const DeepCollectionEquality().equals(other.version, version));
+        (other.runtimeType == runtimeType && other is _Outdated);
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(version));
-
-  @JsonKey(ignore: true)
-  @override
-  _$LoadedCopyWith<_Loaded> get copyWith =>
-      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() loading,
-    required TResult Function(String version) loaded,
+    required TResult Function() checking,
+    required TResult Function() outdated,
+    required TResult Function() upToDate,
     required TResult Function(String message) failure,
   }) {
-    return loaded(version);
+    return outdated();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
-    TResult Function(String version)? loaded,
+    TResult Function()? checking,
+    TResult Function()? outdated,
+    TResult Function()? upToDate,
     TResult Function(String message)? failure,
   }) {
-    return loaded?.call(version);
+    return outdated?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
-    TResult Function(String version)? loaded,
+    TResult Function()? checking,
+    TResult Function()? outdated,
+    TResult Function()? upToDate,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
-    if (loaded != null) {
-      return loaded(version);
+    if (outdated != null) {
+      return outdated();
     }
     return orElse();
   }
@@ -441,47 +440,167 @@ class _$_Loaded extends _Loaded {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Init value) init,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Checking value) checking,
+    required TResult Function(_Outdated value) outdated,
+    required TResult Function(_UpToDate value) upToDate,
     required TResult Function(_Failure value) failure,
   }) {
-    return loaded(this);
+    return outdated(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Init value)? init,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Checking value)? checking,
+    TResult Function(_Outdated value)? outdated,
+    TResult Function(_UpToDate value)? upToDate,
     TResult Function(_Failure value)? failure,
   }) {
-    return loaded?.call(this);
+    return outdated?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Init value)? init,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Checking value)? checking,
+    TResult Function(_Outdated value)? outdated,
+    TResult Function(_UpToDate value)? upToDate,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
-    if (loaded != null) {
-      return loaded(this);
+    if (outdated != null) {
+      return outdated(this);
     }
     return orElse();
   }
 }
 
-abstract class _Loaded extends VersionState {
-  const factory _Loaded(String version) = _$_Loaded;
-  const _Loaded._() : super._();
+abstract class _Outdated extends VersionState {
+  const factory _Outdated() = _$_Outdated;
+  const _Outdated._() : super._();
+}
 
-  String get version;
-  @JsonKey(ignore: true)
-  _$LoadedCopyWith<_Loaded> get copyWith => throw _privateConstructorUsedError;
+/// @nodoc
+abstract class _$UpToDateCopyWith<$Res> {
+  factory _$UpToDateCopyWith(_UpToDate value, $Res Function(_UpToDate) then) =
+      __$UpToDateCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$UpToDateCopyWithImpl<$Res> extends _$VersionStateCopyWithImpl<$Res>
+    implements _$UpToDateCopyWith<$Res> {
+  __$UpToDateCopyWithImpl(_UpToDate _value, $Res Function(_UpToDate) _then)
+      : super(_value, (v) => _then(v as _UpToDate));
+
+  @override
+  _UpToDate get _value => super._value as _UpToDate;
+}
+
+/// @nodoc
+
+class _$_UpToDate extends _UpToDate {
+  const _$_UpToDate() : super._();
+
+  @override
+  String toString() {
+    return 'VersionState.upToDate()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _UpToDate);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() init,
+    required TResult Function() checking,
+    required TResult Function() outdated,
+    required TResult Function() upToDate,
+    required TResult Function(String message) failure,
+  }) {
+    return upToDate();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? checking,
+    TResult Function()? outdated,
+    TResult Function()? upToDate,
+    TResult Function(String message)? failure,
+  }) {
+    return upToDate?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? checking,
+    TResult Function()? outdated,
+    TResult Function()? upToDate,
+    TResult Function(String message)? failure,
+    required TResult orElse(),
+  }) {
+    if (upToDate != null) {
+      return upToDate();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Init value) init,
+    required TResult Function(_Checking value) checking,
+    required TResult Function(_Outdated value) outdated,
+    required TResult Function(_UpToDate value) upToDate,
+    required TResult Function(_Failure value) failure,
+  }) {
+    return upToDate(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Init value)? init,
+    TResult Function(_Checking value)? checking,
+    TResult Function(_Outdated value)? outdated,
+    TResult Function(_UpToDate value)? upToDate,
+    TResult Function(_Failure value)? failure,
+  }) {
+    return upToDate?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Init value)? init,
+    TResult Function(_Checking value)? checking,
+    TResult Function(_Outdated value)? outdated,
+    TResult Function(_UpToDate value)? upToDate,
+    TResult Function(_Failure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (upToDate != null) {
+      return upToDate(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpToDate extends VersionState {
+  const factory _UpToDate() = _$_UpToDate;
+  const _UpToDate._() : super._();
 }
 
 /// @nodoc
@@ -547,8 +666,9 @@ class _$_Failure extends _Failure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() loading,
-    required TResult Function(String version) loaded,
+    required TResult Function() checking,
+    required TResult Function() outdated,
+    required TResult Function() upToDate,
     required TResult Function(String message) failure,
   }) {
     return failure(message);
@@ -558,8 +678,9 @@ class _$_Failure extends _Failure {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
-    TResult Function(String version)? loaded,
+    TResult Function()? checking,
+    TResult Function()? outdated,
+    TResult Function()? upToDate,
     TResult Function(String message)? failure,
   }) {
     return failure?.call(message);
@@ -569,8 +690,9 @@ class _$_Failure extends _Failure {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
-    TResult Function(String version)? loaded,
+    TResult Function()? checking,
+    TResult Function()? outdated,
+    TResult Function()? upToDate,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -584,8 +706,9 @@ class _$_Failure extends _Failure {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Init value) init,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Checking value) checking,
+    required TResult Function(_Outdated value) outdated,
+    required TResult Function(_UpToDate value) upToDate,
     required TResult Function(_Failure value) failure,
   }) {
     return failure(this);
@@ -595,8 +718,9 @@ class _$_Failure extends _Failure {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Init value)? init,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Checking value)? checking,
+    TResult Function(_Outdated value)? outdated,
+    TResult Function(_UpToDate value)? upToDate,
     TResult Function(_Failure value)? failure,
   }) {
     return failure?.call(this);
@@ -606,8 +730,9 @@ class _$_Failure extends _Failure {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Init value)? init,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Checking value)? checking,
+    TResult Function(_Outdated value)? outdated,
+    TResult Function(_UpToDate value)? upToDate,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {

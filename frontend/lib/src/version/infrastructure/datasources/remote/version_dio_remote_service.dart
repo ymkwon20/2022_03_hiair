@@ -3,15 +3,15 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:frontend/src/core/infrastrucutre/dio_extensions.dart';
 import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
-import 'package:frontend/src/version/infrastructure/datasources/version_service.dart';
+import 'package:frontend/src/version/infrastructure/datasources/remote/version_remove_service.dart';
 
-class VersionRemoteService implements VersionService {
+class VersionDioRemoteService implements VersionRemoteService {
   final Dio _dio;
 
-  const VersionRemoteService({required Dio httpClient}) : _dio = httpClient;
+  const VersionDioRemoteService({required Dio httpClient}) : _dio = httpClient;
 
   @override
-  Future<String> fetchLatestApkVersion() async {
+  Future<String> fetchLatestVersion() async {
     try {
       final response = await _dio.get("/apk");
 
@@ -38,5 +38,11 @@ class VersionRemoteService implements VersionService {
 
       rethrow;
     }
+  }
+
+  @override
+  Future<String> fetchLatestUrl() {
+    // TODO: implement fetchLatestUrl
+    throw UnimplementedError();
   }
 }
