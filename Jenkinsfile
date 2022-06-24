@@ -22,33 +22,34 @@ pipeline {
         }
 	    stage('Frontend'){
             steps {
+                when {
+                    tag '*'
+                }
                 script {
-                    if (TAG != DEFAULT_VERSION ){
-                        
-                        echo '----Start frontend compiling----'
-                        dir('frontend') {
-                            sh(script:'''
-                                sed -i "s/version:.*/version: ${TAG}/" pubspec.yaml
-                            ''')
-                            sh 'flutter build apk'
-                        }
-                        
-                        echo '----Move the new compiled version to a designated directory'
-                        dir('frontend/build/app/outputs/flutter-apk/') {
-                            fileOperations([
-                                folderCreateOperation("${APK_HOME}/${TAG}"),
-                                fileCopyOperation(includes: "${BUILD_FILE_NAME}", targetLocation: "${APK_HOME}/${TAG}"),
-                            ])
-                        }
-                        
-                        echo '----Update the version info in Database----'
-                        sh(script:"""
-                            sqlcmd -U $MSSQL_CREDS_USR -P $MSSQL_CREDS_PSW -S ${DB_ADR} \
-                            -q "EXEC FAN.dbo.SP_TABLET_APK_01_SELECT '${TAG}','${BUILD_FILE_NAME}','${APK_HOME}/${TAG}/${BUILD_FILE_NAME}';"
-                        """)
-                        
-                        echo '----End frontend----'
+                    echo '----Start frontend compiling----'
+                    dir('frontend') {
+                        sh(script:'''
+                            sed -i "s/version:.*/version: ${TAG}/" pubspec.yaml
+                        ''')
+                        sh 'flutter build apk'
                     }
+                    
+                    echo '----Move the new compiled version to a designated directory'
+                    dir('frontend/build/app/outputs/flutter-apk/') {
+                        fileOperations([
+                            folderCreateOperation("${APK_HOME}/${TAG_NAME}"),
+                            fileCopyOperation(includes: "${BUILD_FILE_NAME}", targetLocation: "${APK_HOME}/${TAG_NAME}"),
+                        ])
+                    }
+                    
+                    echo '----Update the version info in Database----'
+                    sh(script:"""
+                        sqlcmd -U $MSSQL_CREDS_USR -P $MSSQL_CREDS_PSW -S ${DB_ADR} \
+                        -q "EXEC FAN.dbo.SP_TABLET_APK_01_SELECT '${TAG_NAME}','${BUILD_FILE_NAME}','${APK_HOME}/${TAG_NAME}/${BUILD_FILE_NAME}';"
+                    """)
+                    
+                    echo '----End frontend----'
+
                 }
             }
         }
