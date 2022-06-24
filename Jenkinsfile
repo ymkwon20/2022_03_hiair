@@ -22,9 +22,6 @@ pipeline {
         }
 	    stage('Frontend'){
             steps {
-                when {
-                    tag '*'
-                }
                 script {
                     echo '----Start frontend compiling----'
                     dir('frontend') {
