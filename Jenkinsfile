@@ -1,5 +1,3 @@
-def DEFAULT_VERSION = "0.0.0"
-
 pipeline {
     agent any
     tools {
@@ -11,6 +9,7 @@ pipeline {
         BUILD_FILE_NAME = "app-release.apk"
         DB_ADR = "172.16.30.105"
     }
+    
     stages {
         stage('Backend'){
             steps {
@@ -21,7 +20,7 @@ pipeline {
                 echo '----End backend----'
             }
         }
-	stage('Frontend'){
+	    stage('Frontend'){
             steps {
                 script {
                     if (TAG != DEFAULT_VERSION ){
