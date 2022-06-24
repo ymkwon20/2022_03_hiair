@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/pages/custom_route.dart';
+import 'package:frontend/src/core/presentation/widgets/dialog.dart';
+import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/no_glow_behavior.dart';
+import 'package:frontend/src/version/application/version_state.dart';
+import 'package:frontend/src/version/infrastructure/dependency_injection.dart';
+import 'package:frontend/src/work_base/application/work_base_state.dart';
+import 'package:frontend/src/work_base/dependency_injection.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,6 +18,49 @@ class MenuScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(workBaseChangeNotifierProvider).items;
+
+    ref.listen<WorkBaseState>(
+      workBaseStateNotifierProvider,
+      (previous, current) {
+        current.maybeWhen(
+          loaded: (items) {
+            ref
+                .read(workBaseChangeNotifierProvider.notifier)
+                .setWorkBases(items);
+          },
+          failure: (message) {
+            showFlashBar(
+              context,
+              title: "조회 오류",
+              content: "메뉴 목록을 조회하는데 실패했습니다.\n$message",
+              backgroundColor: Theme.of(context).errorColor,
+            );
+          },
+          orElse: () {},
+        );
+      },
+    );
+
+    ref.listen<VersionState>(
+      versionStateNotifierProvider,
+      (previous, current) {
+        current.maybeWhen(
+          outdated: (localVersion, latestVersion) {
+            Navigator.of(context).push(
+              CustomScaleRoute(
+                builder: (context) => VersionDialog(
+                  localVersion: localVersion,
+                  latestVersion: latestVersion,
+                ),
+                backgroundColor: Colors.black.withOpacity(.2),
+              ),
+            );
+          },
+          orElse: () {},
+        );
+      },
+    );
+
     return Scaffold(
       body: SafeArea(
         child: Column(

@@ -25,12 +25,17 @@ class _$VersionStateTearOff {
     return const _Checking();
   }
 
-  _Outdated outdated() {
-    return const _Outdated();
+  _Outdated outdated(String localVersion, String latestVersion) {
+    return _Outdated(
+      localVersion,
+      latestVersion,
+    );
   }
 
-  _UpToDate upToDate() {
-    return const _UpToDate();
+  _UpToDate upToDate(String latestVersion) {
+    return _UpToDate(
+      latestVersion,
+    );
   }
 
   _Failure failure(String message) {
@@ -49,8 +54,9 @@ mixin _$VersionState {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() checking,
-    required TResult Function() outdated,
-    required TResult Function() upToDate,
+    required TResult Function(String localVersion, String latestVersion)
+        outdated,
+    required TResult Function(String latestVersion) upToDate,
     required TResult Function(String message) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -58,8 +64,8 @@ mixin _$VersionState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? checking,
-    TResult Function()? outdated,
-    TResult Function()? upToDate,
+    TResult Function(String localVersion, String latestVersion)? outdated,
+    TResult Function(String latestVersion)? upToDate,
     TResult Function(String message)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -67,8 +73,8 @@ mixin _$VersionState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? checking,
-    TResult Function()? outdated,
-    TResult Function()? upToDate,
+    TResult Function(String localVersion, String latestVersion)? outdated,
+    TResult Function(String latestVersion)? upToDate,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) =>
@@ -159,8 +165,9 @@ class _$_Init extends _Init {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() checking,
-    required TResult Function() outdated,
-    required TResult Function() upToDate,
+    required TResult Function(String localVersion, String latestVersion)
+        outdated,
+    required TResult Function(String latestVersion) upToDate,
     required TResult Function(String message) failure,
   }) {
     return init();
@@ -171,8 +178,8 @@ class _$_Init extends _Init {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? checking,
-    TResult Function()? outdated,
-    TResult Function()? upToDate,
+    TResult Function(String localVersion, String latestVersion)? outdated,
+    TResult Function(String latestVersion)? upToDate,
     TResult Function(String message)? failure,
   }) {
     return init?.call();
@@ -183,8 +190,8 @@ class _$_Init extends _Init {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? checking,
-    TResult Function()? outdated,
-    TResult Function()? upToDate,
+    TResult Function(String localVersion, String latestVersion)? outdated,
+    TResult Function(String latestVersion)? upToDate,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -280,8 +287,9 @@ class _$_Checking extends _Checking {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() checking,
-    required TResult Function() outdated,
-    required TResult Function() upToDate,
+    required TResult Function(String localVersion, String latestVersion)
+        outdated,
+    required TResult Function(String latestVersion) upToDate,
     required TResult Function(String message) failure,
   }) {
     return checking();
@@ -292,8 +300,8 @@ class _$_Checking extends _Checking {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? checking,
-    TResult Function()? outdated,
-    TResult Function()? upToDate,
+    TResult Function(String localVersion, String latestVersion)? outdated,
+    TResult Function(String latestVersion)? upToDate,
     TResult Function(String message)? failure,
   }) {
     return checking?.call();
@@ -304,8 +312,8 @@ class _$_Checking extends _Checking {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? checking,
-    TResult Function()? outdated,
-    TResult Function()? upToDate,
+    TResult Function(String localVersion, String latestVersion)? outdated,
+    TResult Function(String latestVersion)? upToDate,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -365,6 +373,7 @@ abstract class _Checking extends VersionState {
 abstract class _$OutdatedCopyWith<$Res> {
   factory _$OutdatedCopyWith(_Outdated value, $Res Function(_Outdated) then) =
       __$OutdatedCopyWithImpl<$Res>;
+  $Res call({String localVersion, String latestVersion});
 }
 
 /// @nodoc
@@ -375,37 +384,73 @@ class __$OutdatedCopyWithImpl<$Res> extends _$VersionStateCopyWithImpl<$Res>
 
   @override
   _Outdated get _value => super._value as _Outdated;
+
+  @override
+  $Res call({
+    Object? localVersion = freezed,
+    Object? latestVersion = freezed,
+  }) {
+    return _then(_Outdated(
+      localVersion == freezed
+          ? _value.localVersion
+          : localVersion // ignore: cast_nullable_to_non_nullable
+              as String,
+      latestVersion == freezed
+          ? _value.latestVersion
+          : latestVersion // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_Outdated extends _Outdated {
-  const _$_Outdated() : super._();
+  const _$_Outdated(this.localVersion, this.latestVersion) : super._();
+
+  @override
+  final String localVersion;
+  @override
+  final String latestVersion;
 
   @override
   String toString() {
-    return 'VersionState.outdated()';
+    return 'VersionState.outdated(localVersion: $localVersion, latestVersion: $latestVersion)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Outdated);
+        (other.runtimeType == runtimeType &&
+            other is _Outdated &&
+            const DeepCollectionEquality()
+                .equals(other.localVersion, localVersion) &&
+            const DeepCollectionEquality()
+                .equals(other.latestVersion, latestVersion));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(localVersion),
+      const DeepCollectionEquality().hash(latestVersion));
+
+  @JsonKey(ignore: true)
+  @override
+  _$OutdatedCopyWith<_Outdated> get copyWith =>
+      __$OutdatedCopyWithImpl<_Outdated>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() checking,
-    required TResult Function() outdated,
-    required TResult Function() upToDate,
+    required TResult Function(String localVersion, String latestVersion)
+        outdated,
+    required TResult Function(String latestVersion) upToDate,
     required TResult Function(String message) failure,
   }) {
-    return outdated();
+    return outdated(localVersion, latestVersion);
   }
 
   @override
@@ -413,11 +458,11 @@ class _$_Outdated extends _Outdated {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? checking,
-    TResult Function()? outdated,
-    TResult Function()? upToDate,
+    TResult Function(String localVersion, String latestVersion)? outdated,
+    TResult Function(String latestVersion)? upToDate,
     TResult Function(String message)? failure,
   }) {
-    return outdated?.call();
+    return outdated?.call(localVersion, latestVersion);
   }
 
   @override
@@ -425,13 +470,13 @@ class _$_Outdated extends _Outdated {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? checking,
-    TResult Function()? outdated,
-    TResult Function()? upToDate,
+    TResult Function(String localVersion, String latestVersion)? outdated,
+    TResult Function(String latestVersion)? upToDate,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
     if (outdated != null) {
-      return outdated();
+      return outdated(localVersion, latestVersion);
     }
     return orElse();
   }
@@ -478,14 +523,22 @@ class _$_Outdated extends _Outdated {
 }
 
 abstract class _Outdated extends VersionState {
-  const factory _Outdated() = _$_Outdated;
+  const factory _Outdated(String localVersion, String latestVersion) =
+      _$_Outdated;
   const _Outdated._() : super._();
+
+  String get localVersion;
+  String get latestVersion;
+  @JsonKey(ignore: true)
+  _$OutdatedCopyWith<_Outdated> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$UpToDateCopyWith<$Res> {
   factory _$UpToDateCopyWith(_UpToDate value, $Res Function(_UpToDate) then) =
       __$UpToDateCopyWithImpl<$Res>;
+  $Res call({String latestVersion});
 }
 
 /// @nodoc
@@ -496,37 +549,62 @@ class __$UpToDateCopyWithImpl<$Res> extends _$VersionStateCopyWithImpl<$Res>
 
   @override
   _UpToDate get _value => super._value as _UpToDate;
+
+  @override
+  $Res call({
+    Object? latestVersion = freezed,
+  }) {
+    return _then(_UpToDate(
+      latestVersion == freezed
+          ? _value.latestVersion
+          : latestVersion // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_UpToDate extends _UpToDate {
-  const _$_UpToDate() : super._();
+  const _$_UpToDate(this.latestVersion) : super._();
+
+  @override
+  final String latestVersion;
 
   @override
   String toString() {
-    return 'VersionState.upToDate()';
+    return 'VersionState.upToDate(latestVersion: $latestVersion)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _UpToDate);
+        (other.runtimeType == runtimeType &&
+            other is _UpToDate &&
+            const DeepCollectionEquality()
+                .equals(other.latestVersion, latestVersion));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(latestVersion));
+
+  @JsonKey(ignore: true)
+  @override
+  _$UpToDateCopyWith<_UpToDate> get copyWith =>
+      __$UpToDateCopyWithImpl<_UpToDate>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() checking,
-    required TResult Function() outdated,
-    required TResult Function() upToDate,
+    required TResult Function(String localVersion, String latestVersion)
+        outdated,
+    required TResult Function(String latestVersion) upToDate,
     required TResult Function(String message) failure,
   }) {
-    return upToDate();
+    return upToDate(latestVersion);
   }
 
   @override
@@ -534,11 +612,11 @@ class _$_UpToDate extends _UpToDate {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? checking,
-    TResult Function()? outdated,
-    TResult Function()? upToDate,
+    TResult Function(String localVersion, String latestVersion)? outdated,
+    TResult Function(String latestVersion)? upToDate,
     TResult Function(String message)? failure,
   }) {
-    return upToDate?.call();
+    return upToDate?.call(latestVersion);
   }
 
   @override
@@ -546,13 +624,13 @@ class _$_UpToDate extends _UpToDate {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? checking,
-    TResult Function()? outdated,
-    TResult Function()? upToDate,
+    TResult Function(String localVersion, String latestVersion)? outdated,
+    TResult Function(String latestVersion)? upToDate,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
     if (upToDate != null) {
-      return upToDate();
+      return upToDate(latestVersion);
     }
     return orElse();
   }
@@ -599,8 +677,13 @@ class _$_UpToDate extends _UpToDate {
 }
 
 abstract class _UpToDate extends VersionState {
-  const factory _UpToDate() = _$_UpToDate;
+  const factory _UpToDate(String latestVersion) = _$_UpToDate;
   const _UpToDate._() : super._();
+
+  String get latestVersion;
+  @JsonKey(ignore: true)
+  _$UpToDateCopyWith<_UpToDate> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -667,8 +750,9 @@ class _$_Failure extends _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() checking,
-    required TResult Function() outdated,
-    required TResult Function() upToDate,
+    required TResult Function(String localVersion, String latestVersion)
+        outdated,
+    required TResult Function(String latestVersion) upToDate,
     required TResult Function(String message) failure,
   }) {
     return failure(message);
@@ -679,8 +763,8 @@ class _$_Failure extends _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? checking,
-    TResult Function()? outdated,
-    TResult Function()? upToDate,
+    TResult Function(String localVersion, String latestVersion)? outdated,
+    TResult Function(String latestVersion)? upToDate,
     TResult Function(String message)? failure,
   }) {
     return failure?.call(message);
@@ -691,8 +775,8 @@ class _$_Failure extends _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? checking,
-    TResult Function()? outdated,
-    TResult Function()? upToDate,
+    TResult Function(String localVersion, String latestVersion)? outdated,
+    TResult Function(String latestVersion)? upToDate,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {

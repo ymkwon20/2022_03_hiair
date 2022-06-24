@@ -6,12 +6,11 @@ import 'package:frontend/src/auth/application/auth_state.dart';
 import 'package:frontend/src/auth/dependency_injection.dart';
 import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
 import 'package:frontend/src/core/presentation/routes/app_router.dart';
-import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:frontend/src/settings/settings_scope.dart';
+import 'package:frontend/src/version/application/version_event.dart';
+import 'package:frontend/src/version/infrastructure/dependency_injection.dart';
 import 'package:frontend/src/work_base/application/work_base_event.dart';
-import 'package:frontend/src/work_base/application/work_base_state.dart';
 import 'package:frontend/src/work_base/dependency_injection.dart';
-import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/core/presentation/app_theme.dart';
@@ -33,6 +32,9 @@ class _MyAppState extends ConsumerState<AppWidget> {
     Future.microtask(
       () async {
         ref
+            .read(versionStateNotifierProvider.notifier)
+            .mapEventToState(const VersionEvent.checkVersion());
+        ref
             .read(authStateNotifierProvider.notifier)
             .mapEventToState(const AuthEvent.loadStoredUser());
       },
@@ -45,9 +47,7 @@ class _MyAppState extends ConsumerState<AppWidget> {
     ref.listen<AuthState>(
       authStateNotifierProvider,
       (previous, current) {
-        current.when(
-          initial: () {},
-          loading: () {},
+        current.maybeWhen(
           unauthenticated: () {
             ref.read(authChangeNotifierProvider).emptUser();
           },
@@ -57,35 +57,6 @@ class _MyAppState extends ConsumerState<AppWidget> {
             ref
                 .read(workBaseStateNotifierProvider.notifier)
                 .mapEventToState(const WorkBaseEvent.fetchWorkBases());
-          },
-          failure: (message) {
-            showFlashBar(
-              context,
-              title: "조회 오류",
-              content: "로그인에 실패했습니다. \n$message",
-              backgroundColor: Theme.of(context).errorColor,
-            );
-          },
-        );
-      },
-    );
-
-    ref.listen<WorkBaseState>(
-      workBaseStateNotifierProvider,
-      (previous, current) {
-        current.maybeWhen(
-          loaded: (items) {
-            ref
-                .read(workBaseChangeNotifierProvider.notifier)
-                .setWorkBases(items);
-          },
-          failure: (message) {
-            showFlashBar(
-              context,
-              title: "조회 오류",
-              content: "메뉴 목록을 조회하는데 실패했습니다.\n$message",
-              backgroundColor: Theme.of(context).errorColor,
-            );
           },
           orElse: () {},
         );

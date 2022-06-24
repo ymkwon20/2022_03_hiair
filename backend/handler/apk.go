@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"strings"
 
 	"github.com/gorilla/mux"
 	"github.com/spf13/viper"
@@ -16,35 +15,11 @@ import (
 
 func (a *AppHandler) fetchApkInfo(w http.ResponseWriter, r *http.Request) {
 
-	var params map[string]interface{}
-
-	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Header().Set("Content-Type", "application/json")
-
-		errMsg := make(map[string]interface{})
-		errMsg["msg"] = err.Error()
-		jData, _ := json.Marshal(errMsg)
-		w.Write(jData)
-		return
-	}
-
 	query := `
-	SELECT  A.APK_NM,
-			A.APK_V,
-			A.FILE_PATH,
-			A.RMK
-	FROM (
-		SELECT A.*, 
-				ROW_NUMBER() OVER(PARTITION BY A.APK_V
-				ORDER BY A.CRT_DT DESC, A.UDT_DT DESC) AS ROW_NO 
-			FROM APK_VERSION A
-		) A
-	WHERE A.ROW_NO = 1
-	ORDER BY A.CRT_DT DESC, A.UDT_DT DESC
+	EXEC SP_TABLET_APK_SELECT;
 	`
 
-	_, err := a.db.CallDML(query)
+	results, err := a.db.CallProcedure(query)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Header().Set("Content-Type", "application/json")
@@ -54,10 +29,23 @@ func (a *AppHandler) fetchApkInfo(w http.ResponseWriter, r *http.Request) {
 		jData, _ := json.Marshal(errMsg)
 		w.Write(jData)
 		return
-	}
 
+	}
+	jData, err := json.Marshal(results)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+	w.Write(jData)
 
 }
 
@@ -77,11 +65,11 @@ func (a *AppHandler) downloadApk(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	version = strings.Replace(version, "-", ".", -1)
-
 	rootPath := viper.Get("apk-path")
 	filePath := fmt.Sprintf("%s/%s/", rootPath, version)
+
 	files, err := ioutil.ReadDir(filePath)
+
 	if err != nil {
 		http.Error(w, "Version not found.", http.StatusNotFound)
 	}

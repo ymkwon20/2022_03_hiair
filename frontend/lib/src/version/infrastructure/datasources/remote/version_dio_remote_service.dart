@@ -15,7 +15,11 @@ class VersionDioRemoteService implements VersionRemoteService {
     try {
       final response = await _dio.get("/apk");
 
-      return response.data[0]["version"];
+      if ((response.data as List).isEmpty) {
+        return "";
+      }
+
+      return response.data[0]["APK_V"];
     } on DioError catch (e) {
       if (e.isNoConnectionError) {
         throw NoConnectionException(message: e.message);
@@ -33,6 +37,10 @@ class VersionDioRemoteService implements VersionRemoteService {
       }
 
       if (e.type == DioErrorType.receiveTimeout) {
+        throw ServerConnectionException(message: e.message);
+      }
+
+      if (e.response?.statusCode == 400) {
         throw ServerConnectionException(message: e.message);
       }
 

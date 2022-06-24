@@ -3,7 +3,12 @@ import 'package:frontend/src/auth/application/auth_state.dart';
 import 'package:frontend/src/auth/presentation/sign_in_form_widget.dart';
 import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
 import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/routes/app_route_observer.dart';
+import 'package:frontend/src/core/presentation/widgets/dialog.dart';
+import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
+import 'package:frontend/src/version/application/version_state.dart';
+import 'package:frontend/src/version/infrastructure/dependency_injection.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/auth/dependency_injection.dart';
@@ -46,7 +51,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with RouteAware {
 
   @override
   void didPushNext() {
-    _slideLeftOut();
+    // _slideLeftOut();
   }
 
   void _slideLeftOut() {
@@ -68,10 +73,40 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with RouteAware {
     // 로그인 성공시 다음 Screen과의 통일성을 위해 애니메이션 적용
     ref.listen<AuthState>(authStateNotifierProvider, (previous, current) {
       current.maybeWhen(
-        authenticated: (_) {},
+        authenticated: (_) {
+          _slideLeftOut();
+        },
+        failure: (message) {
+          showFlashBar(
+            context,
+            title: "조회 오류",
+            content: "로그인에 실패했습니다. \n$message",
+            backgroundColor: Theme.of(context).errorColor,
+          );
+        },
         orElse: () {},
       );
     });
+
+    ref.listen<VersionState>(
+      versionStateNotifierProvider,
+      (previous, current) {
+        current.maybeWhen(
+          outdated: (localVersion, latestVersion) {
+            Navigator.of(context).push(
+              CustomScaleRoute(
+                builder: (context) => VersionDialog(
+                  localVersion: localVersion,
+                  latestVersion: latestVersion,
+                ),
+                backgroundColor: Colors.black.withOpacity(.2),
+              ),
+            );
+          },
+          orElse: () {},
+        );
+      },
+    );
 
     final size = MediaQuery.of(context).size;
 

@@ -51,6 +51,9 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/wb", a.getWorkbaselist).Methods("GET")
 	r.HandleFunc("/menu", a.getQmMenulist).Methods("GET")
 	r.HandleFunc("/images", imgUploadHandler).Methods("POST")
+	r.HandleFunc("/equip", a.getEquip).Methods("GET")
+	r.HandleFunc("/equip/{code}", a.getEquipList).Methods("GET")
+	r.HandleFunc("/equip", a.saveEquipItem).Methods("POST")
 
 	return a
 }
@@ -835,4 +838,151 @@ func (a *AppHandler) getQmMenulist(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(jData)
+}
+
+func (a *AppHandler) getEquip(w http.ResponseWriter, r *http.Request) {
+
+	queryString := r.URL.Query()
+	code := queryString.Get("type")
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_EQP_01_SELECT '%s';
+	`, code)
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	jData, err := json.Marshal(results)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jData)
+}
+
+func (a *AppHandler) getEquipList(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	code := vars["code"]
+
+	queryString := r.URL.Query()
+	equipType := queryString.Get("type")
+	date := queryString.Get("date")
+
+	if code == "" {
+
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = "send a wrong path parameter"
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_EQP_02_SELECT '%s', '%s', '%s';
+	`, code, equipType, date)
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	jData, err := json.Marshal(results)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jData)
+
+}
+
+func (a *AppHandler) saveEquipItem(w http.ResponseWriter, r *http.Request) {
+	var params map[string]interface{}
+
+	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_EQP_02_INSERT '%s', '%s', '%s', '%s', '%s', '%s', '%s';
+	`,
+		params["code"],
+		params["type"],
+		params["equip-check"],
+		params["standard"],
+		params["date"],
+		params["value"],
+		params["remark"],
+	)
+
+	_, err := a.db.CallDML(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 }

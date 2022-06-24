@@ -17,21 +17,25 @@ class VersionStateNotifier extends StateNotifier<VersionState> {
   final FetchLatestVersion _fetchLatest;
   final FetchLocalVersion _fetchLocal;
 
+  late String localVersion;
+  late String latestVersion;
+
   Future<void> mapEventToState(VersionEvent event) async {
     event.when(
-      fetchLatestVersion: () async {
+      checkVersion: () async {
         state = const VersionState.checking();
 
-        final localVersion = await _fetchLocal();
+        localVersion = await _fetchLocal();
         final failureOrRemoteVersion = await _fetchLatest();
 
         failureOrRemoteVersion.fold(
           (l) => state = VersionState.failure(mapFailureToString(l)),
           (r) {
-            if (localVersion == r) {
-              state = const VersionState.upToDate();
+            latestVersion = r;
+            if (localVersion == latestVersion) {
+              state = VersionState.upToDate(latestVersion);
             } else {
-              state = const VersionState.outdated();
+              state = VersionState.outdated(localVersion, latestVersion);
             }
           },
         );
