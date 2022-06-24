@@ -51,7 +51,6 @@ class VersionDioRemoteService implements VersionRemoteService {
   @override
   Future<String> fetchLatestUrl() {
     // TODO: implement fetchLatestUrl
-    // ---
     throw UnimplementedError();
   }
 }
