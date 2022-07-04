@@ -44,8 +44,8 @@ pipeline {
 
                 dir("""$BACKEND_HOME"""){
                     sh(script:"""
-                        $NPM/pm2 start $GO_BUILD_FILE_NAME --watch -n backend
-                        $NPM/pm2 save
+                        JENKINS_NODE_COOKIE=dontKillMe $NPM/pm2 start $GO_BUILD_FILE_NAME --watch -n backend
+                        JENKINS_NODE_COOKIE=dontKillMe $NPM/pm2 save
                     """)
                 }
 
