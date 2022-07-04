@@ -42,9 +42,12 @@ pipeline {
 
                 }
 
-                sh(script:"""
-                    $NPM/pm2 start $BACKEND_HOME/$GO_BUILD_FILE_NAME --watch -n backend
-                """)
+                dir("""$BACKEND_HOME"""){
+                    sh(script:"""
+                        $NPM/pm2 start $GO_BUILD_FILE_NAME --watch -n backend
+                    """)
+                }
+
 
                 echo '----End backend----'
             }
