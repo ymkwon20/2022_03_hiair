@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/core/presentation/widgets/table_loading_row.dart';
 import 'package:frontend/src/fct/application/fct/fct_event.dart';
 import 'package:frontend/src/fct/application/serial/fct_serial_event.dart';
 import 'package:frontend/src/fct/application/serial/fct_serial_state.dart';
 import 'package:frontend/src/fct/dependency_injection.dart';
+import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
+import 'package:frontend/src/core/presentation/pages/table_failure_row.dart';
 import 'package:frontend/src/fct/presentation/tablerows/serial/fct_serial_loaded_row.dart';
-import 'package:frontend/src/fct/presentation/tablerows/serial/fct_serial_loading_row.dart';
-import 'package:frontend/src/workorder/presentation/screens/custom_table.dart';
-import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_failure_row.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -71,16 +71,16 @@ class _FctScreenState extends ConsumerState<FctSerialScreen> {
           rowBuilder: (context, index) {
             return state.when(
               init: () {
-                return FctSerialLoadingRow();
+                return TableLoadingRow();
               },
               loading: () {
-                return FctSerialLoadingRow();
+                return TableLoadingRow();
               },
               loaded: (serials) {
                 return FctSerialLoadedRow(serial: serials[index]);
               },
               failure: (message) {
-                return WorkOrderFailureRow(message: message);
+                return TableFailureRow(message: message);
               },
             );
           },

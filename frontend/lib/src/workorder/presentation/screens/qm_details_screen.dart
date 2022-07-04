@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
+import 'package:frontend/src/core/presentation/fonts.gen.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
+import 'package:frontend/src/workorder/application/qm_work_order/save/qm_work_order_save_event.dart';
+import 'package:frontend/src/workorder/application/qm_work_order/save/qm_work_order_save_state.dart';
+import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
+import 'package:frontend/src/workorder/presentation/screens/qm_work_order_screen.dart';
+import 'package:frontend/src/workorder/presentation/viewmodels/qm_work_order_list_notifier.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
-import 'package:frontend/src/checklist/application/save/checklist_save_state.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_image_popup.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
@@ -16,12 +22,8 @@ import 'package:frontend/src/qm/application/menu/qm_menu_event.dart';
 import 'package:frontend/src/qm/application/menu/qm_menu_state.dart';
 import 'package:frontend/src/qm/dependency_injection.dart';
 import 'package:frontend/src/qm/presentation/viewmodels/qm_menulist_notifier.dart';
-import 'package:frontend/src/workorder/application/save/work_order_save_event.dart';
-import 'package:frontend/src/workorder/application/save/work_order_save_state.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 import 'package:frontend/src/workorder/presentation/screens/qm_details_widget.dart';
-import 'package:frontend/src/workorder/presentation/screens/work_order_start_end_button.dart';
-import 'package:frontend/src/workorder/presentation/viewmodels/qm_work_order_notifier.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 
 class QmDetailsScreen extends StatelessWidget {
@@ -77,27 +79,26 @@ class QmDetailsPage extends ConsumerStatefulWidget {
 }
 
 class _QmDetailsPageState extends ConsumerState<QmDetailsPage> {
+  bool ignoring = false;
+
   @override
   Widget build(BuildContext context) {
-    ref.listen<WorkOrderSaveState>(
-      workOrderSaveStateNotifierProvider,
+    ref.listen<QmWorkOrderSaveState>(
+      qmWorkOrderSaveStateNotifierProvider,
       (previous, current) {
         current.maybeWhen(
-          oneSaved: (index, date, status) {
-            switch (status) {
-              case WorkOrderSaveStatus.start:
-                ref
-                    .read(workOrderListNotifier.notifier)
-                    .setNewItemDateStart(index, date);
-                break;
-              case WorkOrderSaveStatus.end:
-                ref
-                    .read(workOrderListNotifier.notifier)
-                    .setNewItemDateEnd(index);
-                break;
-              default:
-                break;
-            }
+          saving: () {
+            ignoring = true;
+          },
+          saved: (index) {
+            ignoring = true;
+
+            ref
+                .read(workOrderSaveStateNotifierProvider.notifier)
+                .mapEventToState(const WorkOrderSaveEvent.resetToNone());
+
+            ref.read(qmWorkOrderListNotifier.notifier).removeAt(index);
+
             showFlashBar(
               context,
               title: "저장 완료",
@@ -105,20 +106,17 @@ class _QmDetailsPageState extends ConsumerState<QmDetailsPage> {
               backgroundColor: Theme.of(context).primaryColorLight,
             );
 
-            ref
-                .read(workOrderSaveStateNotifierProvider.notifier)
-                .mapEventToState(const WorkOrderSaveEvent.resetToNone());
-
-            setState(() {});
+            context.pop();
           },
           orElse: () {
+            ignoring = false;
             ref.read(workOrderListNotifier.notifier).clearSelection();
           },
         );
       },
     );
 
-    final workOrder = ref.watch(qmWorkOrderNotifierProvider).order!;
+    final saveState = ref.watch(qmWorkOrderSaveStateNotifierProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -142,38 +140,117 @@ class _QmDetailsPageState extends ConsumerState<QmDetailsPage> {
               ),
               const SizedBox(height: LayoutConstant.spaceM),
               const QmDetailsWidget(),
-              const SizedBox(height: LayoutConstant.spaceM),
-              WorkOrderStartEndButtons(
-                dateStart: workOrder.dateStart,
-                dateEnd: workOrder.dateEnd,
-                onStartPressed: () {
-                  ref
-                      .read(workOrderSaveStateNotifierProvider.notifier)
-                      .mapEventToState(
-                        WorkOrderSaveEvent.saveWorkOrder(
-                          workOrder,
-                          WorkOrderSaveStatus.start,
-                          ref.watch(workOrderIndexNotifier)!,
+              const SizedBox(height: LayoutConstant.spaceL),
+              IgnorePointer(
+                ignoring: ignoring,
+                child: InkWell(
+                  onTap: () {
+                    ref
+                        .read(qmWorkOrderSaveStateNotifierProvider.notifier)
+                        .mapEventToState(
+                          QmWorkOrderSaveEvent.saveQmWorkOrder(
+                            ref.watch(currentQmWorkOrder),
+                            ref.watch(currentQmWorkOrderIndex),
+                          ),
+                        );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: LayoutConstant.paddingM,
+                    ),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColorLight,
+                      borderRadius:
+                          BorderRadius.circular(LayoutConstant.radiusS),
+                    ),
+                    // CircularProgressIndicator등 다른 자식 Widget에 의해
+                    // 높이가 변경되어 바뀔수 있으므로 SizedBox에 height 처리
+                    child: SizedBox(
+                      height: LayoutConstant.spaceXL,
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 150),
+                        child: saveState.maybeWhen(
+                          none: () {
+                            return const Text(
+                              "검사완료",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: FontFamily.iropke,
+                              ),
+                            );
+                          },
+                          saving: () {
+                            // CircularProgressIndicator의 크기 조절이 불가능하여
+                            // SizedBox안에 처리
+                            return const SizedBox(
+                              height: LayoutConstant.spaceL,
+                              width: LayoutConstant.spaceL,
+                              child: CircularProgressIndicator(
+                                strokeWidth: LayoutConstant.spaceXS,
+                                color: Colors.white,
+                              ),
+                            );
+                          },
+                          saved: (_) {
+                            return const Icon(
+                              Icons.check,
+                              color: Colors.white,
+                            );
+                          },
+                          failure: (message) {
+                            return const Icon(
+                              Icons.close,
+                              color: Colors.white,
+                            );
+                          },
+                          orElse: () {
+                            return const Icon(
+                              Icons.check,
+                              color: Colors.white,
+                            );
+                          },
                         ),
-                      );
-                },
-                onEndPressed: () {
-                  ref
-                      .read(workOrderSaveStateNotifierProvider.notifier)
-                      .mapEventToState(
-                        WorkOrderSaveEvent.saveWorkOrder(
-                          workOrder,
-                          WorkOrderSaveStatus.end,
-                          ref.watch(workOrderIndexNotifier)!,
-                        ),
-                      );
-                },
-                onStartAndEndPressed: null,
-                ignoring: ref.watch(workOrderSaveStateNotifierProvider) ==
-                        const WorkOrderSaveState.saving() ||
-                    ref.watch(checklistSaveStateNotifierProvider) ==
-                        const ChecklistSaveState.saving(),
-              )
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // WorkOrderStartEndButtons(
+              //   dateStart: workOrder.dateStart,
+              //   dateEnd: workOrder.dateEnd,
+              //   onStartPressed: () {
+              //     ref
+              //         .read(workOrderSaveStateNotifierProvider.notifier)
+              //         .mapEventToState(
+              //           WorkOrderSaveEvent.saveWorkOrder(
+              //             workOrder,
+              //             WorkOrderSaveStatus.start,
+              //             ref.watch(workOrderIndexNotifier)!,
+              //           ),
+              //         );
+              //   },
+              //   onEndPressed: () {
+              //     ref
+              //         .read(workOrderSaveStateNotifierProvider.notifier)
+              //         .mapEventToState(
+              //           WorkOrderSaveEvent.saveWorkOrder(
+              //             workOrder,
+              //             WorkOrderSaveStatus.end,
+              //             ref.watch(workOrderIndexNotifier)!,
+              //           ),
+              //         );
+              //   },
+              //   onStartAndEndPressed: null,
+              //   ignoring: ref.watch(workOrderSaveStateNotifierProvider) ==
+              //           const WorkOrderSaveState.saving() ||
+              //       ref.watch(checklistSaveStateNotifierProvider) ==
+              //           const ChecklistSaveState.saving(),
+              // )
             ],
           ),
         ),
@@ -236,7 +313,7 @@ class _QmSelectionModePageState extends ConsumerState<QmSelectionModePage> {
                     .read(checklistStateNotifierProvider.notifier)
                     .mapEventToState(
                       ChecklistEvent.fetchChecklist(
-                        ref.watch(qmWorkOrderNotifierProvider).order!,
+                        ref.watch(currentQmWorkOrder),
                         ref.watch(qmMenulistNotifierProvider).menus[index].code,
                       ),
                     );
@@ -245,7 +322,7 @@ class _QmSelectionModePageState extends ConsumerState<QmSelectionModePage> {
                     .read(checklistStateNotifierProvider.notifier)
                     .mapEventToState(
                       ChecklistEvent.fetchCheckimagelist(
-                        ref.watch(qmWorkOrderNotifierProvider).order!,
+                        ref.watch(currentQmWorkOrder),
                       ),
                     );
               }
@@ -275,6 +352,7 @@ class _QmSelectionModePageState extends ConsumerState<QmSelectionModePage> {
                 ref.watch(qmMenulistNotifierProvider).menus[index].name,
                 style: const TextStyle(
                   color: Colors.white,
+                  fontSize: 22,
                 ),
               ),
             ),

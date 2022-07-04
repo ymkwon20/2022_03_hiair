@@ -31,7 +31,7 @@ void main() {
         'in android environment',
         () {
           test(
-            "should return null if there is none picked",
+            "should throw Exception if there is none picked",
             () async {
               when(
                 () => mockPicker.pickImage(source: ImageSource.gallery),
@@ -39,8 +39,8 @@ void main() {
                 (_) async => null,
               );
 
-              final results = await service.pickImage();
-              expect(results, null);
+              final call = service.pickImage;
+              expect(call, throwsA(isA<NotSelectedException>()));
               verify(() => mockPicker.pickImage(source: ImageSource.gallery));
             },
           );
@@ -88,7 +88,7 @@ void main() {
         "in android environment",
         () {
           test(
-            "should return null if there is none picked",
+            "should throw Exception if there is none picked",
             () async {
               when(
                 () => mockPicker.pickImage(source: ImageSource.camera),
@@ -96,8 +96,8 @@ void main() {
                 (_) async => null,
               );
 
-              final results = await service.takeOnePicture();
-              expect(results, null);
+              final call = service.takeOnePicture;
+              expect(call, throwsA(isA<NotSelectedException>()));
               verify(() => mockPicker.pickImage(source: ImageSource.camera));
             },
           );

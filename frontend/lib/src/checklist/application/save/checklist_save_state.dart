@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:frontend/src/workorder/application/save/work_order_save_event.dart';
+import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
 
 part 'checklist_save_state.freezed.dart';
 

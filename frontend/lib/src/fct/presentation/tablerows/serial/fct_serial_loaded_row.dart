@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/workorder/presentation/screens/custom_table.dart';
+import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
 
 class FctSerialLoadedRow extends CustomTableRow {
   FctSerialLoadedRow({
@@ -13,7 +13,7 @@ class FctSerialLoadedRow extends CustomTableRow {
             Text(
               serial,
               style: style,
-            ),
+            )
           ],
           color: color ?? Colors.transparent,
         );

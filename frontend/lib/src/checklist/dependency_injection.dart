@@ -14,7 +14,7 @@ import 'package:frontend/src/checklist/infrastructure/datasources/remote/checkli
 import 'package:frontend/src/checklist/infrastructure/repositories/checklist_repository.dart';
 import 'package:frontend/src/core/dependency_injection.dart';
 import 'package:frontend/src/image/dependency_injection.dart';
-import 'package:frontend/src/workorder/presentation/viewmodels/qm_work_order_notifier.dart';
+import 'package:frontend/src/workorder/presentation/screens/qm_work_order_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //! application
@@ -33,7 +33,7 @@ final checklistSaveStateNotifierProvider =
     saveImagelist: ref.watch(saveImagelistProvider),
     saveImages: ref.watch(saveImagesProvider),
     authNotifier: ref.watch(authChangeNotifierProvider),
-    workOrderNotifier: ref.watch(qmWorkOrderNotifierProvider),
+    qmWorkOrder: ref.watch(currentQmWorkOrder),
   ),
 );
 

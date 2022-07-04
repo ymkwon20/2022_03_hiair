@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/presentation/widgets/dialog.dart';
+import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
+import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
@@ -11,8 +13,6 @@ import 'package:frontend/src/checklist/presentation/widgets/checklist_widget.dar
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/underline_widget.dart';
-import 'package:frontend/src/workorder/application/save/work_order_save_event.dart';
-import 'package:frontend/src/workorder/application/save/work_order_save_state.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 import 'package:frontend/src/workorder/presentation/screens/work_order_start_end_button.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
@@ -241,7 +241,7 @@ class _WorkOrderPopupState extends ConsumerState<WorkOrderPopup>
                               title: "작업지시", value: workOrder.code),
                           const UnderlineWidget(),
                           _WorkOrderDrawerRow(
-                              title: "PND", value: workOrder.datePlanned),
+                              title: "PND", value: workOrder.date),
                           const UnderlineWidget(),
                           _WorkOrderDrawerRow(
                               title: "Yard", value: workOrder.yard),

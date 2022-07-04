@@ -6,8 +6,8 @@ import 'package:frontend/src/checklist/infrastructure/dtos/check_image_dto.dart'
 import 'package:frontend/src/checklist/infrastructure/dtos/check_item_dto.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/image/domain/usecases/save_images.dart';
-import 'package:frontend/src/workorder/application/save/work_order_save_event.dart';
-import 'package:frontend/src/workorder/presentation/viewmodels/qm_work_order_notifier.dart';
+import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
+import 'package:frontend/src/workorder/domain/entities/qm_work_order.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/checklist/application/save/checklist_save_event.dart';
@@ -20,19 +20,19 @@ class ChecklistSaveStateNotifier extends StateNotifier<ChecklistSaveState> {
     required SaveImagelist saveImagelist,
     required SaveImages saveImages,
     required AuthChangeNotifier authNotifier,
-    required QmWorkOrderNotifier workOrderNotifier,
+    required QmWorkOrder qmWorkOrder,
   })  : _saveChecklist = saveChecklist,
         _saveImagelist = saveImagelist,
         _saveImages = saveImages,
         _authNotifier = authNotifier,
-        _workOrderNotifier = workOrderNotifier,
+        _qmWorkOrder = qmWorkOrder,
         super(const ChecklistSaveState.init());
 
   final SaveImages _saveImages;
   final SaveChecklist _saveChecklist;
   final SaveImagelist _saveImagelist;
   final AuthChangeNotifier _authNotifier;
-  final QmWorkOrderNotifier _workOrderNotifier;
+  final QmWorkOrder _qmWorkOrder;
 
   Future<void> mapEventToState(ChecklistSaveEvent event) async {
     event.when(
@@ -102,10 +102,10 @@ class ChecklistSaveStateNotifier extends StateNotifier<ChecklistSaveState> {
       /// 1. 저장 정보 파라미터 만들기
       final params = CheckImageDto.fromDomain(item).toMap();
       params["user-id"] = _authNotifier.user!.id;
-      params["wo-nb"] = _workOrderNotifier.order!.code;
-      params["wc-cd"] = _workOrderNotifier.order!.wcCd;
-      params["wb-cd"] = _workOrderNotifier.order!.wbCd;
-      params["plan-seq"] = _workOrderNotifier.order!.planSeq.toString();
+      params["wo-nb"] = _qmWorkOrder.code;
+      params["wc-cd"] = _qmWorkOrder.wcCd;
+      params["wb-cd"] = _qmWorkOrder.wbCd;
+      params["plan-seq"] = _qmWorkOrder.planSeq.toString();
       parameterList.add(params);
 
       /// 2. 저장 이미지 path 따로 저장

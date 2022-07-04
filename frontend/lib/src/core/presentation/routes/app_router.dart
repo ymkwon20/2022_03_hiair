@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/presentation/pages/home_screen.dart';
-import 'package:frontend/src/core/presentation/pages/menu_screen.dart';
+import 'package:frontend/src/core/presentation/pages/work_order_home_screen.dart';
+import 'package:frontend/src/core/presentation/pages/workbase_menu_screen.dart';
+import 'package:frontend/src/core/presentation/pages/worker_menu_screen.dart';
 import 'package:frontend/src/fct/presentation/fct_screen.dart';
 import 'package:frontend/src/fct/presentation/fct_serial_screen.dart';
+import 'package:frontend/src/safety/presentation/screens/safety_check_screen.dart';
+import 'package:frontend/src/safety/presentation/screens/safety_repair_screen.dart';
+import 'package:frontend/src/safety/presentation/screens/safety_screen.dart';
 import 'package:frontend/src/workorder/presentation/screens/qm_details_screen.dart';
+import 'package:frontend/src/workorder/presentation/screens/qm_work_order_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -55,7 +60,7 @@ class AppRouter extends GoRouter {
             if (!loggedIn && !isLogging) return "/sign-in";
 
             if (loggedIn && isLogging) {
-              return "/menu";
+              return "/";
             }
             // if (loggedIn && isLogging) return "/";
 
@@ -65,6 +70,32 @@ class AppRouter extends GoRouter {
           /// ChangeNotifier를 사용할 때 사용할 수 있음
           refreshListenable: authNotifier,
           routes: [
+            /// 사용자 메뉴
+            GoRoute(
+              name: 'menu',
+              path: '/',
+              pageBuilder: (context, state) {
+                return CustomTransitionPage(
+                  key: state.pageKey,
+                  // child: const HomeScreen(),
+                  child: const WorkerMenuScreen(),
+                  transitionDuration: const Duration(milliseconds: 1200),
+                  transitionsBuilder:
+                      (context, animation, secondAnimation, child) {
+                    return SlideTransition(
+                      position: Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: const Offset(0, 0))
+                          .chain(CurveTween(curve: Curves.easeInOutExpo))
+                          .animate(animation),
+                      child: child,
+                    );
+                  },
+                );
+              },
+              routes: [],
+            ),
+
             /// 로그인 화면
             GoRoute(
               name: 'auth',
@@ -89,44 +120,28 @@ class AppRouter extends GoRouter {
               },
             ),
 
-            /// Menu
+            /// 관리자 Workbase / 사용자 Workbase
             GoRoute(
-              name: 'menu',
-              path: '/menu',
+              name: 'workbase',
+              path: '/workbase',
               pageBuilder: (context, state) {
-                return CustomTransitionPage(
-                  key: state.pageKey,
-                  // child: const HomeScreen(),
-                  child: const MenuScreen(),
-                  transitionDuration: const Duration(milliseconds: 1200),
-                  transitionsBuilder:
-                      (context, animation, secondAnimation, child) {
-                    return SlideTransition(
-                      position: Tween<Offset>(
-                              begin: const Offset(1, 0),
-                              end: const Offset(0, 0))
-                          .chain(CurveTween(curve: Curves.easeInOutExpo))
-                          .animate(animation),
-                      child: child,
-                    );
-                  },
+                return const MaterialPage(
+                  child: WorkbaseMenuScreen(),
                 );
               },
-              routes: [],
             ),
 
             /// 홈 화면
             GoRoute(
-              name: 'home',
-              path: '/',
+              name: 'work-order',
+              path: '/work-order',
               pageBuilder: (context, state) {
                 return MaterialPage(
                   key: state.pageKey,
                   // child: const HomeScreen(),
-                  child: const HomeScreen(),
+                  child: const WorkOrderHomeScreen(),
                 );
               },
-              routes: [],
             ),
 
             /// 설정 화면
@@ -192,15 +207,63 @@ class AppRouter extends GoRouter {
             /// QM 화면
             GoRoute(
               name: "qm",
-              path: '/qm/:index',
+              path: '/qm',
               pageBuilder: (context, state) {
-                final index = int.parse(state.params["index"]!);
                 return MaterialPage(
                   key: state.pageKey,
-                  child: QmDetailsScreen(index: index),
+                  child: const QmWorkOrderScreen(),
                 );
               },
-              routes: [],
+              routes: [
+                GoRoute(
+                  name: "qm-details",
+                  path: ':index',
+                  pageBuilder: (context, state) {
+                    final index = int.parse(state.params["index"]!);
+                    return MaterialPage(
+                      key: state.pageKey,
+                      child: QmDetailsScreen(index: index),
+                    );
+                  },
+                  routes: [],
+                ),
+              ],
+            ),
+
+            /// 안전 / 설장비 화면
+            GoRoute(
+              name: "safety",
+              path: '/safety',
+              pageBuilder: (context, state) {
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: SafetyScreen(
+                    title: state.extra! as String,
+                  ),
+                );
+              },
+              routes: [
+                GoRoute(
+                  name: "safety-check",
+                  path: "check",
+                  pageBuilder: (context, state) {
+                    return MaterialPage(
+                      key: state.pageKey,
+                      child: const SafetyCheckScreen(),
+                    );
+                  },
+                ),
+                GoRoute(
+                  name: "safety-repair",
+                  path: "repair",
+                  pageBuilder: (context, state) {
+                    return MaterialPage(
+                      key: state.pageKey,
+                      child: const SafetyRepairScreen(),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         );

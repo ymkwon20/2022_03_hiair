@@ -3,35 +3,31 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
-import 'package:frontend/src/workorder/application/load/work_order_state.dart';
-import 'package:frontend/src/workorder/application/save/work_order_save_state.dart';
-import 'package:go_router/go_router.dart';
+import 'package:frontend/src/workorder/application/work_order/load/work_order_event.dart';
+import 'package:frontend/src/workorder/application/work_order/load/work_order_state.dart';
+import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
+import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/routes/app_route_observer.dart';
-import 'package:frontend/src/workorder/application/load/work_order_event.dart';
-import 'package:frontend/src/workorder/application/save/work_order_save_event.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 import 'package:frontend/src/workorder/domain/entities/work_order_status.dart';
-import 'package:frontend/src/workorder/presentation/screens/custom_table.dart';
-import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_failure_row.dart';
+import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
+import 'package:frontend/src/core/presentation/pages/table_failure_row.dart';
 import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_loaded_row.dart';
-import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_loading_row.dart';
+import 'package:frontend/src/core/presentation/widgets/table_loading_row.dart';
 import 'package:frontend/src/workorder/presentation/screens/work_order_popup.dart';
-import 'package:frontend/src/workorder/presentation/viewmodels/qm_work_order_notifier.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 
 /// 검사 1화면: QM 검사 항목 리스트 제시
 class WorkOrderScreen extends ConsumerStatefulWidget {
   const WorkOrderScreen({
     Key? key,
-    this.isQm = false,
     this.canSaveBothStartAndEnd = false,
   }) : super(key: key);
 
-  final bool isQm;
   final bool canSaveBothStartAndEnd;
 
   @override
@@ -84,40 +80,33 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
   }
 
   void _onTap(int index) {
-    if (widget.isQm) {
-      ref
-          .read(qmWorkOrderNotifierProvider.notifier)
-          .setWorkOrder(ref.watch(workOrderListNotifier).items[index]);
-      context.push("/qm/$index");
+    if (ref.watch(workOrderListNotifier).isMultiSelectMode) {
+      ref.read(workOrderListNotifier).toggleSelectState(index);
     } else {
-      if (ref.watch(workOrderListNotifier).isMultiSelectMode) {
-        ref.read(workOrderListNotifier).toggleSelectState(index);
-      } else {
-        // _openDrawer(index);
+      // _openDrawer(index);
 
-        Navigator.of(context).push(
-          CustomSlideRoute(
-            backgroundColor: Colors.black.withOpacity(.2),
-            builder: (context) => ProviderScope(
-              overrides: [
-                workOrderIndexNotifier.overrideWithValue(index),
-                workOrderNotifier.overrideWithValue(
-                    ref.watch(workOrderListNotifier).items[index]),
-              ],
-              child: WorkOrderPopup(
-                canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
-              ),
+      Navigator.of(context).push(
+        CustomSlideRoute(
+          backgroundColor: Colors.black.withOpacity(.2),
+          builder: (context) => ProviderScope(
+            overrides: [
+              workOrderIndexNotifier.overrideWithValue(index),
+              workOrderNotifier.overrideWithValue(
+                  ref.watch(workOrderListNotifier).items[index]),
+            ],
+            child: WorkOrderPopup(
+              canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
             ),
           ),
-        );
-      }
+        ),
+      );
     }
   }
 
   void _navigateTo(String filterKey) {
     ref.watch(workOrderStateNotifierProvider).maybeWhen(
           loaded: (_, __) {
-            ref.read(workOrderColumnNotifier.notifier).state = filterKey;
+            ref.read(tableColumnNotifier.notifier).state = filterKey;
             Navigator.of(context).push(
               CustomScaleRoute(
                 backgroundColor: Colors.black.withOpacity(.2),
@@ -273,9 +262,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
               onRowLongPressed: (index) {
                 state.maybeWhen(
                   loaded: (_, __) {
-                    if (!widget.isQm) {
-                      ref.read(workOrderListNotifier).toggleSelectState(index);
-                    }
+                    ref.read(workOrderListNotifier).toggleSelectState(index);
                   },
                   orElse: () {},
                 );
@@ -375,7 +362,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
               rowBuilder: (context, index) {
                 return state.when(
                   initial: (_) {
-                    return WorkOrderLoadingRow();
+                    return TableLoadingRow();
                   },
                   loading: (results, page) {
                     if (index < results.length) {
@@ -384,7 +371,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                         color: _getColor(index),
                       );
                     } else {
-                      return WorkOrderLoadingRow();
+                      return TableLoadingRow();
                     }
                   },
                   loaded: (_, __) {
@@ -398,7 +385,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                       return WorkOrderLoadedRow(
                           order: orderListNotifier.filteredItems[index]);
                     } else {
-                      return WorkOrderFailureRow(message: message);
+                      return TableFailureRow(message: message);
                     }
                   },
                 );

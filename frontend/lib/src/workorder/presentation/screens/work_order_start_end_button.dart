@@ -28,10 +28,11 @@ class WorkOrderStartEndButtons extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<WorkOrderStartEndButtons> createState() =>
-      _QmStartEndButtonsState();
+      _WorkerStartEndButtonsState();
 }
 
-class _QmStartEndButtonsState extends ConsumerState<WorkOrderStartEndButtons>
+class _WorkerStartEndButtonsState
+    extends ConsumerState<WorkOrderStartEndButtons>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 

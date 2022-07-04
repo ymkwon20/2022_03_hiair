@@ -41,11 +41,13 @@ class ImageRepository implements IImageRepository {
       switch (source) {
         case ImageSource.gallery:
           final results = await _local.pickMultiImages();
-          return right(results ?? []);
+          return right(results);
         case ImageSource.camera:
           final results = await _local.takeOnePicture();
-          return right(results == null ? [] : [results]);
+          return right([results]);
       }
+    } on NotSelectedException {
+      return right([]);
     } on UnsupportedPlatformException {
       return left(const Failure.internal("지원하지 않는 플랫폼"));
     }

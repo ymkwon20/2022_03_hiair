@@ -22,11 +22,13 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
       fetchChecklist: (order, code) async {
         state = const ChecklistState.loading();
 
+        //! 관리자 요청으로 hard-coded parameter(wb-cd, wc-cd) 넘김
+
         final params = {
           "plan-seq": order.planSeq,
           "wo-nb": order.code,
-          "wb-cd": order.wbCd,
-          "wc-cd": order.wcCd,
+          "wb-cd": "QML",
+          "wc-cd": "999",
           "page-cd": code,
         };
 
@@ -61,8 +63,8 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
         final params = {
           "plan-seq": order.planSeq,
           "wo-nb": order.code,
-          "wb-cd": order.wbCd,
-          "wc-cd": order.wcCd,
+          "wb-cd": "QML",
+          "wc-cd": "999",
         };
 
         final failureOrResults = await _fetchCheckimagelist(params);

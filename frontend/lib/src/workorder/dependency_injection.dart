@@ -2,12 +2,18 @@ import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.da
 import 'package:frontend/src/checklist/dependency_injection.dart';
 import 'package:frontend/src/core/dependency_injection.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
-import 'package:frontend/src/workorder/application/load/work_order_state.dart';
-import 'package:frontend/src/workorder/application/load/work_order_state_notifier.dart';
-import 'package:frontend/src/workorder/application/save/work_order_save_state.dart';
-import 'package:frontend/src/workorder/application/save/work_order_save_state_notifier.dart';
+import 'package:frontend/src/workorder/application/qm_work_order/load/qm_work_order_state.dart';
+import 'package:frontend/src/workorder/application/qm_work_order/load/qm_work_order_state_notifier.dart';
+import 'package:frontend/src/workorder/application/qm_work_order/save/qm_work_order_save_state.dart';
+import 'package:frontend/src/workorder/application/qm_work_order/save/qm_work_order_save_state_notifier.dart';
+import 'package:frontend/src/workorder/application/work_order/load/work_order_state.dart';
+import 'package:frontend/src/workorder/application/work_order/load/work_order_state_notifier.dart';
+import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
+import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state_notifier.dart';
 import 'package:frontend/src/workorder/domain/repositories/i_work_order_repository.dart';
+import 'package:frontend/src/workorder/domain/usecases/fetch_qm_work_order_list.dart';
 import 'package:frontend/src/workorder/domain/usecases/fetch_work_order_list.dart';
+import 'package:frontend/src/workorder/domain/usecases/save_qm_work_order.dart';
 import 'package:frontend/src/workorder/domain/usecases/save_work_order.dart';
 import 'package:frontend/src/workorder/domain/usecases/save_work_order_list.dart';
 import 'package:frontend/src/workorder/infrastructure/datasources/remote/work_order_remote_service.dart';
@@ -20,7 +26,14 @@ final workOrderStateNotifierProvider =
     StateNotifierProvider<WorkOrderStateNotifier, WorkOrderState>(
   (ref) => WorkOrderStateNotifier(
     workbase: ref.watch(workBaseChangeNotifierProvider),
-    fetchQmItems: ref.watch(fetchWorkOrderListProvider),
+    fetchItems: ref.watch(fetchWorkOrderListProvider),
+  ),
+);
+
+final qmWorkOrderStateNotifierProvider =
+    StateNotifierProvider<QmWorkOrderStateNotifier, QmWorkOrderState>(
+  (ref) => QmWorkOrderStateNotifier(
+    fetchQmItems: ref.watch(fetchQmWorkOrderListProvider),
   ),
 );
 
@@ -34,10 +47,23 @@ final workOrderSaveStateNotifierProvider =
   ),
 );
 
+final qmWorkOrderSaveStateNotifierProvider =
+    StateNotifierProvider<QmWorkOrderSaveStateNotifier, QmWorkOrderSaveState>(
+  (ref) => QmWorkOrderSaveStateNotifier(
+    saveQmWorkOrder: ref.watch(saveQmWorkOrderProvider),
+    authNotifier: ref.watch(authChangeNotifierProvider),
+  ),
+);
+
 //! usecase
 final fetchWorkOrderListProvider = Provider(
   (ref) =>
       FetchWorkOrderList(repository: ref.watch(workOrderRepositoryProvider)),
+);
+
+final fetchQmWorkOrderListProvider = Provider(
+  (ref) =>
+      FetchQmWorkOrderList(repository: ref.watch(workOrderRepositoryProvider)),
 );
 
 final saveWorkOrderProvider = Provider(
@@ -47,6 +73,10 @@ final saveWorkOrderProvider = Provider(
 final saveWorkOrderListProvider = Provider(
   (ref) =>
       SaveWorkOrderList(repository: ref.watch(workOrderRepositoryProvider)),
+);
+
+final saveQmWorkOrderProvider = Provider(
+  (ref) => SaveQmWorkOrder(repository: ref.watch(workOrderRepositoryProvider)),
 );
 
 //! repository
