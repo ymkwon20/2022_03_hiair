@@ -31,7 +31,7 @@ pipeline {
                     sh 'go build main.go'
 
                     sh(script:"""
-                    $NPM/pm2 kill
+                    $NPM/pm2.ps kill
                     """)
 
 
@@ -39,11 +39,13 @@ pipeline {
                         fileCopyOperation(includes: "${GO_BUILD_FILE_NAME}", targetLocation: "${BACKEND_HOME}"),
                     ])
 
-                    sh(script:"""
-                    $NPM/pm2 start $BACKEND_HOME/$GO_BUILD_FILE_NAME --watch -n backend
-                    """)
 
                 }
+
+                sh(script:"""
+                    $NPM/pm2.ps start $BACKEND_HOME/$GO_BUILD_FILE_NAME --watch -n backend
+                """)
+
                 echo '----End backend----'
             }
         }
