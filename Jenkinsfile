@@ -68,6 +68,7 @@ pipeline {
     post {
         // Clean after build
         always {
+            echo '----Clean Workspace----'
             cleanWs(cleanWhenNotBuilt: false,
                     deleteDirs: true,
                     disableDeferredWipeout: true,
