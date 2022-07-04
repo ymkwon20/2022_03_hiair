@@ -30,12 +30,18 @@ pipeline {
                 dir('backend') {
                     sh 'go build main.go'
 
+                    sh(script:"""
+                    $NPM/pm2 kill
+                    """)
 
 
                     fileOperations([
                         fileCopyOperation(includes: "${GO_BUILD_FILE_NAME}", targetLocation: "${BACKEND_HOME}"),
                     ])
 
+                    sh(script:"""
+                    $NPM/pm2 start $BACKEND_HOME/$GO_BUILD_FILE_NAME --watch -n backend
+                    """)
 
                 }
                 echo '----End backend----'
