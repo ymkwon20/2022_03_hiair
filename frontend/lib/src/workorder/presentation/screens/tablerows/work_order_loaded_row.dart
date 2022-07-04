@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/workorder/domain/entities/work_order.dart';
-import 'package:frontend/src/workorder/presentation/screens/custom_table.dart';
+import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
 
 class WorkOrderLoadedRow extends CustomTableRow {
   WorkOrderLoadedRow({

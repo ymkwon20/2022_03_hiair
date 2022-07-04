@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:frontend/src/auth/application/auth_event.dart';
 import 'package:frontend/src/auth/dependency_injection.dart';
@@ -10,7 +11,6 @@ import 'package:frontend/src/core/presentation/widgets/no_glow_behavior.dart';
 import 'package:frontend/src/image/domain/entities/image_source.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// 팝업 dialo
 class Dialog extends StatelessWidget {
@@ -620,6 +620,197 @@ class VersionDialog extends StatelessWidget {
               ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class RemarkDialog extends StatefulWidget {
+  const RemarkDialog({
+    Key? key,
+    required this.remark,
+  }) : super(key: key);
+
+  final String remark;
+
+  @override
+  State<RemarkDialog> createState() => _RemarkDialogState();
+}
+
+class _RemarkDialogState extends State<RemarkDialog> {
+  late TextEditingController _textController;
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _textController = TextEditingController(
+      text: widget.remark,
+    );
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      width: MediaQuery.of(context).size.width * 2 / 3,
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: LayoutConstant.paddingM),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(LayoutConstant.radiusM),
+                ),
+              ),
+              alignment: Alignment.center,
+              child: const Text(
+                "비고 입력",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height / 3,
+              padding: const EdgeInsets.only(
+                top: LayoutConstant.paddingL,
+                left: LayoutConstant.paddingL,
+                right: LayoutConstant.paddingL,
+              ),
+              child: TextField(
+                controller: _textController,
+                focusNode: _focusNode,
+                autofocus: true,
+                keyboardType: TextInputType.multiline,
+                textInputAction: TextInputAction.done,
+                maxLines: 5,
+                decoration: InputDecoration(
+                  isDense: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(LayoutConstant.radiusS),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).dividerColor,
+                      width: LayoutConstant.spaceXS,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      LayoutConstant.radiusS,
+                    ),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).dividerColor,
+                      width: LayoutConstant.spaceXS,
+                    ),
+                  ),
+                ),
+                onEditingComplete: () {
+                  Navigator.of(context).pop(_textController.text);
+                },
+              ),
+            ),
+            const SizedBox(height: LayoutConstant.spaceL),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.all(LayoutConstant.paddingL),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(_textController.text);
+                  },
+                  child: const Text("완료"),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CheckAlterResultDialog extends ConsumerWidget {
+  const CheckAlterResultDialog({Key? key}) : super(key: key);
+
+  static final _items = [
+    "●",
+    "▲",
+    "X",
+  ];
+
+  void _onTap(BuildContext context, String name) {
+    Navigator.of(context).pop(name);
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Dialog(
+      width: MediaQuery.of(context).size.width / 3,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding:
+                const EdgeInsets.symmetric(vertical: LayoutConstant.paddingM),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(LayoutConstant.radiusM),
+              ),
+            ),
+            alignment: Alignment.center,
+            child: const Text(
+              "점검 결과",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: LayoutConstant.paddingS,
+                vertical: LayoutConstant.paddingL),
+            child: Row(
+              children: _items
+                  .map((item) => Expanded(
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () => _onTap(context, item),
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: double.infinity,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                fontSize: 22,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.color,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ),
+          const SizedBox(height: LayoutConstant.spaceM),
         ],
       ),
     );

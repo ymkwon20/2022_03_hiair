@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/core/domain/entities/table_cell.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/workorder/domain/entities/work_order.dart';
@@ -16,40 +17,42 @@ final workOrderIndexNotifier = Provider<int>(
   (ref) => throw UnimplementedError(),
 );
 
-final workOrderColumnNotifier = StateProvider<String>(
+final tableColumnNotifier = StateProvider<String>(
   (_) => "",
 );
 
 final columnFilterProvider =
-    StateProvider.autoDispose<List<WorkOrderFilterItem>>((ref) {
-  final workOrders = ref.watch(workOrderListNotifier).items;
-  final column = ref.watch(workOrderColumnNotifier);
+    StateProvider.autoDispose<List<TableHeaderFilterItem>>((ref) {
+  final List<TableCellEntity> tableCells =
+      ref.watch(workOrderListNotifier).items;
+  final column = ref.watch(tableColumnNotifier);
   final filterMap = ref.watch(workOrderListNotifier).filterMap[column];
 
-  final itemList = workOrders
+  final itemList = tableCells
       .map((e) => e.getProp(column) ?? "")
       .where((element) => element != "")
       .toSet();
 
-  return itemList.map<WorkOrderFilterItem>((original) {
+  return itemList.map<TableHeaderFilterItem>((original) {
     if (filterMap == null) {
-      return WorkOrderFilterItem(isSelected: false, name: original);
+      return TableHeaderFilterItem(isSelected: false, name: original);
     }
 
     for (final filter in filterMap) {
       if (original == filter) {
-        return WorkOrderFilterItem(isSelected: true, name: original);
+        return TableHeaderFilterItem(isSelected: true, name: original);
       }
     }
-    return WorkOrderFilterItem(isSelected: false, name: original);
+
+    return TableHeaderFilterItem(isSelected: false, name: original);
   }).toList();
 });
 
-class WorkOrderFilterItem {
+class TableHeaderFilterItem {
   final bool isSelected;
   final String name;
 
-  const WorkOrderFilterItem({
+  const TableHeaderFilterItem({
     required this.isSelected,
     required this.name,
   });

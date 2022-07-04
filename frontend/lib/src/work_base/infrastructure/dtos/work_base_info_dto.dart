@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:frontend/src/work_base/domain/entities/work_base_flag.dart';
 import 'package:frontend/src/work_base/domain/entities/work_base_info.dart';
 
 class WorkBaseInfoDto {
@@ -8,14 +7,12 @@ class WorkBaseInfoDto {
   final String wbName;
   final String wcCode;
   final String wcName;
-  final WorkBaseFlag flag;
 
   const WorkBaseInfoDto({
     required this.wbCode,
     required this.wbName,
     required this.wcCode,
     required this.wcName,
-    required this.flag,
   });
 
   factory WorkBaseInfoDto.fromDomain(WorkBaseInfo domain) {
@@ -24,7 +21,6 @@ class WorkBaseInfoDto {
       wbName: domain.wbName,
       wcCode: domain.wcCode,
       wcName: domain.wcName,
-      flag: domain.flag,
     );
   }
 
@@ -34,7 +30,6 @@ class WorkBaseInfoDto {
       wbName: wbName,
       wcCode: wcCode,
       wcName: wcName,
-      flag: flag,
     );
   }
 
@@ -46,8 +41,7 @@ class WorkBaseInfoDto {
         other.wbCode == wbCode &&
         other.wbName == wbName &&
         other.wcCode == wcCode &&
-        other.wcName == wcName &&
-        other.flag == flag;
+        other.wcName == wcName;
   }
 
   @override
@@ -55,8 +49,7 @@ class WorkBaseInfoDto {
     return wbCode.hashCode ^
         wbName.hashCode ^
         wcCode.hashCode ^
-        wcName.hashCode ^
-        flag.hashCode;
+        wcName.hashCode;
   }
 
   WorkBaseInfoDto copyWith({
@@ -64,14 +57,12 @@ class WorkBaseInfoDto {
     String? wbName,
     String? wcCode,
     String? wcName,
-    WorkBaseFlag? flag,
   }) {
     return WorkBaseInfoDto(
       wbCode: wbCode ?? this.wbCode,
       wbName: wbName ?? this.wbName,
       wcCode: wcCode ?? this.wcCode,
       wcName: wcName ?? this.wcName,
-      flag: flag ?? this.flag,
     );
   }
 
@@ -85,21 +76,11 @@ class WorkBaseInfoDto {
   }
 
   factory WorkBaseInfoDto.fromMap(Map<String, dynamic> map) {
-    WorkBaseFlag flag;
-
-    /// FNP: 품질 코드
-    if (map['WB_CD'] == "FNP") {
-      flag = WorkBaseFlag.quality;
-    } else {
-      flag = WorkBaseFlag.none;
-    }
-
     return WorkBaseInfoDto(
       wbCode: map['WB_CD'] ?? '',
       wbName: map['WB_NM'] ?? '',
       wcCode: map['WC_CD'] ?? '',
       wcName: map['WC_NM'] ?? '',
-      flag: flag,
     );
   }
 

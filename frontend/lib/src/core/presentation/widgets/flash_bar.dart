@@ -27,13 +27,19 @@ void showFlashBar(
               children: [
                 Text(
                   title,
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, color: textColor),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                    fontSize: 22,
+                  ),
                 ),
                 const SizedBox(width: LayoutConstant.spaceM),
                 Text(
                   content,
-                  style: TextStyle(color: textColor),
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: 22,
+                  ),
                 ),
               ],
             ),

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
+import 'package:frontend/src/workorder/domain/entities/qm_work_order_list.dart';
 import 'package:frontend/src/workorder/domain/entities/work_order_list.dart';
 import 'package:frontend/src/workorder/domain/repositories/i_work_order_repository.dart';
 import 'package:frontend/src/workorder/infrastructure/datasources/work_order_service.dart';
@@ -47,6 +48,35 @@ class WorkOrderRepository implements IWorkOrderRepository {
       List<Map<String, dynamic>> params) async {
     try {
       await _remoteService.saveWorkOrderList(params);
+      return right(unit);
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, QmWorkOrderList>> fetchQmWorkOrderList() async {
+    try {
+      final remoteFetch = await _remoteService.fetchQmWorkOrder();
+      return right(remoteFetch.toDomain());
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> saveQmWorkOrder(
+      Map<String, dynamic> params) async {
+    try {
+      await _remoteService.saveQmWorkOrder(params);
       return right(unit);
     } on NoConnectionException catch (e) {
       return left(Failure.noConnection(e.message));

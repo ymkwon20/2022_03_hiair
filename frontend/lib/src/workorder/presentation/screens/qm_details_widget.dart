@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/widgets/index.dart';
-import 'package:frontend/src/workorder/presentation/viewmodels/qm_work_order_notifier.dart';
+import 'package:frontend/src/workorder/presentation/screens/qm_work_order_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QmDetailsWidget extends ConsumerWidget {
@@ -11,7 +11,7 @@ class QmDetailsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final workOrder = ref.watch(qmWorkOrderNotifierProvider).order!;
+    final workOrder = ref.watch(currentQmWorkOrder);
 
     return Container(
       decoration: BoxDecoration(
@@ -58,7 +58,7 @@ class QmDetailsWidget extends ConsumerWidget {
           const SizedBox(height: LayoutConstant.spaceM),
           _ItemRow(title: "작업지시", value: workOrder.code),
           const UnderlineWidget(),
-          _ItemRow(title: "PND", value: workOrder.datePlanned),
+          _ItemRow(title: "검사완료일", value: workOrder.date),
           const UnderlineWidget(),
           _ItemRow(title: "Yard", value: workOrder.yard),
           const UnderlineWidget(),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/cutting/presentation/cutting_screen.dart';
-import 'package:frontend/src/work_base/domain/entities/work_base_flag.dart';
 import 'package:frontend/src/work_base/domain/entities/work_base_info.dart';
 import 'package:frontend/src/workorder/presentation/screens/work_order_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -35,14 +34,6 @@ class WorkBaseChangeNotifier extends ChangeNotifier {
     if (_selectedWorkBaseInfo!.wbCode == "FCT") {
       /// cutting 공정
       page = const CuttingScreen();
-      notifyListeners();
-    } else if (_selectedWorkBaseInfo!.flag == WorkBaseFlag.quality) {
-      /// qm 공정
-      page = WorkOrderScreen(
-        key: ValueKey<String>(
-            "${_selectedWorkBaseInfo!.wbCode}-${DateTime.now().millisecond}"),
-        isQm: true,
-      );
       notifyListeners();
     } else if (_selectedWorkBaseInfo!.wbCode == "FRL" ||
         _selectedWorkBaseInfo!.wbCode == "FFL" ||

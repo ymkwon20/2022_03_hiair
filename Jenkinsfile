@@ -9,8 +9,21 @@ pipeline {
         BUILD_FILE_NAME = "app-release.apk"
         DB_ADR = "172.16.30.105"
     }
+    options {
+        // This is required if you want to clean before build
+        skipDefaultCheckout(true)
+    }
     
     stages {
+        stage('Cleanup'){
+            steps {
+                echo '----Clean up workspaces'
+                // Clean before build
+                cleanWs()
+                // We need to explicitly checkout from SCM here
+                checkout scm
+            }
+        }
         stage('Backend'){
             steps {
                 echo '----Start backend compiling----'
@@ -48,6 +61,17 @@ pipeline {
                     echo '----End frontend----'
 
                 }
+            }
+        }
+        post {
+            // Clean after build
+            always {
+                cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                               [pattern: '.propsfile', type: 'EXCLUDE']])
             }
         }
     }

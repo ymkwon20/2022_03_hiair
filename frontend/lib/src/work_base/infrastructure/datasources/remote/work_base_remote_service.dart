@@ -20,6 +20,7 @@ class WorkBaseRemoteService implements WorkBaseService {
     try {
       final response = await _dio.get(
         "/wb",
+        queryParameters: params,
       );
 
       if (response.data == null) {

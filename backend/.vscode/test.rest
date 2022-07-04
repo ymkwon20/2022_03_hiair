@@ -16,13 +16,13 @@ POST http://192.168.0.117:9090/sign-in HTTP/1.1
 Content-Type: application/json
 
 {
-    "id":"SYSTEM"
+    "id":"test1"
 }
 
 ###
 GET http://192.168.0.117:9090/order?page=1&code=FP2 HTTP/1.1
 ###
-POST http://192.168.35.242:9090/sign-in HTTP/1.1
+POST http://192.168.0.117:9090/sign-in HTTP/1.1
 Content-Type: application/json
 
 {
@@ -30,10 +30,10 @@ Content-Type: application/json
 }
 
 ###
-GET http://192.168.35.242:9090/wb HTTP/1.1
+GET http://192.168.0.117:9090/wb HTTP/1.1
 Content-Type: application/json
 
-
+###k
 GET http://192.168.0.117:9090/qm?wb-cd=FWP&page=1 HTTP/1.1
 Content-Type: application/json
 
@@ -93,13 +93,17 @@ GET http://172.16.30.105:9090/wb HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://192.168.0.117:9090/order?page=14&wb-cd=FRL&wc-cd=23 HTTP/1.1
+GET http://192.168.0.117:9090/order?page=1&wb-cd=FRL&wc-cd=23 HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://192.168.0.117:9090/equip?type=E HTTP/1.1
+GET http://192.168.0.117:9090/safety?code=E HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://192.168.0.117:9090/equip/2101-FCY-001?type=E&date=2022-06-23 HTTP/1.1
+GET http://192.168.0.117:9090/safety/2101-FCY-001?type=E&date=2022-06-28 HTTP/1.1
+Content-Type: application/json
+
+###
+GET http://192.168.0.117:9090/qm?page=1&wb-cd=FCT&wc-cd=258 HTTP/1.1
 Content-Type: application/json

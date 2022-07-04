@@ -9,8 +9,6 @@ import 'package:frontend/src/core/presentation/routes/app_router.dart';
 import 'package:frontend/src/settings/settings_scope.dart';
 import 'package:frontend/src/version/application/version_event.dart';
 import 'package:frontend/src/version/infrastructure/dependency_injection.dart';
-import 'package:frontend/src/work_base/application/work_base_event.dart';
-import 'package:frontend/src/work_base/dependency_injection.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/core/presentation/app_theme.dart';
@@ -53,10 +51,6 @@ class _MyAppState extends ConsumerState<AppWidget> {
           },
           authenticated: (user) {
             ref.read(authChangeNotifierProvider).setUser(user);
-
-            ref
-                .read(workBaseStateNotifierProvider.notifier)
-                .mapEventToState(const WorkBaseEvent.fetchWorkBases());
           },
           orElse: () {},
         );

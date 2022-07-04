@@ -16,10 +16,13 @@ class ImagePickerLocalService extends IImageLocalService {
   }) : _picker = picker;
 
   @override
-  Future<String?> takeOnePicture() async {
+  Future<String> takeOnePicture() async {
     if (defaultTargetPlatform == TargetPlatform.iOS ||
         defaultTargetPlatform == TargetPlatform.android) {
       final photo = await _picker.pickImage(source: ImageSource.camera);
+      if (photo == null) {
+        throw NotSelectedException();
+      }
       return _toNewNamePath(photo);
     } else {
       throw UnsupportedPlatformException();
@@ -27,10 +30,13 @@ class ImagePickerLocalService extends IImageLocalService {
   }
 
   @override
-  Future<String?> pickImage() async {
+  Future<String> pickImage() async {
     if (defaultTargetPlatform == TargetPlatform.iOS ||
         defaultTargetPlatform == TargetPlatform.android) {
       final image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image == null) {
+        throw NotSelectedException();
+      }
       return _toNewNamePath(image);
     } else {
       throw UnsupportedPlatformException();
@@ -38,20 +44,25 @@ class ImagePickerLocalService extends IImageLocalService {
   }
 
   @override
-  Future<List<String>?> pickMultiImages() async {
+  Future<List<String>> pickMultiImages() async {
     if (defaultTargetPlatform == TargetPlatform.iOS ||
         defaultTargetPlatform == TargetPlatform.android) {
       final images = await _picker.pickMultiImage();
-      return images?.map((image) => image.path).toList();
+
+      if (images == null) {
+        return [];
+      }
+
+      return images.map((image) => _toNewNamePath(image)).toList();
     } else {
       throw UnsupportedPlatformException();
     }
   }
 
   /// 파일이름을 현재 시간으로 바꿈
-  String? _toNewNamePath(XFile? file) {
+  String _toNewNamePath(XFile? file) {
     if (file == null) {
-      return null;
+      return "";
     } else {
       final fileDir = path.dirname(file.path);
       final newPath = path.join(fileDir,
