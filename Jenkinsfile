@@ -6,7 +6,8 @@ pipeline {
     environment {
         GO111MODULE = 'on'
         MSSQL_CREDS = credentials('sql-server-credentials')
-        BUILD_FILE_NAME = "app-release.apk"
+        FLUTTER_BUILD_FILE_NAME = "app-release.apk"
+        GO_BUILD_FILE_NAME = "main.exe"
         DB_ADR = "172.16.30.105"
     }
     options {
@@ -28,6 +29,11 @@ pipeline {
                 echo '----Start backend compiling----'
                 dir('backend') {
                     sh 'go build main.go'
+
+
+                    fileOperations([
+                        fileCopyOperation(includes: "${GO_BUILD_FILE_NAME}", targetLocation: "${BACKEND_HOME}"),
+                    ])
                 }
                 echo '----End backend----'
             }
@@ -47,14 +53,14 @@ pipeline {
                     dir('frontend/build/app/outputs/flutter-apk/') {
                         fileOperations([
                             folderCreateOperation("${APK_HOME}/${TAG_NAME}"),
-                            fileCopyOperation(includes: "${BUILD_FILE_NAME}", targetLocation: "${APK_HOME}/${TAG_NAME}"),
+                            fileCopyOperation(includes: "${FLUTTER_BUILD_FILE_NAME}", targetLocation: "${APK_HOME}/${TAG_NAME}"),
                         ])
                     }
                     
                     echo '----Update the version info in Database----'
                     sh(script:"""
                         sqlcmd -U $MSSQL_CREDS_USR -P $MSSQL_CREDS_PSW -S ${DB_ADR} \
-                        -q "EXEC FAN.dbo.SP_TABLET_APK_01_SELECT '${TAG_NAME}','${BUILD_FILE_NAME}','${APK_HOME}/${TAG_NAME}/${BUILD_FILE_NAME}';"
+                        -q "EXEC FAN.dbo.SP_TABLET_APK_01_SELECT '${TAG_NAME}','${FLUTTER_BUILD_FILE_NAME}','${APK_HOME}/${TAG_NAME}/${FLUTTER_BUILD_FILE_NAME}';"
                     """)
                     
                     echo '----End frontend----'
