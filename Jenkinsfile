@@ -10,8 +10,7 @@ pipeline {
         DB_ADR = "172.16.30.105"
     }
     options {
-        // This is required if you want to clean before build
-        skipDefaultCheckout(true)
+        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')
     }
     
     stages {
