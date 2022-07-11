@@ -24,6 +24,7 @@ pipeline {
         stage('Backend'){
             steps {
                 echo '----Start backend compiling----'
+
                 dir('backend') {
                     sh 'go build main.go'
 
@@ -34,8 +35,6 @@ pipeline {
                     fileOperations([
                         fileCopyOperation(includes: "${GO_BUILD_FILE_NAME}", targetLocation: "${BACKEND_HOME}"),
                     ])
-
-
                 }
 
                 dir("""$BACKEND_HOME"""){
