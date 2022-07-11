@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/application/save/checklist_save_event.dart';
-import 'package:frontend/src/checklist/application/save/checklist_save_state.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
 import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_widget.dart';
@@ -20,31 +19,6 @@ class _ChecklistPopupState extends ConsumerState<ChecklistPopup> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<ChecklistSaveState>(checklistSaveStateNotifierProvider,
-        ((previous, current) {
-      current.maybeWhen(
-        saved: () {
-          // ref.read(checklistNotifierProvider.notifier).clear();
-          Navigator.pop(context);
-          showFlashBar(
-            context,
-            title: "저장 완료",
-            content: "",
-            backgroundColor: Theme.of(context).primaryColorLight,
-          );
-        },
-        failure: (message) {
-          showFlashBar(
-            context,
-            title: "저장 오류",
-            content: message,
-            backgroundColor: Theme.of(context).errorColor,
-          );
-        },
-        orElse: () {},
-      );
-    }));
-
     return Material(
       color: Colors.transparent,
       child: Stack(

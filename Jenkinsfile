@@ -17,41 +17,41 @@ pipeline {
     stages {
         stage('Cleanup'){
             steps {
-                echo '----Clean up workspaces'
+                echo '----Clean up workspaces----'
                 // Clean before build
                 cleanWs()
                 // We need to explicitly checkout from SCM here
                 checkout scm
             }
         }
-        stage('Backend'){
-            steps {
-                echo '----Start backend compiling----'
-                dir('backend') {
-                    sh 'go build main.go'
+        // stage('Backend'){
+        //     steps {
+        //         echo '----Start backend compiling----'
+        //         dir('backend') {
+        //             sh 'go build main.go'
 
-                    sh(script:"""
-                    $NPM/pm2 kill
-                    """)
-
-
-                    fileOperations([
-                        fileCopyOperation(includes: "${GO_BUILD_FILE_NAME}", targetLocation: "${BACKEND_HOME}"),
-                    ])
+        //             sh(script:"""
+        //             $NPM/pm2 kill
+        //             """)
 
 
-                }
+        //             fileOperations([
+        //                 fileCopyOperation(includes: "${GO_BUILD_FILE_NAME}", targetLocation: "${BACKEND_HOME}"),
+        //             ])
 
-                dir("""$BACKEND_HOME"""){
-                    sh(script:"""
-                        JENKINS_NODE_COOKIE=dontKillMe $NPM/pm2 start $GO_BUILD_FILE_NAME --watch -n backend
-                        JENKINS_NODE_COOKIE=dontKillMe $NPM/pm2 save
-                    """)
-                }
 
-                echo '----End backend----'
-            }
-        }
+        //         }
+
+        //         dir("""$BACKEND_HOME"""){
+        //             sh(script:"""
+        //                 JENKINS_NODE_COOKIE=dontKillMe $NPM/pm2 start $GO_BUILD_FILE_NAME --watch -n backend
+        //                 JENKINS_NODE_COOKIE=dontKillMe $NPM/pm2 save
+        //             """)
+        //         }
+
+        //         echo '----End backend----'
+        //     }
+        // }
 	    stage('Frontend'){
             steps {
                 script {

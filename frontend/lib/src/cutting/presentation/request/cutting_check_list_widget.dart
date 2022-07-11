@@ -43,6 +43,9 @@ class _CuttingCheckWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    const headerStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
+    const bodyStyle = TextStyle(fontSize: 18);
+
     final items = ref.watch(cuttingChecksProvider);
 
     return ScrollConfiguration(
@@ -57,20 +60,76 @@ class _CuttingCheckWidget extends ConsumerWidget {
         child: DataTable(
           showCheckboxColumn: false,
           columns: const [
-            DataColumn(label: Text('WorkOrder')),
-            DataColumn(label: Text('Yard')),
-            DataColumn(label: Text('Hull\nNo')),
-            DataColumn(label: Text('SysNo')),
-            DataColumn(label: Text('Spec')),
-            DataColumn(label: Text('Size')),
-            DataColumn(label: Text('수량')),
-            DataColumn(label: Text('PND')),
-            DataColumn(label: Text('두께')),
-            DataColumn(label: Text('가로')),
-            DataColumn(label: Text('세로')),
-            DataColumn(label: Text('DOOR\n길이')),
-            DataColumn(label: Text('홀(상/하)')),
-            DataColumn(label: Text('특이사항')),
+            DataColumn(
+                label: Text(
+              'WorkOrder',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              'Yard',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              'Hull\nNo',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              'SysNo',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              'Spec',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              'Size',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              '수량',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              'PND',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              '두께',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              '가로',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              '세로',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              'DOOR\n길이',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              '홀(상/하)',
+              style: headerStyle,
+            )),
+            DataColumn(
+                label: Text(
+              '특이사항',
+              style: headerStyle,
+            )),
           ],
           rows: List.generate(
             items.length,
@@ -103,20 +162,62 @@ class _CuttingCheckWidget extends ConsumerWidget {
               },
               onLongPress: () {},
               cells: [
-                DataCell(Text(items[index].workOrder)),
-                DataCell(Text(items[index].yard)),
-                DataCell(Text(items[index].hullNo)),
-                DataCell(Text(items[index].sysNo)),
-                DataCell(Text(items[index].spec)),
-                DataCell(Text(items[index].size)),
-                DataCell(Text("${items[index].qty}")),
-                DataCell(Text(items[index].datePlanned)),
-                DataCell(Text("${items[index].thickness}")),
-                DataCell(Text("${items[index].width}")),
-                DataCell(Text("${items[index].height}")),
-                DataCell(Text("${items[index].doorLength}")),
-                DataCell(Text(items[index].hullDiameter)),
-                const DataCell(Text("")),
+                DataCell(Text(
+                  items[index].workOrder,
+                  style: bodyStyle,
+                )),
+                DataCell(Text(
+                  items[index].yard,
+                  style: bodyStyle,
+                )),
+                DataCell(Text(
+                  items[index].hullNo,
+                  style: bodyStyle,
+                )),
+                DataCell(Text(
+                  items[index].sysNo,
+                  style: bodyStyle,
+                )),
+                DataCell(Text(
+                  items[index].spec,
+                  style: bodyStyle,
+                )),
+                DataCell(Text(
+                  items[index].size,
+                  style: bodyStyle,
+                )),
+                DataCell(Text(
+                  "${items[index].qty}",
+                  style: bodyStyle,
+                )),
+                DataCell(Text(
+                  items[index].datePlanned,
+                  style: bodyStyle,
+                )),
+                DataCell(Text(
+                  "${items[index].thickness}",
+                  style: bodyStyle,
+                )),
+                DataCell(Text(
+                  "${items[index].width}",
+                  style: bodyStyle,
+                )),
+                DataCell(Text(
+                  "${items[index].height}",
+                  style: bodyStyle,
+                )),
+                DataCell(Text(
+                  "${items[index].doorLength}",
+                  style: bodyStyle,
+                )),
+                DataCell(Text(
+                  items[index].hullDiameter,
+                  style: bodyStyle,
+                )),
+                const DataCell(Text(
+                  "",
+                  style: bodyStyle,
+                )),
               ],
             ),
           ),

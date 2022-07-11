@@ -21,9 +21,7 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
   final formKey = GlobalKey<FormState>();
 
   late TextEditingController _idController;
-  late TextEditingController _pwController;
   late FocusNode _idFocus;
-  late FocusNode _pwFocus;
   late FocusScopeNode _scopeNode;
 
   @override
@@ -31,18 +29,14 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
     super.initState();
 
     _idController = TextEditingController();
-    _pwController = TextEditingController();
     _idFocus = FocusNode();
-    _pwFocus = FocusNode();
     _scopeNode = FocusScopeNode();
   }
 
   @override
   void dispose() {
     _idController.dispose();
-    _pwController.dispose();
     _idFocus.dispose();
-    _pwFocus.dispose();
     _scopeNode.dispose();
     super.dispose();
   }
@@ -60,7 +54,6 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
     if (formKey.currentState!.validate() == true) {
       final params = {
         "id": _idController.text,
-        "pw": _pwController.text,
       };
 
       ref.read(authStateNotifierProvider.notifier).mapEventToState(
@@ -72,8 +65,6 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
   void _onFieldSubmit(String _) {
     if (_idController.text.isEmpty) {
       _idFocus.requestFocus();
-    } else if (_pwController.text.isEmpty) {
-      _pwFocus.requestFocus();
     } else {
       _onPressed();
     }
@@ -100,8 +91,7 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
                   child: Column(
                     children: [
                       const SizedBox(height: LayoutConstant.spaceL),
-                      _buildTextFormField(context, isPw: false),
-                      _buildTextFormField(context, isPw: true),
+                      _buildTextFormField(context),
                     ],
                   ),
                 ),
@@ -177,14 +167,16 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
     );
   }
 
-  Widget _buildTextFormField(BuildContext context, {required bool isPw}) {
+  Widget _buildTextFormField(
+    BuildContext context,
+  ) {
     return SizedBox(
       height: 60,
       child: TextFormField(
-        focusNode: isPw ? _pwFocus : _idFocus,
-        controller: isPw ? _pwController : _idController,
+        focusNode: _idFocus,
+        controller: _idController,
         autocorrect: false,
-        obscureText: isPw ? true : false,
+        obscureText: false,
         style: const TextStyle(
           fontSize: 24,
         ),
@@ -196,7 +188,7 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
             vertical: LayoutConstant.paddingS,
           ),
           errorStyle: const TextStyle(height: .8),
-          hintText: isPw ? "Password" : "ID",
+          hintText: "ID",
           // Enabled Border
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(

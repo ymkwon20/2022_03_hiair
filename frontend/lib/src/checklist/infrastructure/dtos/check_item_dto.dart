@@ -260,8 +260,8 @@ class CheckItemDto {
       'cks-val': checkSheetValue,
       'bas-cd': standardCd,
       'bas-val': standard,
-      'new1-fn': imageFileName,
-      'org1-fn': originalFileName,
+      'new1-fn': imageFileName.split("/").last,
+      'org1-fn': originalFileName.split("/").last,
       'value-cbo-cd': valueComboCd,
       'unit-cbo-cd': unitComboCd,
       // 'combos': combos.map((x) => x.toMap()).toList(),
@@ -302,6 +302,10 @@ class CheckItemDto {
 
     final rawUnit = map["UNIT"] ?? "";
 
+    final fileName = map['NEW1_FN'] ?? "";
+
+    final isLocal = fileName == "";
+
     if (rawUnit == "B") {
       unit = "";
       unitType = UnitType.combo;
@@ -331,7 +335,7 @@ class CheckItemDto {
       unitCombos: [],
       unit: unit,
       unitType: unitType,
-      isLocal: false,
+      isLocal: isLocal,
     );
   }
 

@@ -4,6 +4,7 @@ import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
 import 'package:frontend/src/image/infrastructure/service/local/image_picker_local_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:uuid/uuid.dart';
 
 import 'mocks/mock_image_picker.dart';
 
@@ -14,7 +15,7 @@ void main() {
   setUp(
     () {
       mockPicker = MockImagePicker();
-      service = ImagePickerLocalService(picker: mockPicker);
+      service = ImagePickerLocalService(picker: mockPicker, uuid: const Uuid());
     },
   );
 

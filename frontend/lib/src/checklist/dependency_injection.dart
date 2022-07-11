@@ -26,8 +26,8 @@ final checklistStateNotifierProvider =
   ),
 );
 
-final checklistSaveStateNotifierProvider =
-    StateNotifierProvider<ChecklistSaveStateNotifier, ChecklistSaveState>(
+final checklistSaveStateNotifierProvider = StateNotifierProvider.autoDispose<
+    ChecklistSaveStateNotifier, ChecklistSaveState>(
   (ref) => ChecklistSaveStateNotifier(
     saveChecklist: ref.watch(saveChecklistProvider),
     saveImagelist: ref.watch(saveImagelistProvider),
@@ -51,8 +51,9 @@ final fetchCheckimagelistProvider = Provider(
 );
 
 final fetchAndSaveChecklistProvider = Provider(
-  (ref) =>
-      FetchAndSaveChecklist(repository: ref.watch(checklistRepositoryProvider)),
+  (ref) => FetchAndSaveChecklist(
+    repository: ref.watch(checklistRepositoryProvider),
+  ),
 );
 
 final saveChecklistProvider = Provider(

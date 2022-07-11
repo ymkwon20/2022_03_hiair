@@ -60,15 +60,15 @@ class CuttingRequestPage extends ConsumerWidget {
       body: state.when(
         initial: () => const InitialStateWidget(),
         loading: () => const LoadingStateWidget(),
-        loaded: (checks) => CuttingRequestListView(items: checks),
+        loaded: (checks) => CuttingRequestListWidget(items: checks),
         failure: (String message) => FailureStateWidget(message: message),
       ),
     );
   }
 }
 
-class CuttingRequestListView extends ConsumerWidget {
-  const CuttingRequestListView({
+class CuttingRequestListWidget extends ConsumerWidget {
+  const CuttingRequestListWidget({
     Key? key,
     required this.items,
   }) : super(key: key);
@@ -77,6 +77,9 @@ class CuttingRequestListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    const headerStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
+    const bodyStyle = TextStyle(fontSize: 18);
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -89,12 +92,26 @@ class CuttingRequestListView extends ConsumerWidget {
               child: DataTable(
                 showCheckboxColumn: false,
                 columns: const [
-                  DataColumn(label: Text('원재료 품명')),
-                  DataColumn(label: Text('원재료 규격')),
-                  DataColumn(label: Text('수량')),
-                  DataColumn(label: Text('CAM No.')),
-                  DataColumn(label: Text('Comment')),
-                  DataColumn(label: Text('Remark')),
+                  DataColumn(
+                      label: Text(
+                    '원재료 품명',
+                    style: headerStyle,
+                  )),
+                  DataColumn(
+                      label: Text(
+                    '원재료 규격',
+                    style: headerStyle,
+                  )),
+                  DataColumn(
+                      label: Text(
+                    '수량',
+                    style: headerStyle,
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'CAM No.',
+                    style: headerStyle,
+                  )),
                 ],
                 rows: List.generate(
                   items.length,
@@ -102,13 +119,22 @@ class CuttingRequestListView extends ConsumerWidget {
                     onSelectChanged: (bool? _) {},
                     onLongPress: () {},
                     cells: [
-                      DataCell(Text(items[index].metalCd)),
                       DataCell(Text(
-                          "${items[index].thickness}*${items[index].width}*${items[index].length}")),
-                      DataCell(Text("${items[index].qty}")),
-                      DataCell(Text(items[index].camNo)),
-                      const DataCell(Text("")),
-                      const DataCell(Text("")),
+                        items[index].metalCd,
+                        style: bodyStyle,
+                      )),
+                      DataCell(Text(
+                        "${items[index].thickness}*${items[index].width}*${items[index].length}",
+                        style: bodyStyle,
+                      )),
+                      DataCell(Text(
+                        "${items[index].qty}",
+                        style: bodyStyle,
+                      )),
+                      DataCell(Text(
+                        items[index].camNo,
+                        style: bodyStyle,
+                      )),
                     ],
                   ),
                 ),

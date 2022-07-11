@@ -47,6 +47,10 @@ class AuthRemoteDioService implements AuthRemoteService {
         throw ServerConnectionException(message: e.message);
       }
 
+      if (e.type == DioErrorType.other) {
+        throw ServerConnectionException(message: e.message);
+      }
+
       rethrow;
     }
   }

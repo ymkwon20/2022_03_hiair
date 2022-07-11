@@ -82,15 +82,38 @@ class CuttingSerialListTable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    const headerStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
+    const bodyStyle = TextStyle(fontSize: 18);
+
     return SizedBox(
       child: DataTable(
         showCheckboxColumn: false,
         columns: const [
-          DataColumn(label: Text('요청일자')),
-          DataColumn(label: Text('요청순번')),
-          DataColumn(label: Text('긴급여부')),
-          DataColumn(label: Text('작업시작일')),
-          DataColumn(label: Text('작업완료일')),
+          DataColumn(
+              label: Text(
+            '요청일자',
+            style: headerStyle,
+          )),
+          DataColumn(
+              label: Text(
+            '요청순번',
+            style: headerStyle,
+          )),
+          DataColumn(
+              label: Text(
+            '긴급여부',
+            style: headerStyle,
+          )),
+          DataColumn(
+              label: Text(
+            '작업시작일',
+            style: headerStyle,
+          )),
+          DataColumn(
+              label: Text(
+            '작업완료일',
+            style: headerStyle,
+          )),
         ],
         rows: List.generate(
           items.length,
@@ -102,11 +125,26 @@ class CuttingSerialListTable extends ConsumerWidget {
               _pushToNext(context, ref, items[index]);
             },
             cells: [
-              DataCell(Text(items[index].dateRequested)),
-              DataCell(Text("${items[index].seq}")),
-              DataCell(Text(items[index].urgencyStatus)),
-              DataCell(Text(items[index].dateStart)),
-              DataCell(Text(items[index].dateEnd)),
+              DataCell(Text(
+                items[index].dateRequested,
+                style: bodyStyle,
+              )),
+              DataCell(Text(
+                "${items[index].seq}",
+                style: bodyStyle,
+              )),
+              DataCell(Text(
+                items[index].urgencyStatus,
+                style: bodyStyle,
+              )),
+              DataCell(Text(
+                items[index].dateStart,
+                style: bodyStyle,
+              )),
+              DataCell(Text(
+                items[index].dateEnd,
+                style: bodyStyle,
+              )),
             ],
           ),
         ),

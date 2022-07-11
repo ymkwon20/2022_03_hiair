@@ -1,6 +1,7 @@
 import 'package:frontend/src/core/dependency_injection.dart';
 import 'package:frontend/src/image/domain/repositories/i_image_repository.dart';
 import 'package:frontend/src/image/domain/usecases/fetch_image.dart';
+import 'package:frontend/src/image/domain/usecases/fetch_multiple_images.dart';
 import 'package:frontend/src/image/domain/usecases/save_images.dart';
 import 'package:frontend/src/image/infrastructure/repositories/image_repository.dart';
 import 'package:frontend/src/image/infrastructure/service/local/i_image_local_service.dart';
@@ -11,7 +12,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 final fetchImageProvider = Provider(
-  (ref) => FetchImages(repository: ref.watch(imageRepositoryProvider)),
+  (ref) => FetchImage(repository: ref.watch(imageRepositoryProvider)),
+);
+
+final fetchMultipleImagesProvider = Provider(
+  (ref) => FetchMultipleImages(repository: ref.watch(imageRepositoryProvider)),
 );
 
 final saveImagesProvider = Provider(
@@ -26,7 +31,10 @@ final imageRepositoryProvider = Provider<IImageRepository>(
 );
 
 final imageLocalServiceProvider = Provider<IImageLocalService>(
-  (ref) => ImagePickerLocalService(picker: ref.watch(imagePickerProvider)),
+  (ref) => ImagePickerLocalService(
+    uuid: ref.watch(uuidProvider),
+    picker: ref.watch(imagePickerProvider),
+  ),
 );
 
 final imageRemoteServiceProvider = Provider<IImageRemoteService>(

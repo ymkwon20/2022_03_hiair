@@ -626,6 +626,7 @@ func (a *AppHandler) getCheckimagelist(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
+
 	jData, err := json.Marshal(results)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

@@ -20,7 +20,7 @@ class ImageRepository implements IImageRepository {
   // ! deprecated
   // - 이미지 여러장 pick 하기 위해 fetchImages로 변경
   @override
-  Future<Either<Failure, String?>> fetchImage(ImageSource source) async {
+  Future<Either<Failure, String>> fetchImage(ImageSource source) async {
     try {
       switch (source) {
         case ImageSource.gallery:
@@ -36,7 +36,8 @@ class ImageRepository implements IImageRepository {
   }
 
   @override
-  Future<Either<Failure, List<String>>> fetchImages(ImageSource source) async {
+  Future<Either<Failure, List<String>>> fetchMultipleImages(
+      ImageSource source) async {
     try {
       switch (source) {
         case ImageSource.gallery:
@@ -47,7 +48,7 @@ class ImageRepository implements IImageRepository {
           return right([results]);
       }
     } on NotSelectedException {
-      return right([]);
+      return left(const Failure.internal("선택되지 않음"));
     } on UnsupportedPlatformException {
       return left(const Failure.internal("지원하지 않는 플랫폼"));
     }

@@ -100,11 +100,14 @@ class ChecklistSaveStateNotifier extends StateNotifier<ChecklistSaveState> {
     final imagePathList = <String>[];
     for (final item in items.where((item) => item.shouldSave).toList()) {
       /// 1. 저장 정보 파라미터 만들기
+      //! 관리자 요청으로 hard-coded parameter(wb-cd, wc-cd) 넘김
       final params = CheckImageDto.fromDomain(item).toMap();
       params["user-id"] = _authNotifier.user!.id;
       params["wo-nb"] = _qmWorkOrder.code;
-      params["wc-cd"] = _qmWorkOrder.wcCd;
-      params["wb-cd"] = _qmWorkOrder.wbCd;
+      params["wc-cd"] = "999";
+      params["wb-cd"] = "QML";
+      // params["wc-cd"] = _qmWorkOrder.wcCd;
+      // params["wb-cd"] = _qmWorkOrder.wbCd;
       params["plan-seq"] = _qmWorkOrder.planSeq.toString();
       parameterList.add(params);
 

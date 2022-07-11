@@ -1,19 +1,22 @@
 import 'dart:io';
 
-import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/foundation.dart';
 import 'package:frontend/src/core/infrastrucutre/exceptions.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 import 'i_image_local_service.dart';
 
 class ImagePickerLocalService extends IImageLocalService {
   final ImagePicker _picker;
+  final Uuid _uuid;
 
   const ImagePickerLocalService({
     required ImagePicker picker,
-  }) : _picker = picker;
+    required Uuid uuid,
+  })  : _picker = picker,
+        _uuid = uuid;
 
   @override
   Future<String> takeOnePicture() async {
@@ -49,23 +52,23 @@ class ImagePickerLocalService extends IImageLocalService {
         defaultTargetPlatform == TargetPlatform.android) {
       final images = await _picker.pickMultiImage();
 
-      return images?.map((image) => _toNewNamePath(image)).toList() ?? [];
+      if (images == null) {
+        throw NotSelectedException();
+      }
+
+      return images.map((image) => _toNewNamePath(image)).toList();
     } else {
       throw UnsupportedPlatformException();
     }
   }
 
   /// 파일이름을 현재 시간으로 바꿈
-  String _toNewNamePath(XFile? file) {
-    if (file == null) {
-      return "";
-    } else {
-      final fileDir = path.dirname(file.path);
-      final newPath = path.join(fileDir,
-          "${DateFormat("yyyyMMddHHmmssSSS").format(DateTime.now())}.jpg");
+  String _toNewNamePath(XFile file) {
+    final uniqueName = _uuid.v1();
+    final fileDir = path.dirname(file.path);
+    final newPath = path.join(fileDir, "$uniqueName.jpg");
 
-      final newFile = File(file.path).renameSync(newPath);
-      return newFile.path;
-    }
+    final newFile = File(file.path).renameSync(newPath);
+    return newFile.path;
   }
 }

@@ -6,11 +6,32 @@ import 'package:frontend/src/work_base/presentation/work_base_change_notifier.da
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class WorkbaseMenuScreen extends ConsumerWidget {
+class WorkbaseMenuScreen extends ConsumerStatefulWidget {
   const WorkbaseMenuScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<WorkbaseMenuScreen> createState() => _WorkbaseMenuScreenState();
+}
+
+class _WorkbaseMenuScreenState extends ConsumerState<WorkbaseMenuScreen> {
+  bool ignoring = false;
+
+  void _onTap(int index) {
+    ignoring = true;
+
+    ref.read(workBaseChangeNotifierProvider.notifier).setCurrentBase(index);
+    context.pop();
+    context.push("/work-order");
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        ignoring = false;
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final items = ref.watch(workBaseChangeNotifierProvider).items;
 
     return Scaffold(
@@ -57,11 +78,9 @@ class WorkbaseMenuScreen extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        ref
-                            .read(workBaseChangeNotifierProvider.notifier)
-                            .setCurrentBase(index);
-                        context.pop();
-                        context.push("/work-order");
+                        if (!ignoring) {
+                          _onTap(index);
+                        }
                       },
                       child: Container(
                         color: Colors.transparent,

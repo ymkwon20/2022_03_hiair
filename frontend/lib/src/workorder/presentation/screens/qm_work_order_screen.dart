@@ -22,8 +22,8 @@ import 'package:frontend/src/core/presentation/pages/table_failure_row.dart';
 import 'package:frontend/src/core/presentation/widgets/table_loading_row.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 
-late StateProvider<QmWorkOrder> currentQmWorkOrder;
-late StateProvider<int> currentQmWorkOrderIndex;
+late AutoDisposeStateProvider<QmWorkOrder> currentQmWorkOrder;
+late AutoDisposeStateProvider<int> currentQmWorkOrderIndex;
 
 /// 검사 1화면: QM 검사 항목 리스트 제시
 class QmWorkOrderScreen extends ConsumerStatefulWidget {
@@ -39,6 +39,7 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
     with SingleTickerProviderStateMixin, RouteAware {
   /// scroll에 따른 새 아이템 불러오기 관련
   bool canLoadNextPage = false;
+  bool ignoring = false;
 
   @override
   void initState() {
@@ -78,11 +79,22 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
   }
 
   void _onTap(int index) {
-    currentQmWorkOrder =
-        StateProvider((ref) => ref.watch(qmWorkOrderListNotifier).items[index]);
-    currentQmWorkOrderIndex = StateProvider((ref) => index);
+    ignoring = true;
+    currentQmWorkOrder = StateProvider.autoDispose(
+        (ref) => ref.watch(qmWorkOrderListNotifier).items[index]);
+    currentQmWorkOrderIndex = StateProvider.autoDispose((ref) => index);
 
     context.push("/qm/$index");
+
+    // GoRouter의 push method가 asynchronous가 아니기 때문에 임의 시간 지정
+    Future.delayed(
+      const Duration(
+        milliseconds: 500,
+      ),
+      () {
+        ignoring = false;
+      },
+    );
   }
 
   void _navigateTo(String filterKey) {
@@ -206,7 +218,9 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
               onRowPressed: (index) {
                 state.maybeWhen(
                   loaded: (_, __) {
-                    _onTap(index);
+                    if (!ignoring) {
+                      _onTap(index);
+                    }
                   },
                   orElse: () {},
                 );

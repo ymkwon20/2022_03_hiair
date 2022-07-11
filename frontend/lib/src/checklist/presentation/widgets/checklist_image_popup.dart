@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/image/domain/entities/image_source.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/checklist/application/load/checklist_state.dart';
@@ -222,7 +223,18 @@ class _CheckImageListWidgetState extends ConsumerState<CheckImageListWidget> {
                   Navigator.of(context).push(
                     CustomScaleRoute(
                       backgroundColor: Colors.black.withOpacity(.2),
-                      builder: (context) => const ImagePickerDialog(),
+                      builder: (context) => ImagePickerDialog(
+                        onCamera: () {
+                          ref
+                              .read(checkimagelistNotifierProvider.notifier)
+                              .setImage(ImageSource.camera);
+                        },
+                        onGallery: () {
+                          ref
+                              .read(checkimagelistNotifierProvider.notifier)
+                              .setImage(ImageSource.gallery);
+                        },
+                      ),
                     ),
                   );
                 },

@@ -1,27 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/image/domain/usecases/fetch_image.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/checklist/domain/entities/check_image.dart';
 import 'package:frontend/src/checklist/domain/entities/check_item.dart';
 import 'package:frontend/src/image/dependency_injection.dart';
 import 'package:frontend/src/image/domain/entities/image_source.dart';
-import 'package:frontend/src/image/domain/usecases/fetch_image.dart';
+import 'package:frontend/src/image/domain/usecases/fetch_multiple_images.dart';
 import 'package:frontend/src/qm/domain/entities/qm_menu.dart';
 
 final checklistNotifierProvider = ChangeNotifierProvider(
-  (ref) => ChecklistNotifier(),
+  (ref) => ChecklistNotifier(fetchImage: ref.watch(fetchImageProvider)),
 );
 
 final checkimagelistNotifierProvider = ChangeNotifierProvider(
-  (ref) => CheckimagelistNotifier(fetchImage: ref.watch(fetchImageProvider)),
+  (ref) => CheckimagelistNotifier(
+      fetchMultipleImages: ref.watch(fetchMultipleImagesProvider)),
 );
 
 class ChecklistNotifier extends ChangeNotifier {
+  ChecklistNotifier({
+    required FetchImage fetchImage,
+  }) : _fetchImage = fetchImage;
+
+  final FetchImage _fetchImage;
+
   List<CheckItem> items = [];
 
   bool hasEdit = false;
 
   QmMenu? menu;
+
+  Future<void> setImage(ImageSource source, int index) async {
+    final resultOrFailure = await _fetchImage(source);
+
+    resultOrFailure.fold(
+      (_) {},
+      (filePath) {
+        hasEdit = true;
+
+        items[index] = items[index].copyWith(
+          originalFileName: filePath,
+          imageFileName: filePath,
+        );
+
+        notifyListeners();
+      },
+    );
+  }
 
   void setQm(QmMenu newMenu) {
     menu = newMenu;
@@ -53,10 +79,10 @@ class ChecklistNotifier extends ChangeNotifier {
 
 class CheckimagelistNotifier with ChangeNotifier {
   CheckimagelistNotifier({
-    required FetchImages fetchImage,
-  }) : _fetchImage = fetchImage;
+    required FetchMultipleImages fetchMultipleImages,
+  }) : _fetchMultipleImages = fetchMultipleImages;
 
-  final FetchImages _fetchImage;
+  final FetchMultipleImages _fetchMultipleImages;
 
   bool get shouldSave => items.any((element) => element.shouldSave);
 
@@ -68,7 +94,7 @@ class CheckimagelistNotifier with ChangeNotifier {
   }
 
   Future<void> setImage(ImageSource source) async {
-    final resultsOrFailure = await _fetchImage(source);
+    final resultsOrFailure = await _fetchMultipleImages(source);
 
     resultsOrFailure.fold(
       (failure) {},

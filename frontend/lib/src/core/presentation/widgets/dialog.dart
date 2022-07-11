@@ -5,10 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:frontend/src/auth/application/auth_event.dart';
 import 'package:frontend/src/auth/dependency_injection.dart';
 import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
-import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/widgets/no_glow_behavior.dart';
-import 'package:frontend/src/image/domain/entities/image_source.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 
@@ -250,9 +248,7 @@ class _Button extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: LayoutConstant.paddingM,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: LayoutConstant.paddingM),
         child: Text(
           name,
           textAlign: TextAlign.center,
@@ -269,11 +265,18 @@ class _Button extends StatelessWidget {
   }
 }
 
-class ImagePickerDialog extends ConsumerWidget {
-  const ImagePickerDialog({Key? key}) : super(key: key);
+class ImagePickerDialog extends StatelessWidget {
+  const ImagePickerDialog({
+    Key? key,
+    required this.onCamera,
+    required this.onGallery,
+  }) : super(key: key);
+
+  final VoidCallback onCamera;
+  final VoidCallback onGallery;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Dialog(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -303,10 +306,8 @@ class ImagePickerDialog extends ConsumerWidget {
                 child: _Button(
                   name: "카메라",
                   onTap: () {
-                    ref
-                        .read(checkimagelistNotifierProvider.notifier)
-                        .setImage(ImageSource.camera);
                     Navigator.of(context).pop();
+                    onCamera.call();
                   },
                 ),
               ),
@@ -314,10 +315,8 @@ class ImagePickerDialog extends ConsumerWidget {
                 child: _Button(
                   name: "갤러리",
                   onTap: () {
-                    ref
-                        .read(checkimagelistNotifierProvider.notifier)
-                        .setImage(ImageSource.gallery);
                     Navigator.of(context).pop();
+                    onGallery.call();
                   },
                   isPrimary: true,
                 ),

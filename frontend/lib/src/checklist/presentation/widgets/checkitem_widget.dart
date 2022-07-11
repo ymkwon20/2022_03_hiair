@@ -1,6 +1,10 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_widget.dart';
+import 'package:frontend/src/core/presentation/pages/custom_route.dart';
+import 'package:frontend/src/core/presentation/widgets/dialog.dart';
+import 'package:frontend/src/core/presentation/widgets/image_dialog.dart';
+import 'package:frontend/src/image/domain/entities/image_source.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/checklist/domain/entities/check_item.dart';
@@ -233,82 +237,145 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: LayoutConstant.paddingM),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                const Text(
-                  '기준값',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  height: LayoutConstant.spaceXL * 2,
+                Expanded(
+                  flex: 4,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                      const Text(
+                        '기준값',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
+                      ),
+                      SizedBox(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: LayoutConstant.paddingS,
-                        ),
-                        decoration: item.standard != ""
-                            ? BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                    LayoutConstant.radiusS),
-                                border: Border.all(
-                                  width: LayoutConstant.spaceXS,
-                                  color: Theme.of(context).dividerColor,
+                        height: LayoutConstant.spaceXL * 2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: LayoutConstant.paddingS,
+                              ),
+                              decoration: item.standard != ""
+                                  ? BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          LayoutConstant.radiusS),
+                                      border: Border.all(
+                                        width: LayoutConstant.spaceXS,
+                                        color: Theme.of(context).dividerColor,
+                                      ),
+                                    )
+                                  : null,
+                              child: Text(
+                                item.standard,
+                                style: const TextStyle(
+                                  fontSize: 22,
                                 ),
-                              )
-                            : null,
-                        child: Text(
-                          item.standard,
-                          style: const TextStyle(
-                            fontSize: 22,
-                          ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      '실제값',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: LayoutConstant.spaceXL * 2,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            flex: 2,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: _buildCheckPart(index, item),
+                          const Text(
+                            '실제값',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
                             ),
                           ),
-                          const SizedBox(width: LayoutConstant.spaceM),
-                          Expanded(
-                            flex: 1,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: _buildUnitPart(item),
+                          SizedBox(
+                            width: double.infinity,
+                            height: LayoutConstant.spaceXL * 2,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: _buildCheckPart(index, item),
+                                  ),
+                                ),
+                                const SizedBox(width: LayoutConstant.spaceM),
+                                Expanded(
+                                  flex: 1,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: _buildUnitPart(item),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (item.imageFileName == "") {
+                          Navigator.of(context).push(
+                            CustomScaleRoute(
+                              backgroundColor: Colors.black.withOpacity(.2),
+                              builder: (context) => ImagePickerDialog(
+                                onCamera: () {
+                                  ref
+                                      .read(checklistNotifierProvider.notifier)
+                                      .setImage(ImageSource.camera, index);
+                                },
+                                onGallery: () {
+                                  ref
+                                      .read(checklistNotifierProvider.notifier)
+                                      .setImage(ImageSource.gallery, index);
+                                },
+                              ),
+                            ),
+                          );
+                        } else {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ImageDialog(
+                                  imagePath: item.imageFileName,
+                                  isLocal: item.isLocal,
+                                );
+                              },
+                            ),
+                          );
+                        }
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: item.imageFileName == ""
+                              ? Theme.of(context).unselectedWidgetColor
+                              : Theme.of(context).primaryColorLight,
+                        ),
+                        alignment: Alignment.center,
+                        child: Icon(
+                          item.imageFileName == ""
+                              ? Icons.add_a_photo
+                              : Icons.check,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
