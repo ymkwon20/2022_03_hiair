@@ -1,13 +1,13 @@
 pipeline {
     agent any
     tools {
-        go '1.17.4'
+        // go '1.17.4'
     }
     environment {
-        GO111MODULE = 'on'
+        // GO111MODULE = 'on'
         MSSQL_CREDS = credentials('sql-server-credentials')
         FLUTTER_BUILD_FILE_NAME = "app-release.apk"
-        GO_BUILD_FILE_NAME = "main.exe"
+        // GO_BUILD_FILE_NAME = "main.exe"
         DB_ADR = "172.16.30.105"
     }
     options {
