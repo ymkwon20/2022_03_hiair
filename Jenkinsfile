@@ -25,7 +25,7 @@ pipeline {
                     echo '----Start frontend compiling----'
                     dir('frontend') {
                         sh(script:'''
-                            sed -i "s/version:.*/version: ${TAG}/" pubspec.yaml
+                            sed -i "s/version:.*/version: ${TAG_NAME}/" pubspec.yaml
                         ''')
                         sh 'flutter build apk'
                     }
