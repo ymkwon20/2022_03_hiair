@@ -1,10 +1,8 @@
 pipeline {
     agent any
     environment {
-        // GO111MODULE = 'on'
         MSSQL_CREDS = credentials('sql-server-credentials')
         FLUTTER_BUILD_FILE_NAME = "app-release.apk"
-        // GO_BUILD_FILE_NAME = "main.exe"
         DB_ADR = "172.16.30.105"
     }
     options {
@@ -21,34 +19,6 @@ pipeline {
                 checkout scm
             }
         }
-        // stage('Backend'){
-        //     steps {
-        //         echo '----Start backend compiling----'
-        //         dir('backend') {
-        //             sh 'go build main.go'
-
-        //             sh(script:"""
-        //             $NPM/pm2 kill
-        //             """)
-
-
-        //             fileOperations([
-        //                 fileCopyOperation(includes: "${GO_BUILD_FILE_NAME}", targetLocation: "${BACKEND_HOME}"),
-        //             ])
-
-
-        //         }
-
-        //         dir("""$BACKEND_HOME"""){
-        //             sh(script:"""
-        //                 JENKINS_NODE_COOKIE=dontKillMe $NPM/pm2 start $GO_BUILD_FILE_NAME --watch -n backend
-        //                 JENKINS_NODE_COOKIE=dontKillMe $NPM/pm2 save
-        //             """)
-        //         }
-
-        //         echo '----End backend----'
-        //     }
-        // }
 	    stage('Frontend'){
             steps {
                 script {
