@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    tools {
-        // go '1.17.4'
-    }
     environment {
         // GO111MODULE = 'on'
         MSSQL_CREDS = credentials('sql-server-credentials')
