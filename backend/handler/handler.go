@@ -45,6 +45,7 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/fct", a.saveFctItem).Methods("POST")
 	r.HandleFunc("/apk", a.fetchApkInfo).Methods("GET")
 	r.HandleFunc("/apk/{version}", a.downloadApk).Methods("GET")
+	r.HandleFunc("/cut-checklist", a.getCutChecklist).Methods("GET")
 	r.HandleFunc("/checklist", a.getChecklist).Methods("GET")
 	r.HandleFunc("/checklist", a.saveCheckitem).Methods("POST")
 	r.HandleFunc("/checklist/images", a.getCheckimagelist).Methods("GET")
@@ -1128,5 +1129,49 @@ func (a *AppHandler) saveQmItem(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+
+}
+
+func (a *AppHandler) getCutChecklist(w http.ResponseWriter, r *http.Request) {
+
+	queryString := r.URL.Query()
+
+	prodPlanSeq := queryString.Get("plan-seq")
+	woNb := queryString.Get("wo-nb")
+	wbCd := queryString.Get("wb-cd")
+	wcCd := queryString.Get("wc-cd")
+	pageCd := queryString.Get("page-cd")
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_CHK_02_SELECT '%s', '%s', '%s', '%s', '%s';
+	`, prodPlanSeq, woNb, wcCd, wbCd, pageCd)
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	jData, err := json.Marshal(results)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jData)
 
 }

@@ -10,9 +10,12 @@ class ChecklistSaveEvent with _$ChecklistSaveEvent {
   const ChecklistSaveEvent._();
   const factory ChecklistSaveEvent.saveChecklist(List<CheckItem> items) =
       _SaveCheckList;
-  const factory ChecklistSaveEvent.saveImagelist(List<CheckImage> items) =
-      _SaveImageList;
+  const factory ChecklistSaveEvent.saveImagelist(
+      List<CheckImage> items, String workCode, String workSeq) = _SaveImageList;
   const factory ChecklistSaveEvent.saveChecklistAndMore(
-          List<CheckItem> items, WorkOrderSaveStatus status) =
-      _SaveCheckItemAndMore;
+    List<CheckItem> items,
+    WorkOrderSaveStatus status,
+    String workCode,
+    String workSeq,
+  ) = _SaveCheckItemAndMore;
 }

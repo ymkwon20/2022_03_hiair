@@ -107,3 +107,7 @@ Content-Type: application/json
 ###
 GET http://192.168.0.117:9090/qm?page=1&wb-cd=FCT&wc-cd=258 HTTP/1.1
 Content-Type: application/json
+
+###
+GET http://192.168.0.117:9090/cut-checklist?plan-seq=588056&wo-nb=P21-037500&wb-cd=FCT&wc-cd=35&page-cd= HTTP/1.1
+Content-Type: application/json

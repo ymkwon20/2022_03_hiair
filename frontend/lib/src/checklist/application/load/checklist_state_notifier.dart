@@ -1,6 +1,7 @@
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/application/load/checklist_state.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_checkimagelist.dart';
+import 'package:frontend/src/checklist/domain/usecases/fetch_cut_checklist.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -9,12 +10,15 @@ import 'package:frontend/src/checklist/domain/usecases/fetch_checklist.dart';
 class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
   ChecklistStateNotifier({
     required FetchChecklist fetchChecklist,
+    required FetchCutChecklist fetchCutChecklist,
     required FetchCheckimagelist fetchCheckimagelist,
   })  : _fetchChecklist = fetchChecklist,
+        _fetchCutChecklist = fetchCutChecklist,
         _fetchCheckimagelist = fetchCheckimagelist,
         super(const ChecklistState.initial());
 
   final FetchChecklist _fetchChecklist;
+  final FetchCutChecklist _fetchCutChecklist;
   final FetchCheckimagelist _fetchCheckimagelist;
 
   Future<void> mapEventToState(ChecklistEvent event) async {
@@ -51,7 +55,7 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
           "wc-cd": order.wcCd,
         };
 
-        final failureOrResults = await _fetchChecklist(params);
+        final failureOrResults = await _fetchCutChecklist(params);
         state = failureOrResults.fold(
           (l) => ChecklistState.failure(mapFailureToString(l)),
           (r) => ChecklistState.loaded(r),

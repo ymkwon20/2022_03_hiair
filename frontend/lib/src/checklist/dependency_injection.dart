@@ -7,6 +7,7 @@ import 'package:frontend/src/checklist/domain/repositories/i_checklist_repositor
 import 'package:frontend/src/checklist/domain/usecases/fetch_and_save_checklist.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_checkimagelist.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_checklist.dart';
+import 'package:frontend/src/checklist/domain/usecases/fetch_cut_checklist.dart';
 import 'package:frontend/src/checklist/domain/usecases/save_checklist.dart';
 import 'package:frontend/src/checklist/domain/usecases/save_imagelist.dart';
 import 'package:frontend/src/checklist/infrastructure/datasources/checklist_service.dart';
@@ -14,7 +15,6 @@ import 'package:frontend/src/checklist/infrastructure/datasources/remote/checkli
 import 'package:frontend/src/checklist/infrastructure/repositories/checklist_repository.dart';
 import 'package:frontend/src/core/dependency_injection.dart';
 import 'package:frontend/src/image/dependency_injection.dart';
-import 'package:frontend/src/workorder/presentation/screens/qm_work_order_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //! application
@@ -22,24 +22,30 @@ final checklistStateNotifierProvider =
     StateNotifierProvider<ChecklistStateNotifier, ChecklistState>(
   (ref) => ChecklistStateNotifier(
     fetchChecklist: ref.watch(fetchChecklistProvider),
+    fetchCutChecklist: ref.watch(fetchCutChecklistProvider),
     fetchCheckimagelist: ref.watch(fetchCheckimagelistProvider),
   ),
 );
 
-final checklistSaveStateNotifierProvider = StateNotifierProvider.autoDispose<
-    ChecklistSaveStateNotifier, ChecklistSaveState>(
+final checklistSaveStateNotifierProvider =
+    StateNotifierProvider<ChecklistSaveStateNotifier, ChecklistSaveState>(
   (ref) => ChecklistSaveStateNotifier(
     saveChecklist: ref.watch(saveChecklistProvider),
     saveImagelist: ref.watch(saveImagelistProvider),
     saveImages: ref.watch(saveImagesProvider),
     authNotifier: ref.watch(authChangeNotifierProvider),
-    qmWorkOrder: ref.watch(currentQmWorkOrder),
   ),
 );
 
 //! usecase
 final fetchChecklistProvider = Provider(
   (ref) => FetchChecklist(
+    repository: ref.watch(checklistRepositoryProvider),
+  ),
+);
+
+final fetchCutChecklistProvider = Provider(
+  (ref) => FetchCutChecklist(
     repository: ref.watch(checklistRepositoryProvider),
   ),
 );

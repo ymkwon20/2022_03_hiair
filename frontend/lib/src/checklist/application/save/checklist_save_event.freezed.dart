@@ -23,17 +23,22 @@ class _$ChecklistSaveEventTearOff {
     );
   }
 
-  _SaveImageList saveImagelist(List<CheckImage> items) {
+  _SaveImageList saveImagelist(
+      List<CheckImage> items, String workCode, String workSeq) {
     return _SaveImageList(
       items,
+      workCode,
+      workSeq,
     );
   }
 
-  _SaveCheckItemAndMore saveChecklistAndMore(
-      List<CheckItem> items, WorkOrderSaveStatus status) {
+  _SaveCheckItemAndMore saveChecklistAndMore(List<CheckItem> items,
+      WorkOrderSaveStatus status, String workCode, String workSeq) {
     return _SaveCheckItemAndMore(
       items,
       status,
+      workCode,
+      workSeq,
     );
   }
 }
@@ -46,24 +51,31 @@ mixin _$ChecklistSaveEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<CheckItem> items) saveChecklist,
-    required TResult Function(List<CheckImage> items) saveImagelist,
-    required TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)
+    required TResult Function(
+            List<CheckImage> items, String workCode, String workSeq)
+        saveImagelist,
+    required TResult Function(List<CheckItem> items, WorkOrderSaveStatus status,
+            String workCode, String workSeq)
         saveChecklistAndMore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<CheckItem> items)? saveChecklist,
-    TResult Function(List<CheckImage> items)? saveImagelist,
-    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+    TResult Function(List<CheckImage> items, String workCode, String workSeq)?
+        saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status,
+            String workCode, String workSeq)?
         saveChecklistAndMore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<CheckItem> items)? saveChecklist,
-    TResult Function(List<CheckImage> items)? saveImagelist,
-    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+    TResult Function(List<CheckImage> items, String workCode, String workSeq)?
+        saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status,
+            String workCode, String workSeq)?
         saveChecklistAndMore,
     required TResult orElse(),
   }) =>
@@ -175,8 +187,11 @@ class _$_SaveCheckList extends _SaveCheckList {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<CheckItem> items) saveChecklist,
-    required TResult Function(List<CheckImage> items) saveImagelist,
-    required TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)
+    required TResult Function(
+            List<CheckImage> items, String workCode, String workSeq)
+        saveImagelist,
+    required TResult Function(List<CheckItem> items, WorkOrderSaveStatus status,
+            String workCode, String workSeq)
         saveChecklistAndMore,
   }) {
     return saveChecklist(items);
@@ -186,8 +201,10 @@ class _$_SaveCheckList extends _SaveCheckList {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<CheckItem> items)? saveChecklist,
-    TResult Function(List<CheckImage> items)? saveImagelist,
-    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+    TResult Function(List<CheckImage> items, String workCode, String workSeq)?
+        saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status,
+            String workCode, String workSeq)?
         saveChecklistAndMore,
   }) {
     return saveChecklist?.call(items);
@@ -197,8 +214,10 @@ class _$_SaveCheckList extends _SaveCheckList {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<CheckItem> items)? saveChecklist,
-    TResult Function(List<CheckImage> items)? saveImagelist,
-    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+    TResult Function(List<CheckImage> items, String workCode, String workSeq)?
+        saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status,
+            String workCode, String workSeq)?
         saveChecklistAndMore,
     required TResult orElse(),
   }) {
@@ -258,7 +277,7 @@ abstract class _$SaveImageListCopyWith<$Res> {
   factory _$SaveImageListCopyWith(
           _SaveImageList value, $Res Function(_SaveImageList) then) =
       __$SaveImageListCopyWithImpl<$Res>;
-  $Res call({List<CheckImage> items});
+  $Res call({List<CheckImage> items, String workCode, String workSeq});
 }
 
 /// @nodoc
@@ -275,12 +294,22 @@ class __$SaveImageListCopyWithImpl<$Res>
   @override
   $Res call({
     Object? items = freezed,
+    Object? workCode = freezed,
+    Object? workSeq = freezed,
   }) {
     return _then(_SaveImageList(
       items == freezed
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
               as List<CheckImage>,
+      workCode == freezed
+          ? _value.workCode
+          : workCode // ignore: cast_nullable_to_non_nullable
+              as String,
+      workSeq == freezed
+          ? _value.workSeq
+          : workSeq // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -288,14 +317,18 @@ class __$SaveImageListCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SaveImageList extends _SaveImageList {
-  const _$_SaveImageList(this.items) : super._();
+  const _$_SaveImageList(this.items, this.workCode, this.workSeq) : super._();
 
   @override
   final List<CheckImage> items;
+  @override
+  final String workCode;
+  @override
+  final String workSeq;
 
   @override
   String toString() {
-    return 'ChecklistSaveEvent.saveImagelist(items: $items)';
+    return 'ChecklistSaveEvent.saveImagelist(items: $items, workCode: $workCode, workSeq: $workSeq)';
   }
 
   @override
@@ -303,12 +336,17 @@ class _$_SaveImageList extends _SaveImageList {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _SaveImageList &&
-            const DeepCollectionEquality().equals(other.items, items));
+            const DeepCollectionEquality().equals(other.items, items) &&
+            const DeepCollectionEquality().equals(other.workCode, workCode) &&
+            const DeepCollectionEquality().equals(other.workSeq, workSeq));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(items));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(items),
+      const DeepCollectionEquality().hash(workCode),
+      const DeepCollectionEquality().hash(workSeq));
 
   @JsonKey(ignore: true)
   @override
@@ -319,35 +357,42 @@ class _$_SaveImageList extends _SaveImageList {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<CheckItem> items) saveChecklist,
-    required TResult Function(List<CheckImage> items) saveImagelist,
-    required TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)
+    required TResult Function(
+            List<CheckImage> items, String workCode, String workSeq)
+        saveImagelist,
+    required TResult Function(List<CheckItem> items, WorkOrderSaveStatus status,
+            String workCode, String workSeq)
         saveChecklistAndMore,
   }) {
-    return saveImagelist(items);
+    return saveImagelist(items, workCode, workSeq);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<CheckItem> items)? saveChecklist,
-    TResult Function(List<CheckImage> items)? saveImagelist,
-    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+    TResult Function(List<CheckImage> items, String workCode, String workSeq)?
+        saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status,
+            String workCode, String workSeq)?
         saveChecklistAndMore,
   }) {
-    return saveImagelist?.call(items);
+    return saveImagelist?.call(items, workCode, workSeq);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<CheckItem> items)? saveChecklist,
-    TResult Function(List<CheckImage> items)? saveImagelist,
-    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+    TResult Function(List<CheckImage> items, String workCode, String workSeq)?
+        saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status,
+            String workCode, String workSeq)?
         saveChecklistAndMore,
     required TResult orElse(),
   }) {
     if (saveImagelist != null) {
-      return saveImagelist(items);
+      return saveImagelist(items, workCode, workSeq);
     }
     return orElse();
   }
@@ -388,10 +433,14 @@ class _$_SaveImageList extends _SaveImageList {
 }
 
 abstract class _SaveImageList extends ChecklistSaveEvent {
-  const factory _SaveImageList(List<CheckImage> items) = _$_SaveImageList;
+  const factory _SaveImageList(
+          List<CheckImage> items, String workCode, String workSeq) =
+      _$_SaveImageList;
   const _SaveImageList._() : super._();
 
   List<CheckImage> get items;
+  String get workCode;
+  String get workSeq;
   @JsonKey(ignore: true)
   _$SaveImageListCopyWith<_SaveImageList> get copyWith =>
       throw _privateConstructorUsedError;
@@ -402,7 +451,11 @@ abstract class _$SaveCheckItemAndMoreCopyWith<$Res> {
   factory _$SaveCheckItemAndMoreCopyWith(_SaveCheckItemAndMore value,
           $Res Function(_SaveCheckItemAndMore) then) =
       __$SaveCheckItemAndMoreCopyWithImpl<$Res>;
-  $Res call({List<CheckItem> items, WorkOrderSaveStatus status});
+  $Res call(
+      {List<CheckItem> items,
+      WorkOrderSaveStatus status,
+      String workCode,
+      String workSeq});
 }
 
 /// @nodoc
@@ -420,6 +473,8 @@ class __$SaveCheckItemAndMoreCopyWithImpl<$Res>
   $Res call({
     Object? items = freezed,
     Object? status = freezed,
+    Object? workCode = freezed,
+    Object? workSeq = freezed,
   }) {
     return _then(_SaveCheckItemAndMore(
       items == freezed
@@ -430,6 +485,14 @@ class __$SaveCheckItemAndMoreCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as WorkOrderSaveStatus,
+      workCode == freezed
+          ? _value.workCode
+          : workCode // ignore: cast_nullable_to_non_nullable
+              as String,
+      workSeq == freezed
+          ? _value.workSeq
+          : workSeq // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -437,16 +500,22 @@ class __$SaveCheckItemAndMoreCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SaveCheckItemAndMore extends _SaveCheckItemAndMore {
-  const _$_SaveCheckItemAndMore(this.items, this.status) : super._();
+  const _$_SaveCheckItemAndMore(
+      this.items, this.status, this.workCode, this.workSeq)
+      : super._();
 
   @override
   final List<CheckItem> items;
   @override
   final WorkOrderSaveStatus status;
+  @override
+  final String workCode;
+  @override
+  final String workSeq;
 
   @override
   String toString() {
-    return 'ChecklistSaveEvent.saveChecklistAndMore(items: $items, status: $status)';
+    return 'ChecklistSaveEvent.saveChecklistAndMore(items: $items, status: $status, workCode: $workCode, workSeq: $workSeq)';
   }
 
   @override
@@ -455,14 +524,18 @@ class _$_SaveCheckItemAndMore extends _SaveCheckItemAndMore {
         (other.runtimeType == runtimeType &&
             other is _SaveCheckItemAndMore &&
             const DeepCollectionEquality().equals(other.items, items) &&
-            const DeepCollectionEquality().equals(other.status, status));
+            const DeepCollectionEquality().equals(other.status, status) &&
+            const DeepCollectionEquality().equals(other.workCode, workCode) &&
+            const DeepCollectionEquality().equals(other.workSeq, workSeq));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(items),
-      const DeepCollectionEquality().hash(status));
+      const DeepCollectionEquality().hash(status),
+      const DeepCollectionEquality().hash(workCode),
+      const DeepCollectionEquality().hash(workSeq));
 
   @JsonKey(ignore: true)
   @override
@@ -474,35 +547,42 @@ class _$_SaveCheckItemAndMore extends _SaveCheckItemAndMore {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<CheckItem> items) saveChecklist,
-    required TResult Function(List<CheckImage> items) saveImagelist,
-    required TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)
+    required TResult Function(
+            List<CheckImage> items, String workCode, String workSeq)
+        saveImagelist,
+    required TResult Function(List<CheckItem> items, WorkOrderSaveStatus status,
+            String workCode, String workSeq)
         saveChecklistAndMore,
   }) {
-    return saveChecklistAndMore(items, status);
+    return saveChecklistAndMore(items, status, workCode, workSeq);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<CheckItem> items)? saveChecklist,
-    TResult Function(List<CheckImage> items)? saveImagelist,
-    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+    TResult Function(List<CheckImage> items, String workCode, String workSeq)?
+        saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status,
+            String workCode, String workSeq)?
         saveChecklistAndMore,
   }) {
-    return saveChecklistAndMore?.call(items, status);
+    return saveChecklistAndMore?.call(items, status, workCode, workSeq);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<CheckItem> items)? saveChecklist,
-    TResult Function(List<CheckImage> items)? saveImagelist,
-    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status)?
+    TResult Function(List<CheckImage> items, String workCode, String workSeq)?
+        saveImagelist,
+    TResult Function(List<CheckItem> items, WorkOrderSaveStatus status,
+            String workCode, String workSeq)?
         saveChecklistAndMore,
     required TResult orElse(),
   }) {
     if (saveChecklistAndMore != null) {
-      return saveChecklistAndMore(items, status);
+      return saveChecklistAndMore(items, status, workCode, workSeq);
     }
     return orElse();
   }
@@ -544,12 +624,16 @@ class _$_SaveCheckItemAndMore extends _SaveCheckItemAndMore {
 
 abstract class _SaveCheckItemAndMore extends ChecklistSaveEvent {
   const factory _SaveCheckItemAndMore(
-          List<CheckItem> items, WorkOrderSaveStatus status) =
-      _$_SaveCheckItemAndMore;
+      List<CheckItem> items,
+      WorkOrderSaveStatus status,
+      String workCode,
+      String workSeq) = _$_SaveCheckItemAndMore;
   const _SaveCheckItemAndMore._() : super._();
 
   List<CheckItem> get items;
   WorkOrderSaveStatus get status;
+  String get workCode;
+  String get workSeq;
   @JsonKey(ignore: true)
   _$SaveCheckItemAndMoreCopyWith<_SaveCheckItemAndMore> get copyWith =>
       throw _privateConstructorUsedError;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/image/domain/entities/image_source.dart';
+import 'package:frontend/src/workorder/presentation/screens/qm_work_order_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/checklist/application/load/checklist_state.dart';
@@ -115,6 +116,11 @@ class _ChecklistPopupState extends ConsumerState<ChecklistImagePopup> {
                                       ref
                                           .watch(checkimagelistNotifierProvider)
                                           .items,
+                                      ref.watch(currentQmWorkOrder).wbCd,
+                                      ref
+                                          .watch(currentQmWorkOrder)
+                                          .planSeq
+                                          .toString(),
                                     ),
                                   );
                             }
