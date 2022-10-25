@@ -79,6 +79,7 @@ flutter doctor --android-licenses
 ### 2. GoLang
 
 - [1.17.4 다운로드](https://go.dev/dl/go1.17.4.windows-amd64.msi)
+- VS Code로 프로젝트 디렉토리 연 후, [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go), [Go Nightly](https://marketplace.visualstudio.com/items?itemName=golang.go-nightly) extension 설치
 
 ---
 
