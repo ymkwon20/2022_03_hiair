@@ -27,9 +27,6 @@ final appRouterProvider = Provider(
   ),
 );
 
-/// Navigator 2.0에 기반한 라우터
-/// powered by go_router package
-
 class AppRouter extends GoRouter {
   final AuthChangeNotifier authNotifier;
   final RouteObserver<ModalRoute> observer;
@@ -38,7 +35,6 @@ class AppRouter extends GoRouter {
     required this.authNotifier,
     required this.observer,
   }) : super(
-          // initialLocation: '/',
           initialLocation: '/',
 
           /// remove hash from url
@@ -59,10 +55,7 @@ class AppRouter extends GoRouter {
 
             if (!loggedIn && !isLogging) return "/sign-in";
 
-            if (loggedIn && isLogging) {
-              return "/";
-            }
-            // if (loggedIn && isLogging) return "/";
+            if (loggedIn && isLogging) return "/";
 
             return null;
           },

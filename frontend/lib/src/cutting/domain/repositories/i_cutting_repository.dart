@@ -4,7 +4,10 @@ import 'package:frontend/src/cutting/domain/entities/cutting_check.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_check_detail.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_serial.dart';
 
-/// Cutting Feature 관련 repository
+/// Implementations are seperated for architectural reasons.
+/// To find implementation details,
+/// go to lib/src/cutting/infrastructure/repositories/cutting_repository.dart
+/// for implementation
 abstract class ICuttingRepository {
   /// Cutting LOT 목록
   Future<Either<Failure, List<CuttingSerial>>> getCuttings();

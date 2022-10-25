@@ -3,6 +3,10 @@ import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/workorder/domain/entities/qm_work_order_list.dart';
 import 'package:frontend/src/workorder/domain/entities/work_order_list.dart';
 
+/// Implementations are seperated for architectural reasons.
+/// To find implementation details,
+/// go to lib/src/workorder/infrastructure/repositories/work_order_repository.dart
+/// for implementation
 abstract class IWorkOrderRepository {
   Future<Either<Failure, WorkOrderList>> fetchWorkOrderList(
       Map<String, dynamic> params);

@@ -3,6 +3,10 @@ import 'package:frontend/src/checklist/domain/entities/check_image.dart';
 import 'package:frontend/src/checklist/domain/entities/check_item.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
 
+/// Implementations are seperated for architectural reasons.
+/// To find implementation details,
+/// go to lib/src/checklist/infrastructure/repositories/checklist_repository.dart
+/// for implementation
 abstract class IChecklistRepository {
   Future<Either<Failure, List<CheckItem>>> fetchChecklist(
       Map<String, dynamic> params);
