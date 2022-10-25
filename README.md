@@ -34,6 +34,54 @@
 
 ---
 
+## 환경 설정
+
+### 1.Flutter
+
+- flutter 2.10.4 clone
+
+```bash
+git clone -b 2.10.4 https://github.com/flutter/flutter.git
+```
+
+- 환경 변수 설정
+  - flutter/bin 까지 시스템 변수로 선언  
+![setting-path](./docs/flutter-setting-path.png)  
+
+- flutter command로 체크  
+
+```bash
+# 버전 정보 및 flutter path 잘 잡혔는지 확인
+flutter --version
+
+# 어떤 문제 있는지 확인
+flutter doctor
+```
+
+![flutter-command](./docs/flutter-doctor.png)  
+
+- [Visual Studio Code](https://code.visualstudio.com/), [Android Studio](https://developer.android.com/studio?gclid=Cj0KCQjwkt6aBhDKARIsAAyeLJ2cXn3itdJ2ihf2zUEudEyTuomA7v3pPK5Xk6pETnrZn4s-wo1ojtkaAsxLEALw_wcB&gclsrc=aw.ds) 설치
+
+- Android Studio 실행 후 cmdline-tools 설치
+
+![flutter-cmdline-tools1](./docs/flutter-cmdline-tools-0.png)  
+![flutter-cmdline-tools2](./docs/flutter-cmdline-tools-1.png)  
+![flutter-cmdline-tools3](./docs/flutter-cmdline-tools-2.png)  
+
+- 라이센스 정보 받아오기
+
+```bash
+flutter doctor --android-licenses
+```
+
+- VS Code로 프로젝트 디렉토리 연 후, [Dart](https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code), [Flutter](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter) extension 설치
+
+### 2. GoLang
+
+- [1.17.4 다운로드](https://go.dev/dl/go1.17.4.windows-amd64.msi)
+
+---
+
 ## Basic Command
 
 1. Flutter
