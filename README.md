@@ -52,9 +52,17 @@ git clone -b 2.10.4 https://github.com/flutter/flutter.git
 
 ```bash
 # 버전 정보 및 flutter path 잘 잡혔는지 확인
-flutter --version
+```
 
+```bash
+flutter --version
+```
+
+```bash
 # 어떤 문제 있는지 확인
+```
+
+```bash
 flutter doctor
 ```
 
@@ -74,12 +82,114 @@ flutter doctor
 flutter doctor --android-licenses
 ```
 
-- VS Code로 프로젝트 디렉토리 연 후, [Dart](https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code), [Flutter](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter) extension 설치
+- 설치에 문제가 없는지 확인하기
+  - Visual Studio 관련 문제를 보인다면 무시해도 됨
+  - Visual Studio는 Widows Desktop Application으로 실행해보고 싶을 때 설정
 
-### 2. GoLang
+```bash
+flutter doctor
+```
 
-- [1.17.4 다운로드](https://go.dev/dl/go1.17.4.windows-amd64.msi)
-- VS Code로 프로젝트 디렉토리 연 후, [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go), [Go Nightly](https://marketplace.visualstudio.com/items?itemName=golang.go-nightly) extension 설치
+### 2. Go
+
+- [Go 1.17.4](https://go.dev/dl/go1.17.4.windows-amd64.msi) 설치
+
+- 설치에 문제가 없는지 확인
+
+```bash
+go version
+```
+
+---
+
+## VS Code에서 프로젝트 실행하는 방법
+
+1. Flutter
+
+    - /frontend 열기
+    ![vscode-open](./docs/vscode-1.png)
+    - 장치 선택
+      - 우측 하단 확인
+    ![vscode-device1](./docs/vscode-flutter1.png)
+      - 상단 중앙 확인하여 원하는 기기 선택
+    ![vscode-device2](./docs/vscode-flutter2.png)
+    - run(F5)
+      - .vscode/launch.json이 없을 경우 생성 후 다음 삽입
+
+      ```json
+      {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "frontend",
+                "request": "launch",
+                "type": "dart"
+            },
+            {
+                "name": "frontend (profile mode)",
+                "request": "launch",
+                "type": "dart",
+                "flutterMode": "profile"
+            },
+            {
+                "name": "frontend (release mode)",
+                "request": "launch",
+                "type": "dart",
+                "flutterMode": "release"
+            }
+        ]
+      }
+      ```
+
+2. Go
+
+    - /backend 열기
+    - 터미널 실행
+      - Ctrl+Shift+P -> Terminal:Crete New Terminal  
+    ![create-terminal](./docs/vscode-create-terminal.png)
+    - 터미널에 다음 커맨드 수행
+
+    ```bash
+    go run main.go
+    ```
+
+---
+
+## 주의 사항
+
+1. Flutter
+
+    - 추가 등
+
+2. Go
+
+    - "cannot read from a config" 에러가 뜨는 경우
+
+    ```bash
+    2022/10/26 12:25:34 cannot read from a config
+    exit status 1
+    ```
+
+      - backend/core/config.yml 파일이 없기 때문에 문제가 생김
+        - 넣지 않은 이유
+          - DB 연결 정보와 관련된 내용이기 때문
+          - DB 연결 정보만 비우고 파일을 넣어놓으면, run이 되기 때문에 초기 설정에 DB 연결정보에 대한 주의를 기울이지 않기 때문
+      - backend/core/config.yml 파일을 생성하고 다음 형태로 적용
+
+      ```yml
+      database:
+        address: 
+        port: 0000
+        schema: here-is-schema
+        user: here-is-username
+        pwd: "here-is-password"
+
+      server:
+        port: 9090
+
+      image-path: image-path
+      apk-path: apk-path
+      ```
 
 ---
 
@@ -115,22 +225,34 @@ flutter doctor --android-licenses
 
     ```bash
     # 한번만 생성하기
-    flutter pub run build_runner build --delete-conflicting-outputs
+    ```
 
+    ```bash
+    flutter pub run build_runner build --delete-conflicting-outputs
+    ```
+
+    ```bash
     # 이후에 저장할 때마다 변경 사항 반영하기
+    ```
+
+    ```bash
     flutter pub run build_runner watch --delete-conflicting-outputs
     ```
 
     - 프로젝트 실행
 
     ```bash
+    
     # --debug: hot reload(o), performance monitor(o)
     # --profile: hot reload(x), performance monitor(o)
     # --release: hot reload(x), performance monitor(x)
     # --device-id: 연결된 디바이스(web, desktop, mobile) 선택가능
-    flutter run --debug
     # 위 커맨드 보다 IDE에서 run(=F5) 하는 방식 추천
     # + hot reload를 저장만 하면 바로 수행 가능
+    ```
+
+    ```bash
+    flutter run --debug
     ```
 
     - 버전 확인
@@ -165,55 +287,6 @@ flutter doctor --android-licenses
 
     ```bash
     go version
-    ```
-
----
-
-## VS Code에서 프로젝트 실행하는 방법
-
-1. Flutter
-
-    - 프로젝트 폴더/frontend 열기
-    ![vscode-open](./docs/vscode-1.png)
-    - 장치 선택
-    ![vscode-device1](./docs/vscode-flutter1.png)
-    ![vscode-device2](./docs/vscode-flutter2.png)
-    - run(F5)
-      - .vscode/launch.json이 없을 경우 생성 후 다음 삽입
-
-      ```json
-      {
-        "version": "0.2.0",
-        "configurations": [
-            {
-                "name": "frontend",
-                "request": "launch",
-                "type": "dart"
-            },
-            {
-                "name": "frontend (profile mode)",
-                "request": "launch",
-                "type": "dart",
-                "flutterMode": "profile"
-            },
-            {
-                "name": "frontend (release mode)",
-                "request": "launch",
-                "type": "dart",
-                "flutterMode": "release"
-            }
-        ]
-      }
-      ```
-
-2. Go
-
-    - 프로젝트 폴더/backend 열기
-    - 터미널 실행
-    - 다음 커맨드 수행
-
-    ```bash
-    go run main.go
     ```
 
 ---
@@ -364,3 +437,7 @@ backend
 - repository에 제공하는 데이터 접근을 관장하는 객체
 - repository 인터페이스의 구현에 의존성 주입하여 사용함
 - 데이터 출처에 따라 local 인지 remote 인지로 구분함
+
+---
+
+##
