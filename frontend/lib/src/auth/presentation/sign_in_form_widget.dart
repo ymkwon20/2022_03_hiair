@@ -51,7 +51,7 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
 
   void _onPressed() {
     _scopeNode.unfocus();
-    if (formKey.currentState!.validate() == true) {
+    if (formKey.currentState!.validate()) {
       final params = {
         "id": _idController.text,
       };
@@ -91,7 +91,7 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
                   child: Column(
                     children: [
                       const SizedBox(height: LayoutConstant.spaceL),
-                      _buildTextFormField(context),
+                      _buildIdFormField(context),
                     ],
                   ),
                 ),
@@ -167,7 +167,7 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
     );
   }
 
-  Widget _buildTextFormField(
+  Widget _buildIdFormField(
     BuildContext context,
   ) {
     return SizedBox(
