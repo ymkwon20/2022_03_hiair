@@ -440,4 +440,265 @@ backend
 
 ---
 
-##
+## 수정 시나리오 예시
+
+1. 로그인 화면 수정
+
+- 요구사항
+  - 현재는 ID만 입력해서 로그인 하고 있으나, 누구나 접근이 가능해지니 Password도 받아서 로그인 하도록 변경
+- 생각 프로세스
+
+```text
+1. 화면은 변경되는가? -> O
+  : 아이디 밑에 비밀번호 입력칸 넣기
+
+2. 애플리케이션 로직이 변경되는가? -> O
+  : 기존 아이디 + 새로운 비밀번호를 비즈니스 로직으로 넘겨줘야 함
+
+3. 비즈니스 로직이 변경되는가? -> O
+  : 아이디 비밀번호 검증을 위해 외부에 확인을 요청해야함
+
+4. 외부 DB와의 약속이 변경되는가? -> O
+  : 아이디 + 비밀번호를 넘겨야 함
+
+5. 백앤드 변경되는가? -> O
+  : 백앤드에서 로그인 로직을 처리하건, PM의 요청에 의해 DB에서 처리하건 유효한 아이디인지 검증해야함
+```
+
+- 적용
+  1) 프론트-프리젠테이션 계층 수정
+      - frontend/lib/src/auth/presentation/sign_in_form_widget.dart 열기
+      - password 를 입력할 widget 및 controller 생성
+
+      ```dart
+      +++
+      late TextEditiingController _pwController;
+      ...
+
+      @override
+      void initState() {
+        super.initState();
+        ...
+        +++
+        _pwController = TextEditingController();
+        ...
+      }
+
+      @override
+      void dispose() {
+        _pwController.dispose();
+      }
+      
+      ...
+
+      Widget _buildPasswordFormField(...) {
+        return TextFormField(
+          ...,
+          controller: _pwController,
+        );
+      }
+      ```
+
+      - password widget 주입(line 94)
+
+      ```dart
+      ...
+      _buildIdFormField(context),
+      +++
+      _buildPasswordFormField(...),
+      ...
+      ```
+
+      - password을 application layer로 넘기기(line 52)
+
+      ```dart
+      void _onPressed() {
+        ...
+        if (formKey.currentState!.validate()) {
+          final params = {
+            "id": _idController.text,
+            +++
+            "password": _pwController.text,
+          }
+        }
+      }
+
+      ```
+
+  2) 프론트-애플리케이션 계층 수정
+      - 소스코드 확인하니 Map으로 값을 받기 때문에 수정하지 않아도 됨
+      - 구조적 엄밀성, 더 높은 가독성을 원한다면 새로운 형태의 User- 생성하는 것 고려
+
+  3) 프론트-도메인 계층 수정
+      - 상기 이유와 같은 이유로 수정할 것이 없음
+      - 상기 사항 고려 하기
+
+  4) 프론트-인프라 계층 수정
+      - 상기 이유와 같은 이유로 수정할 것이 없음
+      - 상기 사항 고려 하기
+      - auth_remote_dio_service.dart 의 end-point 가 /sign-in 인 것 확인하기
+
+  5) 백-handler 수정
+      - /backend/handler.go의 signIn 메소드 확인
+      - 생각 프로세스 5번에서 언급한대로, 기호에 맞춰서 처리해줌
+      - query 에 password 파라미터 추가하기
+
+      ```go
+
+      func (a *AppHandler) signIn(w http.ResponseWriter, r *http.Request) {
+        var params map[string]interface{}
+
+        ...
+
+        query := fmt.Sprintf(`
+        EXEC SP_TABLET_LOG_01_SELECT '%s';
+        `, params["id"], params["pw"])
+      }
+
+      ```
+
+2. 마지막 버전 배포된 날짜 확인하기 기능 추가
+
+- 생각 프로세스
+
+```text
+1. 화면은 변경되는가? -> O
+  : 배포 날짜를 확인하는 화면이 필요하다면 추가 되야함
+
+2. 애플리케이션 로직이 변경되는가? -> O
+  : 추가 되야함
+
+3. 비즈니스 로직이 변경되는가? -> O
+  : 추가 되야함
+
+4. 외부 DB와의 약속이 변경되는가? -> O
+  : 추가 되야함
+
+5. 백앤드 변경되는가? -> O
+  : 추가 되야함
+```
+
+- 적용
+
+  1) 프론트: 도메인 계층 추가
+      - 어떠한 entity로 받아서 처리할 것인지 결정
+        - 객체로 만들 이유를 찾지 못했다면 String으로 생성해도 무방함
+      - usecase 생성
+        - frontend/lib/src/version/domain/usecases/fetch_last_date_of_release.dart 생성
+
+        ```dart
+        class FetchLastDateOfRelease implements Usecase<String,void> {
+          const FetchLastDateOfRelease({required IVersionRepository repository})
+          :_repository=repository;
+
+          @override
+          Future<Either<Failure,String>> call([void params]) async {
+            return _repository.fetchLastDateOfRelease();
+          }
+
+        }
+
+        ```
+
+      - repository method 추가
+        - frontend/lib/src/version/domain/repositories/i_version_repository.dart
+
+        ```dart
+        +++
+        Future<String> fetchLastDateOfRelease();
+        ```
+
+  2) 프론트: 인프라 계층 추가
+      - repository 구현 수정
+        - frontend/lib/src/version/infrastructure/repositories/version_repository.dart
+
+        ```dart
+        +++
+        @override
+        Future<String> fetchLastDateOfRelease() async {
+          ...
+        }
+        ```
+
+      - datasource 추가
+        - frontend/lib/src/version/infrastructure/datasources/version_remote_service.dart
+
+        ```dart
+        +++
+        Future<String> fetchLastDateOfRelease();
+        ```
+
+      - datasource 구현 수정
+        - frontend/lib/src/version/infrastructure/datasources/version_dio_remote_service.dart
+
+        ```dart
+        ...
+        +++
+        @override
+        Future<String> fetchLastDateOfRelease() async {
+          ...
+        }
+        ```
+
+  3) 프론트: 애플리케이션 계층 추가
+
+      - 상태로 표현하고 싶은 경우
+        - ..._state.dart, ..._event.dart 형태를 참고하여 생성
+      - 상태로 표현하고 싶지 않은 경우
+        - frontend/lib/src/version/application/version_date_state_notifier.dart 생성 후 다음과 같은 패턴으로 코드 작성
+
+        ```dart
+        class VersionDateStateNotifier extends StateNotifier<String> {
+          
+          final FetchLastDateOfRelease _fetchLastDate;
+
+          VersionDateStateNotifier({
+            required FetchLastDateOfRelease fetchLastDate,
+          }):_fetchLastDate=fetchLastDate, super("");
+
+          Future<void> nameThisFunction() async {
+            final resultsOrFailure = await _fetchLastDate();
+            resultsOrFailure.fold(
+              (l) {},
+              (r) => state = r,
+            );
+          }
+        }
+        ```
+
+  4) 프론트: 의존성 주입
+
+      - 각각 계층의 클래스에 포함된 의존성을 주입
+      - frontend/lib/src/version/dependency_injection.dart
+
+      ```dart
+      +++
+      final versionDateStateNotifierProvider = StateNotifierProvider<VersionDateStateNotifier,String>(
+        (ref)=>VersionDateStateNotifier(
+          fetchLastDate:ref.watch(fetchLastDateProvider),
+        ),
+      );
+
+      final fetchLastDateProvider = Provider(
+        (ref)=>FetchLastDateOfRelease(
+          repository: ref.watch(versionRepositoryProvider),
+        ),
+      );
+      ```
+
+  5) 프론트: 프리젠테이션 계층 추가
+     - 화면이 필요한 경우 추가
+     - ex) frontend/lib/src/version/presentation/version_date_widget.dart
+  
+  6) 백: API 추가
+      - backend/handler/handler.go
+
+      ```go
+      +++
+      r.HandleFunc("/apk/date", a.fetchLastDateOfRelease).Methods("GET")
+
+      ...
+      func (a *AppHandler) fetchLastDateOfRelease() {
+        ...
+      }
+      ```
