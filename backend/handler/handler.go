@@ -58,7 +58,6 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/safety/{code}", a.getSafetyItems).Methods("GET")
 	r.HandleFunc("/safety", a.saveSafetyChecks).Methods("POST")
 	r.HandleFunc("/safety/repair", a.saveSafetyRepair).Methods("POST")
-
 	return a
 }
 
@@ -294,7 +293,6 @@ func (a *AppHandler) signIn(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *AppHandler) getWorkOrderByWbCd(w http.ResponseWriter, r *http.Request) {
-
 	queryString := r.URL.Query()
 	wbCd := queryString.Get("wb-cd")
 	wcCd := queryString.Get("wc-cd")

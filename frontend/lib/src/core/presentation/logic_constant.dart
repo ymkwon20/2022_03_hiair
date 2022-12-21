@@ -13,5 +13,5 @@ class LogicConstant {
   /// DB procedure 조회해보면 page 조회 할 때마다 150 개씩 넘겨받음
   /// 수량이 너무 많다 싶을 때는 PM에게  문의
   ///
-  static const int qmFetchCount = 150;
+  static const int qmFetchCount = 1000;
 }

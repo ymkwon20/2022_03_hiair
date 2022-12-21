@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/cutting/presentation/cutting_screen.dart';
+import 'package:frontend/src/impeller/presentation/screens/impeller_screen.dart';
 import 'package:frontend/src/work_base/domain/entities/work_base_info.dart';
 import 'package:frontend/src/workorder/presentation/screens/work_order_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -45,6 +46,10 @@ class WorkBaseChangeNotifier extends ChangeNotifier {
             "${_selectedWorkBaseInfo!.wbCode}-${DateTime.now().millisecond}"),
         canSaveBothStartAndEnd: true,
       );
+      notifyListeners();
+    } else if (_selectedWorkBaseInfo!.wbCode == "FIP") {
+      // IMPELLER 화면 호출
+      page = const ImpellerScreen();
       notifyListeners();
     } else {
       /// 나머지
