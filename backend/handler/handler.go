@@ -38,6 +38,7 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/order", a.getWorkOrderByWbCd).Methods("GET")
 	r.HandleFunc("/order", a.saveWorkOrder).Methods("POST")
 	r.HandleFunc("/orders", a.saveWorkOrderList).Methods("POST")
+	r.HandleFunc("/impeller", a.getImpellerByWbCd).Methods("GET")
 	r.HandleFunc("/qm", a.getQmItems).Methods("GET")
 	r.HandleFunc("/qm", a.saveQmItem).Methods("POST")
 	r.HandleFunc("/fct", a.getFctSerial).Methods("GET")
@@ -431,6 +432,73 @@ func (a *AppHandler) saveWorkOrderList(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
+}
+
+func (a *AppHandler) getImpellerByWbCd(w http.ResponseWriter, r *http.Request) {
+	queryString := r.URL.Query()
+	wbCd := queryString.Get("wb-cd")
+	wcCd := queryString.Get("wc-cd")
+	rawPage := queryString.Get("page")
+
+	page, err := strconv.Atoi(rawPage)
+	if err != nil {
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_ORD_01_IMP_SELECT '%s', '%s', '', '', '', '', '%s';
+	`, wcCd, wbCd, strconv.Itoa(page))
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	var isNextAvailable bool
+	if results == nil {
+		isNextAvailable = false
+	} else if len(results) == 0 {
+		isNextAvailable = false
+	} else {
+		isNextAvailable = results[0].(map[string]interface{})["CAN_LOAD_NEXT"].(bool)
+	}
+
+	data := make(map[string]interface{})
+	data["is_next_available"] = isNextAvailable
+
+	if results == nil {
+		results = make([]interface{}, 0)
+	}
+
+	data["data"] = results
+
+	response, err := json.Marshal(data)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(response)
 }
 
 func (a *AppHandler) getFctSerial(w http.ResponseWriter, r *http.Request) {

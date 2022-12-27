@@ -107,7 +107,7 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
             Navigator.of(context).push(
               CustomScaleRoute(
                 backgroundColor: Colors.black.withOpacity(.2),
-                builder: (_) => CustomTableHeaderDialog(filterKey: filterKey),
+                builder: (_) => ImpellerFilterDialog(filterKey: filterKey),
               ),
             );
           },

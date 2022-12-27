@@ -17,7 +17,7 @@ class ImpellerRemoteService implements ImpellerService {
   Future<ImpellerListDto> fetchImpellerList(Map<String, dynamic> params) async {
     try {
       final response = await _dio.get(
-        "/order",
+        "/impeller",
         queryParameters: params,
       );
 

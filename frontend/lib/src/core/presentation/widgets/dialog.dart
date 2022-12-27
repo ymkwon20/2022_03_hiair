@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -479,6 +480,156 @@ class CustomTableHeaderDialog extends ConsumerWidget {
   }
 }
 
+class ImpellerFilterDialog extends ConsumerWidget {
+  const ImpellerFilterDialog({
+    Key? key,
+    required this.filterKey,
+  }) : super(key: key);
+
+  final String filterKey;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final filterList = ref.watch(impellerColumnFilterProvider);
+    final currentFilterMap = ref.watch(impellerListNotifier).filterMap;
+
+    void _onTap(int index) {
+      if (filterList[index].isSelected) {
+        final newFilterList = currentFilterMap[filterKey]?.toList() ?? [];
+
+        newFilterList.remove(filterList[index].name);
+
+        ref
+            .read(impellerListNotifier.notifier)
+            .setFilter(filterKey, newFilterList);
+      } else {
+        final newFilterList = currentFilterMap[filterKey]?.toList() ?? [];
+
+        newFilterList.add(filterList[index].name);
+
+        ref.read(impellerListNotifier.notifier).setFilter(
+              filterKey,
+              newFilterList,
+            );
+      }
+    }
+
+    return Dialog(
+      width: MediaQuery.of(context).size.width / 2,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding:
+                const EdgeInsets.symmetric(vertical: LayoutConstant.paddingM),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(LayoutConstant.radiusM),
+              ),
+            ),
+            alignment: Alignment.center,
+            child: const Text(
+              "필터",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (ref
+                      .watch(impellerListNotifier)
+                      .filterMap
+                      .keys
+                      .contains(filterKey)) {
+                    ref
+                        .read(impellerListNotifier.notifier)
+                        .removeFilter(filterKey);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: LayoutConstant.paddingL,
+                    vertical: LayoutConstant.paddingM,
+                  ),
+                  child: Text(
+                    "필터 제거",
+                    style: TextStyle(
+                      color: ref
+                              .watch(impellerListNotifier)
+                              .filterMap
+                              .keys
+                              .contains(filterKey)
+                          ? Theme.of(context).primaryColorDark
+                          : Theme.of(context).disabledColor,
+                      fontSize: 22,
+                      fontWeight: ref
+                              .watch(impellerListNotifier)
+                              .filterMap
+                              .keys
+                              .contains(filterKey)
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
+                  ),
+                ),
+              )),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 3,
+            child: ScrollConfiguration(
+              behavior: NoGlowBehavior(),
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: LayoutConstant.paddingS,
+                        vertical: LayoutConstant.paddingL),
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () => _onTap(index),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: filterList[index].isSelected,
+                            onChanged: (_) => _onTap(index),
+                          ),
+                          Flexible(
+                            child: RichText(
+                              text: TextSpan(
+                                text: filterList[index].name,
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.color,
+                                ),
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                padding: EdgeInsets.zero,
+                itemCount: filterList.length,
+              ),
+            ),
+          ),
+          const SizedBox(height: LayoutConstant.spaceM),
+        ],
+      ),
+    );
+  }
+}
+
 class SavingDialog extends StatelessWidget {
   const SavingDialog({Key? key}) : super(key: key);
 
@@ -534,96 +685,96 @@ class SavingDialog extends StatelessWidget {
   }
 }
 
-class VersionDialog extends StatelessWidget {
-  const VersionDialog({
-    Key? key,
-    required this.localVersion,
-    required this.latestVersion,
-  }) : super(key: key);
+// class VersionDialog extends StatelessWidget {
+//   const VersionDialog({
+//     Key? key,
+//     required this.localVersion,
+//     required this.latestVersion,
+//   }) : super(key: key);
 
-  final String localVersion;
-  final String latestVersion;
+//   final String localVersion;
+//   final String latestVersion;
 
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      width: MediaQuery.of(context).size.width / 3,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: LayoutConstant.paddingM,
-            ),
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(LayoutConstant.radiusM),
-                )),
-            alignment: Alignment.center,
-            child: const Text(
-              "새 버전 다운로드",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-              ),
-            ),
-          ),
-          const SizedBox(height: LayoutConstant.spaceM),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: LayoutConstant.paddingL),
-            child: Text.rich(
-              TextSpan(
-                text:
-                    "$localVersion -> $latestVersion\n으로 업데이트가 필요합니다. 확인을 눌러 다운로드 합니다.\n",
-                style: const TextStyle(
-                  fontSize: 22,
-                ),
-                children: const [
-                  TextSpan(
-                    text: "(새 버전을 다운로드 하지 않아 발생한 오류는 책임지지 않습니다.)",
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
-                  ),
-                ],
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(height: LayoutConstant.spaceM),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: _Button(
-                  name: "취소",
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
-              Expanded(
-                child: _Button(
-                  name: "확인",
-                  onTap: () async {
-                    final apkUrl =
-                        "${LogicConstant.baseApiServerUrl}/apk/$latestVersion";
-                    launchUrl(
-                      Uri.parse(apkUrl),
-                      mode: LaunchMode.externalApplication,
-                    );
-                  },
-                  isPrimary: true,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Dialog(
+//       width: MediaQuery.of(context).size.width / 3,
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: [
+//           Container(
+//             padding: const EdgeInsets.symmetric(
+//               vertical: LayoutConstant.paddingM,
+//             ),
+//             decoration: BoxDecoration(
+//                 color: Theme.of(context).colorScheme.secondary,
+//                 borderRadius: const BorderRadius.vertical(
+//                   top: Radius.circular(LayoutConstant.radiusM),
+//                 )),
+//             alignment: Alignment.center,
+//             child: const Text(
+//               "새 버전 다운로드",
+//               style: TextStyle(
+//                 color: Colors.white,
+//                 fontSize: 24,
+//               ),
+//             ),
+//           ),
+//           const SizedBox(height: LayoutConstant.spaceM),
+//           Padding(
+//             padding:
+//                 const EdgeInsets.symmetric(horizontal: LayoutConstant.paddingL),
+//             child: Text.rich(
+//               TextSpan(
+//                 text:
+//                     "$localVersion -> $latestVersion\n으로 업데이트가 필요합니다. 확인을 눌러 다운로드 합니다.\n",
+//                 style: const TextStyle(
+//                   fontSize: 22,
+//                 ),
+//                 children: const [
+//                   TextSpan(
+//                     text: "(새 버전을 다운로드 하지 않아 발생한 오류는 책임지지 않습니다.)",
+//                     style:
+//                         TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
+//                   ),
+//                 ],
+//               ),
+//               textAlign: TextAlign.center,
+//             ),
+//           ),
+//           const SizedBox(height: LayoutConstant.spaceM),
+//           Row(
+//             mainAxisSize: MainAxisSize.max,
+//             children: [
+//               Expanded(
+//                 child: _Button(
+//                   name: "취소",
+//                   onTap: () {
+//                     Navigator.of(context).pop();
+//                   },
+//                 ),
+//               ),
+//               Expanded(
+//                 child: _Button(
+//                   name: "확인",
+//                   onTap: () async {
+//                     final apkUrl =
+//                         "${LogicConstant.baseApiServerUrl}/apk/$latestVersion";
+//                     launchUrl(
+//                       Uri.parse(apkUrl),
+//                       mode: LaunchMode.externalApplication,
+//                     );
+//                   },
+//                   isPrimary: true,
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class RemarkDialog extends StatefulWidget {
   const RemarkDialog({

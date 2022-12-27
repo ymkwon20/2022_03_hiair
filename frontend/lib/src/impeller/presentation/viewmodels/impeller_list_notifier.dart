@@ -20,7 +20,7 @@ final tableColumnNotifier = StateProvider<String>(
   (_) => "",
 );
 
-final columnFilterProvider =
+final impellerColumnFilterProvider =
     StateProvider.autoDispose<List<TableHeaderFilterItem>>((ref) {
   final List<TableCellEntity> tableCells =
       ref.watch(impellerListNotifier).items;
