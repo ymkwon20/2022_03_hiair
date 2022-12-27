@@ -538,47 +538,63 @@ class ImpellerFilterDialog extends ConsumerWidget {
             ),
           ),
           Align(
-              alignment: Alignment.centerRight,
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  if (ref
-                      .watch(impellerListNotifier)
-                      .filterMap
-                      .keys
-                      .contains(filterKey)) {
-                    ref
-                        .read(impellerListNotifier.notifier)
-                        .removeFilter(filterKey);
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: LayoutConstant.paddingL,
-                    vertical: LayoutConstant.paddingM,
-                  ),
-                  child: Text(
-                    "필터 제거",
-                    style: TextStyle(
-                      color: ref
-                              .watch(impellerListNotifier)
-                              .filterMap
-                              .keys
-                              .contains(filterKey)
-                          ? Theme.of(context).primaryColorDark
-                          : Theme.of(context).disabledColor,
-                      fontSize: 22,
-                      fontWeight: ref
-                              .watch(impellerListNotifier)
-                              .filterMap
-                              .keys
-                              .contains(filterKey)
-                          ? FontWeight.bold
-                          : FontWeight.normal,
-                    ),
+            alignment: Alignment.centerRight,
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                if (ref
+                    .watch(impellerListNotifier)
+                    .filterMap
+                    .keys
+                    .contains(filterKey)) {
+                  ref
+                      .read(impellerListNotifier.notifier)
+                      .removeFilter(filterKey);
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: LayoutConstant.paddingL,
+                  vertical: LayoutConstant.paddingM,
+                ),
+                child: Text(
+                  "필터 제거",
+                  style: TextStyle(
+                    color: ref
+                            .watch(impellerListNotifier)
+                            .filterMap
+                            .keys
+                            .contains(filterKey)
+                        ? Theme.of(context).primaryColorDark
+                        : Theme.of(context).disabledColor,
+                    fontSize: 22,
+                    fontWeight: ref
+                            .watch(impellerListNotifier)
+                            .filterMap
+                            .keys
+                            .contains(filterKey)
+                        ? FontWeight.bold
+                        : FontWeight.normal,
                   ),
                 ),
-              )),
+              ),
+            ),
+          ),
+          TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: '입력',
+            ),
+          ),
+          FloatingActionButton(
+            child: Icon(Icons.search),
+            onPressed: () => showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(content: Text('테스트'));
+              },
+            ),
+          ),
           SizedBox(
             height: MediaQuery.of(context).size.height / 3,
             child: ScrollConfiguration(
