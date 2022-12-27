@@ -438,20 +438,20 @@ func (a *AppHandler) getImpellerByWbCd(w http.ResponseWriter, r *http.Request) {
 	queryString := r.URL.Query()
 	wbCd := queryString.Get("wb-cd")
 	wcCd := queryString.Get("wc-cd")
-	// rawPage := queryString.Get("page")
+	rawPage := queryString.Get("page")
 
-	// page, err := strconv.Atoi(rawPage)
-	// if err != nil {
-	// 	errMsg := make(map[string]interface{})
-	// 	errMsg["msg"] = err.Error()
-	// 	jData, _ := json.Marshal(errMsg)
-	// 	w.Write(jData)
-	// 	return
-	// }
+	page, err := strconv.Atoi(rawPage)
+	if err != nil {
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
 
 	query := fmt.Sprintf(`
-	EXEC SP_TABLET_ORD_01_IMP_SELECT '%s', '%s', '', '', '', '';
-	`, wcCd, wbCd)
+	EXEC SP_TABLET_ORD_01_IMP_SELECT '%s', '%s', '', '', '', '', '%s';
+	`, wcCd, wbCd, strconv.Itoa(page))
 
 	results, err := a.db.CallProcedure(query)
 	if err != nil {
