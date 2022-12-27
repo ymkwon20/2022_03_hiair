@@ -88,25 +88,25 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with RouteAware {
       );
     });
 
-    ref.listen<VersionState>(
-      versionStateNotifierProvider,
-      (previous, current) {
-        current.maybeWhen(
-          outdated: (localVersion, latestVersion) {
-            Navigator.of(context).push(
-              CustomScaleRoute(
-                builder: (context) => VersionDialog(
-                  localVersion: localVersion,
-                  latestVersion: latestVersion,
-                ),
-                backgroundColor: Colors.black.withOpacity(.2),
-              ),
-            );
-          },
-          orElse: () {},
-        );
-      },
-    );
+    // ref.listen<VersionState>(
+    //   versionStateNotifierProvider,
+    //   (previous, current) {
+    //     current.maybeWhen(
+    //       outdated: (localVersion, latestVersion) {
+    //         Navigator.of(context).push(
+    //           CustomScaleRoute(
+    //             builder: (context) => VersionDialog(
+    //               localVersion: localVersion,
+    //               latestVersion: latestVersion,
+    //             ),
+    //             backgroundColor: Colors.black.withOpacity(.2),
+    //           ),
+    //         );
+    //       },
+    //       orElse: () {},
+    //     );
+    //   },
+    // );
 
     final size = MediaQuery.of(context).size;
 
