@@ -26,7 +26,7 @@ class VersionStateNotifier extends StateNotifier<VersionState> {
         state = const VersionState.checking();
 
         // localVersion = await _fetchLocal();
-        localVersion = "1.2.0";
+        localVersion = "1.2.1";
         final failureOrRemoteVersion = await _fetchLatest();
 
         failureOrRemoteVersion.fold(
