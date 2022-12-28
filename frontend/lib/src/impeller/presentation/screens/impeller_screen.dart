@@ -441,6 +441,10 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
       color = Theme.of(context).selectedRowColor;
     }
 
+    if (notifier.items[index].rmk != "") {
+      color = Colors.cyan;
+    }
+
     return color;
   }
 

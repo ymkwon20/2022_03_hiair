@@ -342,6 +342,7 @@ class CustomTableHeaderDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final filterList = ref.watch(columnFilterProvider);
     final currentFilterMap = ref.watch(workOrderListNotifier).filterMap;
+    final textFieldController = TextEditingController();
 
     void _onTap(int index) {
       if (filterList[index].isSelected) {
@@ -362,6 +363,21 @@ class CustomTableHeaderDialog extends ConsumerWidget {
               newFilterList,
             );
       }
+    }
+
+    void _onTapByString(String filterString) {
+      final newFilterList = <String>[];
+
+      for (int i = 0; i < filterList.length; i++) {
+        if (filterList[i].name.contains(filterString)) {
+          newFilterList.add(filterList[i].name);
+        }
+      }
+
+      ref.read(workOrderListNotifier.notifier).setFilter(
+            filterKey,
+            newFilterList,
+          );
     }
 
     return Dialog(
@@ -429,6 +445,30 @@ class CustomTableHeaderDialog extends ConsumerWidget {
                   ),
                 ),
               )),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  child: TextField(
+                    controller: textFieldController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: '입력',
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  child: Icon(Icons.search),
+                  onPressed: () => _onTapByString(textFieldController.text),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.blue,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 18, horizontal: 40)),
+                ),
+              ],
+            ),
+          ),
           SizedBox(
             height: MediaQuery.of(context).size.height / 3,
             child: ScrollConfiguration(
@@ -492,6 +532,7 @@ class ImpellerFilterDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final filterList = ref.watch(impellerColumnFilterProvider);
     final currentFilterMap = ref.watch(impellerListNotifier).filterMap;
+    final textFieldController = TextEditingController();
 
     void _onTap(int index) {
       if (filterList[index].isSelected) {
@@ -512,6 +553,21 @@ class ImpellerFilterDialog extends ConsumerWidget {
               newFilterList,
             );
       }
+    }
+
+    void _onTapByString(String filterString) {
+      final newFilterList = <String>[];
+
+      for (int i = 0; i < filterList.length; i++) {
+        if (filterList[i].name.contains(filterString)) {
+          newFilterList.add(filterList[i].name);
+        }
+      }
+
+      ref.read(impellerListNotifier.notifier).setFilter(
+            filterKey,
+            newFilterList,
+          );
     }
 
     return Dialog(
@@ -580,19 +636,28 @@ class ImpellerFilterDialog extends ConsumerWidget {
               ),
             ),
           ),
-          TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: '입력',
-            ),
-          ),
-          FloatingActionButton(
-            child: Icon(Icons.search),
-            onPressed: () => showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(content: Text('테스트'));
-              },
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  child: TextField(
+                    controller: textFieldController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: '입력',
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  child: Icon(Icons.search),
+                  onPressed: () => _onTapByString(textFieldController.text),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.blue,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 18, horizontal: 40)),
+                ),
+              ],
             ),
           ),
           SizedBox(
