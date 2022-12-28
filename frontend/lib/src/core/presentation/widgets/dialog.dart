@@ -766,96 +766,96 @@ class SavingDialog extends StatelessWidget {
   }
 }
 
-// class VersionDialog extends StatelessWidget {
-//   const VersionDialog({
-//     Key? key,
-//     required this.localVersion,
-//     required this.latestVersion,
-//   }) : super(key: key);
+class VersionDialog extends StatelessWidget {
+  const VersionDialog({
+    Key? key,
+    required this.localVersion,
+    required this.latestVersion,
+  }) : super(key: key);
 
-//   final String localVersion;
-//   final String latestVersion;
+  final String localVersion;
+  final String latestVersion;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Dialog(
-//       width: MediaQuery.of(context).size.width / 3,
-//       child: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           Container(
-//             padding: const EdgeInsets.symmetric(
-//               vertical: LayoutConstant.paddingM,
-//             ),
-//             decoration: BoxDecoration(
-//                 color: Theme.of(context).colorScheme.secondary,
-//                 borderRadius: const BorderRadius.vertical(
-//                   top: Radius.circular(LayoutConstant.radiusM),
-//                 )),
-//             alignment: Alignment.center,
-//             child: const Text(
-//               "새 버전 다운로드",
-//               style: TextStyle(
-//                 color: Colors.white,
-//                 fontSize: 24,
-//               ),
-//             ),
-//           ),
-//           const SizedBox(height: LayoutConstant.spaceM),
-//           Padding(
-//             padding:
-//                 const EdgeInsets.symmetric(horizontal: LayoutConstant.paddingL),
-//             child: Text.rich(
-//               TextSpan(
-//                 text:
-//                     "$localVersion -> $latestVersion\n으로 업데이트가 필요합니다. 확인을 눌러 다운로드 합니다.\n",
-//                 style: const TextStyle(
-//                   fontSize: 22,
-//                 ),
-//                 children: const [
-//                   TextSpan(
-//                     text: "(새 버전을 다운로드 하지 않아 발생한 오류는 책임지지 않습니다.)",
-//                     style:
-//                         TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
-//                   ),
-//                 ],
-//               ),
-//               textAlign: TextAlign.center,
-//             ),
-//           ),
-//           const SizedBox(height: LayoutConstant.spaceM),
-//           Row(
-//             mainAxisSize: MainAxisSize.max,
-//             children: [
-//               Expanded(
-//                 child: _Button(
-//                   name: "취소",
-//                   onTap: () {
-//                     Navigator.of(context).pop();
-//                   },
-//                 ),
-//               ),
-//               Expanded(
-//                 child: _Button(
-//                   name: "확인",
-//                   onTap: () async {
-//                     final apkUrl =
-//                         "${LogicConstant.baseApiServerUrl}/apk/$latestVersion";
-//                     launchUrl(
-//                       Uri.parse(apkUrl),
-//                       mode: LaunchMode.externalApplication,
-//                     );
-//                   },
-//                   isPrimary: true,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      width: MediaQuery.of(context).size.width / 3,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: LayoutConstant.paddingM,
+            ),
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(LayoutConstant.radiusM),
+                )),
+            alignment: Alignment.center,
+            child: const Text(
+              "새 버전 다운로드",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          const SizedBox(height: LayoutConstant.spaceM),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: LayoutConstant.paddingL),
+            child: Text.rich(
+              TextSpan(
+                text:
+                    "$localVersion -> $latestVersion\n으로 업데이트가 필요합니다. 확인을 눌러 다운로드 합니다.\n",
+                style: const TextStyle(
+                  fontSize: 22,
+                ),
+                children: const [
+                  TextSpan(
+                    text: "(새 버전을 다운로드 하지 않아 발생한 오류는 책임지지 않습니다.)",
+                    style:
+                        TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: LayoutConstant.spaceM),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: _Button(
+                  name: "취소",
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+              Expanded(
+                child: _Button(
+                  name: "확인",
+                  onTap: () async {
+                    final apkUrl =
+                        "${LogicConstant.baseApiServerUrl}/apk/$latestVersion";
+                    launchUrl(
+                      Uri.parse(apkUrl),
+                      mode: LaunchMode.externalApplication,
+                    );
+                  },
+                  isPrimary: true,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class RemarkDialog extends StatefulWidget {
   const RemarkDialog({
