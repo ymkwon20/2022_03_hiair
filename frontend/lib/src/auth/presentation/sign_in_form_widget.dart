@@ -21,7 +21,9 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
   final formKey = GlobalKey<FormState>();
 
   late TextEditingController _idController;
+  late TextEditingController _pwController;
   late FocusNode _idFocus;
+  late FocusNode _pwFocus;
   late FocusScopeNode _scopeNode;
 
   @override
@@ -29,14 +31,18 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
     super.initState();
 
     _idController = TextEditingController();
+    _pwController = TextEditingController();
     _idFocus = FocusNode();
+    _pwFocus = FocusNode();
     _scopeNode = FocusScopeNode();
   }
 
   @override
   void dispose() {
     _idController.dispose();
+    _pwController.dispose();
     _idFocus.dispose();
+    _pwFocus.dispose();
     _scopeNode.dispose();
     super.dispose();
   }
@@ -54,6 +60,7 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
     if (formKey.currentState!.validate()) {
       final params = {
         "id": _idController.text,
+        "pw": _pwController.text,
       };
 
       ref.read(authStateNotifierProvider.notifier).mapEventToState(
@@ -65,6 +72,9 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
   void _onFieldSubmit(String _) {
     if (_idController.text.isEmpty) {
       _idFocus.requestFocus();
+    }
+    else if (_pwController.text.isEmpty) {
+      _pwFocus.requestFocus();
     } else {
       _onPressed();
     }
@@ -92,6 +102,7 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
                     children: [
                       const SizedBox(height: LayoutConstant.spaceL),
                       _buildIdFormField(context),
+                      _buildPwFormField(context),
                     ],
                   ),
                 ),
@@ -189,6 +200,60 @@ class _SignInFormWidgetState extends ConsumerState<SignInFormWidget> {
           ),
           errorStyle: const TextStyle(height: .8),
           hintText: "ID",
+          // Enabled Border
+          enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              width: LayoutConstant.spaceXS,
+            ),
+          ),
+          // Focused Border
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              width: LayoutConstant.spaceS,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          ),
+          // Error Border
+          errorBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              width: LayoutConstant.spaceXS,
+              color: Theme.of(context).errorColor,
+            ),
+          ),
+          // Focused Error Border
+          focusedErrorBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              width: LayoutConstant.spaceXS,
+            ),
+          ),
+        ),
+        onFieldSubmitted: _onFieldSubmit,
+      ),
+    );
+  }
+
+  Widget _buildPwFormField(
+    BuildContext context,
+  ) {
+    return SizedBox(
+      height: 60,
+      child: TextFormField(
+        focusNode: _pwFocus,
+        controller: _pwController,
+        autocorrect: false,
+        obscureText: true,
+        style: const TextStyle(
+          fontSize: 24,
+        ),
+        validator: formValidator,
+        decoration: InputDecoration(
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: LayoutConstant.paddingL,
+            vertical: LayoutConstant.paddingS,
+          ),
+          errorStyle: const TextStyle(height: .8),
+          hintText: "PW",
           // Enabled Border
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(

@@ -260,8 +260,8 @@ func (a *AppHandler) signIn(w http.ResponseWriter, r *http.Request) {
 	}
 
 	query := fmt.Sprintf(`
-	EXEC SP_TABLET_LOG_01_SELECT '%s';
-	`, params["id"])
+	EXEC SP_TABLET_LOG_02_SELECT '%s','%s';
+	`, params["id"], params["pw"])
 
 	results, err := a.db.CallProcedure(query)
 	if err != nil {
