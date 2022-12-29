@@ -433,16 +433,14 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
 
     if (notifier.items[index].status == ImpellerStatus.resuming) {
       color = Colors.amber;
+    } else if (notifier.items[index].rmk != "") {
+      color = Colors.cyan;
     } else {
       color = Colors.transparent;
     }
 
     if (notifier.selectedIndex.contains(index)) {
       color = Theme.of(context).selectedRowColor;
-    }
-
-    if (notifier.items[index].rmk != "") {
-      color = Colors.cyan;
     }
 
     return color;
