@@ -89,25 +89,25 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
       }),
     );
 
-    ref.listen<VersionState>(
-      versionStateNotifierProvider,
-      (previous, current) {
-        current.maybeWhen(
-          outdated: (localVersion, latestVersion) {
-            Navigator.of(context).push(
-              CustomScaleRoute(
-                builder: (context) => VersionDialog(
-                  localVersion: localVersion,
-                  latestVersion: latestVersion,
-                ),
-                backgroundColor: Colors.black.withOpacity(.2),
-              ),
-            );
-          },
-          orElse: () {},
-        );
-      },
-    );
+    // ref.listen<VersionState>(
+    //   versionStateNotifierProvider,
+    //   (previous, current) {
+    //     current.maybeWhen(
+    //       outdated: (localVersion, latestVersion) {
+    //         Navigator.of(context).push(
+    //           CustomScaleRoute(
+    //             builder: (context) => VersionDialog(
+    //               localVersion: localVersion,
+    //               latestVersion: latestVersion,
+    //             ),
+    //             backgroundColor: Colors.black.withOpacity(.2),
+    //           ),
+    //         );
+    //       },
+    //       orElse: () {},
+    //     );
+    //   },
+    // );
 
     return Scaffold(
       appBar: const HomeAppBar(title: "작업 선택"),
