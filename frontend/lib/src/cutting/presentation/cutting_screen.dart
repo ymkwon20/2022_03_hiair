@@ -15,6 +15,14 @@ class CuttingScreen extends StatelessWidget {
           children: [
             _buildButton(
               context,
+              title: "작업지시",
+              onTap: () {
+                context.push("/fctWorkOrder");
+              },
+            ),
+            const SizedBox(width: LayoutConstant.spaceM),
+            _buildButton(
+              context,
               title: "철판불출확인",
               onTap: () {
                 context.push("/fct");

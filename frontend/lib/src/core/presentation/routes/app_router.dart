@@ -7,8 +7,10 @@ import 'package:frontend/src/fct/presentation/fct_serial_screen.dart';
 import 'package:frontend/src/safety/presentation/screens/safety_check_screen.dart';
 import 'package:frontend/src/safety/presentation/screens/safety_repair_screen.dart';
 import 'package:frontend/src/safety/presentation/screens/safety_screen.dart';
+import 'package:frontend/src/workorder/presentation/screens/fct_work_order_screen.dart';
 import 'package:frontend/src/workorder/presentation/screens/qm_details_screen.dart';
 import 'package:frontend/src/workorder/presentation/screens/qm_work_order_screen.dart';
+import 'package:frontend/src/workorder/presentation/screens/work_order_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -195,6 +197,21 @@ class AppRouter extends GoRouter {
                   },
                 ),
               ],
+            ),
+
+            /// FCT 화면
+            GoRoute(
+              name: "fctWorkOrder",
+              path: '/fctWorkOrder',
+              pageBuilder: (context, state) {
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: FCTWorkOrderScreen(
+                    key: ValueKey<String>("FCT-${DateTime.now().millisecond}"),
+                    canSaveBothStartAndEnd: true,
+                  ),
+                );
+              },
             ),
 
             /// QM 화면
