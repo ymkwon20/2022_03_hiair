@@ -30,6 +30,7 @@ class Impeller extends IImpeller implements TableCellEntity {
     required String bldAngle,
     required String shaft,
     required String rmk,
+    required String fanType,
     required this.dateStart,
     required this.dateEnd,
     required this.dateEndBefore,
@@ -50,6 +51,7 @@ class Impeller extends IImpeller implements TableCellEntity {
           bldAngle: bldAngle,
           shaft: shaft,
           rmk: rmk,
+          fanType: fanType,
         );
 
   String get statusKr {
@@ -74,6 +76,7 @@ class Impeller extends IImpeller implements TableCellEntity {
         "shaft": shaft,
         "rmk": rmk,
         "qty": qty.toString(),
+        "fanType": fanType,
       }[key];
 
   @override
@@ -98,7 +101,8 @@ class Impeller extends IImpeller implements TableCellEntity {
         other.status == status &&
         other.bldAngle == bldAngle &&
         other.shaft == shaft &&
-        other.rmk == rmk;
+        other.rmk == rmk &&
+        other.fanType == fanType;
   }
 
   @override
@@ -120,7 +124,8 @@ class Impeller extends IImpeller implements TableCellEntity {
         status.hashCode ^
         bldAngle.hashCode ^
         shaft.hashCode ^
-        rmk.hashCode;
+        rmk.hashCode ^
+        fanType.hashCode;
   }
 
   Impeller copyWith({
@@ -142,6 +147,7 @@ class Impeller extends IImpeller implements TableCellEntity {
     String? bldAngle,
     String? shaft,
     String? rmk,
+    String? fanType,
     ImpellerStatus? status,
   }) {
     return Impeller(
@@ -164,6 +170,7 @@ class Impeller extends IImpeller implements TableCellEntity {
       shaft: shaft ?? this.shaft,
       rmk: rmk ?? this.rmk,
       status: status ?? this.status,
+      fanType: fanType ?? this.fanType,
     );
   }
 }

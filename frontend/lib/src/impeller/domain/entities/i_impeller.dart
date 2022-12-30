@@ -44,6 +44,9 @@ abstract class IImpeller {
   // RMK:
   final String rmk;
 
+  // FAN_TYPE:
+  final String fanType;
+
   const IImpeller({
     required this.code,
     required this.planSeq,
@@ -60,5 +63,6 @@ abstract class IImpeller {
     required this.shaft,
     required this.rmk,
     required this.qty,
+    required this.fanType,
   });
 }

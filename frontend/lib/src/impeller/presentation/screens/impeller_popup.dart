@@ -78,6 +78,11 @@ class ImpellerPopup extends ConsumerWidget {
                         ),
                         const SizedBox(height: LayoutConstant.spaceM),
                         _ImpellerDrawerRow(
+                          title: "BLADE",
+                          value: impeller.bldAngle,
+                        ),
+                        const UnderlineWidget(),
+                        _ImpellerDrawerRow(
                           title: "Yard",
                           value: impeller.yard,
                         ),
@@ -98,13 +103,8 @@ class ImpellerPopup extends ConsumerWidget {
                         ),
                         const UnderlineWidget(),
                         _ImpellerDrawerRow(
-                          title: "품번",
-                          value: impeller.itemNo,
-                        ),
-                        const UnderlineWidget(),
-                        _ImpellerDrawerRow(
-                          title: "BLADE",
-                          value: impeller.bldAngle,
+                          title: "Fan Type",
+                          value: impeller.fanType,
                         ),
                         const UnderlineWidget(),
                         _ImpellerDrawerRow(
