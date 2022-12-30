@@ -32,6 +32,7 @@ class ImpellerDto extends IImpeller {
     required String bldAngle,
     required String shaft,
     required String rmk,
+    required String fanType,
     required this.dateStart,
     required this.dateEnd,
     required this.dateEndBefore,
@@ -52,6 +53,7 @@ class ImpellerDto extends IImpeller {
           bldAngle: bldAngle,
           shaft: shaft,
           rmk: rmk,
+          fanType: fanType,
         );
 
   factory ImpellerDto.fromDomain(Impeller domain) {
@@ -75,6 +77,7 @@ class ImpellerDto extends IImpeller {
       bldAngle: domain.bldAngle,
       shaft: domain.shaft,
       rmk: domain.rmk,
+      fanType: domain.fanType,
     );
   }
 
@@ -99,6 +102,7 @@ class ImpellerDto extends IImpeller {
       bldAngle: bldAngle,
       shaft: shaft,
       rmk: rmk,
+      fanType: fanType,
     );
   }
 
@@ -121,7 +125,8 @@ class ImpellerDto extends IImpeller {
       'wc-cd': wcCd,
       "bldAngle": bldAngle,
       "shaft": shaft,
-      "rmk": rmk
+      "rmk": rmk,
+      "fanType": fanType,
     };
   }
 
@@ -155,6 +160,7 @@ class ImpellerDto extends IImpeller {
       bldAngle: map["BLD_ANGLE"] ?? "",
       shaft: map["SHAFT"] ?? "",
       rmk: map["RMK"] ?? "",
+      fanType: map["FAN_TYPE"] ?? "",
       status: status,
     );
   }
@@ -183,6 +189,7 @@ class ImpellerDto extends IImpeller {
     String? bldAngle,
     String? shaft,
     String? rmk,
+    String? fanType,
     ImpellerStatus? status,
   }) {
     return ImpellerDto(
@@ -205,6 +212,7 @@ class ImpellerDto extends IImpeller {
       shaft: shaft ?? this.shaft,
       rmk: rmk ?? this.rmk,
       status: status ?? this.status,
+      fanType: fanType ?? this.fanType,
     );
   }
 
@@ -230,7 +238,8 @@ class ImpellerDto extends IImpeller {
         other.status == status &&
         other.bldAngle == bldAngle &&
         other.shaft == shaft &&
-        other.rmk == rmk;
+        other.rmk == rmk &&
+        other.fanType == fanType;
   }
 
   @override
@@ -252,6 +261,7 @@ class ImpellerDto extends IImpeller {
         status.hashCode ^
         bldAngle.hashCode ^
         shaft.hashCode ^
-        rmk.hashCode;
+        rmk.hashCode ^
+        fanType.hashCode;
   }
 }
