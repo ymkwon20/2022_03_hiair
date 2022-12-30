@@ -13,6 +13,10 @@ class ImpellerLoadedRow extends CustomTableRow {
   }) : super(
           contents: [
             Text(
+              order.bldAngle,
+              style: style,
+            ),
+            Text(
               order.yard,
               style: style,
             ),
@@ -29,11 +33,7 @@ class ImpellerLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
-              order.itemNo,
-              style: style,
-            ),
-            Text(
-              order.bldAngle,
+              order.fanType,
               style: style,
             ),
             Text(
@@ -44,14 +44,14 @@ class ImpellerLoadedRow extends CustomTableRow {
               order.rmk,
               style: style,
             ),
-            Text(
-              order.wbNm,
-              style: style,
-            ),
-            Text(
-              order.statusKr,
-              style: style,
-            ),
+            // Text(
+            //   order.wbNm,
+            //   style: style,
+            // ),
+            // Text(
+            //   order.statusKr,
+            //   style: style,
+            // ),
           ],
           color: color ?? Colors.transparent,
         );

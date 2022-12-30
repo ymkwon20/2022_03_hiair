@@ -281,6 +281,16 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
               },
               headers: [
                 CustomTableHeader(
+                  name: "bldAngle",
+                  title: "Angle",
+                  width: 130,
+                  onTap: ref.read(impellerListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("bldAngle");
+                  },
+                  children: _buildAdditionalIcons("bldAngle"),
+                ),
+                CustomTableHeader(
                   name: "yard",
                   title: "Yard",
                   width: 150,
@@ -319,24 +329,14 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                   children: _buildAdditionalIcons("sysNo"),
                 ),
                 CustomTableHeader(
-                  name: "itemNo",
-                  title: "품번",
+                  name: "fanType",
+                  title: "Fan Type",
                   width: 130,
                   onTap: ref.read(impellerListNotifier.notifier).sort,
                   onLongTap: () {
-                    _navigateTo("itemNo");
+                    _navigateTo("fanType");
                   },
-                  children: _buildAdditionalIcons("itemNo"),
-                ),
-                CustomTableHeader(
-                  name: "bldAngle",
-                  title: "BLADE",
-                  width: 130,
-                  onTap: ref.read(impellerListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("bldAngle");
-                  },
-                  children: _buildAdditionalIcons("bldAngle"),
+                  children: _buildAdditionalIcons("fanType"),
                 ),
                 CustomTableHeader(
                   name: "shaft",
@@ -358,26 +358,26 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                   },
                   children: _buildAdditionalIcons("rmk"),
                 ),
-                CustomTableHeader(
-                  name: "wbNm",
-                  title: "현공정",
-                  width: 200,
-                  onTap: ref.read(impellerListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("wbNm");
-                  },
-                  children: _buildAdditionalIcons("wbNm"),
-                ),
-                CustomTableHeader(
-                  name: "status",
-                  title: "현공정 상태",
-                  width: 200,
-                  onTap: ref.read(impellerListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("status");
-                  },
-                  children: _buildAdditionalIcons("status"),
-                ),
+                // CustomTableHeader(
+                //   name: "wbNm",
+                //   title: "현공정",
+                //   width: 200,
+                //   onTap: ref.read(impellerListNotifier.notifier).sort,
+                //   onLongTap: () {
+                //     _navigateTo("wbNm");
+                //   },
+                //   children: _buildAdditionalIcons("wbNm"),
+                // ),
+                // CustomTableHeader(
+                //   name: "status",
+                //   title: "현공정 상태",
+                //   width: 200,
+                //   onTap: ref.read(impellerListNotifier.notifier).sort,
+                //   onLongTap: () {
+                //     _navigateTo("status");
+                //   },
+                //   children: _buildAdditionalIcons("status"),
+                // ),
               ],
               rowBuilder: (context, index) {
                 return state.when(
