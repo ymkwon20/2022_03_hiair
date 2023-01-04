@@ -458,7 +458,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                       ),
                   title: "시작",
                   width: 60,
-                  backgroundColor: ThemeConstant.accentColor,
+                  backgroundColor: ThemeConstant.dominantColor,
                   active:
                       ref.read(workOrderListNotifier.notifier).isStartActive,
                 ),
@@ -496,7 +496,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                   ),
               title: "시작/완료",
               width: 120 + LayoutConstant.spaceM,
-              backgroundColor: ThemeConstant.accentColor,
+              backgroundColor: ThemeConstant.dominantColor,
               active: true,
             ),
             const SizedBox(height: LayoutConstant.spaceS),

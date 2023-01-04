@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/checklist/application/load/checklist_event.dart';
+import 'package:frontend/src/checklist/dependency_injection.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
+import 'package:frontend/src/core/presentation/pages/custom_route.dart';
+import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/core/presentation/fonts.gen.dart';
@@ -205,6 +210,31 @@ class _WorkerStartEndButtonsState
                   backgroundColor: ThemeConstant.dominantColor,
                 ),
               ),
+            const SizedBox(height: LayoutConstant.spaceM),
+            FadeTransition(
+              opacity: _topOpacityAnimation,
+              child: _buildButton(
+                  active: true,
+                  backgroundColor: ThemeConstant.dominantColor,
+                  controller: _controller,
+                  ignoring: widget.ignoring,
+                  name: '체크리스트',
+                  onTap: () {
+                    final workOrder = ref.watch(workOrderNotifier);
+                    ref
+                        .read(checklistStateNotifierProvider.notifier)
+                        .mapEventToState(
+                          ChecklistEvent.fetchChecklistForWorkOrder(workOrder),
+                        );
+
+                    Navigator.of(context).push(
+                      CustomSlideRoute(
+                        backgroundColor: Colors.black.withOpacity(.2),
+                        builder: (context) => const ChecklistPopup(),
+                      ),
+                    );
+                  }),
+            ),
           ],
         );
       },
