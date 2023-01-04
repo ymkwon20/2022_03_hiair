@@ -39,9 +39,17 @@ class ImageWidget extends StatelessWidget {
           : CachedNetworkImage(
               imageUrl: imagePath,
               placeholder: (context, url) => const SizedBox(
-                  width: 60, height: 60, child: CircularProgressIndicator()),
+                width: 60,
+                height: 60,
+              ),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
+      // : CachedNetworkImage(
+      //     imageUrl: imagePath,
+      //     placeholder: (context, url) => const SizedBox(
+      //         width: 60, height: 60, child: CircularProgressIndicator()),
+      //     errorWidget: (context, url, error) => const Icon(Icons.error),
+      //   ),
     );
   }
 }

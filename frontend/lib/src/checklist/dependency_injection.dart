@@ -8,6 +8,7 @@ import 'package:frontend/src/checklist/domain/usecases/fetch_and_save_checklist.
 import 'package:frontend/src/checklist/domain/usecases/fetch_checkimagelist.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_checklist.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_cut_checklist.dart';
+import 'package:frontend/src/checklist/domain/usecases/fetch_workorder_checklist.dart';
 import 'package:frontend/src/checklist/domain/usecases/save_checklist.dart';
 import 'package:frontend/src/checklist/domain/usecases/save_imagelist.dart';
 import 'package:frontend/src/checklist/infrastructure/datasources/checklist_service.dart';
@@ -24,6 +25,7 @@ final checklistStateNotifierProvider =
     fetchChecklist: ref.watch(fetchChecklistProvider),
     fetchCutChecklist: ref.watch(fetchCutChecklistProvider),
     fetchCheckimagelist: ref.watch(fetchCheckimagelistProvider),
+    fetchWorkOrderChecklist: ref.watch(fetchWorkOrderChecklistProvider),
   ),
 );
 
@@ -52,6 +54,12 @@ final fetchCutChecklistProvider = Provider(
 
 final fetchCheckimagelistProvider = Provider(
   (ref) => FetchCheckimagelist(
+    repository: ref.watch(checklistRepositoryProvider),
+  ),
+);
+
+final fetchWorkOrderChecklistProvider = Provider(
+  (ref) => FetchWorkOrderChecklist(
     repository: ref.watch(checklistRepositoryProvider),
   ),
 );

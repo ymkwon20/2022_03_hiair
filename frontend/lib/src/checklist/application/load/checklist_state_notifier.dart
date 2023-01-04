@@ -2,6 +2,7 @@ import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/application/load/checklist_state.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_checkimagelist.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_cut_checklist.dart';
+import 'package:frontend/src/checklist/domain/usecases/fetch_workorder_checklist.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,14 +13,17 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
     required FetchChecklist fetchChecklist,
     required FetchCutChecklist fetchCutChecklist,
     required FetchCheckimagelist fetchCheckimagelist,
+    required FetchWorkOrderChecklist fetchWorkOrderChecklist,
   })  : _fetchChecklist = fetchChecklist,
         _fetchCutChecklist = fetchCutChecklist,
         _fetchCheckimagelist = fetchCheckimagelist,
+        _fetchWorkOrderChecklist = fetchWorkOrderChecklist,
         super(const ChecklistState.initial());
 
   final FetchChecklist _fetchChecklist;
   final FetchCutChecklist _fetchCutChecklist;
   final FetchCheckimagelist _fetchCheckimagelist;
+  final FetchWorkOrderChecklist _fetchWorkOrderChecklist;
 
   Future<void> mapEventToState(ChecklistEvent event) async {
     event.when(
@@ -56,6 +60,22 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
         };
 
         final failureOrResults = await _fetchCutChecklist(params);
+        state = failureOrResults.fold(
+          (l) => ChecklistState.failure(mapFailureToString(l)),
+          (r) => ChecklistState.loaded(r),
+        );
+      },
+      fetchChecklistForWorkOrder: (order) async {
+        state = const ChecklistState.loading();
+
+        final params = {
+          "plan-seq": order.planSeq,
+          "wo-nb": order.code,
+          "wb-cd": order.wbCd,
+          "wc-cd": order.wcCd,
+        };
+
+        final failureOrResults = await _fetchWorkOrderChecklist(params);
         state = failureOrResults.fold(
           (l) => ChecklistState.failure(mapFailureToString(l)),
           (r) => ChecklistState.loaded(r),

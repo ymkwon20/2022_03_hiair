@@ -160,7 +160,7 @@ class _QmDetailsPageState extends ConsumerState<QmDetailsPage> {
                     ),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColorLight,
+                      color: ThemeConstant.dominantColor,
                       borderRadius:
                           BorderRadius.circular(LayoutConstant.radiusS),
                     ),
