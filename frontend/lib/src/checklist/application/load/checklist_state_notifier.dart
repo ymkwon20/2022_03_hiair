@@ -1,6 +1,8 @@
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/application/load/checklist_state.dart';
+import 'package:frontend/src/checklist/dependency_injection.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_checkimagelist.dart';
+import 'package:frontend/src/checklist/domain/usecases/fetch_checklist_activate.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_cut_checklist.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_workorder_checklist.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
@@ -14,16 +16,19 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
     required FetchCutChecklist fetchCutChecklist,
     required FetchCheckimagelist fetchCheckimagelist,
     required FetchWorkOrderChecklist fetchWorkOrderChecklist,
+    required FetchChecklistActivate fetchChecklistActivate,
   })  : _fetchChecklist = fetchChecklist,
         _fetchCutChecklist = fetchCutChecklist,
         _fetchCheckimagelist = fetchCheckimagelist,
         _fetchWorkOrderChecklist = fetchWorkOrderChecklist,
+        _fetchChecklistActivate = fetchChecklistActivate,
         super(const ChecklistState.initial());
 
   final FetchChecklist _fetchChecklist;
   final FetchCutChecklist _fetchCutChecklist;
   final FetchCheckimagelist _fetchCheckimagelist;
   final FetchWorkOrderChecklist _fetchWorkOrderChecklist;
+  final FetchChecklistActivate _fetchChecklistActivate;
 
   Future<void> mapEventToState(ChecklistEvent event) async {
     event.when(
@@ -95,6 +100,19 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
         state = failureOrResults.fold(
           (l) => ChecklistState.failure(mapFailureToString(l)),
           (r) => ChecklistState.imageLoaded(r),
+        );
+      },
+      fetchChecklistActivate: (order) async {
+        state = const ChecklistState.loading();
+
+        final params = {
+          "wo-nb": order.code,
+        };
+
+        final failureOrResults = await _fetchChecklistActivate(params);
+        state = failureOrResults.fold(
+          (l) => ChecklistState.failure(mapFailureToString(l)),
+          (r) => ChecklistState.loaded(r),
         );
       },
     );

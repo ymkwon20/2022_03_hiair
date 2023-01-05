@@ -46,11 +46,26 @@ class ChecklistRepository implements IChecklistRepository {
     }
   }
 
-    @override
+  @override
   Future<Either<Failure, List<CheckItem>>> fetchWorkOrderChecklist(
       Map<String, dynamic> params) async {
     try {
       final remoteFetch = await _remote.fetchWorkOrderChecklist(params);
+      return right(remoteFetch);
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CheckItem>>> fetchChecklistActivate(
+      Map<String, dynamic> params) async {
+    try {
+      final remoteFetch = await _remote.fetchChecklistActivate(params);
       return right(remoteFetch);
     } on NoConnectionException catch (e) {
       return left(Failure.noConnection(e.message));

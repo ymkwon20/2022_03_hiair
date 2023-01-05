@@ -30,6 +30,7 @@ class WorkOrderDto extends IWorkOrder {
     required String wbCd,
     required String wbNm,
     required String wcCd,
+    required String chkDiv,
     required this.dateStart,
     required this.dateEnd,
     required this.dateEndBefore,
@@ -47,6 +48,7 @@ class WorkOrderDto extends IWorkOrder {
           wbCd: wbCd,
           wcCd: wcCd,
           wbNm: wbNm,
+          chkDiv: chkDiv,
         );
 
   factory WorkOrderDto.fromDomain(WorkOrder domain) {
@@ -67,6 +69,7 @@ class WorkOrderDto extends IWorkOrder {
       wcCd: domain.wcCd,
       wbNm: domain.wbNm,
       status: domain.status,
+      chkDiv: domain.chkDiv,
     );
   }
 
@@ -88,6 +91,7 @@ class WorkOrderDto extends IWorkOrder {
       wcCd: wcCd,
       wbNm: wbNm,
       status: status,
+      chkDiv: chkDiv,
     );
   }
 
@@ -108,6 +112,7 @@ class WorkOrderDto extends IWorkOrder {
       'wb-cd': wbCd,
       'wb-nm': wbNm,
       'wc-cd': wcCd,
+      'chkDiv': chkDiv,
     };
   }
 
@@ -138,6 +143,7 @@ class WorkOrderDto extends IWorkOrder {
       wbCd: map["WB_CD"] ?? "",
       wcCd: map["WC_CD"] ?? "",
       wbNm: map["WB_NM"] ?? "",
+      chkDiv: map["CHK_DIV"] ?? "",
       status: status,
     );
   }
@@ -163,6 +169,7 @@ class WorkOrderDto extends IWorkOrder {
     String? wbCd,
     String? wbNm,
     String? wcCd,
+    String? chkDiv,
     WorkOrderStatus? status,
   }) {
     return WorkOrderDto(
@@ -182,6 +189,7 @@ class WorkOrderDto extends IWorkOrder {
       wbNm: wbNm ?? this.wbNm,
       wcCd: wcCd ?? this.wcCd,
       status: status ?? this.status,
+      chkDiv: chkDiv ?? this.chkDiv,
     );
   }
 
@@ -205,7 +213,8 @@ class WorkOrderDto extends IWorkOrder {
         other.wbCd == wbCd &&
         other.wbNm == wbNm &&
         other.wcCd == wcCd &&
-        other.status == status;
+        other.status == status &&
+        other.chkDiv == chkDiv;
   }
 
   @override
@@ -225,6 +234,7 @@ class WorkOrderDto extends IWorkOrder {
         wbCd.hashCode ^
         wbNm.hashCode ^
         wcCd.hashCode ^
-        status.hashCode;
+        status.hashCode ^
+        chkDiv.hashCode;
   }
 }

@@ -28,6 +28,7 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
     required String wbCd,
     required String wbNm,
     required String wcCd,
+    required String chkDiv,
     required this.dateStart,
     required this.dateEnd,
     required this.dateEndBefore,
@@ -45,6 +46,7 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
           wbCd: wbCd,
           wcCd: wcCd,
           wbNm: wbNm,
+          chkDiv: chkDiv,
         );
 
   String get statusKr {
@@ -66,6 +68,7 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
         "itemNo": itemNo,
         "status": statusKr,
         "qty": qty.toString(),
+        "chkDiv": chkDiv,
       }[key];
 
   @override
@@ -87,7 +90,8 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
         other.wbCd == wbCd &&
         other.wbNm == wbNm &&
         other.wcCd == wcCd &&
-        other.status == status;
+        other.status == status &&
+        other.chkDiv == chkDiv;
   }
 
   @override
@@ -106,7 +110,8 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
         wbCd.hashCode ^
         wbNm.hashCode ^
         wcCd.hashCode ^
-        status.hashCode;
+        status.hashCode ^
+        chkDiv.hashCode;
   }
 
   WorkOrder copyWith({
@@ -125,6 +130,7 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
     String? wbCd,
     String? wbNm,
     String? wcCd,
+    String? chkDiv,
     WorkOrderStatus? status,
   }) {
     return WorkOrder(
@@ -144,6 +150,7 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
       wbNm: wbNm ?? this.wbNm,
       wcCd: wcCd ?? this.wcCd,
       status: status ?? this.status,
+      chkDiv: chkDiv ?? this.chkDiv,
     );
   }
 }

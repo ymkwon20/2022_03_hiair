@@ -45,6 +45,12 @@ class _$ChecklistEventTearOff {
       order,
     );
   }
+
+  _FetchChecklistActivate fetchChecklistActivate(IWorkOrder order) {
+    return _FetchChecklistActivate(
+      order,
+    );
+  }
 }
 
 /// @nodoc
@@ -59,6 +65,7 @@ mixin _$ChecklistEvent {
     required TResult Function(IWorkOrder order) fetchCheckimagelist,
     required TResult Function(CuttingCheck order) fetchChecklistForCut,
     required TResult Function(IWorkOrder order) fetchChecklistForWorkOrder,
+    required TResult Function(IWorkOrder order) fetchChecklistActivate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -68,6 +75,7 @@ mixin _$ChecklistEvent {
     TResult Function(IWorkOrder order)? fetchCheckimagelist,
     TResult Function(CuttingCheck order)? fetchChecklistForCut,
     TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -77,6 +85,7 @@ mixin _$ChecklistEvent {
     TResult Function(IWorkOrder order)? fetchCheckimagelist,
     TResult Function(CuttingCheck order)? fetchChecklistForCut,
     TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -88,6 +97,8 @@ mixin _$ChecklistEvent {
     required TResult Function(_FetchChecklistForCut value) fetchChecklistForCut,
     required TResult Function(_FetchChecklistForWorkOrder value)
         fetchChecklistForWorkOrder,
+    required TResult Function(_FetchChecklistActivate value)
+        fetchChecklistActivate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -98,6 +109,7 @@ mixin _$ChecklistEvent {
     TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     TResult Function(_FetchChecklistForWorkOrder value)?
         fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -108,6 +120,7 @@ mixin _$ChecklistEvent {
     TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     TResult Function(_FetchChecklistForWorkOrder value)?
         fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -179,6 +192,7 @@ class _$_Clear extends _Clear with DiagnosticableTreeMixin {
     required TResult Function(IWorkOrder order) fetchCheckimagelist,
     required TResult Function(CuttingCheck order) fetchChecklistForCut,
     required TResult Function(IWorkOrder order) fetchChecklistForWorkOrder,
+    required TResult Function(IWorkOrder order) fetchChecklistActivate,
   }) {
     return clear();
   }
@@ -191,6 +205,7 @@ class _$_Clear extends _Clear with DiagnosticableTreeMixin {
     TResult Function(IWorkOrder order)? fetchCheckimagelist,
     TResult Function(CuttingCheck order)? fetchChecklistForCut,
     TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
   }) {
     return clear?.call();
   }
@@ -203,6 +218,7 @@ class _$_Clear extends _Clear with DiagnosticableTreeMixin {
     TResult Function(IWorkOrder order)? fetchCheckimagelist,
     TResult Function(CuttingCheck order)? fetchChecklistForCut,
     TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
     required TResult orElse(),
   }) {
     if (clear != null) {
@@ -220,6 +236,8 @@ class _$_Clear extends _Clear with DiagnosticableTreeMixin {
     required TResult Function(_FetchChecklistForCut value) fetchChecklistForCut,
     required TResult Function(_FetchChecklistForWorkOrder value)
         fetchChecklistForWorkOrder,
+    required TResult Function(_FetchChecklistActivate value)
+        fetchChecklistActivate,
   }) {
     return clear(this);
   }
@@ -233,6 +251,7 @@ class _$_Clear extends _Clear with DiagnosticableTreeMixin {
     TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     TResult Function(_FetchChecklistForWorkOrder value)?
         fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
   }) {
     return clear?.call(this);
   }
@@ -246,6 +265,7 @@ class _$_Clear extends _Clear with DiagnosticableTreeMixin {
     TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     TResult Function(_FetchChecklistForWorkOrder value)?
         fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
     required TResult orElse(),
   }) {
     if (clear != null) {
@@ -349,6 +369,7 @@ class _$_FetchChecklist extends _FetchChecklist with DiagnosticableTreeMixin {
     required TResult Function(IWorkOrder order) fetchCheckimagelist,
     required TResult Function(CuttingCheck order) fetchChecklistForCut,
     required TResult Function(IWorkOrder order) fetchChecklistForWorkOrder,
+    required TResult Function(IWorkOrder order) fetchChecklistActivate,
   }) {
     return fetchChecklist(order, code);
   }
@@ -361,6 +382,7 @@ class _$_FetchChecklist extends _FetchChecklist with DiagnosticableTreeMixin {
     TResult Function(IWorkOrder order)? fetchCheckimagelist,
     TResult Function(CuttingCheck order)? fetchChecklistForCut,
     TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
   }) {
     return fetchChecklist?.call(order, code);
   }
@@ -373,6 +395,7 @@ class _$_FetchChecklist extends _FetchChecklist with DiagnosticableTreeMixin {
     TResult Function(IWorkOrder order)? fetchCheckimagelist,
     TResult Function(CuttingCheck order)? fetchChecklistForCut,
     TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
     required TResult orElse(),
   }) {
     if (fetchChecklist != null) {
@@ -390,6 +413,8 @@ class _$_FetchChecklist extends _FetchChecklist with DiagnosticableTreeMixin {
     required TResult Function(_FetchChecklistForCut value) fetchChecklistForCut,
     required TResult Function(_FetchChecklistForWorkOrder value)
         fetchChecklistForWorkOrder,
+    required TResult Function(_FetchChecklistActivate value)
+        fetchChecklistActivate,
   }) {
     return fetchChecklist(this);
   }
@@ -403,6 +428,7 @@ class _$_FetchChecklist extends _FetchChecklist with DiagnosticableTreeMixin {
     TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     TResult Function(_FetchChecklistForWorkOrder value)?
         fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
   }) {
     return fetchChecklist?.call(this);
   }
@@ -416,6 +442,7 @@ class _$_FetchChecklist extends _FetchChecklist with DiagnosticableTreeMixin {
     TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     TResult Function(_FetchChecklistForWorkOrder value)?
         fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
     required TResult orElse(),
   }) {
     if (fetchChecklist != null) {
@@ -517,6 +544,7 @@ class _$_FetchCheckimagelist extends _FetchCheckimagelist
     required TResult Function(IWorkOrder order) fetchCheckimagelist,
     required TResult Function(CuttingCheck order) fetchChecklistForCut,
     required TResult Function(IWorkOrder order) fetchChecklistForWorkOrder,
+    required TResult Function(IWorkOrder order) fetchChecklistActivate,
   }) {
     return fetchCheckimagelist(order);
   }
@@ -529,6 +557,7 @@ class _$_FetchCheckimagelist extends _FetchCheckimagelist
     TResult Function(IWorkOrder order)? fetchCheckimagelist,
     TResult Function(CuttingCheck order)? fetchChecklistForCut,
     TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
   }) {
     return fetchCheckimagelist?.call(order);
   }
@@ -541,6 +570,7 @@ class _$_FetchCheckimagelist extends _FetchCheckimagelist
     TResult Function(IWorkOrder order)? fetchCheckimagelist,
     TResult Function(CuttingCheck order)? fetchChecklistForCut,
     TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
     required TResult orElse(),
   }) {
     if (fetchCheckimagelist != null) {
@@ -558,6 +588,8 @@ class _$_FetchCheckimagelist extends _FetchCheckimagelist
     required TResult Function(_FetchChecklistForCut value) fetchChecklistForCut,
     required TResult Function(_FetchChecklistForWorkOrder value)
         fetchChecklistForWorkOrder,
+    required TResult Function(_FetchChecklistActivate value)
+        fetchChecklistActivate,
   }) {
     return fetchCheckimagelist(this);
   }
@@ -571,6 +603,7 @@ class _$_FetchCheckimagelist extends _FetchCheckimagelist
     TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     TResult Function(_FetchChecklistForWorkOrder value)?
         fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
   }) {
     return fetchCheckimagelist?.call(this);
   }
@@ -584,6 +617,7 @@ class _$_FetchCheckimagelist extends _FetchCheckimagelist
     TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     TResult Function(_FetchChecklistForWorkOrder value)?
         fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
     required TResult orElse(),
   }) {
     if (fetchCheckimagelist != null) {
@@ -683,6 +717,7 @@ class _$_FetchChecklistForCut extends _FetchChecklistForCut
     required TResult Function(IWorkOrder order) fetchCheckimagelist,
     required TResult Function(CuttingCheck order) fetchChecklistForCut,
     required TResult Function(IWorkOrder order) fetchChecklistForWorkOrder,
+    required TResult Function(IWorkOrder order) fetchChecklistActivate,
   }) {
     return fetchChecklistForCut(order);
   }
@@ -695,6 +730,7 @@ class _$_FetchChecklistForCut extends _FetchChecklistForCut
     TResult Function(IWorkOrder order)? fetchCheckimagelist,
     TResult Function(CuttingCheck order)? fetchChecklistForCut,
     TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
   }) {
     return fetchChecklistForCut?.call(order);
   }
@@ -707,6 +743,7 @@ class _$_FetchChecklistForCut extends _FetchChecklistForCut
     TResult Function(IWorkOrder order)? fetchCheckimagelist,
     TResult Function(CuttingCheck order)? fetchChecklistForCut,
     TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
     required TResult orElse(),
   }) {
     if (fetchChecklistForCut != null) {
@@ -724,6 +761,8 @@ class _$_FetchChecklistForCut extends _FetchChecklistForCut
     required TResult Function(_FetchChecklistForCut value) fetchChecklistForCut,
     required TResult Function(_FetchChecklistForWorkOrder value)
         fetchChecklistForWorkOrder,
+    required TResult Function(_FetchChecklistActivate value)
+        fetchChecklistActivate,
   }) {
     return fetchChecklistForCut(this);
   }
@@ -737,6 +776,7 @@ class _$_FetchChecklistForCut extends _FetchChecklistForCut
     TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     TResult Function(_FetchChecklistForWorkOrder value)?
         fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
   }) {
     return fetchChecklistForCut?.call(this);
   }
@@ -750,6 +790,7 @@ class _$_FetchChecklistForCut extends _FetchChecklistForCut
     TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     TResult Function(_FetchChecklistForWorkOrder value)?
         fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
     required TResult orElse(),
   }) {
     if (fetchChecklistForCut != null) {
@@ -853,6 +894,7 @@ class _$_FetchChecklistForWorkOrder extends _FetchChecklistForWorkOrder
     required TResult Function(IWorkOrder order) fetchCheckimagelist,
     required TResult Function(CuttingCheck order) fetchChecklistForCut,
     required TResult Function(IWorkOrder order) fetchChecklistForWorkOrder,
+    required TResult Function(IWorkOrder order) fetchChecklistActivate,
   }) {
     return fetchChecklistForWorkOrder(order);
   }
@@ -865,6 +907,7 @@ class _$_FetchChecklistForWorkOrder extends _FetchChecklistForWorkOrder
     TResult Function(IWorkOrder order)? fetchCheckimagelist,
     TResult Function(CuttingCheck order)? fetchChecklistForCut,
     TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
   }) {
     return fetchChecklistForWorkOrder?.call(order);
   }
@@ -877,6 +920,7 @@ class _$_FetchChecklistForWorkOrder extends _FetchChecklistForWorkOrder
     TResult Function(IWorkOrder order)? fetchCheckimagelist,
     TResult Function(CuttingCheck order)? fetchChecklistForCut,
     TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
     required TResult orElse(),
   }) {
     if (fetchChecklistForWorkOrder != null) {
@@ -894,6 +938,8 @@ class _$_FetchChecklistForWorkOrder extends _FetchChecklistForWorkOrder
     required TResult Function(_FetchChecklistForCut value) fetchChecklistForCut,
     required TResult Function(_FetchChecklistForWorkOrder value)
         fetchChecklistForWorkOrder,
+    required TResult Function(_FetchChecklistActivate value)
+        fetchChecklistActivate,
   }) {
     return fetchChecklistForWorkOrder(this);
   }
@@ -907,6 +953,7 @@ class _$_FetchChecklistForWorkOrder extends _FetchChecklistForWorkOrder
     TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     TResult Function(_FetchChecklistForWorkOrder value)?
         fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
   }) {
     return fetchChecklistForWorkOrder?.call(this);
   }
@@ -920,6 +967,7 @@ class _$_FetchChecklistForWorkOrder extends _FetchChecklistForWorkOrder
     TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
     TResult Function(_FetchChecklistForWorkOrder value)?
         fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
     required TResult orElse(),
   }) {
     if (fetchChecklistForWorkOrder != null) {
@@ -938,4 +986,179 @@ abstract class _FetchChecklistForWorkOrder extends ChecklistEvent {
   @JsonKey(ignore: true)
   _$FetchChecklistForWorkOrderCopyWith<_FetchChecklistForWorkOrder>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$FetchChecklistActivateCopyWith<$Res> {
+  factory _$FetchChecklistActivateCopyWith(_FetchChecklistActivate value,
+          $Res Function(_FetchChecklistActivate) then) =
+      __$FetchChecklistActivateCopyWithImpl<$Res>;
+  $Res call({IWorkOrder order});
+}
+
+/// @nodoc
+class __$FetchChecklistActivateCopyWithImpl<$Res>
+    extends _$ChecklistEventCopyWithImpl<$Res>
+    implements _$FetchChecklistActivateCopyWith<$Res> {
+  __$FetchChecklistActivateCopyWithImpl(_FetchChecklistActivate _value,
+      $Res Function(_FetchChecklistActivate) _then)
+      : super(_value, (v) => _then(v as _FetchChecklistActivate));
+
+  @override
+  _FetchChecklistActivate get _value => super._value as _FetchChecklistActivate;
+
+  @override
+  $Res call({
+    Object? order = freezed,
+  }) {
+    return _then(_FetchChecklistActivate(
+      order == freezed
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as IWorkOrder,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_FetchChecklistActivate extends _FetchChecklistActivate
+    with DiagnosticableTreeMixin {
+  const _$_FetchChecklistActivate(this.order) : super._();
+
+  @override
+  final IWorkOrder order;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ChecklistEvent.fetchChecklistActivate(order: $order)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(
+          DiagnosticsProperty('type', 'ChecklistEvent.fetchChecklistActivate'))
+      ..add(DiagnosticsProperty('order', order));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _FetchChecklistActivate &&
+            const DeepCollectionEquality().equals(other.order, order));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(order));
+
+  @JsonKey(ignore: true)
+  @override
+  _$FetchChecklistActivateCopyWith<_FetchChecklistActivate> get copyWith =>
+      __$FetchChecklistActivateCopyWithImpl<_FetchChecklistActivate>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() clear,
+    required TResult Function(IWorkOrder order, String code) fetchChecklist,
+    required TResult Function(IWorkOrder order) fetchCheckimagelist,
+    required TResult Function(CuttingCheck order) fetchChecklistForCut,
+    required TResult Function(IWorkOrder order) fetchChecklistForWorkOrder,
+    required TResult Function(IWorkOrder order) fetchChecklistActivate,
+  }) {
+    return fetchChecklistActivate(order);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? clear,
+    TResult Function(IWorkOrder order, String code)? fetchChecklist,
+    TResult Function(IWorkOrder order)? fetchCheckimagelist,
+    TResult Function(CuttingCheck order)? fetchChecklistForCut,
+    TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
+  }) {
+    return fetchChecklistActivate?.call(order);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? clear,
+    TResult Function(IWorkOrder order, String code)? fetchChecklist,
+    TResult Function(IWorkOrder order)? fetchCheckimagelist,
+    TResult Function(CuttingCheck order)? fetchChecklistForCut,
+    TResult Function(IWorkOrder order)? fetchChecklistForWorkOrder,
+    TResult Function(IWorkOrder order)? fetchChecklistActivate,
+    required TResult orElse(),
+  }) {
+    if (fetchChecklistActivate != null) {
+      return fetchChecklistActivate(order);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Clear value) clear,
+    required TResult Function(_FetchChecklist value) fetchChecklist,
+    required TResult Function(_FetchCheckimagelist value) fetchCheckimagelist,
+    required TResult Function(_FetchChecklistForCut value) fetchChecklistForCut,
+    required TResult Function(_FetchChecklistForWorkOrder value)
+        fetchChecklistForWorkOrder,
+    required TResult Function(_FetchChecklistActivate value)
+        fetchChecklistActivate,
+  }) {
+    return fetchChecklistActivate(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Clear value)? clear,
+    TResult Function(_FetchChecklist value)? fetchChecklist,
+    TResult Function(_FetchCheckimagelist value)? fetchCheckimagelist,
+    TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
+    TResult Function(_FetchChecklistForWorkOrder value)?
+        fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
+  }) {
+    return fetchChecklistActivate?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Clear value)? clear,
+    TResult Function(_FetchChecklist value)? fetchChecklist,
+    TResult Function(_FetchCheckimagelist value)? fetchCheckimagelist,
+    TResult Function(_FetchChecklistForCut value)? fetchChecklistForCut,
+    TResult Function(_FetchChecklistForWorkOrder value)?
+        fetchChecklistForWorkOrder,
+    TResult Function(_FetchChecklistActivate value)? fetchChecklistActivate,
+    required TResult orElse(),
+  }) {
+    if (fetchChecklistActivate != null) {
+      return fetchChecklistActivate(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchChecklistActivate extends ChecklistEvent {
+  const factory _FetchChecklistActivate(IWorkOrder order) =
+      _$_FetchChecklistActivate;
+  const _FetchChecklistActivate._() : super._();
+
+  IWorkOrder get order;
+  @JsonKey(ignore: true)
+  _$FetchChecklistActivateCopyWith<_FetchChecklistActivate> get copyWith =>
+      throw _privateConstructorUsedError;
 }

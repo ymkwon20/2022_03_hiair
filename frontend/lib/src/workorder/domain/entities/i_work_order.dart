@@ -35,6 +35,9 @@ abstract class IWorkOrder {
   /// WC_CD: (추론) 작업장 코드
   final String wcCd;
 
+  //CHK_DIV
+  final String chkDiv;
+
   const IWorkOrder({
     required this.code,
     required this.itemNo,
@@ -48,5 +51,6 @@ abstract class IWorkOrder {
     required this.wbCd,
     required this.wbNm,
     required this.wcCd,
+    required this.chkDiv,
   });
 }

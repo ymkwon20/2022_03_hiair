@@ -15,6 +15,7 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
     required String wbCd,
     required String wbNm,
     required String wcCd,
+    required String chkDiv,
   }) : super(
           code: code,
           itemNo: itemNo,
@@ -28,6 +29,7 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
           wbCd: wbCd,
           wcCd: wcCd,
           wbNm: wbNm,
+          chkDiv: chkDiv,
         );
 
   @override
@@ -41,6 +43,7 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
         "sysNo": sysNo,
         "itemNo": itemNo,
         "qty": qty.toString(),
+        "chkDiv": chkDiv,
       }[key];
 
   @override
@@ -59,7 +62,8 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
         other.yard == yard &&
         other.wbCd == wbCd &&
         other.wbNm == wbNm &&
-        other.wcCd == wcCd;
+        other.wcCd == wcCd &&
+        other.chkDiv == chkDiv;
   }
 
   @override
@@ -75,7 +79,8 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
         yard.hashCode ^
         wbCd.hashCode ^
         wbNm.hashCode ^
-        wcCd.hashCode;
+        wcCd.hashCode ^
+        chkDiv.hashCode;
   }
 
   QmWorkOrder copyWith({
@@ -91,6 +96,7 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
     String? wbCd,
     String? wbNm,
     String? wcCd,
+    String? chkDiv,
   }) {
     return QmWorkOrder(
       code: code ?? this.code,
@@ -105,6 +111,7 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
       wbCd: wbCd ?? this.wbCd,
       wbNm: wbNm ?? this.wbNm,
       wcCd: wcCd ?? this.wcCd,
+      chkDiv: chkDiv ?? this.chkDiv,
     );
   }
 }

@@ -16,6 +16,8 @@ abstract class IChecklistRepository {
       Map<String, dynamic> params);
   Future<Either<Failure, List<CheckImage>>> fetchCheckimagelist(
       Map<String, dynamic> params);
+  Future<Either<Failure, List<CheckItem>>> fetchChecklistActivate(
+      Map<String, dynamic> params);
   Future<Either<Failure, Unit>> fetchAndSaveChecklist(
       Map<String, dynamic> params);
   Future<Either<Failure, Unit>> saveCheckitem(
