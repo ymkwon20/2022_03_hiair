@@ -87,6 +87,20 @@ class _WorkerStartEndButtonsState
 
   bool get isStartActive => widget.dateStart.isEmpty;
   bool get isEndActive => widget.dateEnd.isEmpty;
+  bool get isChecklistActivate => getChecklistActivateStatus();
+
+  bool getChecklistActivateStatus() {
+    final workOrder = ref.watch(workOrderNotifier);
+    ref.read(checklistStateNotifierProvider.notifier).mapEventToState(
+          ChecklistEvent.fetchChecklistActivate(workOrder),
+        );
+
+    if (workOrder.chkDiv == "Y") {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   void _setSize() {
     setState(() {
@@ -214,7 +228,7 @@ class _WorkerStartEndButtonsState
             FadeTransition(
               opacity: _topOpacityAnimation,
               child: _buildButton(
-                  active: true,
+                  active: isChecklistActivate,
                   backgroundColor: ThemeConstant.dominantColor,
                   controller: _controller,
                   ignoring: widget.ignoring,

@@ -37,6 +37,12 @@ class ChecklistRemoteService implements ChecklistService {
   }
 
   @override
+  Future<List<CheckItem>> fetchChecklistActivate(
+      Map<String, dynamic> params) async {
+    return _fetchChecklistByUrl("/checklistActivate", params);
+  }
+
+  @override
   Future<void> saveCheckitem(List<Map<String, dynamic>> params) async {
     try {
       await _dio.post("/checklist", data: params);

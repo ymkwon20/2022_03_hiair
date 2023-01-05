@@ -17,4 +17,6 @@ class ChecklistEvent with _$ChecklistEvent {
       _FetchChecklistForCut;
   const factory ChecklistEvent.fetchChecklistForWorkOrder(IWorkOrder order) =
       _FetchChecklistForWorkOrder;
+  const factory ChecklistEvent.fetchChecklistActivate(IWorkOrder order) =
+      _FetchChecklistActivate;
 }

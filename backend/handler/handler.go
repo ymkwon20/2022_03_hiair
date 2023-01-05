@@ -51,6 +51,7 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/checklist", a.saveCheckitem).Methods("POST")
 	r.HandleFunc("/checklist/images", a.getCheckimagelist).Methods("GET")
 	r.HandleFunc("/checklist/images", a.saveCheckimage).Methods("POST")
+	r.HandleFunc("/checklistActivate", a.getChecklistActivate).Methods("GET")
 	r.HandleFunc("/unit", a.getUnitlist).Methods("GET")
 	r.HandleFunc("/wb", a.getWorkbaselist).Methods("GET")
 	r.HandleFunc("/menu", a.getQmMenulist).Methods("GET")
@@ -796,6 +797,44 @@ func (a *AppHandler) saveCheckimage(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
+}
+
+func (a *AppHandler) getChecklistActivate(w http.ResponseWriter, r *http.Request) {
+
+	queryString := r.URL.Query()
+	wbCd := queryString.Get("wb-cd")
+
+	query := fmt.Sprintf(`
+	SP_TABLET_CHK_DIV_01_SELECT '%s';
+	`, wbCd)
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	jData, err := json.Marshal(results)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jData)
 }
 
 func (a *AppHandler) getUnitlist(w http.ResponseWriter, r *http.Request) {

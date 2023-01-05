@@ -17,6 +17,7 @@ class QmWorkOrderDto extends IWorkOrder {
     required String wbCd,
     required String wbNm,
     required String wcCd,
+    required String chkDiv,
   }) : super(
           code: code,
           itemNo: itemNo,
@@ -30,6 +31,7 @@ class QmWorkOrderDto extends IWorkOrder {
           wbCd: wbCd,
           wcCd: wcCd,
           wbNm: wbNm,
+          chkDiv: chkDiv,
         );
 
   factory QmWorkOrderDto.fromDomain(QmWorkOrder domain) {
@@ -46,6 +48,7 @@ class QmWorkOrderDto extends IWorkOrder {
       wbCd: domain.wbCd,
       wcCd: domain.wcCd,
       wbNm: domain.wbNm,
+      chkDiv: domain.chkDiv,
     );
   }
 
@@ -63,6 +66,7 @@ class QmWorkOrderDto extends IWorkOrder {
       wbCd: wbCd,
       wcCd: wcCd,
       wbNm: wbNm,
+      chkDiv: chkDiv,
     );
   }
 
@@ -80,6 +84,7 @@ class QmWorkOrderDto extends IWorkOrder {
       'wb-cd': wbCd,
       'wb-nm': wbNm,
       'wc-cd': wcCd,
+      'chkDiv': chkDiv,
     };
   }
 
@@ -97,6 +102,7 @@ class QmWorkOrderDto extends IWorkOrder {
       wbCd: map["WB_CD"] ?? "",
       wcCd: map["WC_CD"] ?? "",
       wbNm: map["WB_NM"] ?? "",
+      chkDiv: map["CHL_DIV"] ?? "",
     );
   }
 
@@ -118,6 +124,7 @@ class QmWorkOrderDto extends IWorkOrder {
     String? wbCd,
     String? wbNm,
     String? wcCd,
+    String? chkDiv,
   }) {
     return QmWorkOrderDto(
       code: code ?? this.code,
@@ -132,6 +139,7 @@ class QmWorkOrderDto extends IWorkOrder {
       wbCd: wbCd ?? this.wbCd,
       wbNm: wbNm ?? this.wbNm,
       wcCd: wcCd ?? this.wcCd,
+      chkDiv: chkDiv ?? this.chkDiv,
     );
   }
 
@@ -151,7 +159,8 @@ class QmWorkOrderDto extends IWorkOrder {
         other.yard == yard &&
         other.wbCd == wbCd &&
         other.wbNm == wbNm &&
-        other.wcCd == wcCd;
+        other.wcCd == wcCd &&
+        other.chkDiv == chkDiv;
   }
 
   @override
@@ -167,6 +176,7 @@ class QmWorkOrderDto extends IWorkOrder {
         yard.hashCode ^
         wbCd.hashCode ^
         wbNm.hashCode ^
-        wcCd.hashCode;
+        wcCd.hashCode ^
+        chkDiv.hashCode;
   }
 }
