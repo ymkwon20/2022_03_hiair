@@ -90,16 +90,16 @@ class _WorkerStartEndButtonsState
   bool get isChecklistActivate => getChecklistActivateStatus();
 
   bool getChecklistActivateStatus() {
-    final workOrder = ref.watch(workOrderNotifier);
-    ref.read(checklistStateNotifierProvider.notifier).mapEventToState(
-          ChecklistEvent.fetchChecklistActivate(workOrder),
-        );
-
-    if (workOrder.chkDiv == "Y") {
-      return true;
-    } else {
-      return false;
-    }
+    // final workOrder = ref.watch(workOrderNotifier);
+    // ref.read(checklistStateNotifierProvider.notifier).mapEventToState(
+    //       ChecklistEvent.fetchChecklistActivate(workOrder),
+    //     );
+    return true;
+    // if (workOrder.chkDiv == "Y") {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
 
   void _setSize() {
@@ -219,7 +219,7 @@ class _WorkerStartEndButtonsState
                   name: "시작/완료",
                   controller: _controller,
                   ignoring: widget.ignoring,
-                  active: true,
+                  active: isStartActive,
                   onTap: () => _onTapBoth(widget.onStartAndEndPressed!),
                   backgroundColor: ThemeConstant.dominantColor,
                 ),

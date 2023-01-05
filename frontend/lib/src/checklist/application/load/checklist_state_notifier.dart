@@ -106,7 +106,7 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
         state = const ChecklistState.loading();
 
         final params = {
-          "wo-nb": order.code,
+          "wb-cd": order.wbCd,
         };
 
         final failureOrResults = await _fetchChecklistActivate(params);
