@@ -199,7 +199,7 @@ class _ImpellerStartEndsButtonState
                   name: "시작/완료",
                   controller: _controller,
                   ignoring: widget.ignoring,
-                  active: true,
+                  active: isStartActive,
                   onTap: () => _onTapBoth(widget.onStartAndEndPressed!),
                   backgroundColor: ThemeConstant.dominantColor,
                 ),
