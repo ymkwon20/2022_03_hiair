@@ -44,7 +44,7 @@ class _WorkbaseMenuScreenState extends ConsumerState<WorkbaseMenuScreen> {
                   const EdgeInsets.symmetric(vertical: LayoutConstant.paddingM),
               alignment: Alignment.center,
               child: const Text(
-                "페이지 선택",
+                "공정 선택",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 32,
