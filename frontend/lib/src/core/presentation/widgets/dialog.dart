@@ -88,7 +88,7 @@ class PageListDialog extends ConsumerWidget {
                 )),
             alignment: Alignment.center,
             child: const Text(
-              "페이지 선택",
+              "공정 선택",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,

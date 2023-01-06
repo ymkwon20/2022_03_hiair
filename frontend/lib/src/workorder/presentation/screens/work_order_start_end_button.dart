@@ -107,12 +107,16 @@ class _WorkerStartEndButtonsState
 
   bool workBaseNameCheck() {
     final workOrder = ref.watch(workOrderNotifier);
+    final workBaseProvider = ref.watch(workBaseChangeNotifierProvider);
 
-    if (workOrder.wbNm ==
-        ref.watch(workBaseChangeNotifierProvider).workBase?.wbName) {
+    if (workBaseProvider.workBase?.legChk == "Y") {
       return true;
     } else {
-      return false;
+      if (workOrder.wbNm == workBaseProvider.workBase?.wbName) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
