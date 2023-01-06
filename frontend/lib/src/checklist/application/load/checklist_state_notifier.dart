@@ -1,6 +1,5 @@
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/application/load/checklist_state.dart';
-import 'package:frontend/src/checklist/dependency_injection.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_checkimagelist.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_checklist_activate.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_cut_checklist.dart';

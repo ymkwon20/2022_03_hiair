@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
+import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
+import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -94,12 +96,24 @@ class _WorkerStartEndButtonsState
     // ref.read(checklistStateNotifierProvider.notifier).mapEventToState(
     //       ChecklistEvent.fetchChecklistActivate(workOrder),
     //     );
+
     return true;
     // if (workOrder.chkDiv == "Y") {
     //   return true;
     // } else {
     //   return false;
     // }
+  }
+
+  bool workBaseNameCheck() {
+    final workOrder = ref.watch(workOrderNotifier);
+
+    if (workOrder.wbNm ==
+        ref.watch(workBaseChangeNotifierProvider).workBase?.wbName) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void _setSize() {
@@ -192,7 +206,7 @@ class _WorkerStartEndButtonsState
                     value: widget.dateStart,
                     name: "시작",
                     backgroundColor: ThemeConstant.dominantColor,
-                    active: isStartActive,
+                    active: isStartActive && workBaseNameCheck(),
                     ignoring: widget.ignoring,
                     onTap: () => _onTap(widget.onStartPressed),
                   ),
@@ -204,7 +218,8 @@ class _WorkerStartEndButtonsState
                     value: widget.dateEnd,
                     name: "완료",
                     backgroundColor: ThemeConstant.dominantColor,
-                    active: !isStartActive && isEndActive,
+                    active:
+                        !isStartActive && isEndActive && workBaseNameCheck(),
                     ignoring: widget.ignoring,
                     onTap: () => _onTap(widget.onEndPressed),
                   ),
@@ -219,7 +234,7 @@ class _WorkerStartEndButtonsState
                   name: "시작/완료",
                   controller: _controller,
                   ignoring: widget.ignoring,
-                  active: isStartActive,
+                  active: isStartActive && workBaseNameCheck(),
                   onTap: () => _onTapBoth(widget.onStartAndEndPressed!),
                   backgroundColor: ThemeConstant.dominantColor,
                 ),
@@ -228,7 +243,7 @@ class _WorkerStartEndButtonsState
             FadeTransition(
               opacity: _topOpacityAnimation,
               child: _buildButton(
-                  active: isChecklistActivate,
+                  active: isChecklistActivate && workBaseNameCheck(),
                   backgroundColor: ThemeConstant.dominantColor,
                   controller: _controller,
                   ignoring: widget.ignoring,
