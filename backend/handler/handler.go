@@ -802,11 +802,11 @@ func (a *AppHandler) saveCheckimage(w http.ResponseWriter, r *http.Request) {
 func (a *AppHandler) getChecklistActivate(w http.ResponseWriter, r *http.Request) {
 
 	queryString := r.URL.Query()
-	wbCd := queryString.Get("wb-cd")
+	wbcd := queryString.Get("wb-cd")
 
 	query := fmt.Sprintf(`
-	SP_TABLET_CHK_DIV_01_SELECT '%s';
-	`, wbCd)
+	EXEC SP_TABLET_CHK_DIV_01_SELECT '%s';
+	`, wbcd)
 
 	results, err := a.db.CallProcedure(query)
 	if err != nil {
