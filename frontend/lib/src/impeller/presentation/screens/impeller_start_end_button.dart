@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/checklist/application/load/checklist_event.dart';
+import 'package:frontend/src/checklist/dependency_injection.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
+import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/impeller/dependency_injection.dart';
+import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_notifier.dart';
+import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/core/presentation/fonts.gen.dart';
@@ -81,6 +87,32 @@ class _ImpellerStartEndsButtonState
 
   bool get isStartActive => widget.dateStart.isEmpty;
   bool get isEndActive => widget.dateEnd.isEmpty;
+  bool get isChecklistActivate => getChecklistActivateStatus();
+
+  bool workBaseNameCheck() {
+    final impeller = ref.watch(impellerNotifier);
+    final workBaseProvider = ref.watch(workBaseChangeNotifierProvider);
+
+    if (workBaseProvider.workBase?.legChk == "Y") {
+      return true;
+    } else {
+      if (impeller.wbNm == workBaseProvider.workBase?.wbName) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  bool getChecklistActivateStatus() {
+    final impeller = ref.watch(impellerNotifier);
+
+    if (impeller.chkDiv == "Y") {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   void _setSize() {
     setState(() {
@@ -204,6 +236,31 @@ class _ImpellerStartEndsButtonState
                   backgroundColor: ThemeConstant.dominantColor,
                 ),
               ),
+            const SizedBox(height: LayoutConstant.spaceM),
+            FadeTransition(
+              opacity: _topOpacityAnimation,
+              child: _buildButton(
+                  active: isChecklistActivate && workBaseNameCheck(),
+                  backgroundColor: ThemeConstant.dominantColor,
+                  controller: _controller,
+                  ignoring: widget.ignoring,
+                  name: '체크리스트',
+                  onTap: () {
+                    final impeller = ref.watch(impellerNotifier);
+                    ref
+                        .read(checklistStateNotifierProvider.notifier)
+                        .mapEventToState(
+                          ChecklistEvent.fetchChecklistForImpeller(impeller),
+                        );
+
+                    Navigator.of(context).push(
+                      CustomSlideRoute(
+                        backgroundColor: Colors.black.withOpacity(.2),
+                        builder: (context) => const ChecklistPopup(),
+                      ),
+                    );
+                  }),
+            ),
           ],
         );
       },

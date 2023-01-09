@@ -47,6 +47,9 @@ abstract class IImpeller {
   // FAN_TYPE:
   final String fanType;
 
+  // CHK_DIV
+  final String chkDiv;
+
   const IImpeller({
     required this.code,
     required this.planSeq,
@@ -64,5 +67,6 @@ abstract class IImpeller {
     required this.rmk,
     required this.qty,
     required this.fanType,
+    required this.chkDiv,
   });
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
-import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
@@ -92,17 +91,13 @@ class _WorkerStartEndButtonsState
   bool get isChecklistActivate => getChecklistActivateStatus();
 
   bool getChecklistActivateStatus() {
-    // final workOrder = ref.watch(workOrderNotifier);
-    // ref.read(checklistStateNotifierProvider.notifier).mapEventToState(
-    //       ChecklistEvent.fetchChecklistActivate(workOrder),
-    //     );
-
-    return true;
-    // if (workOrder.chkDiv == "Y") {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
+    final workOrder = ref.watch(workOrderNotifier);
+    
+    if (workOrder.chkDiv == "Y") {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   bool workBaseNameCheck() {

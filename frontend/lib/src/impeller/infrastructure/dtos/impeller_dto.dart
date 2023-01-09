@@ -37,6 +37,7 @@ class ImpellerDto extends IImpeller {
     required this.dateEnd,
     required this.dateEndBefore,
     required this.status,
+    required String chkDiv,
   }) : super(
           code: code,
           planSeq: planSeq,
@@ -54,6 +55,7 @@ class ImpellerDto extends IImpeller {
           shaft: shaft,
           rmk: rmk,
           fanType: fanType,
+          chkDiv: chkDiv,
         );
 
   factory ImpellerDto.fromDomain(Impeller domain) {
@@ -78,6 +80,7 @@ class ImpellerDto extends IImpeller {
       shaft: domain.shaft,
       rmk: domain.rmk,
       fanType: domain.fanType,
+      chkDiv: domain.chkDiv,
     );
   }
 
@@ -103,6 +106,7 @@ class ImpellerDto extends IImpeller {
       shaft: shaft,
       rmk: rmk,
       fanType: fanType,
+      chkDiv: chkDiv,
     );
   }
 
@@ -127,6 +131,7 @@ class ImpellerDto extends IImpeller {
       "shaft": shaft,
       "rmk": rmk,
       "fanType": fanType,
+      "chkDiv": chkDiv,
     };
   }
 
@@ -162,6 +167,7 @@ class ImpellerDto extends IImpeller {
       rmk: map["RMK"] ?? "",
       fanType: map["FAN_TYPE"] ?? "",
       status: status,
+      chkDiv: map["CHK_DIV"],
     );
   }
 
@@ -191,6 +197,7 @@ class ImpellerDto extends IImpeller {
     String? rmk,
     String? fanType,
     ImpellerStatus? status,
+    String? chkDiv,
   }) {
     return ImpellerDto(
       code: code ?? this.code,
@@ -213,6 +220,7 @@ class ImpellerDto extends IImpeller {
       rmk: rmk ?? this.rmk,
       status: status ?? this.status,
       fanType: fanType ?? this.fanType,
+      chkDiv: chkDiv ?? this.chkDiv,
     );
   }
 
@@ -239,7 +247,8 @@ class ImpellerDto extends IImpeller {
         other.bldAngle == bldAngle &&
         other.shaft == shaft &&
         other.rmk == rmk &&
-        other.fanType == fanType;
+        other.fanType == fanType &&
+        other.chkDiv == chkDiv;
   }
 
   @override
@@ -262,6 +271,7 @@ class ImpellerDto extends IImpeller {
         bldAngle.hashCode ^
         shaft.hashCode ^
         rmk.hashCode ^
-        fanType.hashCode;
+        fanType.hashCode ^
+        chkDiv.hashCode;
   }
 }
