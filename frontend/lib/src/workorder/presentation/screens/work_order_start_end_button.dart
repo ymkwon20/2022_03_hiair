@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
-import 'package:frontend/src/checklist/presentation/viewmodels/checklist_notifier.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_work_order.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_work_order2.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
@@ -92,17 +93,13 @@ class _WorkerStartEndButtonsState
   bool get isChecklistActivate => getChecklistActivateStatus();
 
   bool getChecklistActivateStatus() {
-    // final workOrder = ref.watch(workOrderNotifier);
-    // ref.read(checklistStateNotifierProvider.notifier).mapEventToState(
-    //       ChecklistEvent.fetchChecklistActivate(workOrder),
-    //     );
+    final workOrder = ref.watch(workOrderNotifier);
 
-    return true;
-    // if (workOrder.chkDiv == "Y") {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
+    if (workOrder.chkDiv == "Y") {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   bool workBaseNameCheck() {
@@ -263,7 +260,10 @@ class _WorkerStartEndButtonsState
                     Navigator.of(context).push(
                       CustomSlideRoute(
                         backgroundColor: Colors.black.withOpacity(.2),
-                        builder: (context) => const ChecklistPopup(),
+                        builder: (context) => ChecklistPopupWorkOrder2(
+                          workOrder: workOrder,
+                          index: ref.watch(workOrderIndexNotifier)!,
+                        ),
                       ),
                     );
                   }),

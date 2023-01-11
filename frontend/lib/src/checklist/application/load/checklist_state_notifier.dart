@@ -3,6 +3,7 @@ import 'package:frontend/src/checklist/application/load/checklist_state.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_checkimagelist.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_checklist_activate.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_cut_checklist.dart';
+import 'package:frontend/src/checklist/domain/usecases/fetch_impeller_checklist.dart';
 import 'package:frontend/src/checklist/domain/usecases/fetch_workorder_checklist.dart';
 import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,11 +17,13 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
     required FetchCheckimagelist fetchCheckimagelist,
     required FetchWorkOrderChecklist fetchWorkOrderChecklist,
     required FetchChecklistActivate fetchChecklistActivate,
+    required FetchImpellerChecklist fetchImpellerChecklist,
   })  : _fetchChecklist = fetchChecklist,
         _fetchCutChecklist = fetchCutChecklist,
         _fetchCheckimagelist = fetchCheckimagelist,
         _fetchWorkOrderChecklist = fetchWorkOrderChecklist,
         _fetchChecklistActivate = fetchChecklistActivate,
+        _fetchImpellerChecklist = fetchImpellerChecklist,
         super(const ChecklistState.initial());
 
   final FetchChecklist _fetchChecklist;
@@ -28,6 +31,7 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
   final FetchCheckimagelist _fetchCheckimagelist;
   final FetchWorkOrderChecklist _fetchWorkOrderChecklist;
   final FetchChecklistActivate _fetchChecklistActivate;
+  final FetchImpellerChecklist _fetchImpellerChecklist;
 
   Future<void> mapEventToState(ChecklistEvent event) async {
     event.when(
@@ -80,6 +84,22 @@ class ChecklistStateNotifier extends StateNotifier<ChecklistState> {
         };
 
         final failureOrResults = await _fetchWorkOrderChecklist(params);
+        state = failureOrResults.fold(
+          (l) => ChecklistState.failure(mapFailureToString(l)),
+          (r) => ChecklistState.loaded(r),
+        );
+      },
+      fetchChecklistForImpeller: (order) async {
+        state = const ChecklistState.loading();
+
+        final params = {
+          "plan-seq": order.planSeq,
+          "wo-nb": order.code,
+          "wb-cd": order.wbCd,
+          "wc-cd": order.wcCd,
+        };
+
+        final failureOrResults = await _fetchImpellerChecklist(params);
         state = failureOrResults.fold(
           (l) => ChecklistState.failure(mapFailureToString(l)),
           (r) => ChecklistState.loaded(r),

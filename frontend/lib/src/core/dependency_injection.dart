@@ -7,8 +7,8 @@ final dioProvider = Provider<Dio>(
   (ref) => Dio(
     BaseOptions(
       baseUrl: LogicConstant.baseApiServerUrl,
-      connectTimeout: 10000,
-      receiveTimeout: 10000,
+      connectTimeout: 30000,
+      receiveTimeout: 30000,
     ),
   ),
 );

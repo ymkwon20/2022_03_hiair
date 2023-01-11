@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/checklist/application/load/checklist_event.dart';
+import 'package:frontend/src/checklist/dependency_injection.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_work_order2.dart';
+import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -120,16 +125,34 @@ class WorkOrderPopup extends ConsumerWidget {
                           },
                           onEndPressed: () {
                             Navigator.of(context).pop();
+                            final workOrder = ref.watch(workOrderNotifier);
                             ref
-                                .read(
-                                    workOrderSaveStateNotifierProvider.notifier)
+                                .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(
-                                  WorkOrderSaveEvent.saveWorkOrder(
-                                    workOrder,
-                                    WorkOrderSaveStatus.end,
-                                    ref.watch(workOrderIndexNotifier)!,
-                                  ),
+                                  ChecklistEvent.fetchChecklistForWorkOrder(
+                                      workOrder),
                                 );
+
+                            Navigator.of(context).push(
+                              CustomSlideRoute(
+                                backgroundColor: Colors.black.withOpacity(.2),
+                                builder: (context) => ChecklistPopupWorkOrder2(
+                                  workOrder: workOrder,
+                                  index: ref.watch(workOrderIndexNotifier)!,
+                                ),
+                              ),
+                            );
+
+                            // ref
+                            //     .read(
+                            //         workOrderSaveStateNotifierProvider.notifier)
+                            //     .mapEventToState(
+                            //       WorkOrderSaveEvent.saveWorkOrder(
+                            //         workOrder,
+                            //         WorkOrderSaveStatus.end,
+                            //         ref.watch(workOrderIndexNotifier)!,
+                            //       ),
+                            //     );
                           },
                           onStartAndEndPressed: () {
                             Navigator.of(context).pop();

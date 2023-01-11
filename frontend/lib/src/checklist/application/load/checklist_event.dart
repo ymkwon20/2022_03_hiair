@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:frontend/src/cutting/domain/entities/cutting_check.dart';
+import 'package:frontend/src/impeller/domain/entities/i_impeller.dart';
 import 'package:frontend/src/workorder/domain/entities/i_work_order.dart';
 
 part 'checklist_event.freezed.dart';
@@ -19,4 +20,6 @@ class ChecklistEvent with _$ChecklistEvent {
       _FetchChecklistForWorkOrder;
   const factory ChecklistEvent.fetchChecklistActivate(IWorkOrder order) =
       _FetchChecklistActivate;
+  const factory ChecklistEvent.fetchChecklistForImpeller(IImpeller impeller) =
+      _FetchChecklistForImpeller;
 }

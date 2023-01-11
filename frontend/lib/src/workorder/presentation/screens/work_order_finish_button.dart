@@ -2,42 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_work_order.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
-import 'package:frontend/src/impeller/dependency_injection.dart';
-import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_notifier.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
+import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/core/presentation/fonts.gen.dart';
 import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/workorder/dependency_injection.dart';
 
-class ImpellerStartEndButtons extends ConsumerStatefulWidget {
-  const ImpellerStartEndButtons({
+/// 시작 완료 버튼
+class WorkOrderFinishButtons extends ConsumerStatefulWidget {
+  const WorkOrderFinishButtons({
     Key? key,
     required this.dateStart,
     required this.dateEnd,
-    required this.onStartPressed,
-    required this.onEndPressed,
-    required this.onStartAndEndPressed,
+    required this.onFinishPressed,
     this.ignoring = false,
   }) : super(key: key);
 
   final String dateStart;
   final String dateEnd;
 
-  final VoidCallback onStartPressed;
-  final VoidCallback onEndPressed;
-  final VoidCallback? onStartAndEndPressed;
+  final VoidCallback onFinishPressed;
 
   final bool ignoring;
 
   @override
-  ConsumerState<ImpellerStartEndButtons> createState() =>
-      _ImpellerStartEndsButtonState();
+  ConsumerState<WorkOrderFinishButtons> createState() =>
+      _WorkerStartEndButtonsState();
 }
 
-class _ImpellerStartEndsButtonState
-    extends ConsumerState<ImpellerStartEndButtons>
+class _WorkerStartEndButtonsState extends ConsumerState<WorkOrderFinishButtons>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
@@ -87,32 +84,6 @@ class _ImpellerStartEndsButtonState
 
   bool get isStartActive => widget.dateStart.isEmpty;
   bool get isEndActive => widget.dateEnd.isEmpty;
-  bool get isChecklistActivate => getChecklistActivateStatus();
-
-  bool workBaseNameCheck() {
-    final impeller = ref.watch(impellerNotifier);
-    final workBaseProvider = ref.watch(workBaseChangeNotifierProvider);
-
-    if (workBaseProvider.workBase?.legChk == "Y") {
-      return true;
-    } else {
-      if (impeller.wbNm == workBaseProvider.workBase?.wbName) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
-
-  bool getChecklistActivateStatus() {
-    final impeller = ref.watch(impellerNotifier);
-
-    if (impeller.chkDiv == "Y") {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   void _setSize() {
     setState(() {
@@ -198,18 +169,6 @@ class _ImpellerStartEndsButtonState
                 children: [
                   _buildDrawerButton(
                     controller: _controller,
-                    width: _leftWidthAnimation.value,
-                    opacity: _leftOpacityAnimation,
-                    category: "시작일",
-                    value: widget.dateStart,
-                    name: "시작",
-                    backgroundColor: ThemeConstant.dominantColor,
-                    active: isStartActive,
-                    ignoring: widget.ignoring,
-                    onTap: () => _onTap(widget.onStartPressed),
-                  ),
-                  _buildDrawerButton(
-                    controller: _controller,
                     width: _rightWidthAnimation.value,
                     opacity: _rightOpacityAnimation,
                     category: "완료일",
@@ -218,49 +177,12 @@ class _ImpellerStartEndsButtonState
                     backgroundColor: ThemeConstant.dominantColor,
                     active: !isStartActive && isEndActive,
                     ignoring: widget.ignoring,
-                    onTap: () => _onTap(widget.onEndPressed),
+                    onTap: () => _onTap(widget.onFinishPressed),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: LayoutConstant.spaceM),
-            if (widget.onStartAndEndPressed != null)
-              FadeTransition(
-                opacity: _bottomOpacityAnimation,
-                child: _buildButton(
-                  name: "시작/완료",
-                  controller: _controller,
-                  ignoring: widget.ignoring,
-                  active: isStartActive,
-                  onTap: () => _onTapBoth(widget.onStartAndEndPressed!),
-                  backgroundColor: ThemeConstant.dominantColor,
-                ),
-              ),
-            const SizedBox(height: LayoutConstant.spaceM),
-            FadeTransition(
-              opacity: _topOpacityAnimation,
-              child: _buildButton(
-                  active: isChecklistActivate && workBaseNameCheck(),
-                  backgroundColor: ThemeConstant.dominantColor,
-                  controller: _controller,
-                  ignoring: widget.ignoring,
-                  name: '체크리스트',
-                  onTap: () {
-                    final impeller = ref.watch(impellerNotifier);
-                    ref
-                        .read(checklistStateNotifierProvider.notifier)
-                        .mapEventToState(
-                          ChecklistEvent.fetchChecklistForImpeller(impeller),
-                        );
-
-                    Navigator.of(context).push(
-                      CustomSlideRoute(
-                        backgroundColor: Colors.black.withOpacity(.2),
-                        builder: (context) => const ChecklistPopup(),
-                      ),
-                    );
-                  }),
-            ),
           ],
         );
       },
@@ -329,7 +251,7 @@ class _ImpellerStartEndsButtonState
     required VoidCallback? onTap,
     required Color backgroundColor,
   }) {
-    final saveStatus = ref.watch(impellerSaveStateNotifierProvider);
+    final saveStatus = ref.watch(workOrderSaveStateNotifierProvider);
     return IgnorePointer(
       ignoring: ignoring || controller.isAnimating,
       child: InkWell(
