@@ -3,7 +3,6 @@ import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_work_order.dart';
-import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_work_order2.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
@@ -14,33 +13,28 @@ import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 
 /// 시작 완료 버튼
-class WorkOrderStartEndButtons extends ConsumerStatefulWidget {
-  const WorkOrderStartEndButtons({
+class WorkOrderFinishButtons extends ConsumerStatefulWidget {
+  const WorkOrderFinishButtons({
     Key? key,
     required this.dateStart,
     required this.dateEnd,
-    required this.onStartPressed,
-    required this.onEndPressed,
-    required this.onStartAndEndPressed,
+    required this.onFinishPressed,
     this.ignoring = false,
   }) : super(key: key);
 
   final String dateStart;
   final String dateEnd;
 
-  final VoidCallback onStartPressed;
-  final VoidCallback onEndPressed;
-  final VoidCallback? onStartAndEndPressed;
+  final VoidCallback onFinishPressed;
 
   final bool ignoring;
 
   @override
-  ConsumerState<WorkOrderStartEndButtons> createState() =>
+  ConsumerState<WorkOrderFinishButtons> createState() =>
       _WorkerStartEndButtonsState();
 }
 
-class _WorkerStartEndButtonsState
-    extends ConsumerState<WorkOrderStartEndButtons>
+class _WorkerStartEndButtonsState extends ConsumerState<WorkOrderFinishButtons>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
@@ -90,32 +84,6 @@ class _WorkerStartEndButtonsState
 
   bool get isStartActive => widget.dateStart.isEmpty;
   bool get isEndActive => widget.dateEnd.isEmpty;
-  bool get isChecklistActivate => getChecklistActivateStatus();
-
-  bool getChecklistActivateStatus() {
-    final workOrder = ref.watch(workOrderNotifier);
-
-    if (workOrder.chkDiv == "Y") {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  bool workBaseNameCheck() {
-    final workOrder = ref.watch(workOrderNotifier);
-    final workBaseProvider = ref.watch(workBaseChangeNotifierProvider);
-
-    if (workBaseProvider.workBase?.legChk == "Y") {
-      return true;
-    } else {
-      if (workOrder.wbNm == workBaseProvider.workBase?.wbName) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
 
   void _setSize() {
     setState(() {
@@ -201,73 +169,20 @@ class _WorkerStartEndButtonsState
                 children: [
                   _buildDrawerButton(
                     controller: _controller,
-                    width: _leftWidthAnimation.value,
-                    opacity: _leftOpacityAnimation,
-                    category: "시작일",
-                    value: widget.dateStart,
-                    name: "시작",
-                    backgroundColor: ThemeConstant.dominantColor,
-                    active: isStartActive && workBaseNameCheck(),
-                    ignoring: widget.ignoring,
-                    onTap: () => _onTap(widget.onStartPressed),
-                  ),
-                  _buildDrawerButton(
-                    controller: _controller,
                     width: _rightWidthAnimation.value,
                     opacity: _rightOpacityAnimation,
                     category: "완료일",
                     value: widget.dateEnd,
                     name: "완료",
                     backgroundColor: ThemeConstant.dominantColor,
-                    active:
-                        !isStartActive && isEndActive && workBaseNameCheck(),
+                    active: !isStartActive && isEndActive,
                     ignoring: widget.ignoring,
-                    onTap: () => _onTap(widget.onEndPressed),
+                    onTap: () => _onTap(widget.onFinishPressed),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: LayoutConstant.spaceM),
-            if (widget.onStartAndEndPressed != null)
-              FadeTransition(
-                opacity: _bottomOpacityAnimation,
-                child: _buildButton(
-                  name: "시작/완료",
-                  controller: _controller,
-                  ignoring: widget.ignoring,
-                  active: isStartActive && workBaseNameCheck(),
-                  onTap: () => _onTapBoth(widget.onStartAndEndPressed!),
-                  backgroundColor: ThemeConstant.dominantColor,
-                ),
-              ),
-            const SizedBox(height: LayoutConstant.spaceM),
-            FadeTransition(
-              opacity: _topOpacityAnimation,
-              child: _buildButton(
-                  active: isChecklistActivate && workBaseNameCheck(),
-                  backgroundColor: ThemeConstant.dominantColor,
-                  controller: _controller,
-                  ignoring: widget.ignoring,
-                  name: '체크리스트',
-                  onTap: () {
-                    final workOrder = ref.watch(workOrderNotifier);
-                    ref
-                        .read(checklistStateNotifierProvider.notifier)
-                        .mapEventToState(
-                          ChecklistEvent.fetchChecklistForWorkOrder(workOrder),
-                        );
-
-                    Navigator.of(context).push(
-                      CustomSlideRoute(
-                        backgroundColor: Colors.black.withOpacity(.2),
-                        builder: (context) => ChecklistPopupWorkOrder2(
-                          workOrder: workOrder,
-                          index: ref.watch(workOrderIndexNotifier)!,
-                        ),
-                      ),
-                    );
-                  }),
-            ),
           ],
         );
       },
