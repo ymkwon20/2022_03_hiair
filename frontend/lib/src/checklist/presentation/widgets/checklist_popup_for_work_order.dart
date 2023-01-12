@@ -212,38 +212,38 @@ class ChecklistPopupWorkOrder extends ConsumerWidget {
                         ),
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (ref
-                                  .watch(checklistNotifierProvider.notifier)
-                                  .isNotCompleted) {
-                                if (!openFlash) {
-                                  openFlash = true;
-                                  showFlashBar(
-                                    context,
-                                    title: "오류",
-                                    content: "입력을 완료하지 않았습니다.",
-                                    backgroundColor:
-                                        Theme.of(context).errorColor,
-                                  );
-                                  Future.delayed(const Duration(seconds: 2),
-                                      () => openFlash = false);
-                                }
-                              } else {
-                                ref
-                                    .read(checklistSaveStateNotifierProvider
-                                        .notifier)
-                                    .mapEventToState(
-                                      ChecklistSaveEvent.saveChecklist(ref
-                                          .watch(checklistNotifierProvider)
-                                          .items),
-                                    );
-                              }
-                            },
-                            child: const Text(
-                              "저장",
-                            ),
-                          ),
+                          // child: ElevatedButton(
+                          //   onPressed: () {
+                          //     if (ref
+                          //         .watch(checklistNotifierProvider.notifier)
+                          //         .isNotCompleted) {
+                          //       if (!openFlash) {
+                          //         openFlash = true;
+                          //         showFlashBar(
+                          //           context,
+                          //           title: "오류",
+                          //           content: "입력을 완료하지 않았습니다.",
+                          //           backgroundColor:
+                          //               Theme.of(context).errorColor,
+                          //         );
+                          //         Future.delayed(const Duration(seconds: 2),
+                          //             () => openFlash = false);
+                          //       }
+                          //     } else {
+                          //       ref
+                          //           .read(checklistSaveStateNotifierProvider
+                          //               .notifier)
+                          //           .mapEventToState(
+                          //             ChecklistSaveEvent.saveChecklist(ref
+                          //                 .watch(checklistNotifierProvider)
+                          //                 .items),
+                          //           );
+                          //     }
+                          //   },
+                          //   child: const Text(
+                          //     "저장",
+                          //   ),
+                          // ),
                         ),
                       ),
                       const Expanded(child: ChecklistWidget()),

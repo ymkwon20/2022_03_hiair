@@ -168,7 +168,7 @@ class _WorkerStartEndButtonsState extends ConsumerState<WorkOrderFinishButtons>
                     value: widget.dateEnd,
                     name: "완료",
                     backgroundColor: ThemeConstant.dominantColor,
-                    active: !isStartActive && isEndActive,
+                    active: true,
                     ignoring: widget.ignoring,
                     onTap: () => _onTap(widget.onFinishPressed),
                   ),
