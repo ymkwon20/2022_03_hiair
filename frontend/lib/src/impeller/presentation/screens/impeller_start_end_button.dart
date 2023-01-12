@@ -18,7 +18,9 @@ class ImpellerStartEndButtons extends ConsumerStatefulWidget {
     required this.dateEnd,
     required this.onStartPressed,
     required this.onEndPressed,
+    required this.onSavePressed,
     required this.onStartAndEndPressed,
+    required this.onStartAndSavePressed,
     this.ignoring = false,
   }) : super(key: key);
 
@@ -27,7 +29,9 @@ class ImpellerStartEndButtons extends ConsumerStatefulWidget {
 
   final VoidCallback onStartPressed;
   final VoidCallback onEndPressed;
+  final VoidCallback onSavePressed;
   final VoidCallback? onStartAndEndPressed;
+  final VoidCallback? onStartAndSavePressed;
 
   final bool ignoring;
 
@@ -204,63 +208,92 @@ class _ImpellerStartEndsButtonState
                     value: widget.dateStart,
                     name: "시작",
                     backgroundColor: ThemeConstant.dominantColor,
-                    active: isStartActive,
+                    active: isStartActive && workBaseNameCheck(),
                     ignoring: widget.ignoring,
                     onTap: () => _onTap(widget.onStartPressed),
                   ),
-                  _buildDrawerButton(
-                    controller: _controller,
-                    width: _rightWidthAnimation.value,
-                    opacity: _rightOpacityAnimation,
-                    category: "완료일",
-                    value: widget.dateEnd,
-                    name: "완료",
-                    backgroundColor: ThemeConstant.dominantColor,
-                    active: !isStartActive && isEndActive,
-                    ignoring: widget.ignoring,
-                    onTap: () => _onTap(widget.onEndPressed),
-                  ),
+                  if (isChecklistActivate)
+                    _buildDrawerButton(
+                      controller: _controller,
+                      width: _rightWidthAnimation.value,
+                      opacity: _rightOpacityAnimation,
+                      category: "완료일",
+                      value: widget.dateEnd,
+                      name: "완료",
+                      backgroundColor: ThemeConstant.dominantColor,
+                      active:
+                          !isStartActive && isEndActive && workBaseNameCheck(),
+                      ignoring: widget.ignoring,
+                      onTap: () => _onTap(widget.onEndPressed),
+                    )
+                  else
+                    _buildDrawerButton(
+                      controller: _controller,
+                      width: _rightWidthAnimation.value,
+                      opacity: _rightOpacityAnimation,
+                      category: "완료일",
+                      value: widget.dateEnd,
+                      name: "완료",
+                      backgroundColor: ThemeConstant.dominantColor,
+                      active:
+                          !isStartActive && isEndActive && workBaseNameCheck(),
+                      ignoring: widget.ignoring,
+                      onTap: () => _onTap(widget.onSavePressed),
+                    ),
                 ],
               ),
             ),
             const SizedBox(height: LayoutConstant.spaceM),
             if (widget.onStartAndEndPressed != null)
-              FadeTransition(
-                opacity: _bottomOpacityAnimation,
-                child: _buildButton(
-                  name: "시작/완료",
-                  controller: _controller,
-                  ignoring: widget.ignoring,
-                  active: isStartActive,
-                  onTap: () => _onTapBoth(widget.onStartAndEndPressed!),
-                  backgroundColor: ThemeConstant.dominantColor,
+              if (isChecklistActivate)
+                FadeTransition(
+                  opacity: _bottomOpacityAnimation,
+                  child: _buildButton(
+                    name: "시작/완료",
+                    controller: _controller,
+                    ignoring: widget.ignoring,
+                    active: isStartActive && workBaseNameCheck(),
+                    onTap: () => _onTapBoth(widget.onStartAndEndPressed!),
+                    backgroundColor: ThemeConstant.dominantColor,
+                  ),
+                )
+              else
+                FadeTransition(
+                  opacity: _bottomOpacityAnimation,
+                  child: _buildButton(
+                    name: "시작/완료",
+                    controller: _controller,
+                    ignoring: widget.ignoring,
+                    active: isStartActive && workBaseNameCheck(),
+                    onTap: () => _onTapBoth(widget.onStartAndSavePressed!),
+                    backgroundColor: ThemeConstant.dominantColor,
+                  ),
                 ),
-              ),
-            const SizedBox(height: LayoutConstant.spaceM),
-            FadeTransition(
-              opacity: _topOpacityAnimation,
-              child: _buildButton(
-                  active: isChecklistActivate && workBaseNameCheck(),
-                  backgroundColor: ThemeConstant.dominantColor,
-                  controller: _controller,
-                  ignoring: widget.ignoring,
-                  name: '체크리스트',
-                  onTap: () {
-                    final impeller = ref.watch(impellerNotifier);
-                    ref
-                        .read(checklistStateNotifierProvider.notifier)
-                        .mapEventToState(
-                          ChecklistEvent.fetchChecklistForImpeller(impeller),
-                        );
+            // const SizedBox(height: LayoutConstant.spaceM),
+            // FadeTransition(
+            //   opacity: _topOpacityAnimation,
+            //   child: _buildButton(
+            //       active: isChecklistActivate && workBaseNameCheck(),
+            //       backgroundColor: ThemeConstant.dominantColor,
+            //       controller: _controller,
+            //       ignoring: widget.ignoring,
+            //       name: '체크리스트',
+            //       onTap: () {
+            //         final impeller = ref.watch(impellerNotifier);
+            //         ref
+            //             .read(checklistStateNotifierProvider.notifier)
+            //             .mapEventToState(
+            //               ChecklistEvent.fetchChecklistForImpeller(impeller),
+            //             );
 
-                    Navigator.of(context).push(
-                      CustomSlideRoute(
-                        backgroundColor: Colors.black.withOpacity(.2),
-                        builder: (context) => const ChecklistPopup(),
-                      ),
-                    );
-                  }),
-            ),
+            //         Navigator.of(context).push(
+            //           CustomSlideRoute(
+            //             backgroundColor: Colors.black.withOpacity(.2),
+            //             builder: (context) => const ChecklistPopup(),
+            //           ),
+            //         );
+            //       }),
+            // ),
           ],
         );
       },

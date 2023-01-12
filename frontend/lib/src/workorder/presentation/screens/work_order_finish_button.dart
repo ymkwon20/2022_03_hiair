@@ -1,11 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/checklist/application/load/checklist_event.dart';
-import 'package:frontend/src/checklist/dependency_injection.dart';
-import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
-import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_work_order.dart';
-import 'package:frontend/src/core/presentation/pages/custom_route.dart';
-import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
-import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/core/presentation/fonts.gen.dart';
@@ -175,7 +168,7 @@ class _WorkerStartEndButtonsState extends ConsumerState<WorkOrderFinishButtons>
                     value: widget.dateEnd,
                     name: "완료",
                     backgroundColor: ThemeConstant.dominantColor,
-                    active: !isStartActive && isEndActive,
+                    active: true,
                     ignoring: widget.ignoring,
                     onTap: () => _onTap(widget.onFinishPressed),
                   ),

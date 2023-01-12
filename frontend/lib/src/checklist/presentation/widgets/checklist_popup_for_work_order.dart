@@ -8,23 +8,22 @@ import 'package:frontend/src/core/presentation/layout_constant.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/underline_widget.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
-import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state_notifier.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 import 'package:frontend/src/workorder/domain/entities/work_order.dart';
 import 'package:frontend/src/workorder/presentation/screens/work_order_finish_button.dart';
-import 'package:frontend/src/workorder/presentation/screens/work_order_start_end_button.dart';
-import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ChecklistPopupWorkOrder2 extends ConsumerWidget {
-  const ChecklistPopupWorkOrder2({
+class ChecklistPopupWorkOrder extends ConsumerWidget {
+  const ChecklistPopupWorkOrder({
     Key? key,
     required this.workOrder,
     required this.index,
+    required this.saveFlag,
   }) : super(key: key);
 
   final WorkOrder workOrder;
   final int index;
+  final bool saveFlag;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -147,15 +146,29 @@ class ChecklistPopupWorkOrder2 extends ConsumerWidget {
                         onFinishPressed: () {
                           Navigator.of(context).pop();
 
-                          ref
-                              .read(workOrderSaveStateNotifierProvider.notifier)
-                              .mapEventToState(
-                                WorkOrderSaveEvent.saveWorkOrder(
-                                  workOrder,
-                                  WorkOrderSaveStatus.end,
-                                  index,
-                                ),
-                              );
+                          if (saveFlag) {
+                            ref
+                                .read(
+                                    workOrderSaveStateNotifierProvider.notifier)
+                                .mapEventToState(
+                                  WorkOrderSaveEvent.saveWorkOrder(
+                                    workOrder,
+                                    WorkOrderSaveStatus.all,
+                                    index,
+                                  ),
+                                );
+                          } else {
+                            ref
+                                .read(
+                                    workOrderSaveStateNotifierProvider.notifier)
+                                .mapEventToState(
+                                  WorkOrderSaveEvent.saveWorkOrder(
+                                    workOrder,
+                                    WorkOrderSaveStatus.end,
+                                    index,
+                                  ),
+                                );
+                          }
 
                           ref
                               .read(checklistSaveStateNotifierProvider.notifier)
@@ -199,38 +212,38 @@ class ChecklistPopupWorkOrder2 extends ConsumerWidget {
                         ),
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (ref
-                                  .watch(checklistNotifierProvider.notifier)
-                                  .isNotCompleted) {
-                                if (!openFlash) {
-                                  openFlash = true;
-                                  showFlashBar(
-                                    context,
-                                    title: "오류",
-                                    content: "입력을 완료하지 않았습니다.",
-                                    backgroundColor:
-                                        Theme.of(context).errorColor,
-                                  );
-                                  Future.delayed(const Duration(seconds: 2),
-                                      () => openFlash = false);
-                                }
-                              } else {
-                                ref
-                                    .read(checklistSaveStateNotifierProvider
-                                        .notifier)
-                                    .mapEventToState(
-                                      ChecklistSaveEvent.saveChecklist(ref
-                                          .watch(checklistNotifierProvider)
-                                          .items),
-                                    );
-                              }
-                            },
-                            child: const Text(
-                              "저장",
-                            ),
-                          ),
+                          // child: ElevatedButton(
+                          //   onPressed: () {
+                          //     if (ref
+                          //         .watch(checklistNotifierProvider.notifier)
+                          //         .isNotCompleted) {
+                          //       if (!openFlash) {
+                          //         openFlash = true;
+                          //         showFlashBar(
+                          //           context,
+                          //           title: "오류",
+                          //           content: "입력을 완료하지 않았습니다.",
+                          //           backgroundColor:
+                          //               Theme.of(context).errorColor,
+                          //         );
+                          //         Future.delayed(const Duration(seconds: 2),
+                          //             () => openFlash = false);
+                          //       }
+                          //     } else {
+                          //       ref
+                          //           .read(checklistSaveStateNotifierProvider
+                          //               .notifier)
+                          //           .mapEventToState(
+                          //             ChecklistSaveEvent.saveChecklist(ref
+                          //                 .watch(checklistNotifierProvider)
+                          //                 .items),
+                          //           );
+                          //     }
+                          //   },
+                          //   child: const Text(
+                          //     "저장",
+                          //   ),
+                          // ),
                         ),
                       ),
                       const Expanded(child: ChecklistWidget()),
