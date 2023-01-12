@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/checklist/application/load/checklist_event.dart';
+import 'package:frontend/src/checklist/dependency_injection.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_impeller.dart';
 import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/widgets/underline_widget.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_event.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_state.dart';
@@ -135,6 +139,26 @@ class ImpellerPopup extends ConsumerWidget {
                           },
                           onEndPressed: () {
                             Navigator.of(context).pop();
+                            final impeller = ref.watch(impellerNotifier);
+                            ref
+                                .read(checklistStateNotifierProvider.notifier)
+                                .mapEventToState(
+                                  ChecklistEvent.fetchChecklistForImpeller(
+                                      impeller),
+                                );
+                            Navigator.of(context).push(
+                              CustomSlideRoute(
+                                backgroundColor: Colors.black.withOpacity(.2),
+                                builder: (context) => ChecklistPopupImpeller(
+                                  impeller: impeller,
+                                  index: ref.watch(impellerIndexNotifier)!,
+                                  saveFlag: false,
+                                ),
+                              ),
+                            );
+                          },
+                          onSavePressed: () {
+                            Navigator.of(context).pop();
                             ref
                                 .read(
                                     impellerSaveStateNotifierProvider.notifier)
@@ -147,6 +171,27 @@ class ImpellerPopup extends ConsumerWidget {
                                 );
                           },
                           onStartAndEndPressed: () {
+                            Navigator.of(context).pop();
+                            final impeller = ref.watch(impellerNotifier);
+                            ref
+                                .read(checklistStateNotifierProvider.notifier)
+                                .mapEventToState(
+                                  ChecklistEvent.fetchChecklistForImpeller(
+                                      impeller),
+                                );
+
+                            Navigator.of(context).push(
+                              CustomSlideRoute(
+                                backgroundColor: Colors.black.withOpacity(.2),
+                                builder: (context) => ChecklistPopupImpeller(
+                                  impeller: impeller,
+                                  index: ref.watch(impellerIndexNotifier)!,
+                                  saveFlag: true,
+                                ),
+                              ),
+                            );
+                          },
+                          onStartAndSavePressed: () {
                             Navigator.of(context).pop();
                             ref
                                 .read(

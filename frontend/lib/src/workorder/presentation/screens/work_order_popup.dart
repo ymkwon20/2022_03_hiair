@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
-import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
-import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_work_order2.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_work_order.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
@@ -136,25 +135,50 @@ class WorkOrderPopup extends ConsumerWidget {
                             Navigator.of(context).push(
                               CustomSlideRoute(
                                 backgroundColor: Colors.black.withOpacity(.2),
-                                builder: (context) => ChecklistPopupWorkOrder2(
+                                builder: (context) => ChecklistPopupWorkOrder(
                                   workOrder: workOrder,
                                   index: ref.watch(workOrderIndexNotifier)!,
+                                  saveFlag: false,
                                 ),
                               ),
                             );
+                          },
+                          onSavePressed: () {
+                            Navigator.of(context).pop();
 
-                            // ref
-                            //     .read(
-                            //         workOrderSaveStateNotifierProvider.notifier)
-                            //     .mapEventToState(
-                            //       WorkOrderSaveEvent.saveWorkOrder(
-                            //         workOrder,
-                            //         WorkOrderSaveStatus.end,
-                            //         ref.watch(workOrderIndexNotifier)!,
-                            //       ),
-                            //     );
+                            ref
+                                .read(
+                                    workOrderSaveStateNotifierProvider.notifier)
+                                .mapEventToState(
+                                  WorkOrderSaveEvent.saveWorkOrder(
+                                    workOrder,
+                                    WorkOrderSaveStatus.end,
+                                    ref.watch(workOrderIndexNotifier)!,
+                                  ),
+                                );
                           },
                           onStartAndEndPressed: () {
+                            Navigator.of(context).pop();
+                            final workOrder = ref.watch(workOrderNotifier);
+                            ref
+                                .read(checklistStateNotifierProvider.notifier)
+                                .mapEventToState(
+                                  ChecklistEvent.fetchChecklistForWorkOrder(
+                                      workOrder),
+                                );
+
+                            Navigator.of(context).push(
+                              CustomSlideRoute(
+                                backgroundColor: Colors.black.withOpacity(.2),
+                                builder: (context) => ChecklistPopupWorkOrder(
+                                  workOrder: workOrder,
+                                  index: ref.watch(workOrderIndexNotifier)!,
+                                  saveFlag: true,
+                                ),
+                              ),
+                            );
+                          },
+                          onStartAndSavePressed: () {
                             Navigator.of(context).pop();
                             ref
                                 .read(
