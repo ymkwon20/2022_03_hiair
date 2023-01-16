@@ -413,8 +413,8 @@ func (a *AppHandler) saveWorkOrderList(w http.ResponseWriter, r *http.Request) {
 		params := paramsList[i]
 
 		query := fmt.Sprintf(`
-		EXEC  SP_TABLET_ORD_02_UPDATE '%s', '%s', '%s', '%s', '%s', '%s';
-		`, params["plan-seq"], params["wo-nb"], params["wb-cd"], params["prod-gb"], params["date"], params["qty"])
+		EXEC  SP_TABLET_ORD_02_UPDATE '%s', '%s', '%s', '%s', '%s', '%s', '%s';
+		`, params["plan-seq"], params["wo-nb"], params["wc-cd"], params["wb-cd"], params["prod-gb"], params["date"], params["qty"])
 
 		_, err := a.db.CallDML(query)
 		if err != nil {
