@@ -24,7 +24,8 @@ final tableColumnNotifier = StateProvider<String>(
 final columnFilterProvider =
     StateProvider.autoDispose<List<TableHeaderFilterItem>>((ref) {
   final List<TableCellEntity> tableCells =
-      ref.watch(workOrderListNotifier).items;
+      // ref.watch(workOrderListNotifier).items;
+      ref.watch(workOrderListNotifier).filteredItems;
   final column = ref.watch(tableColumnNotifier);
   final filterMap = ref.watch(workOrderListNotifier).filterMap[column];
 
@@ -232,7 +233,7 @@ class WorkOrderListNotifier with ChangeNotifier {
     selectedIndex.clear();
     _items.clear();
     sortedColumn.clear();
-    clearFilter();
+    // clearFilter();
     notifyListeners();
   }
 

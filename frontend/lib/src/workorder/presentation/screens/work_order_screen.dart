@@ -365,7 +365,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                     return TableLoadingRow();
                   },
                   loading: (results, page) {
-                    if (index < results.length) {
+                    if (index < orderListNotifier.filteredItems.length) {
                       return WorkOrderLoadedRow(
                         order: orderListNotifier.filteredItems[index],
                         color: _getColor(index),
@@ -381,7 +381,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                     );
                   },
                   failure: (results, message) {
-                    if (index < results.length) {
+                    if (index < orderListNotifier.filteredItems.length) {
                       return WorkOrderLoadedRow(
                           order: orderListNotifier.filteredItems[index]);
                     } else {

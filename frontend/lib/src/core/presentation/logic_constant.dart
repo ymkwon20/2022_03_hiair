@@ -4,7 +4,7 @@ class LogicConstant {
   // static const String baseApiServerUrl = "http://192.168.0.117:9090";
   static const String baseApiServerUrl = "http://172.16.30.105:9090";
   static const String baseImageServerUrl = "http://172.16.30.105/IMAGE/CAM_NO";
-  static const String baseFileServerUrl = "http://172.16.30.105/IMAGE/PIC/QM";
+  static const String baseFileServerUrl = "http://172.16.30.105/IMAGE/PIC/PROC";
 
   /// QM 데이터 조회 할 때마다 가져오는 row 갯수
   ///

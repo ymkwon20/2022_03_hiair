@@ -194,7 +194,7 @@ class ImpellerListNotifier with ChangeNotifier {
     selectedIndex.clear();
     _items.clear();
     sortedColumn.clear();
-    clearFilter();
+    // clearFilter();
     notifyListeners();
   }
 
