@@ -43,7 +43,8 @@ class WorkBaseChangeNotifier extends ChangeNotifier {
       /// 작업 시작/완료 동시에 처리할 수 있는 페이지
       page = WorkOrderScreen(
         key: ValueKey<String>(
-            "${_selectedWorkBaseInfo!.wbCode}-${DateTime.now().millisecond}"),
+          "${_selectedWorkBaseInfo!.wbCode}-${DateTime.now().millisecond}",
+        ),
         canSaveBothStartAndEnd: true,
       );
       notifyListeners();

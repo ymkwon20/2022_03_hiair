@@ -21,6 +21,7 @@ enum WorkCode {
   safety,
   infra,
   qm,
+  badControl,
 }
 
 class WorkerMenuScreen extends ConsumerStatefulWidget {
@@ -151,6 +152,15 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
               width: MediaQuery.of(context).size.width / 3,
               height: 50,
             ),
+            const SizedBox(height: LayoutConstant.spaceM),
+            buildMenuButton(
+              context,
+              ref,
+              code: WorkCode.badControl,
+              title: "업체별 불량관리",
+              width: MediaQuery.of(context).size.width / 3,
+              height: 50,
+            ),
           ],
         ),
       ),
@@ -196,6 +206,8 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
               break;
             case WorkCode.qm:
               context.push("/qm");
+              break;
+            case WorkCode.badControl:
               break;
           }
 
