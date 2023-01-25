@@ -48,7 +48,8 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
           style: Theme.of(context).textTheme.headline5,
         ),
       ),
-      backgroundColor: Colors.transparent,
+      // backgroundColor: Colors.transparent,
+      backgroundColor: Color.fromARGB(255, 104, 203, 252),
       elevation: 0,
       iconTheme: Theme.of(context).iconTheme,
       actions: [

@@ -6,6 +6,7 @@ import 'package:frontend/src/workorder/application/qm_work_order/load/qm_work_or
 import 'package:frontend/src/workorder/application/qm_work_order/load/qm_work_order_state_notifier.dart';
 import 'package:frontend/src/workorder/application/qm_work_order/save/qm_work_order_save_state.dart';
 import 'package:frontend/src/workorder/application/qm_work_order/save/qm_work_order_save_state_notifier.dart';
+import 'package:frontend/src/workorder/application/work_order/load/work_order_search_result_notifier.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_state.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_state_notifier.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
@@ -16,6 +17,7 @@ import 'package:frontend/src/workorder/domain/usecases/fetch_work_order_list.dar
 import 'package:frontend/src/workorder/domain/usecases/save_qm_work_order.dart';
 import 'package:frontend/src/workorder/domain/usecases/save_work_order.dart';
 import 'package:frontend/src/workorder/domain/usecases/save_work_order_list.dart';
+import 'package:frontend/src/workorder/domain/usecases/search_work_order_list.dart';
 import 'package:frontend/src/workorder/infrastructure/datasources/remote/work_order_remote_service.dart';
 import 'package:frontend/src/workorder/infrastructure/datasources/work_order_service.dart';
 import 'package:frontend/src/workorder/infrastructure/repositories/work_order_repository.dart';
@@ -27,6 +29,14 @@ final workOrderStateNotifierProvider =
   (ref) => WorkOrderStateNotifier(
     workbase: ref.watch(workBaseChangeNotifierProvider),
     fetchItems: ref.watch(fetchWorkOrderListProvider),
+  ),
+);
+
+final workOrderSearchNotifierProvider =
+    StateNotifierProvider<WorkOrderSearchResultNotifier, WorkOrderState>(
+  (ref) => WorkOrderSearchResultNotifier(
+    workbase: ref.watch(workBaseChangeNotifierProvider),
+    searchItems: ref.watch(searchWorkOrderListProvider),
   ),
 );
 
@@ -59,6 +69,11 @@ final qmWorkOrderSaveStateNotifierProvider =
 final fetchWorkOrderListProvider = Provider(
   (ref) =>
       FetchWorkOrderList(repository: ref.watch(workOrderRepositoryProvider)),
+);
+
+final searchWorkOrderListProvider = Provider(
+  (ref) =>
+      SearchWorkOrderList(repository: ref.watch(workOrderRepositoryProvider)),
 );
 
 final fetchQmWorkOrderListProvider = Provider(

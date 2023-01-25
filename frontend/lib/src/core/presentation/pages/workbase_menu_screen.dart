@@ -20,7 +20,7 @@ class _WorkbaseMenuScreenState extends ConsumerState<WorkbaseMenuScreen> {
     ignoring = true;
 
     ref.read(workBaseChangeNotifierProvider.notifier).setCurrentBase(index);
-    context.pop();
+    // context.pop();
     context.push("/work-order");
     Future.delayed(
       const Duration(seconds: 1),
