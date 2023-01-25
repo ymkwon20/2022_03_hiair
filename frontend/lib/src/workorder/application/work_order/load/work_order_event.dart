@@ -8,4 +8,7 @@ class WorkOrderEvent with _$WorkOrderEvent {
   const WorkOrderEvent._();
   const factory WorkOrderEvent.fetchListByPage(
       List<WorkOrder> items, int page) = _FetchListByPage;
+  const factory WorkOrderEvent.searchByYardHullNo(
+          List<WorkOrder> items, int page, String yard, String hullNo) =
+      _SearchByYardHullNo;
 }

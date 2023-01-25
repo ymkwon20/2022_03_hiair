@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
+import 'package:frontend/src/core/presentation/widgets/sub_app_bar.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_event.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_state.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
@@ -240,6 +241,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: const SubAppBar(),
       body: Stack(
         fit: StackFit.expand,
         children: [
