@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/impeller/application/impeller/load/impeller_event.dart';
 import 'package:frontend/src/impeller/dependency_injection.dart';
+import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_notifier.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_event.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
@@ -76,21 +77,22 @@ class SubAppBar extends ConsumerWidget implements PreferredSizeWidget {
   void _onTap(
       BuildContext context, WidgetRef ref, String yard, String hullNo) async {
     ref.read(workOrderListNotifier.notifier).clear();
+    ref.read(impellerListNotifier.notifier).clear();
     await searchListUpdate(ref);
   }
 
   Future<void> searchListUpdate(ref) async {
     if (code == 'IMP') {
-      await ref.read(impellerStateNotifierProvider.notifier).mapEventTostate(
+      await ref.read(impellerStateNotifierProvider.notifier).mapEventToState(
             ImpellerEvent.searchByYardHullNo(
-              ref.watch(workOrderListNotifier).items,
-              ref.watch(workOrderListNotifier).page,
+              ref.watch(impellerListNotifier).items,
+              ref.watch(impellerListNotifier).page,
               textFieldControllerYard.text,
               textFieldControllerHullNo.text,
             ),
           );
     } else {
-      await ref.read(workOrderStateNotifierProvider.notifier).mapEventToState(
+      await ref.read(workOrderStateNotifierProvider.notifier).mapEventoTState(
             WorkOrderEvent.searchByYardHullNo(
               ref.watch(workOrderListNotifier).items,
               ref.watch(workOrderListNotifier).page,
