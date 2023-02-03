@@ -71,11 +71,11 @@ class SubAppBar extends ConsumerWidget implements PreferredSizeWidget {
   void _onTap(
       BuildContext context, WidgetRef ref, String yard, String hullNo) async {
     ref.read(workOrderListNotifier.notifier).clear();
-    await _search_list_update(ref);
+    await searchListUpdate(ref);
   }
 
-  Future<void> _search_list_update(ref) async {
-    await ref.read(workOrderSearchNotifierProvider.notifier).mapEventToState(
+  Future<void> searchListUpdate(ref) async {
+    await ref.read(workOrderStateNotifierProvider.notifier).mapEventToState(
           WorkOrderEvent.searchByYardHullNo(
             ref.watch(workOrderListNotifier).items,
             ref.watch(workOrderListNotifier).page,

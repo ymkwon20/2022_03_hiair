@@ -459,7 +459,7 @@ class CustomTableHeaderDialog extends ConsumerWidget {
                   ),
                 ),
                 ElevatedButton(
-                  child: Icon(Icons.search),
+                  child: const Icon(Icons.search),
                   onPressed: () => _onTapByString(textFieldController.text),
                   style: ElevatedButton.styleFrom(
                       primary: Colors.blue,
