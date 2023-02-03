@@ -241,7 +241,9 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const SubAppBar(),
+      appBar: const SubAppBar(
+        code: 'WORK_ORDER',
+      ),
       body: Stack(
         fit: StackFit.expand,
         children: [

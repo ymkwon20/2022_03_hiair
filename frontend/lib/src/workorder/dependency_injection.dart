@@ -29,6 +29,7 @@ final workOrderStateNotifierProvider =
   (ref) => WorkOrderStateNotifier(
     workbase: ref.watch(workBaseChangeNotifierProvider),
     fetchItems: ref.watch(fetchWorkOrderListProvider),
+    searchItems: ref.watch(searchWorkOrderListProvider),
   ),
 );
 

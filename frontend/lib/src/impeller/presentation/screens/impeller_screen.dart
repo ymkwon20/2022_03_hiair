@@ -6,6 +6,7 @@ import 'package:frontend/src/core/presentation/routes/app_route_observer.dart';
 import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
 import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
+import 'package:frontend/src/core/presentation/widgets/sub_app_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/table_loading_row.dart';
 import 'package:frontend/src/impeller/application/impeller/load/impeller_event.dart';
 import 'package:frontend/src/impeller/application/impeller/load/impeller_state.dart';
@@ -237,6 +238,9 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: const SubAppBar(
+        code: 'IMP',
+      ),
       body: Stack(
         fit: StackFit.expand,
         children: [
