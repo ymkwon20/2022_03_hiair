@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/impeller/application/impeller/load/impeller_event.dart';
+import 'package:frontend/src/impeller/dependency_injection.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_event.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
@@ -10,7 +12,10 @@ final textFieldControllerHullNo = TextEditingController();
 class SubAppBar extends ConsumerWidget implements PreferredSizeWidget {
   const SubAppBar({
     Key? key,
+    required this.code,
   }) : super(key: key);
+
+  final String code;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -75,13 +80,24 @@ class SubAppBar extends ConsumerWidget implements PreferredSizeWidget {
   }
 
   Future<void> searchListUpdate(ref) async {
-    await ref.read(workOrderStateNotifierProvider.notifier).mapEventToState(
-          WorkOrderEvent.searchByYardHullNo(
-            ref.watch(workOrderListNotifier).items,
-            ref.watch(workOrderListNotifier).page,
-            textFieldControllerYard.text,
-            textFieldControllerHullNo.text,
-          ),
-        );
+    if (code == 'IMP') {
+      await ref.read(impellerStateNotifierProvider.notifier).mapEventTostate(
+            ImpellerEvent.searchByYardHullNo(
+              ref.watch(workOrderListNotifier).items,
+              ref.watch(workOrderListNotifier).page,
+              textFieldControllerYard.text,
+              textFieldControllerHullNo.text,
+            ),
+          );
+    } else {
+      await ref.read(workOrderStateNotifierProvider.notifier).mapEventToState(
+            WorkOrderEvent.searchByYardHullNo(
+              ref.watch(workOrderListNotifier).items,
+              ref.watch(workOrderListNotifier).page,
+              textFieldControllerYard.text,
+              textFieldControllerHullNo.text,
+            ),
+          );
+    }
   }
 }

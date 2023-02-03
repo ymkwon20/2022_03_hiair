@@ -3,7 +3,6 @@ import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_event.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_state.dart';
-import 'package:frontend/src/workorder/domain/entities/work_order.dart';
 import 'package:frontend/src/workorder/domain/usecases/fetch_work_order_list.dart';
 import 'package:frontend/src/workorder/domain/usecases/search_work_order_list.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

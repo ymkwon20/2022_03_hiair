@@ -9,6 +9,7 @@ import 'package:frontend/src/impeller/domain/repositories/i_impeller_repository.
 import 'package:frontend/src/impeller/domain/usecases/fetch_impeller_list.dart';
 import 'package:frontend/src/impeller/domain/usecases/save_impeller.dart';
 import 'package:frontend/src/impeller/domain/usecases/save_impeller_list.dart';
+import 'package:frontend/src/impeller/domain/usecases/search_impeller_list.dart';
 import 'package:frontend/src/impeller/infrastructure/datasources/impeller_service.dart';
 import 'package:frontend/src/impeller/infrastructure/datasources/remote/impeller_remote_service.dart';
 import 'package:frontend/src/impeller/infrastructure/repositories/impeller_repository.dart';
@@ -20,6 +21,7 @@ final impellerStateNotifierProvider =
   (ref) => ImpellerStateNotifier(
     workbase: ref.watch(workBaseChangeNotifierProvider),
     fetchItems: ref.watch(fetchImpellerListProvider),
+    searchItems: ref.watch(searchImpellerListProvider),
   ),
 );
 
@@ -53,4 +55,9 @@ final impellerRepositoryProvider = Provider<IImpellerRepository>(
 //! datasource
 final impellerRemoteServiceProvider = Provider<ImpellerService>(
   (ref) => ImpellerRemoteService(httpClient: ref.watch(dioProvider)),
+);
+
+final searchImpellerListProvider = Provider(
+  (ref) =>
+      SearchImpellerList(repository: ref.watch(impellerRepositoryProvider)),
 );
