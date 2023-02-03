@@ -581,7 +581,7 @@ func (a *AppHandler) searchImpeller(w http.ResponseWriter, r *http.Request) {
 	hullno := queryString.Get("hullno")
 
 	query := fmt.Sprintf(`
-	EXEC SP_TABLET_ORD_02_SELECT_SCH  '%s', '%s', '%s', '%s';
+	EXEC SP_TABLET_ORD_01_IMP_SELECT_SCH  '%s', '%s', '%s', '%s', '', '';
 	`, wcCd, wbCd, yard, hullno)
 
 	results, err := a.db.CallProcedure(query)
