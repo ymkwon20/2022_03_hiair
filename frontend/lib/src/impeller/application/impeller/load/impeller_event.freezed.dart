@@ -33,6 +33,12 @@ class _$ImpellerEventTearOff {
       hullNo,
     );
   }
+
+  _GetQRBarcode getQRBarcode(List<Impeller> items) {
+    return _GetQRBarcode(
+      items,
+    );
+  }
 }
 
 /// @nodoc
@@ -41,7 +47,6 @@ const $ImpellerEvent = _$ImpellerEventTearOff();
 /// @nodoc
 mixin _$ImpellerEvent {
   List<Impeller> get items => throw _privateConstructorUsedError;
-  int get page => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -49,6 +54,7 @@ mixin _$ImpellerEvent {
     required TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)
         searchByYardHullNo,
+    required TResult Function(List<Impeller> items) getQRBarcode,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +63,7 @@ mixin _$ImpellerEvent {
     TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
+    TResult Function(List<Impeller> items)? getQRBarcode,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,6 +72,7 @@ mixin _$ImpellerEvent {
     TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
+    TResult Function(List<Impeller> items)? getQRBarcode,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -72,18 +80,21 @@ mixin _$ImpellerEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchListByPage value) fetchListByPage,
     required TResult Function(_SearchByYardHullNo value) searchByYardHullNo,
+    required TResult Function(_GetQRBarcode value) getQRBarcode,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_GetQRBarcode value)? getQRBarcode,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_GetQRBarcode value)? getQRBarcode,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -98,7 +109,7 @@ abstract class $ImpellerEventCopyWith<$Res> {
   factory $ImpellerEventCopyWith(
           ImpellerEvent value, $Res Function(ImpellerEvent) then) =
       _$ImpellerEventCopyWithImpl<$Res>;
-  $Res call({List<Impeller> items, int page});
+  $Res call({List<Impeller> items});
 }
 
 /// @nodoc
@@ -113,17 +124,12 @@ class _$ImpellerEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object? items = freezed,
-    Object? page = freezed,
   }) {
     return _then(_value.copyWith(
       items: items == freezed
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
               as List<Impeller>,
-      page: page == freezed
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
@@ -209,6 +215,7 @@ class _$_FetchListByPage extends _FetchListByPage {
     required TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)
         searchByYardHullNo,
+    required TResult Function(List<Impeller> items) getQRBarcode,
   }) {
     return fetchListByPage(items, page);
   }
@@ -220,6 +227,7 @@ class _$_FetchListByPage extends _FetchListByPage {
     TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
+    TResult Function(List<Impeller> items)? getQRBarcode,
   }) {
     return fetchListByPage?.call(items, page);
   }
@@ -231,6 +239,7 @@ class _$_FetchListByPage extends _FetchListByPage {
     TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
+    TResult Function(List<Impeller> items)? getQRBarcode,
     required TResult orElse(),
   }) {
     if (fetchListByPage != null) {
@@ -244,6 +253,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchListByPage value) fetchListByPage,
     required TResult Function(_SearchByYardHullNo value) searchByYardHullNo,
+    required TResult Function(_GetQRBarcode value) getQRBarcode,
   }) {
     return fetchListByPage(this);
   }
@@ -253,6 +263,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_GetQRBarcode value)? getQRBarcode,
   }) {
     return fetchListByPage?.call(this);
   }
@@ -262,6 +273,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_GetQRBarcode value)? getQRBarcode,
     required TResult orElse(),
   }) {
     if (fetchListByPage != null) {
@@ -278,7 +290,6 @@ abstract class _FetchListByPage extends ImpellerEvent {
 
   @override
   List<Impeller> get items;
-  @override
   int get page;
   @override
   @JsonKey(ignore: true)
@@ -386,6 +397,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
     required TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)
         searchByYardHullNo,
+    required TResult Function(List<Impeller> items) getQRBarcode,
   }) {
     return searchByYardHullNo(items, page, yard, hullNo);
   }
@@ -397,6 +409,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
     TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
+    TResult Function(List<Impeller> items)? getQRBarcode,
   }) {
     return searchByYardHullNo?.call(items, page, yard, hullNo);
   }
@@ -408,6 +421,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
     TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
+    TResult Function(List<Impeller> items)? getQRBarcode,
     required TResult orElse(),
   }) {
     if (searchByYardHullNo != null) {
@@ -421,6 +435,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchListByPage value) fetchListByPage,
     required TResult Function(_SearchByYardHullNo value) searchByYardHullNo,
+    required TResult Function(_GetQRBarcode value) getQRBarcode,
   }) {
     return searchByYardHullNo(this);
   }
@@ -430,6 +445,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_GetQRBarcode value)? getQRBarcode,
   }) {
     return searchByYardHullNo?.call(this);
   }
@@ -439,6 +455,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_GetQRBarcode value)? getQRBarcode,
     required TResult orElse(),
   }) {
     if (searchByYardHullNo != null) {
@@ -456,12 +473,162 @@ abstract class _SearchByYardHullNo extends ImpellerEvent {
 
   @override
   List<Impeller> get items;
-  @override
   int get page;
   String get yard;
   String get hullNo;
   @override
   @JsonKey(ignore: true)
   _$SearchByYardHullNoCopyWith<_SearchByYardHullNo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$GetQRBarcodeCopyWith<$Res>
+    implements $ImpellerEventCopyWith<$Res> {
+  factory _$GetQRBarcodeCopyWith(
+          _GetQRBarcode value, $Res Function(_GetQRBarcode) then) =
+      __$GetQRBarcodeCopyWithImpl<$Res>;
+  @override
+  $Res call({List<Impeller> items});
+}
+
+/// @nodoc
+class __$GetQRBarcodeCopyWithImpl<$Res>
+    extends _$ImpellerEventCopyWithImpl<$Res>
+    implements _$GetQRBarcodeCopyWith<$Res> {
+  __$GetQRBarcodeCopyWithImpl(
+      _GetQRBarcode _value, $Res Function(_GetQRBarcode) _then)
+      : super(_value, (v) => _then(v as _GetQRBarcode));
+
+  @override
+  _GetQRBarcode get _value => super._value as _GetQRBarcode;
+
+  @override
+  $Res call({
+    Object? items = freezed,
+  }) {
+    return _then(_GetQRBarcode(
+      items == freezed
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<Impeller>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_GetQRBarcode extends _GetQRBarcode {
+  const _$_GetQRBarcode(this.items) : super._();
+
+  @override
+  final List<Impeller> items;
+
+  @override
+  String toString() {
+    return 'ImpellerEvent.getQRBarcode(items: $items)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _GetQRBarcode &&
+            const DeepCollectionEquality().equals(other.items, items));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(items));
+
+  @JsonKey(ignore: true)
+  @override
+  _$GetQRBarcodeCopyWith<_GetQRBarcode> get copyWith =>
+      __$GetQRBarcodeCopyWithImpl<_GetQRBarcode>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<Impeller> items, int page) fetchListByPage,
+    required TResult Function(
+            List<Impeller> items, int page, String yard, String hullNo)
+        searchByYardHullNo,
+    required TResult Function(List<Impeller> items) getQRBarcode,
+  }) {
+    return getQRBarcode(items);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<Impeller> items, int page)? fetchListByPage,
+    TResult Function(
+            List<Impeller> items, int page, String yard, String hullNo)?
+        searchByYardHullNo,
+    TResult Function(List<Impeller> items)? getQRBarcode,
+  }) {
+    return getQRBarcode?.call(items);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<Impeller> items, int page)? fetchListByPage,
+    TResult Function(
+            List<Impeller> items, int page, String yard, String hullNo)?
+        searchByYardHullNo,
+    TResult Function(List<Impeller> items)? getQRBarcode,
+    required TResult orElse(),
+  }) {
+    if (getQRBarcode != null) {
+      return getQRBarcode(items);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchListByPage value) fetchListByPage,
+    required TResult Function(_SearchByYardHullNo value) searchByYardHullNo,
+    required TResult Function(_GetQRBarcode value) getQRBarcode,
+  }) {
+    return getQRBarcode(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_GetQRBarcode value)? getQRBarcode,
+  }) {
+    return getQRBarcode?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_GetQRBarcode value)? getQRBarcode,
+    required TResult orElse(),
+  }) {
+    if (getQRBarcode != null) {
+      return getQRBarcode(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetQRBarcode extends ImpellerEvent {
+  const factory _GetQRBarcode(List<Impeller> items) = _$_GetQRBarcode;
+  const _GetQRBarcode._() : super._();
+
+  @override
+  List<Impeller> get items;
+  @override
+  @JsonKey(ignore: true)
+  _$GetQRBarcodeCopyWith<_GetQRBarcode> get copyWith =>
       throw _privateConstructorUsedError;
 }

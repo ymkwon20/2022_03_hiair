@@ -36,6 +36,7 @@ class Impeller extends IImpeller implements TableCellEntity {
     required this.dateEndBefore,
     required this.status,
     required String chkDiv,
+    required String qrString,
   }) : super(
           code: code,
           planSeq: planSeq,
@@ -54,6 +55,7 @@ class Impeller extends IImpeller implements TableCellEntity {
           rmk: rmk,
           fanType: fanType,
           chkDiv: chkDiv,
+          qrString: qrString,
         );
 
   String get statusKr {
@@ -80,6 +82,7 @@ class Impeller extends IImpeller implements TableCellEntity {
         "qty": qty.toString(),
         "fanType": fanType,
         'chkDiv': chkDiv,
+        'qrString': qrString,
       }[key];
 
   @override
@@ -106,7 +109,8 @@ class Impeller extends IImpeller implements TableCellEntity {
         other.shaft == shaft &&
         other.rmk == rmk &&
         other.fanType == fanType &&
-        other.chkDiv == chkDiv;
+        other.chkDiv == chkDiv &&
+        other.qrString == qrString;
   }
 
   @override
@@ -130,7 +134,8 @@ class Impeller extends IImpeller implements TableCellEntity {
         shaft.hashCode ^
         rmk.hashCode ^
         fanType.hashCode ^
-        chkDiv.hashCode;
+        chkDiv.hashCode ^
+        qrString.hashCode;
   }
 
   Impeller copyWith({
@@ -155,6 +160,7 @@ class Impeller extends IImpeller implements TableCellEntity {
     String? fanType,
     ImpellerStatus? status,
     String? chkDiv,
+    String? qrString,
   }) {
     return Impeller(
       code: code ?? this.code,
@@ -178,6 +184,7 @@ class Impeller extends IImpeller implements TableCellEntity {
       status: status ?? this.status,
       fanType: fanType ?? this.fanType,
       chkDiv: chkDiv ?? this.chkDiv,
+      qrString: qrString ?? this.qrString,
     );
   }
 }

@@ -101,6 +101,49 @@ class ImpellerRemoteService implements ImpellerService {
   }
 
   @override
+  Future<ImpellerListDto> getQRCode(Map<String, dynamic> params) async {
+    try {
+      final response = await _dio.get(
+        "/barcode",
+        queryParameters: params,
+      );
+
+      if (response.data == null) {
+        return const ImpellerListDto(isNextAvailable: false, items: []);
+      }
+
+      final results = (response.data as Map<String, dynamic>);
+
+      return ImpellerListDto.fromMap(results);
+    } on DioError catch (e) {
+      if (e.isNoConnectionError) {
+        throw NoConnectionException(message: e.message);
+      }
+
+      if (e.response?.statusCode == 500) {
+        final response = jsonDecode(e.response?.data) as Map<String, dynamic>;
+        throw InvalidServerResponseException(
+          message: response["msg"],
+        );
+      }
+
+      if (e.type == DioErrorType.connectTimeout) {
+        throw ServerConnectionException(message: e.message);
+      }
+
+      if (e.type == DioErrorType.receiveTimeout) {
+        throw ServerConnectionException(message: e.message);
+      }
+
+      if (e.type == DioErrorType.other) {
+        throw ServerConnectionException(message: e.message);
+      }
+
+      rethrow;
+    }
+  }
+
+  @override
   Future<void> saveImpeller(Map<String, dynamic> params) async {
     try {
       await _dio.post("/order", data: params);

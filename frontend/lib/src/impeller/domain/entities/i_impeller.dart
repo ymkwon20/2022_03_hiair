@@ -50,6 +50,8 @@ abstract class IImpeller {
   // CHK_DIV
   final String chkDiv;
 
+  final String qrString;
+
   const IImpeller({
     required this.code,
     required this.planSeq,
@@ -68,5 +70,6 @@ abstract class IImpeller {
     required this.qty,
     required this.fanType,
     required this.chkDiv,
+    required this.qrString,
   });
 }

@@ -92,7 +92,7 @@ class SubAppBar extends ConsumerWidget implements PreferredSizeWidget {
             ),
           );
     } else {
-      await ref.read(workOrderStateNotifierProvider.notifier).mapEventoTState(
+      await ref.read(workOrderStateNotifierProvider.notifier).mapEventToState(
             WorkOrderEvent.searchByYardHullNo(
               ref.watch(workOrderListNotifier).items,
               ref.watch(workOrderListNotifier).page,

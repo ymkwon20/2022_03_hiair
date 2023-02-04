@@ -7,6 +7,8 @@ abstract class IImpellerRepository {
       Map<String, dynamic> params);
   Future<Either<Failure, ImpellerList>> searchImpellerList(
       Map<String, dynamic> params);
+  Future<Either<Failure, ImpellerList>> getQRBarcode(
+      Map<String, dynamic> params);
   Future<Either<Failure, Unit>> saveImpeller(Map<String, dynamic> params);
   Future<Either<Failure, Unit>> saveImpellerList(
       List<Map<String, dynamic>> params);

@@ -43,6 +43,21 @@ class ImpellerRepository implements IImpellerRepository {
   }
 
   @override
+  Future<Either<Failure, ImpellerList>> getQRBarcode(
+      Map<String, dynamic> params) async {
+    try {
+      final remoteFetch = await _remoteService.getQRCode(params);
+      return right(remoteFetch.toDomain());
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
+
+  @override
   Future<Either<Failure, Unit>> saveImpeller(
       Map<String, dynamic> params) async {
     try {
