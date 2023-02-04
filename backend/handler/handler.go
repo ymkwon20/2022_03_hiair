@@ -759,10 +759,15 @@ func (a *AppHandler) saveFctItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *AppHandler) getBarcode(w http.ResponseWriter, r *http.Request) {
+	queryString := r.URL.Query()
+	planSeq := queryString.Get("planSeq")
+	wbnm := queryString.Get("wb-nm")
+	wbCd := queryString.Get("wb-cd")
+	wcCd := queryString.Get("wc-cd")
 
-	query := `
+	query := fmt.Sprintf(`
 	EXEC SP_TABLET_ORD_01_QR '%s', '%s', '%s', '%s';
-	`
+	`, planSeq, wbnm, wbCd, wcCd)
 
 	results, err := a.db.CallProcedure(query)
 	if err != nil {

@@ -83,6 +83,12 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
     } else {
       // _openDrawer(index);
 
+      ref.watch(impellerStateNotifierProvider.notifier).mapEventToState(
+            ImpellerEvent.getQRBarcode(
+              ref.watch(impellerListNotifier).items,
+            ),
+          );
+
       Navigator.of(context).push(
         CustomSlideRoute(
           backgroundColor: Colors.black.withOpacity(.2),

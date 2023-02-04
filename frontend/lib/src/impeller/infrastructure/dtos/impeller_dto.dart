@@ -38,6 +38,7 @@ class ImpellerDto extends IImpeller {
     required this.dateEndBefore,
     required this.status,
     required String chkDiv,
+    required String qrString,
   }) : super(
           code: code,
           planSeq: planSeq,
@@ -56,6 +57,7 @@ class ImpellerDto extends IImpeller {
           rmk: rmk,
           fanType: fanType,
           chkDiv: chkDiv,
+          qrString: qrString,
         );
 
   factory ImpellerDto.fromDomain(Impeller domain) {
@@ -81,6 +83,7 @@ class ImpellerDto extends IImpeller {
       rmk: domain.rmk,
       fanType: domain.fanType,
       chkDiv: domain.chkDiv,
+      qrString: domain.qrString,
     );
   }
 
@@ -107,6 +110,7 @@ class ImpellerDto extends IImpeller {
       rmk: rmk,
       fanType: fanType,
       chkDiv: chkDiv,
+      qrString: qrString,
     );
   }
 
@@ -132,6 +136,7 @@ class ImpellerDto extends IImpeller {
       "rmk": rmk,
       "fanType": fanType,
       "chkDiv": chkDiv,
+      "qtString": qrString,
     };
   }
 
@@ -167,7 +172,8 @@ class ImpellerDto extends IImpeller {
       rmk: map["RMK"] ?? "",
       fanType: map["FAN_TYPE"] ?? "",
       status: status,
-      chkDiv: map["CHK_DIV"],
+      chkDiv: map["CHK_DIV"] ?? "",
+      qrString: map["QR_BAR"] ?? "",
     );
   }
 
@@ -198,6 +204,7 @@ class ImpellerDto extends IImpeller {
     String? fanType,
     ImpellerStatus? status,
     String? chkDiv,
+    String? qrString,
   }) {
     return ImpellerDto(
       code: code ?? this.code,
@@ -221,6 +228,7 @@ class ImpellerDto extends IImpeller {
       status: status ?? this.status,
       fanType: fanType ?? this.fanType,
       chkDiv: chkDiv ?? this.chkDiv,
+      qrString: qrString ?? this.qrString,
     );
   }
 
@@ -248,7 +256,8 @@ class ImpellerDto extends IImpeller {
         other.shaft == shaft &&
         other.rmk == rmk &&
         other.fanType == fanType &&
-        other.chkDiv == chkDiv;
+        other.chkDiv == chkDiv &&
+        other.qrString == qrString;
   }
 
   @override
@@ -272,6 +281,7 @@ class ImpellerDto extends IImpeller {
         shaft.hashCode ^
         rmk.hashCode ^
         fanType.hashCode ^
-        chkDiv.hashCode;
+        chkDiv.hashCode ^
+        qrString.hashCode;
   }
 }

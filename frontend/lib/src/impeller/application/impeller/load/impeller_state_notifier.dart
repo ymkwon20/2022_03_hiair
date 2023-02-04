@@ -2,7 +2,9 @@ import 'package:frontend/src/core/domain/entities/failure.dart';
 import 'package:frontend/src/core/presentation/logic_constant.dart';
 import 'package:frontend/src/impeller/application/impeller/load/impeller_event.dart';
 import 'package:frontend/src/impeller/application/impeller/load/impeller_state.dart';
+import 'package:frontend/src/impeller/domain/entities/impeller.dart';
 import 'package:frontend/src/impeller/domain/usecases/fetch_impeller_list.dart';
+import 'package:frontend/src/impeller/domain/usecases/get_qr_barcode.dart';
 import 'package:frontend/src/impeller/domain/usecases/search_impeller_list.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,14 +14,17 @@ class ImpellerStateNotifier extends StateNotifier<ImpellerState> {
     required FetchImpellerList fetchItems,
     required SearchImpellerList searchItems,
     required WorkBaseChangeNotifier workbase,
+    required GetQRBarcode qrBarcode,
   })  : _workbase = workbase,
         _fetchItems = fetchItems,
         _searchItems = searchItems,
+        _getQRBarcode = qrBarcode,
         super(const ImpellerState.initial([]));
 
   final FetchImpellerList _fetchItems;
   final WorkBaseChangeNotifier _workbase;
   final SearchImpellerList _searchItems;
+  final GetQRBarcode _getQRBarcode;
 
   Future<void> mapEventToState(ImpellerEvent event) async {
     event.when(
@@ -50,6 +55,22 @@ class ImpellerStateNotifier extends StateNotifier<ImpellerState> {
         };
 
         final resultsOrFailure = await _searchItems(params);
+        state = resultsOrFailure.fold(
+          (l) => ImpellerState.failure(items, mapFailureToString(l)),
+          (r) =>
+              ImpellerState.loaded(items..addAll(r.items), r.isNextAvailable),
+        );
+      },
+      getQRBarcode: (items) async {
+        state = ImpellerState.loading(items, LogicConstant.qmFetchCount);
+        final params = {
+          "planSeq": '587805',
+          "wb-nm": 'P21-012194',
+          "wb-cd": '35',
+          "wc-cd": 'FCT'
+        };
+
+        final resultsOrFailure = await _getQRBarcode(params);
         state = resultsOrFailure.fold(
           (l) => ImpellerState.failure(items, mapFailureToString(l)),
           (r) =>

@@ -5,12 +5,14 @@ import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/widgets/underline_widget.dart';
+import 'package:frontend/src/impeller/application/impeller/load/impeller_event.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_event.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_state.dart';
 import 'package:frontend/src/impeller/dependency_injection.dart';
 import 'package:frontend/src/impeller/presentation/screens/impeller_start_end_button.dart';
 import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class ImpellerPopup extends ConsumerWidget {
   const ImpellerPopup({
@@ -40,6 +42,56 @@ class ImpellerPopup extends ConsumerWidget {
                 width: double.infinity,
                 height: double.infinity,
                 color: Colors.transparent,
+              ),
+            ),
+            Positioned(
+              top: 0,
+              bottom: 0,
+              right: 471,
+              child: SafeArea(
+                child: Container(
+                  width: width,
+                  height: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(LayoutConstant.radiusL),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        offset: const Offset(2, -1),
+                        blurRadius: LayoutConstant.radiusXS,
+                        color: Theme.of(context).shadowColor.withOpacity(.7),
+                      ),
+                    ],
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(LayoutConstant.paddingL),
+                    width: width,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        const SizedBox(height: LayoutConstant.spaceM),
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "QR코드",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 180),
+                        QrImage(
+                          data: impeller.qrString,
+                          backgroundColor: Colors.white,
+                          size: 250,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
             Positioned(
