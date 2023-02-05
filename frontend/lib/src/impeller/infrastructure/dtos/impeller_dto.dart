@@ -159,7 +159,7 @@ class ImpellerDto extends IImpeller {
       dateEnd: map['CLOSE_DT'] ?? '',
       dateEndBefore: map['BEF_CLOSE_DT'] ?? '',
       ship: map['SHIP'] ?? '',
-      planSeq: map['PRODPLANSEQ']?.toInt() ?? '',
+      planSeq: map['PRODPLANSEQ']?.toInt() ?? 0,
       hullNo: map['HULLNO'] ?? '',
       qty: map['REQ_QT']?.toInt() ?? 0,
       sysNo: map['SYSNO'] ?? '',
