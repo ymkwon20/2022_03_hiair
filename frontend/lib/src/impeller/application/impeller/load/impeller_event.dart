@@ -11,7 +11,4 @@ class ImpellerEvent with _$ImpellerEvent {
   const factory ImpellerEvent.searchByYardHullNo(
           List<Impeller> items, int page, String yard, String hullNo) =
       _SearchByYardHullNo;
-
-  const factory ImpellerEvent.getQRBarcode(List<Impeller> items) =
-      _GetQRBarcode;
 }

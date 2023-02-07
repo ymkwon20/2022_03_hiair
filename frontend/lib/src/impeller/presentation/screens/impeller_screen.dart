@@ -8,6 +8,8 @@ import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/sub_app_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/table_loading_row.dart';
+import 'package:frontend/src/impeller/application/impeller/load/barcode_event.dart';
+import 'package:frontend/src/impeller/application/impeller/load/barcode_state.dart';
 import 'package:frontend/src/impeller/application/impeller/load/impeller_event.dart';
 import 'package:frontend/src/impeller/application/impeller/load/impeller_state.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_event.dart';
@@ -15,6 +17,7 @@ import 'package:frontend/src/impeller/application/impeller/save/impeller_save_st
 import 'package:frontend/src/impeller/dependency_injection.dart';
 import 'package:frontend/src/impeller/domain/entities/impeller_status.dart';
 import 'package:frontend/src/impeller/presentation/screens/tablerows/impeller_loaded_row.dart';
+import 'package:frontend/src/impeller/presentation/viewmodels/barcode_notifier.dart';
 import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -77,16 +80,15 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
         );
   }
 
-  void _onTap(int index) {
+  void _onTap(int index) async {
     if (ref.watch(impellerListNotifier).isMultiSelectMode) {
       ref.read(impellerListNotifier).toggleSelectState(index);
     } else {
       // _openDrawer(index);
-
-      ref.watch(impellerStateNotifierProvider.notifier).mapEventToState(
-            ImpellerEvent.getQRBarcode(
-              ref.watch(impellerListNotifier).items,
-            ),
+      // final impeller = ref.watch(impellerNotifier);
+      await ref.watch(barcodeStateNotifierProvider.notifier).mapEventToState(
+            BarcodeEvent.getQRBarcode(ref.watch(barcodeNotifier).item,
+                ref.watch(impellerListNotifier).items[index]),
           );
 
       Navigator.of(context).push(
@@ -97,6 +99,8 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
               impellerIndexNotifier.overrideWithValue(index),
               impellerNotifier.overrideWithValue(
                   ref.watch(impellerListNotifier).items[index]),
+              barcodeStringNotifier
+                  .overrideWithValue(ref.watch(barcodeNotifier).item)
             ],
             child: ImpellerPopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
@@ -143,6 +147,18 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
         failure: (orders, message) {
           canLoadNextPage = true;
         },
+      );
+    }));
+
+    ref.listen<BarcodeState>(barcodeStateNotifierProvider,
+        ((previous, current) {
+      current.when(
+        initial: (barcode) {},
+        loading: (barcode) {},
+        loaded: (barcode) {
+          ref.read(barcodeNotifier.notifier).setOrderList(barcode);
+        },
+        failure: (barcode, message) {},
       );
     }));
 

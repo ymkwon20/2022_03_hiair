@@ -767,7 +767,7 @@ func (a *AppHandler) getBarcode(w http.ResponseWriter, r *http.Request) {
 
 	query := fmt.Sprintf(`
 	EXEC SP_TABLET_ORD_01_QR '%s', '%s', '%s', '%s';
-	`, planSeq, wbnm, wbCd, wcCd)
+	`, planSeq, wbnm, wcCd, wbCd)
 
 	results, err := a.db.CallProcedure(query)
 	if err != nil {

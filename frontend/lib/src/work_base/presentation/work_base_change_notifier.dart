@@ -11,7 +11,7 @@ final workBaseChangeNotifierProvider = ChangeNotifierProvider(
 
 class WorkBaseChangeNotifier extends ChangeNotifier {
   List<WorkBaseInfo> items = [];
-
+  
   WorkBaseInfo? _selectedWorkBaseInfo;
 
   WorkBaseInfo? get workBase => _selectedWorkBaseInfo;

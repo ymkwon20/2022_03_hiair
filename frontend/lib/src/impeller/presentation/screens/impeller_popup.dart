@@ -5,11 +5,12 @@ import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/widgets/underline_widget.dart';
-import 'package:frontend/src/impeller/application/impeller/load/impeller_event.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_event.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_state.dart';
 import 'package:frontend/src/impeller/dependency_injection.dart';
+import 'package:frontend/src/impeller/infrastructure/datasources/remote/impeller_remote_service.dart';
 import 'package:frontend/src/impeller/presentation/screens/impeller_start_end_button.dart';
+import 'package:frontend/src/impeller/presentation/viewmodels/barcode_notifier.dart';
 import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -26,6 +27,7 @@ class ImpellerPopup extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width / 2.5;
     final impeller = ref.watch(impellerNotifier);
+    final barcode = ref.watch(barcodeNotifier);
 
     return Material(
       color: Colors.transparent,
@@ -84,7 +86,7 @@ class ImpellerPopup extends ConsumerWidget {
                         ),
                         const SizedBox(height: 180),
                         QrImage(
-                          data: impeller.qrString,
+                          data: barcode.item.qrBarcodeString,
                           backgroundColor: Colors.white,
                           size: 250,
                         )
