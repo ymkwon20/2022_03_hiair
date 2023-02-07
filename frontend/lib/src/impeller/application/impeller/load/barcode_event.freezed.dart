@@ -17,9 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$BarcodeEventTearOff {
   const _$BarcodeEventTearOff();
 
-  _GetQRBarcode getQRBarcode(Barcode barcode) {
+  _GetQRBarcode getQRBarcode(Barcode barcode, Impeller impeller) {
     return _GetQRBarcode(
       barcode,
+      impeller,
     );
   }
 }
@@ -30,20 +31,21 @@ const $BarcodeEvent = _$BarcodeEventTearOff();
 /// @nodoc
 mixin _$BarcodeEvent {
   Barcode get barcode => throw _privateConstructorUsedError;
+  Impeller get impeller => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Barcode barcode) getQRBarcode,
+    required TResult Function(Barcode barcode, Impeller impeller) getQRBarcode,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(Barcode barcode)? getQRBarcode,
+    TResult Function(Barcode barcode, Impeller impeller)? getQRBarcode,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Barcode barcode)? getQRBarcode,
+    TResult Function(Barcode barcode, Impeller impeller)? getQRBarcode,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -74,7 +76,7 @@ abstract class $BarcodeEventCopyWith<$Res> {
   factory $BarcodeEventCopyWith(
           BarcodeEvent value, $Res Function(BarcodeEvent) then) =
       _$BarcodeEventCopyWithImpl<$Res>;
-  $Res call({Barcode barcode});
+  $Res call({Barcode barcode, Impeller impeller});
 }
 
 /// @nodoc
@@ -88,12 +90,17 @@ class _$BarcodeEventCopyWithImpl<$Res> implements $BarcodeEventCopyWith<$Res> {
   @override
   $Res call({
     Object? barcode = freezed,
+    Object? impeller = freezed,
   }) {
     return _then(_value.copyWith(
       barcode: barcode == freezed
           ? _value.barcode
           : barcode // ignore: cast_nullable_to_non_nullable
               as Barcode,
+      impeller: impeller == freezed
+          ? _value.impeller
+          : impeller // ignore: cast_nullable_to_non_nullable
+              as Impeller,
     ));
   }
 }
@@ -105,7 +112,7 @@ abstract class _$GetQRBarcodeCopyWith<$Res>
           _GetQRBarcode value, $Res Function(_GetQRBarcode) then) =
       __$GetQRBarcodeCopyWithImpl<$Res>;
   @override
-  $Res call({Barcode barcode});
+  $Res call({Barcode barcode, Impeller impeller});
 }
 
 /// @nodoc
@@ -121,12 +128,17 @@ class __$GetQRBarcodeCopyWithImpl<$Res> extends _$BarcodeEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object? barcode = freezed,
+    Object? impeller = freezed,
   }) {
     return _then(_GetQRBarcode(
       barcode == freezed
           ? _value.barcode
           : barcode // ignore: cast_nullable_to_non_nullable
               as Barcode,
+      impeller == freezed
+          ? _value.impeller
+          : impeller // ignore: cast_nullable_to_non_nullable
+              as Impeller,
     ));
   }
 }
@@ -134,14 +146,16 @@ class __$GetQRBarcodeCopyWithImpl<$Res> extends _$BarcodeEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_GetQRBarcode extends _GetQRBarcode {
-  const _$_GetQRBarcode(this.barcode) : super._();
+  const _$_GetQRBarcode(this.barcode, this.impeller) : super._();
 
   @override
   final Barcode barcode;
+  @override
+  final Impeller impeller;
 
   @override
   String toString() {
-    return 'BarcodeEvent.getQRBarcode(barcode: $barcode)';
+    return 'BarcodeEvent.getQRBarcode(barcode: $barcode, impeller: $impeller)';
   }
 
   @override
@@ -149,12 +163,15 @@ class _$_GetQRBarcode extends _GetQRBarcode {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _GetQRBarcode &&
-            const DeepCollectionEquality().equals(other.barcode, barcode));
+            const DeepCollectionEquality().equals(other.barcode, barcode) &&
+            const DeepCollectionEquality().equals(other.impeller, impeller));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(barcode));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(barcode),
+      const DeepCollectionEquality().hash(impeller));
 
   @JsonKey(ignore: true)
   @override
@@ -164,27 +181,27 @@ class _$_GetQRBarcode extends _GetQRBarcode {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Barcode barcode) getQRBarcode,
+    required TResult Function(Barcode barcode, Impeller impeller) getQRBarcode,
   }) {
-    return getQRBarcode(barcode);
+    return getQRBarcode(barcode, impeller);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(Barcode barcode)? getQRBarcode,
+    TResult Function(Barcode barcode, Impeller impeller)? getQRBarcode,
   }) {
-    return getQRBarcode?.call(barcode);
+    return getQRBarcode?.call(barcode, impeller);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Barcode barcode)? getQRBarcode,
+    TResult Function(Barcode barcode, Impeller impeller)? getQRBarcode,
     required TResult orElse(),
   }) {
     if (getQRBarcode != null) {
-      return getQRBarcode(barcode);
+      return getQRBarcode(barcode, impeller);
     }
     return orElse();
   }
@@ -219,11 +236,14 @@ class _$_GetQRBarcode extends _GetQRBarcode {
 }
 
 abstract class _GetQRBarcode extends BarcodeEvent {
-  const factory _GetQRBarcode(Barcode barcode) = _$_GetQRBarcode;
+  const factory _GetQRBarcode(Barcode barcode, Impeller impeller) =
+      _$_GetQRBarcode;
   const _GetQRBarcode._() : super._();
 
   @override
   Barcode get barcode;
+  @override
+  Impeller get impeller;
   @override
   @JsonKey(ignore: true)
   _$GetQRBarcodeCopyWith<_GetQRBarcode> get copyWith =>

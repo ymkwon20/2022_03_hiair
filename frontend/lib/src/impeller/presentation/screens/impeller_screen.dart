@@ -85,9 +85,10 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
       ref.read(impellerListNotifier).toggleSelectState(index);
     } else {
       // _openDrawer(index);
-
+      // final impeller = ref.watch(impellerNotifier);
       await ref.watch(barcodeStateNotifierProvider.notifier).mapEventToState(
-            BarcodeEvent.getQRBarcode(ref.watch(barcodeNotifier).item),
+            BarcodeEvent.getQRBarcode(ref.watch(barcodeNotifier).item,
+                ref.watch(impellerListNotifier).items[index]),
           );
 
       Navigator.of(context).push(

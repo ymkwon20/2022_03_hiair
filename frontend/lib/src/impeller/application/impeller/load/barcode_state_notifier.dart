@@ -19,12 +19,12 @@ class BarcodeStateNotifier extends StateNotifier<BarcodeState> {
 
   Future<void> mapEventToState(BarcodeEvent event) async {
     event.when(
-      getQRBarcode: (barcode) async {
+      getQRBarcode: (barcode, impeller) async {
         final params = {
-          "planSeq": '587805',
-          "wb-nm": 'P21-012194',
-          "wb-cd": '35',
-          "wc-cd": 'FCT'
+          "planSeq": impeller.planSeq,
+          "wb-nm": impeller.code,
+          "wc-cd": impeller.wcCd,
+          "wb-cd": impeller.wbCd,
         };
 
         final resultsOrFailure = await _getQRBarcode(params);
