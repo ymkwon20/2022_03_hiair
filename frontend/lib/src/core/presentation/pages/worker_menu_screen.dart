@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/bad_control/presentation/screens/bad_control_popup.dart';
 import 'package:frontend/src/core/presentation/layout_constant.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/pages/menu_item.dart';
 import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/home_app_bar.dart';
+import 'package:frontend/src/impeller/application/impeller/load/barcode_state.dart';
+import 'package:frontend/src/impeller/dependency_injection.dart';
+import 'package:frontend/src/impeller/presentation/viewmodels/barcode_notifier.dart';
 import 'package:frontend/src/safety/application/info/safety_info_event.dart';
 import 'package:frontend/src/safety/dependency_injection.dart';
 import 'package:frontend/src/version/application/version_state.dart';
@@ -110,6 +114,20 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
       },
     );
 
+    ref.listen<BarcodeState>(
+      barcodeStateNotifierProvider,
+      ((previous, current) {
+        current.when(
+          initial: (barcode) {},
+          loading: (barcode) {},
+          loaded: (barcode) {
+            ref.read(barcodeNotifier.notifier).setOrderList(barcode);
+          },
+          failure: (barcode, message) {},
+        );
+      }),
+    );
+
     return Scaffold(
       appBar: const HomeAppBar(title: "작업 선택"),
       body: Center(
@@ -157,7 +175,7 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
               context,
               ref,
               code: WorkCode.badControl,
-              title: "업체별 불량관리",
+              title: "업체별 불량관리(개발중)",
               width: MediaQuery.of(context).size.width / 3,
               height: 50,
             ),
@@ -208,6 +226,14 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
               context.push("/qm");
               break;
             case WorkCode.badControl:
+              Navigator.of(context).push(
+                CustomSlideRoute(
+                  backgroundColor: Colors.black.withOpacity(.2),
+                  builder: (BuildContext context) {
+                    return const BadControlPopup();
+                  },
+                ),
+              );
               break;
           }
 
