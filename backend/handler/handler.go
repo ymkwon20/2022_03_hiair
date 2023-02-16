@@ -385,7 +385,7 @@ func (a *AppHandler) getWorkOrderByWbCd2(w http.ResponseWriter, r *http.Request)
 
 	query := fmt.Sprintf(`
 	EXEC SP_TABLET_ORD_03_SELECT '%s', '%s', '%s', '%s', '%s';
-	`, wcCd, wbCd, strconv.Itoa(page), yard, hullno)
+	`, wcCd, wbCd, yard, hullno, strconv.Itoa(page))
 
 	results, err := a.db.CallProcedure(query)
 	if err != nil {
