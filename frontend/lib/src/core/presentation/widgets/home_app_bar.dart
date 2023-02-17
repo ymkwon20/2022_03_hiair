@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
+import 'package:frontend/src/workorder/presentation/screens/work_order_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/auth/domain/entities/user_type.dart';
@@ -39,27 +41,57 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AppBar(
-      title: Padding(
-        padding:
-            const EdgeInsets.symmetric(horizontal: LayoutConstant.paddingM),
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.headline5,
+    if (ref.watch(workBaseChangeNotifierProvider).workBase?.wbCode == 'FIP') {
+      return AppBar(
+        title: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: LayoutConstant.paddingM),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                const SizedBox(
+                  width: 50,
+                ),
+              ],
+            )),
+        // backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromARGB(255, 104, 203, 252),
+        elevation: 0,
+        iconTheme: Theme.of(context).iconTheme,
+        actions: [
+          PopupMenuButton<MenuEntity>(
+            onSelected: (item) => onSelected(context, item),
+            itemBuilder: (context) => buildMenus(
+                context, ref.watch(authChangeNotifierProvider).user!.type),
+          ),
+        ],
+      );
+    } else {
+      return AppBar(
+        title: Padding(
+          padding:
+              const EdgeInsets.symmetric(horizontal: LayoutConstant.paddingM),
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.headline5,
+          ),
         ),
-      ),
-      // backgroundColor: Colors.transparent,
-      backgroundColor: Color.fromARGB(255, 104, 203, 252),
-      elevation: 0,
-      iconTheme: Theme.of(context).iconTheme,
-      actions: [
-        PopupMenuButton<MenuEntity>(
-          onSelected: (item) => onSelected(context, item),
-          itemBuilder: (context) => buildMenus(
-              context, ref.watch(authChangeNotifierProvider).user!.type),
-        ),
-      ],
-    );
+        // backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromARGB(255, 104, 203, 252),
+        elevation: 0,
+        iconTheme: Theme.of(context).iconTheme,
+        actions: [
+          PopupMenuButton<MenuEntity>(
+            onSelected: (item) => onSelected(context, item),
+            itemBuilder: (context) => buildMenus(
+                context, ref.watch(authChangeNotifierProvider).user!.type),
+          ),
+        ],
+      );
+    }
   }
 
   List<PopupMenuEntry<MenuEntity>> buildMenus(

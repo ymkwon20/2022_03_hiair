@@ -6,7 +6,7 @@ class TableLoadingRow extends CustomTableRow {
   TableLoadingRow()
       : super(
           contents: List.generate(
-            10,
+            20,
             (index) => Container(
               height: LayoutConstant.spaceL,
               padding: const EdgeInsets.symmetric(

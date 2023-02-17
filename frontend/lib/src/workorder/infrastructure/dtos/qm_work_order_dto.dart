@@ -18,6 +18,39 @@ class QmWorkOrderDto extends IWorkOrder {
     required String wbNm,
     required String wcCd,
     required String chkDiv,
+    required String wonb,
+    required String spec,
+    required String size,
+    required String pndDate,
+    required String ironPlateThickness,
+    required String ironPlateWidth,
+    required String ironPlateHeight,
+    required String doorLength,
+    required String hollUpDown,
+    required String rmkDC,
+    required String reqDT,
+    required String cfmDate,
+    required int swingType,
+    required String frame,
+    required String material,
+    required String motorColor,
+    required String itemSpec,
+    required String inside,
+    required String inDomar,
+    required String outside,
+    required String outDomar,
+    required String befCloseDT,
+    required String chkSchDT,
+    required String shotDT,
+    required String weight,
+    required String mtrOutDT,
+    required String custltemName,
+    required String bladeAngle,
+    required String chkTblDT,
+    required String fanType,
+    required String rmk,
+    required String tagNo,
+    required String workwcnm,
   }) : super(
           code: code,
           itemNo: itemNo,
@@ -32,6 +65,39 @@ class QmWorkOrderDto extends IWorkOrder {
           wcCd: wcCd,
           wbNm: wbNm,
           chkDiv: chkDiv,
+          wonb: wonb,
+          spec: spec,
+          size: size,
+          pndDate: pndDate,
+          ironPlateThickness: ironPlateThickness,
+          ironPlateWidth: ironPlateWidth,
+          ironPlateHeight: ironPlateHeight,
+          doorLength: doorLength,
+          hollUpDown: hollUpDown,
+          rmkDC: rmkDC,
+          reqDT: reqDT,
+          cfmDate: cfmDate,
+          swingType: swingType,
+          frame: frame,
+          material: material,
+          motorColor: motorColor,
+          itemSpec: itemSpec,
+          inside: inside,
+          inDomar: inDomar,
+          outside: outside,
+          outDomar: outDomar,
+          befCloseDT: befCloseDT,
+          chkSchDT: chkSchDT,
+          shotDT: shotDT,
+          weight: weight,
+          mtrOutDT: mtrOutDT,
+          custltemName: custltemName,
+          bladeAngle: bladeAngle,
+          chkTblDT: chkTblDT,
+          fanType: fanType,
+          rmk: rmk,
+          tagNo: tagNo,
+          workwcnm: workwcnm,
         );
 
   factory QmWorkOrderDto.fromDomain(QmWorkOrder domain) {
@@ -49,6 +115,39 @@ class QmWorkOrderDto extends IWorkOrder {
       wcCd: domain.wcCd,
       wbNm: domain.wbNm,
       chkDiv: domain.chkDiv,
+      wonb: domain.wonb,
+      spec: domain.spec,
+      size: domain.size,
+      pndDate: domain.pndDate,
+      ironPlateThickness: domain.ironPlateThickness,
+      ironPlateWidth: domain.ironPlateWidth,
+      ironPlateHeight: domain.ironPlateHeight,
+      doorLength: domain.doorLength,
+      hollUpDown: domain.hollUpDown,
+      rmkDC: domain.rmkDC,
+      reqDT: domain.reqDT,
+      cfmDate: domain.cfmDate,
+      swingType: domain.swingType,
+      frame: domain.frame,
+      material: domain.material,
+      motorColor: domain.motorColor,
+      itemSpec: domain.itemSpec,
+      inside: domain.inside,
+      inDomar: domain.inDomar,
+      outside: domain.outside,
+      outDomar: domain.outDomar,
+      befCloseDT: domain.befCloseDT,
+      chkSchDT: domain.chkSchDT,
+      shotDT: domain.shotDT,
+      weight: domain.weight,
+      mtrOutDT: domain.mtrOutDT,
+      custltemName: domain.custltemName,
+      bladeAngle: domain.bladeAngle,
+      chkTblDT: domain.chkTblDT,
+      fanType: domain.fanType,
+      rmk: domain.rmk,
+      tagNo: domain.tagNo,
+      workwcnm: domain.workwcnm,
     );
   }
 
@@ -67,6 +166,39 @@ class QmWorkOrderDto extends IWorkOrder {
       wcCd: wcCd,
       wbNm: wbNm,
       chkDiv: chkDiv,
+      wonb: wonb,
+      spec: spec,
+      size: size,
+      pndDate: pndDate,
+      ironPlateThickness: ironPlateThickness,
+      ironPlateWidth: ironPlateWidth,
+      ironPlateHeight: ironPlateHeight,
+      doorLength: doorLength,
+      hollUpDown: hollUpDown,
+      rmkDC: rmkDC,
+      reqDT: reqDT,
+      cfmDate: cfmDate,
+      swingType: swingType,
+      frame: frame,
+      material: material,
+      motorColor: motorColor,
+      itemSpec: itemSpec,
+      inside: inside,
+      inDomar: inDomar,
+      outside: outside,
+      outDomar: outDomar,
+      befCloseDT: befCloseDT,
+      chkSchDT: chkSchDT,
+      shotDT: shotDT,
+      weight: weight,
+      mtrOutDT: mtrOutDT,
+      custltemName: custltemName,
+      bladeAngle: bladeAngle,
+      chkTblDT: chkTblDT,
+      fanType: fanType,
+      rmk: rmk,
+      tagNo: tagNo,
+      workwcnm: workwcnm,
     );
   }
 
@@ -85,6 +217,39 @@ class QmWorkOrderDto extends IWorkOrder {
       'wb-nm': wbNm,
       'wc-cd': wcCd,
       'chkDiv': chkDiv,
+      'wonb': wonb,
+      'spec': spec,
+      'size': size,
+      'pndDate': pndDate,
+      'ironPlateThickness': ironPlateThickness,
+      'ironPlateWidth': ironPlateWidth,
+      'ironPlateHeight': ironPlateHeight,
+      'doorLength': doorLength,
+      'hollUpDown': hollUpDown,
+      'rmkDC': rmkDC,
+      'reqDT': reqDT,
+      'cfmDate': cfmDate,
+      'swingType': swingType,
+      'frame': frame,
+      'material': material,
+      'motorColor': motorColor,
+      'itemSpec': itemSpec,
+      'inside': inside,
+      'inDomar': inDomar,
+      'outside': outside,
+      'outDomar': outDomar,
+      'befCloseDT': befCloseDT,
+      'chkSchDT': chkSchDT,
+      'shotDT': shotDT,
+      'weight': weight,
+      'mtrOutDT': mtrOutDT,
+      'custltemName': custltemName,
+      'bladeAngle': bladeAngle,
+      'chkTblDT': chkTblDT,
+      'fanType': fanType,
+      'rmk': rmk,
+      'tagNo': tagNo,
+      'workwcnm': workwcnm,
     };
   }
 
@@ -94,7 +259,7 @@ class QmWorkOrderDto extends IWorkOrder {
       itemNo: map['ITEMNO'] ?? '',
       date: map['CHK_ET_DT'] ?? '',
       ship: map['SHIP'] ?? '',
-      planSeq: map['PRODPLANSEQ']?.toInt() ?? '',
+      planSeq: map['PRODPLANSEQ']?.toInt() ?? 0,
       hullNo: map['HULLNO'] ?? '',
       qty: map['REQ_QT']?.toInt() ?? 0,
       sysNo: map['SYSNO'] ?? '',
@@ -103,6 +268,39 @@ class QmWorkOrderDto extends IWorkOrder {
       wcCd: map["WC_CD"] ?? "",
       wbNm: map["WB_NM"] ?? "",
       chkDiv: map["CHL_DIV"] ?? "",
+      wonb: map["WO_NB"] ?? "",
+      spec: map["Spec"] ?? "",
+      size: map["Size"] ?? "",
+      pndDate: map["PNDDate"] ?? "",
+      ironPlateThickness: map["IronPlateThickness"] ?? "",
+      ironPlateWidth: map["IronPlateWidth"] ?? "",
+      ironPlateHeight: map["IronPlateHeight"] ?? "",
+      doorLength: map["DoorLength"] ?? "",
+      hollUpDown: map["HolUpDown"] ?? "",
+      rmkDC: map["RMK_DC"] ?? "",
+      reqDT: map["REQ_DT"] ?? "",
+      cfmDate: map["CFM_DATE"] ?? "",
+      swingType: map["SwingType"]?.toInt() ?? 0,
+      frame: map["Frame"] ?? "",
+      material: map["Material"] ?? "",
+      motorColor: map["MotorColor"] ?? "",
+      itemSpec: map["ItemSpec"] ?? "",
+      inside: map["INSIDE"] ?? "",
+      inDomar: map["InDomar"] ?? "",
+      outside: map["OUTSIDE"] ?? "",
+      outDomar: map["OutDomar"] ?? "",
+      befCloseDT: map["BEF_CLOSE_DT"] ?? "",
+      chkSchDT: map["CHK_SCH_DT"] ?? "",
+      shotDT: map["SHOT_DT"] ?? "",
+      weight: map["Weight"] ?? "",
+      mtrOutDT: map["MTR_OUT_DT"] ?? "",
+      custltemName: map["CustItemName"] ?? "",
+      bladeAngle: map["BladeAngle"] ?? "",
+      chkTblDT: map["CHK_TBL_DT"] ?? "",
+      fanType: map["FanType"] ?? "",
+      rmk: map["RMK"] ?? "",
+      tagNo: map["TagNo"] ?? "",
+      workwcnm: map["WORK_WC_NM"] ?? "",
     );
   }
 
@@ -125,6 +323,39 @@ class QmWorkOrderDto extends IWorkOrder {
     String? wbNm,
     String? wcCd,
     String? chkDiv,
+    String? wonb,
+    String? spec,
+    String? size,
+    String? pndDate,
+    String? ironPlateThickness,
+    String? ironPlateWidth,
+    String? ironPlateHeight,
+    String? doorLength,
+    String? hollUpDown,
+    String? rmkDC,
+    String? reqDT,
+    String? cfmDate,
+    int? swingType,
+    String? frame,
+    String? material,
+    String? motorColor,
+    String? itemSpec,
+    String? inside,
+    String? inDomar,
+    String? outside,
+    String? outDomar,
+    String? befCloseDT,
+    String? chkSchDT,
+    String? shotDT,
+    String? weight,
+    String? mtrOutDT,
+    String? custltemName,
+    String? bladeAngle,
+    String? chkTblDT,
+    String? fanType,
+    String? rmk,
+    String? tagNo,
+    String? workwcnm,
   }) {
     return QmWorkOrderDto(
       code: code ?? this.code,
@@ -140,6 +371,39 @@ class QmWorkOrderDto extends IWorkOrder {
       wbNm: wbNm ?? this.wbNm,
       wcCd: wcCd ?? this.wcCd,
       chkDiv: chkDiv ?? this.chkDiv,
+      wonb: wonb ?? this.wonb,
+      spec: spec ?? this.spec,
+      size: size ?? this.size,
+      pndDate: pndDate ?? this.pndDate,
+      ironPlateThickness: ironPlateThickness ?? this.ironPlateThickness,
+      ironPlateWidth: ironPlateWidth ?? this.ironPlateWidth,
+      ironPlateHeight: ironPlateHeight ?? this.ironPlateHeight,
+      doorLength: doorLength ?? this.doorLength,
+      hollUpDown: hollUpDown ?? this.hollUpDown,
+      rmkDC: rmkDC ?? this.rmkDC,
+      reqDT: reqDT ?? this.reqDT,
+      cfmDate: cfmDate ?? this.cfmDate,
+      swingType: swingType ?? this.swingType,
+      frame: frame ?? this.frame,
+      material: material ?? this.material,
+      motorColor: motorColor ?? this.motorColor,
+      itemSpec: itemSpec ?? this.itemSpec,
+      inside: inside ?? this.inside,
+      inDomar: inDomar ?? this.inDomar,
+      outside: outside ?? this.outside,
+      outDomar: outDomar ?? this.outDomar,
+      befCloseDT: befCloseDT ?? this.befCloseDT,
+      chkSchDT: chkSchDT ?? this.chkSchDT,
+      shotDT: shotDT ?? this.shotDT,
+      weight: weight ?? this.weight,
+      mtrOutDT: mtrOutDT ?? this.mtrOutDT,
+      custltemName: custltemName ?? this.custltemName,
+      bladeAngle: bladeAngle ?? this.bladeAngle,
+      chkTblDT: chkTblDT ?? this.chkTblDT,
+      fanType: fanType ?? this.fanType,
+      rmk: rmk ?? this.rmk,
+      tagNo: tagNo ?? this.tagNo,
+      workwcnm: workwcnm ?? this.workwcnm,
     );
   }
 
@@ -160,7 +424,40 @@ class QmWorkOrderDto extends IWorkOrder {
         other.wbCd == wbCd &&
         other.wbNm == wbNm &&
         other.wcCd == wcCd &&
-        other.chkDiv == chkDiv;
+        other.chkDiv == chkDiv &&
+        other.wonb == wonb &&
+        other.spec == spec &&
+        other.size == size &&
+        other.pndDate == pndDate &&
+        other.ironPlateThickness == ironPlateThickness &&
+        other.ironPlateWidth == ironPlateWidth &&
+        other.ironPlateHeight == ironPlateHeight &&
+        other.doorLength == doorLength &&
+        other.hollUpDown == hollUpDown &&
+        other.rmkDC == rmkDC &&
+        other.reqDT == reqDT &&
+        other.cfmDate == cfmDate &&
+        other.swingType == swingType &&
+        other.frame == frame &&
+        other.material == material &&
+        other.motorColor == motorColor &&
+        other.itemSpec == itemSpec &&
+        other.inside == inside &&
+        other.inDomar == inDomar &&
+        other.outside == outside &&
+        other.outDomar == outDomar &&
+        other.befCloseDT == befCloseDT &&
+        other.chkSchDT == chkSchDT &&
+        other.shotDT == shotDT &&
+        other.weight == weight &&
+        other.mtrOutDT == mtrOutDT &&
+        other.custltemName == custltemName &&
+        other.bladeAngle == bladeAngle &&
+        other.chkTblDT == chkTblDT &&
+        other.fanType == fanType &&
+        other.rmk == rmk &&
+        other.tagNo == tagNo &&
+        other.workwcnm == workwcnm;
   }
 
   @override
@@ -177,6 +474,39 @@ class QmWorkOrderDto extends IWorkOrder {
         wbCd.hashCode ^
         wbNm.hashCode ^
         wcCd.hashCode ^
-        chkDiv.hashCode;
+        chkDiv.hashCode ^
+        wonb.hashCode ^
+        spec.hashCode ^
+        size.hashCode ^
+        pndDate.hashCode ^
+        ironPlateThickness.hashCode ^
+        ironPlateWidth.hashCode ^
+        ironPlateHeight.hashCode ^
+        doorLength.hashCode ^
+        hollUpDown.hashCode ^
+        rmkDC.hashCode ^
+        reqDT.hashCode ^
+        cfmDate.hashCode ^
+        swingType.hashCode ^
+        frame.hashCode ^
+        material.hashCode ^
+        motorColor.hashCode ^
+        itemSpec.hashCode ^
+        inside.hashCode ^
+        inDomar.hashCode ^
+        outside.hashCode ^
+        outDomar.hashCode ^
+        befCloseDT.hashCode ^
+        chkSchDT.hashCode ^
+        shotDT.hashCode ^
+        weight.hashCode ^
+        mtrOutDT.hashCode ^
+        custltemName.hashCode ^
+        bladeAngle.hashCode ^
+        chkTblDT.hashCode ^
+        fanType.hashCode ^
+        rmk.hashCode ^
+        tagNo.hashCode ^
+        workwcnm.hashCode;
   }
 }

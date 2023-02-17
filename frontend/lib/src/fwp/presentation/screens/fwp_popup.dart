@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
-import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_impeller.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_work_order.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/widgets/underline_widget.dart';
-import 'package:frontend/src/impeller/application/impeller/save/impeller_save_event.dart';
-import 'package:frontend/src/impeller/application/impeller/save/impeller_save_state.dart';
-import 'package:frontend/src/impeller/dependency_injection.dart';
-import 'package:frontend/src/impeller/infrastructure/datasources/remote/impeller_remote_service.dart';
-import 'package:frontend/src/impeller/presentation/screens/impeller_start_end_button.dart';
-import 'package:frontend/src/impeller/presentation/viewmodels/barcode_notifier.dart';
-import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_notifier.dart';
+import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
+import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
+import 'package:frontend/src/workorder/dependency_injection.dart';
+import 'package:frontend/src/workorder/presentation/screens/work_order_start_end_button.dart';
+import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
-class ImpellerPopup extends ConsumerWidget {
-  const ImpellerPopup({
+class FWPPopup extends ConsumerWidget {
+  const FWPPopup({
     Key? key,
     required this.canSaveBothStartAndEnd,
   }) : super(key: key);
@@ -26,9 +23,7 @@ class ImpellerPopup extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width / 2.5;
-    final impeller = ref.watch(impellerNotifier);
-    final barcode = ref.watch(barcodeNotifier);
-
+    final workOrder = ref.watch(workOrderNotifier);
     return Material(
       color: Colors.transparent,
       child: GestureDetector(
@@ -44,56 +39,6 @@ class ImpellerPopup extends ConsumerWidget {
                 width: double.infinity,
                 height: double.infinity,
                 color: Colors.transparent,
-              ),
-            ),
-            Positioned(
-              top: 0,
-              bottom: 0,
-              left: MediaQuery.of(context).size.width / 5,
-              child: SafeArea(
-                child: Container(
-                  width: width,
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: const BorderRadius.horizontal(
-                      left: Radius.circular(LayoutConstant.radiusL),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: const Offset(2, -1),
-                        blurRadius: LayoutConstant.radiusXS,
-                        color: Theme.of(context).shadowColor.withOpacity(.7),
-                      ),
-                    ],
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(LayoutConstant.paddingL),
-                    width: width,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        const SizedBox(height: LayoutConstant.spaceM),
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "QR코드",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 180),
-                        QrImage(
-                          data: barcode.item.qrBarcodeString,
-                          backgroundColor: Colors.white,
-                          size: 250,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
               ),
             ),
             Positioned(
@@ -135,77 +80,84 @@ class ImpellerPopup extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(height: LayoutConstant.spaceM),
-                        _ImpellerDrawerRow(
-                          title: "BLADE",
-                          value: impeller.bldAngle,
-                        ),
+                        _WorkOrderDrawerRow(
+                            title: "FAT", value: workOrder.chkSchDT),
                         const UnderlineWidget(),
-                        _ImpellerDrawerRow(
-                          title: "Yard",
-                          value: impeller.yard,
-                        ),
+                        _WorkOrderDrawerRow(
+                            title: "Yard", value: workOrder.yard),
                         const UnderlineWidget(),
-                        _ImpellerDrawerRow(
-                          title: "Hull No",
-                          value: impeller.hullNo,
-                        ),
+                        _WorkOrderDrawerRow(
+                            title: "Hull No", value: workOrder.hullNo),
                         const UnderlineWidget(),
-                        _ImpellerDrawerRow(
-                          title: "구역",
-                          value: impeller.ship,
-                        ),
+                        _WorkOrderDrawerRow(title: "구역", value: workOrder.ship),
                         const UnderlineWidget(),
-                        _ImpellerDrawerRow(
-                          title: "Sys No",
-                          value: impeller.sysNo,
-                        ),
+                        _WorkOrderDrawerRow(
+                            title: "Sys No", value: workOrder.sysNo),
                         const UnderlineWidget(),
-                        _ImpellerDrawerRow(
-                          title: "Fan Type",
-                          value: impeller.fanType,
-                        ),
+                        _WorkOrderDrawerRow(
+                            title: "규격", value: workOrder.itemSpec),
                         const UnderlineWidget(),
-                        _ImpellerDrawerRow(
-                          title: "SHAFT",
-                          value: impeller.shaft,
-                        ),
+                        _WorkOrderDrawerRow(
+                            title: "Swing Type",
+                            value: "${workOrder.swingType}"),
                         const UnderlineWidget(),
-                        _ImpellerDrawerRow(
-                          title: "RMK",
-                          value: impeller.rmk,
-                        ),
+                        _WorkOrderDrawerRow(
+                            title: "Frame", value: workOrder.frame),
+                        const UnderlineWidget(),
+                        _WorkOrderDrawerRow(
+                            title: "작업지시번호", value: workOrder.wonb),
+                        const UnderlineWidget(),
+                        _WorkOrderDrawerRow(
+                            title: "PND", value: workOrder.pndDate),
+                        const UnderlineWidget(),
+                        _WorkOrderDrawerRow(
+                            title: "재질", value: workOrder.material),
+                        const UnderlineWidget(),
+                        _WorkOrderDrawerRow(
+                            title: "현공정", value: workOrder.wbNm),
+                        const UnderlineWidget(),
+                        _WorkOrderDrawerRow(
+                            title: "확정일", value: workOrder.cfmDate),
+                        const UnderlineWidget(),
+                        _WorkOrderDrawerRow(
+                            title: "MOTOR COLOR", value: workOrder.motorColor),
+                        const UnderlineWidget(),
+                        _WorkOrderDrawerRow(
+                            title: "비고(수정)", value: workOrder.rmkDC),
+                        const UnderlineWidget(),
                         const Spacer(),
-                        ImpellerStartEndButtons(
-                          dateStart: impeller.dateStart,
-                          dateEnd: impeller.dateEnd,
+                        WorkOrderStartEndButtons(
+                          dateStart: workOrder.dateStart,
+                          dateEnd: workOrder.dateEnd,
                           onStartPressed: () {
                             Navigator.of(context).pop();
                             ref
                                 .read(
-                                    impellerSaveStateNotifierProvider.notifier)
+                                    workOrderSaveStateNotifierProvider.notifier)
                                 .mapEventToState(
-                                  ImpellerSaveEvent.saveImpeller(
-                                    impeller,
-                                    ImpellerSaveStatus.start,
-                                    ref.watch(impellerIndexNotifier)!,
+                                  WorkOrderSaveEvent.saveWorkOrder(
+                                    workOrder,
+                                    WorkOrderSaveStatus.start,
+                                    ref.watch(workOrderIndexNotifier)!,
                                   ),
                                 );
                           },
                           onEndPressed: () {
                             Navigator.of(context).pop();
-                            final impeller = ref.watch(impellerNotifier);
+                            final workOrder = ref.watch(workOrderNotifier);
                             ref
                                 .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(
-                                  ChecklistEvent.fetchChecklistForImpeller(
-                                      impeller),
+                                  ChecklistEvent.fetchChecklistForWorkOrder(
+                                      workOrder),
                                 );
+
                             Navigator.of(context).push(
                               CustomSlideRoute(
                                 backgroundColor: Colors.black.withOpacity(.2),
-                                builder: (context) => ChecklistPopupImpeller(
-                                  impeller: impeller,
-                                  index: ref.watch(impellerIndexNotifier)!,
+                                builder: (context) => ChecklistPopupWorkOrder(
+                                  workOrder: workOrder,
+                                  index: ref.watch(workOrderIndexNotifier)!,
                                   saveFlag: false,
                                 ),
                               ),
@@ -213,33 +165,34 @@ class ImpellerPopup extends ConsumerWidget {
                           },
                           onSavePressed: () {
                             Navigator.of(context).pop();
+
                             ref
                                 .read(
-                                    impellerSaveStateNotifierProvider.notifier)
+                                    workOrderSaveStateNotifierProvider.notifier)
                                 .mapEventToState(
-                                  ImpellerSaveEvent.saveImpeller(
-                                    impeller,
-                                    ImpellerSaveStatus.end,
-                                    ref.watch(impellerIndexNotifier)!,
+                                  WorkOrderSaveEvent.saveWorkOrder(
+                                    workOrder,
+                                    WorkOrderSaveStatus.end,
+                                    ref.watch(workOrderIndexNotifier)!,
                                   ),
                                 );
                           },
                           onStartAndEndPressed: () {
                             Navigator.of(context).pop();
-                            final impeller = ref.watch(impellerNotifier);
+                            final workOrder = ref.watch(workOrderNotifier);
                             ref
                                 .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(
-                                  ChecklistEvent.fetchChecklistForImpeller(
-                                      impeller),
+                                  ChecklistEvent.fetchChecklistForWorkOrder(
+                                      workOrder),
                                 );
 
                             Navigator.of(context).push(
                               CustomSlideRoute(
                                 backgroundColor: Colors.black.withOpacity(.2),
-                                builder: (context) => ChecklistPopupImpeller(
-                                  impeller: impeller,
-                                  index: ref.watch(impellerIndexNotifier)!,
+                                builder: (context) => ChecklistPopupWorkOrder(
+                                  workOrder: workOrder,
+                                  index: ref.watch(workOrderIndexNotifier)!,
                                   saveFlag: true,
                                 ),
                               ),
@@ -249,25 +202,25 @@ class ImpellerPopup extends ConsumerWidget {
                             Navigator.of(context).pop();
                             ref
                                 .read(
-                                    impellerSaveStateNotifierProvider.notifier)
+                                    workOrderSaveStateNotifierProvider.notifier)
                                 .mapEventToState(
-                                  ImpellerSaveEvent.saveImpeller(
-                                    impeller,
-                                    ImpellerSaveStatus.all,
-                                    ref.watch(impellerIndexNotifier)!,
+                                  WorkOrderSaveEvent.saveWorkOrder(
+                                    workOrder,
+                                    WorkOrderSaveStatus.all,
+                                    ref.watch(workOrderIndexNotifier)!,
                                   ),
                                 );
                           },
                           ignoring:
-                              ref.watch(impellerSaveStateNotifierProvider) ==
-                                  const ImpellerSaveState.saving(),
+                              ref.watch(workOrderSaveStateNotifierProvider) ==
+                                  const WorkOrderSaveState.saving(),
                         ),
                       ],
                     ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -275,8 +228,8 @@ class ImpellerPopup extends ConsumerWidget {
   }
 }
 
-class _ImpellerDrawerRow extends StatelessWidget {
-  const _ImpellerDrawerRow({
+class _WorkOrderDrawerRow extends StatelessWidget {
+  const _WorkOrderDrawerRow({
     Key? key,
     required this.title,
     required this.value,
