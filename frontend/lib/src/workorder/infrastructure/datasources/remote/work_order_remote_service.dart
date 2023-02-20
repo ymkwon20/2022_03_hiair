@@ -19,7 +19,7 @@ class WorkOrderRemoteService implements WorkOrderService {
       Map<String, dynamic> params) async {
     try {
       final response = await _dio.get(
-        "/order",
+        "/order2",
         queryParameters: params,
       );
 

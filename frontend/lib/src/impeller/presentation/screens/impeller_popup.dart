@@ -49,7 +49,7 @@ class ImpellerPopup extends ConsumerWidget {
             Positioned(
               top: 0,
               bottom: 0,
-              right: 471,
+              left: MediaQuery.of(context).size.width / 5,
               child: SafeArea(
                 child: Container(
                   width: width,

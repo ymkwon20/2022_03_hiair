@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/cutting/presentation/cutting_screen.dart';
+import 'package:frontend/src/fwp/presentation/screens/fwp_screen.dart';
 import 'package:frontend/src/impeller/presentation/screens/impeller_screen.dart';
 import 'package:frontend/src/work_base/domain/entities/work_base_info.dart';
 import 'package:frontend/src/workorder/presentation/screens/work_order_screen.dart';
@@ -11,7 +12,7 @@ final workBaseChangeNotifierProvider = ChangeNotifierProvider(
 
 class WorkBaseChangeNotifier extends ChangeNotifier {
   List<WorkBaseInfo> items = [];
-  
+
   WorkBaseInfo? _selectedWorkBaseInfo;
 
   WorkBaseInfo? get workBase => _selectedWorkBaseInfo;
@@ -50,7 +51,19 @@ class WorkBaseChangeNotifier extends ChangeNotifier {
       notifyListeners();
     } else if (_selectedWorkBaseInfo!.wbCode == "FIP") {
       // IMPELLER 화면 호출
-      page = const ImpellerScreen();
+      page = ImpellerScreen(
+        key: ValueKey<String>(
+          "${_selectedWorkBaseInfo!.wbCode}-${DateTime.now().millisecond}",
+        ),
+      );
+      notifyListeners();
+    } else if (_selectedWorkBaseInfo!.wbCode == "FWP") {
+      // 취부 / 용접 화면 호출
+      page = FWPScreen(
+        key: ValueKey<String>(
+          "${_selectedWorkBaseInfo!.wbCode}-${DateTime.now().millisecond}",
+        ),
+      );
       notifyListeners();
     } else {
       /// 나머지

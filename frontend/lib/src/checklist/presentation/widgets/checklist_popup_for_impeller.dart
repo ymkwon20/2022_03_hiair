@@ -68,10 +68,10 @@ class ChecklistPopupImpeller extends ConsumerWidget {
           Positioned(
             top: 0,
             bottom: 0,
-            right: 581,
+            right: 471,
             child: SafeArea(
               child: Container(
-                width: 600,
+                width: 400,
                 height: double.infinity,
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,

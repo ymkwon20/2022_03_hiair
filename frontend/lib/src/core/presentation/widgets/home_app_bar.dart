@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:frontend/src/auth/domain/entities/user_type.dart';
@@ -49,7 +50,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
         ),
       ),
       // backgroundColor: Colors.transparent,
-      backgroundColor: Color.fromARGB(255, 104, 203, 252),
+      backgroundColor: const Color.fromARGB(255, 104, 203, 252),
       elevation: 0,
       iconTheme: Theme.of(context).iconTheme,
       actions: [
@@ -77,6 +78,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
     //     );
 
     //     break;
+    
     //   case UserType.worker:
     //     break;
     // }
