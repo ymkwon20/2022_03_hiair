@@ -10,6 +10,7 @@ import 'package:frontend/src/impeller/application/impeller/save/impeller_save_st
 import 'package:frontend/src/impeller/domain/repositories/i_barcode_repository.dart';
 import 'package:frontend/src/impeller/domain/repositories/i_impeller_repository.dart';
 import 'package:frontend/src/impeller/domain/usecases/fetch_impeller_list.dart';
+import 'package:frontend/src/impeller/domain/usecases/fetch_impeller_single_list.dart';
 import 'package:frontend/src/impeller/domain/usecases/get_qr_barcode.dart';
 import 'package:frontend/src/impeller/domain/usecases/save_impeller.dart';
 import 'package:frontend/src/impeller/domain/usecases/save_impeller_list.dart';
@@ -28,6 +29,7 @@ final impellerStateNotifierProvider =
   (ref) => ImpellerStateNotifier(
     workbase: ref.watch(workBaseChangeNotifierProvider),
     fetchItems: ref.watch(fetchImpellerListProvider),
+    fetchImpellerSingleList: ref.watch(fetchImpellerSingleListProvider),
     searchItems: ref.watch(searchImpellerListProvider),
   ),
 );
@@ -44,6 +46,10 @@ final impellerSaveStateNotifierProvider =
 
 final fetchImpellerListProvider = Provider(
   (ref) => FetchImpellerList(repository: ref.watch(impellerRepositoryProvider)),
+);
+final fetchImpellerSingleListProvider = Provider(
+  (ref) => FetchImpellerSingleList(
+      repository: ref.watch(impellerRepositoryProvider)),
 );
 
 final saveImpellerProvider = Provider(

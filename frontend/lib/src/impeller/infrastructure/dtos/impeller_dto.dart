@@ -39,6 +39,9 @@ class ImpellerDto extends IImpeller {
     required this.status,
     required String chkDiv,
     required String qrString,
+    required String partNo,
+    required String bldType,
+    required String bldQTY,
   }) : super(
           code: code,
           planSeq: planSeq,
@@ -58,6 +61,9 @@ class ImpellerDto extends IImpeller {
           fanType: fanType,
           chkDiv: chkDiv,
           qrString: qrString,
+          partNo: partNo,
+          bldType: bldType,
+          bldQTY: bldQTY,
         );
 
   factory ImpellerDto.fromDomain(Impeller domain) {
@@ -84,6 +90,9 @@ class ImpellerDto extends IImpeller {
       fanType: domain.fanType,
       chkDiv: domain.chkDiv,
       qrString: domain.qrString,
+      partNo: domain.partNo,
+      bldType: domain.bldType,
+      bldQTY: domain.bldQTY,
     );
   }
 
@@ -111,6 +120,9 @@ class ImpellerDto extends IImpeller {
       fanType: fanType,
       chkDiv: chkDiv,
       qrString: qrString,
+      partNo: partNo,
+      bldType: bldType,
+      bldQTY: bldQTY,
     );
   }
 
@@ -137,6 +149,9 @@ class ImpellerDto extends IImpeller {
       "fanType": fanType,
       "chkDiv": chkDiv,
       "qtString": qrString,
+      'partNo': partNo,
+      'bldType': bldType,
+      'bldQTY': bldQTY,
     };
   }
 
@@ -174,6 +189,9 @@ class ImpellerDto extends IImpeller {
       status: status,
       chkDiv: map["CHK_DIV"] ?? "",
       qrString: map["QR_BAR"] ?? "",
+      partNo: map["PART_NO"] ?? "",
+      bldType: map["BLADETYPE"] ?? "",
+      bldQTY: map["BLADE_QTY"] ?? "",
     );
   }
 
@@ -205,6 +223,9 @@ class ImpellerDto extends IImpeller {
     ImpellerStatus? status,
     String? chkDiv,
     String? qrString,
+    String? partNo,
+    String? bldType,
+    String? bldQTY,
   }) {
     return ImpellerDto(
       code: code ?? this.code,
@@ -229,6 +250,9 @@ class ImpellerDto extends IImpeller {
       fanType: fanType ?? this.fanType,
       chkDiv: chkDiv ?? this.chkDiv,
       qrString: qrString ?? this.qrString,
+      partNo: partNo ?? this.partNo,
+      bldType: bldType ?? this.bldType,
+      bldQTY: bldQTY ?? this.bldQTY,
     );
   }
 
@@ -257,7 +281,10 @@ class ImpellerDto extends IImpeller {
         other.rmk == rmk &&
         other.fanType == fanType &&
         other.chkDiv == chkDiv &&
-        other.qrString == qrString;
+        other.qrString == qrString &&
+        other.partNo == partNo &&
+        other.bldType == bldType &&
+        other.bldQTY == bldQTY;
   }
 
   @override
@@ -282,6 +309,9 @@ class ImpellerDto extends IImpeller {
         rmk.hashCode ^
         fanType.hashCode ^
         chkDiv.hashCode ^
-        qrString.hashCode;
+        qrString.hashCode ^
+        partNo.hashCode ^
+        bldType.hashCode ^
+        bldQTY.hashCode;
   }
 }

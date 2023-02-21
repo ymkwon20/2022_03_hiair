@@ -52,6 +52,15 @@ abstract class IImpeller {
 
   final String qrString;
 
+  // PART_NO: 품목코드
+  final String partNo;
+
+  // BLADETYPE: BLADE TYPE
+  final String bldType;
+
+  // BLLADE_QTY: BLADE수량
+  final String bldQTY;
+
   const IImpeller({
     required this.code,
     required this.planSeq,
@@ -71,5 +80,8 @@ abstract class IImpeller {
     required this.fanType,
     required this.chkDiv,
     required this.qrString,
+    required this.partNo,
+    required this.bldType,
+    required this.bldQTY,
   });
 }

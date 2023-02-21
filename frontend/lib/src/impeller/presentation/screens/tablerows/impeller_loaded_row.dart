@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
 import 'package:frontend/src/impeller/domain/entities/impeller.dart';
