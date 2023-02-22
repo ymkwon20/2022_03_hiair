@@ -24,6 +24,13 @@ class _$ImpellerEventTearOff {
     );
   }
 
+  _FetchSingleListByPage fetchSingleListByPage(List<Impeller> items, int page) {
+    return _FetchSingleListByPage(
+      items,
+      page,
+    );
+  }
+
   _SearchByYardHullNo searchByYardHullNo(
       List<Impeller> items, int page, String yard, String hullNo) {
     return _SearchByYardHullNo(
@@ -46,6 +53,8 @@ mixin _$ImpellerEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<Impeller> items, int page) fetchListByPage,
+    required TResult Function(List<Impeller> items, int page)
+        fetchSingleListByPage,
     required TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)
         searchByYardHullNo,
@@ -54,6 +63,7 @@ mixin _$ImpellerEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<Impeller> items, int page)? fetchListByPage,
+    TResult Function(List<Impeller> items, int page)? fetchSingleListByPage,
     TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
@@ -62,6 +72,7 @@ mixin _$ImpellerEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<Impeller> items, int page)? fetchListByPage,
+    TResult Function(List<Impeller> items, int page)? fetchSingleListByPage,
     TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
@@ -71,18 +82,22 @@ mixin _$ImpellerEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchListByPage value) fetchListByPage,
+    required TResult Function(_FetchSingleListByPage value)
+        fetchSingleListByPage,
     required TResult Function(_SearchByYardHullNo value) searchByYardHullNo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_FetchSingleListByPage value)? fetchSingleListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_FetchSingleListByPage value)? fetchSingleListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
     required TResult orElse(),
   }) =>
@@ -206,6 +221,8 @@ class _$_FetchListByPage extends _FetchListByPage {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<Impeller> items, int page) fetchListByPage,
+    required TResult Function(List<Impeller> items, int page)
+        fetchSingleListByPage,
     required TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)
         searchByYardHullNo,
@@ -217,6 +234,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<Impeller> items, int page)? fetchListByPage,
+    TResult Function(List<Impeller> items, int page)? fetchSingleListByPage,
     TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
@@ -228,6 +246,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<Impeller> items, int page)? fetchListByPage,
+    TResult Function(List<Impeller> items, int page)? fetchSingleListByPage,
     TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
@@ -243,6 +262,8 @@ class _$_FetchListByPage extends _FetchListByPage {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchListByPage value) fetchListByPage,
+    required TResult Function(_FetchSingleListByPage value)
+        fetchSingleListByPage,
     required TResult Function(_SearchByYardHullNo value) searchByYardHullNo,
   }) {
     return fetchListByPage(this);
@@ -252,6 +273,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_FetchSingleListByPage value)? fetchSingleListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
   }) {
     return fetchListByPage?.call(this);
@@ -261,6 +283,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_FetchSingleListByPage value)? fetchSingleListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
     required TResult orElse(),
   }) {
@@ -283,6 +306,173 @@ abstract class _FetchListByPage extends ImpellerEvent {
   @override
   @JsonKey(ignore: true)
   _$FetchListByPageCopyWith<_FetchListByPage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$FetchSingleListByPageCopyWith<$Res>
+    implements $ImpellerEventCopyWith<$Res> {
+  factory _$FetchSingleListByPageCopyWith(_FetchSingleListByPage value,
+          $Res Function(_FetchSingleListByPage) then) =
+      __$FetchSingleListByPageCopyWithImpl<$Res>;
+  @override
+  $Res call({List<Impeller> items, int page});
+}
+
+/// @nodoc
+class __$FetchSingleListByPageCopyWithImpl<$Res>
+    extends _$ImpellerEventCopyWithImpl<$Res>
+    implements _$FetchSingleListByPageCopyWith<$Res> {
+  __$FetchSingleListByPageCopyWithImpl(_FetchSingleListByPage _value,
+      $Res Function(_FetchSingleListByPage) _then)
+      : super(_value, (v) => _then(v as _FetchSingleListByPage));
+
+  @override
+  _FetchSingleListByPage get _value => super._value as _FetchSingleListByPage;
+
+  @override
+  $Res call({
+    Object? items = freezed,
+    Object? page = freezed,
+  }) {
+    return _then(_FetchSingleListByPage(
+      items == freezed
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<Impeller>,
+      page == freezed
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_FetchSingleListByPage extends _FetchSingleListByPage {
+  const _$_FetchSingleListByPage(this.items, this.page) : super._();
+
+  @override
+  final List<Impeller> items;
+  @override
+  final int page;
+
+  @override
+  String toString() {
+    return 'ImpellerEvent.fetchSingleListByPage(items: $items, page: $page)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _FetchSingleListByPage &&
+            const DeepCollectionEquality().equals(other.items, items) &&
+            const DeepCollectionEquality().equals(other.page, page));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(items),
+      const DeepCollectionEquality().hash(page));
+
+  @JsonKey(ignore: true)
+  @override
+  _$FetchSingleListByPageCopyWith<_FetchSingleListByPage> get copyWith =>
+      __$FetchSingleListByPageCopyWithImpl<_FetchSingleListByPage>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<Impeller> items, int page) fetchListByPage,
+    required TResult Function(List<Impeller> items, int page)
+        fetchSingleListByPage,
+    required TResult Function(
+            List<Impeller> items, int page, String yard, String hullNo)
+        searchByYardHullNo,
+  }) {
+    return fetchSingleListByPage(items, page);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<Impeller> items, int page)? fetchListByPage,
+    TResult Function(List<Impeller> items, int page)? fetchSingleListByPage,
+    TResult Function(
+            List<Impeller> items, int page, String yard, String hullNo)?
+        searchByYardHullNo,
+  }) {
+    return fetchSingleListByPage?.call(items, page);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<Impeller> items, int page)? fetchListByPage,
+    TResult Function(List<Impeller> items, int page)? fetchSingleListByPage,
+    TResult Function(
+            List<Impeller> items, int page, String yard, String hullNo)?
+        searchByYardHullNo,
+    required TResult orElse(),
+  }) {
+    if (fetchSingleListByPage != null) {
+      return fetchSingleListByPage(items, page);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchListByPage value) fetchListByPage,
+    required TResult Function(_FetchSingleListByPage value)
+        fetchSingleListByPage,
+    required TResult Function(_SearchByYardHullNo value) searchByYardHullNo,
+  }) {
+    return fetchSingleListByPage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_FetchSingleListByPage value)? fetchSingleListByPage,
+    TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+  }) {
+    return fetchSingleListByPage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_FetchSingleListByPage value)? fetchSingleListByPage,
+    TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    required TResult orElse(),
+  }) {
+    if (fetchSingleListByPage != null) {
+      return fetchSingleListByPage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchSingleListByPage extends ImpellerEvent {
+  const factory _FetchSingleListByPage(List<Impeller> items, int page) =
+      _$_FetchSingleListByPage;
+  const _FetchSingleListByPage._() : super._();
+
+  @override
+  List<Impeller> get items;
+  @override
+  int get page;
+  @override
+  @JsonKey(ignore: true)
+  _$FetchSingleListByPageCopyWith<_FetchSingleListByPage> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -383,6 +573,8 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<Impeller> items, int page) fetchListByPage,
+    required TResult Function(List<Impeller> items, int page)
+        fetchSingleListByPage,
     required TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)
         searchByYardHullNo,
@@ -394,6 +586,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<Impeller> items, int page)? fetchListByPage,
+    TResult Function(List<Impeller> items, int page)? fetchSingleListByPage,
     TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
@@ -405,6 +598,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<Impeller> items, int page)? fetchListByPage,
+    TResult Function(List<Impeller> items, int page)? fetchSingleListByPage,
     TResult Function(
             List<Impeller> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
@@ -420,6 +614,8 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchListByPage value) fetchListByPage,
+    required TResult Function(_FetchSingleListByPage value)
+        fetchSingleListByPage,
     required TResult Function(_SearchByYardHullNo value) searchByYardHullNo,
   }) {
     return searchByYardHullNo(this);
@@ -429,6 +625,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_FetchSingleListByPage value)? fetchSingleListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
   }) {
     return searchByYardHullNo?.call(this);
@@ -438,6 +635,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_FetchSingleListByPage value)? fetchSingleListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
     required TResult orElse(),
   }) {

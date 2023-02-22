@@ -1,28 +1,24 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/pages/custom_route.dart';
+import 'package:frontend/src/core/presentation/pages/table_failure_row.dart';
+import 'package:frontend/src/core/presentation/routes/app_route_observer.dart';
+import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
 import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
+import 'package:frontend/src/core/presentation/widgets/sub_app_bar.dart';
+import 'package:frontend/src/core/presentation/widgets/table_loading_row.dart';
+import 'package:frontend/src/workorder/presentation/screens/fct_popup.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_event.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_state.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import 'package:frontend/src/core/presentation/index.dart';
-import 'package:frontend/src/core/presentation/pages/custom_route.dart';
-import 'package:frontend/src/core/presentation/routes/app_route_observer.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 import 'package:frontend/src/workorder/domain/entities/work_order_status.dart';
-import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
-import 'package:frontend/src/core/presentation/pages/table_failure_row.dart';
 import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_loaded_row.dart';
-import 'package:frontend/src/core/presentation/widgets/table_loading_row.dart';
-import 'package:frontend/src/workorder/presentation/screens/work_order_popup.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-/// 검사 1화면: QM 검사 항목 리스트 제시
-/// 임시
 class FCTWorkOrderScreen extends ConsumerStatefulWidget {
   const FCTWorkOrderScreen({
     Key? key,
@@ -32,13 +28,11 @@ class FCTWorkOrderScreen extends ConsumerStatefulWidget {
   final bool canSaveBothStartAndEnd;
 
   @override
-  ConsumerState<FCTWorkOrderScreen> createState() =>
-      _FCTWorkOrderListWidgetState();
+  ConsumerState<FCTWorkOrderScreen> createState() => _FCTWorkOrderWidgetState();
 }
 
-class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
+class _FCTWorkOrderWidgetState extends ConsumerState<FCTWorkOrderScreen>
     with SingleTickerProviderStateMixin, RouteAware {
-  /// scroll에 따른 새 아이템 불러오기 관련
   bool canLoadNextPage = false;
 
   @override
@@ -48,7 +42,7 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
       Duration.zero,
       () {
         ref.read(workOrderListNotifier.notifier).clear();
-        _fetchQmItemsByPage();
+        _fetchItemsByPage();
       },
     );
   }
@@ -72,7 +66,7 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
     setState(() {});
   }
 
-  Future<void> _fetchQmItemsByPage() async {
+  Future<void> _fetchItemsByPage() async {
     await ref.read(workOrderStateNotifierProvider.notifier).mapEventToState(
           WorkOrderEvent.fetchListByPage(
             ref.watch(workOrderListNotifier).items,
@@ -96,7 +90,7 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
               workOrderNotifier.overrideWithValue(
                   ref.watch(workOrderListNotifier).items[index]),
             ],
-            child: WorkOrderPopup(
+            child: FctPopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
             ),
           ),
@@ -118,6 +112,33 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
           },
           orElse: () {},
         );
+  }
+
+  Widget _buildFabBackground({double radius = 240}) {
+    return Positioned(
+      bottom: -radius,
+      right: -radius,
+      child: AnimatedScale(
+        scale: ref.watch(workOrderListNotifier).isMultiSelectMode ? 1 : 0,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInQuint,
+        child: Container(
+          width: radius * 2,
+          height: radius * 2,
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColorLight,
+            borderRadius: BorderRadius.circular(LayoutConstant.radiusM),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).shadowColor,
+                offset: const Offset(-1, 1),
+                blurRadius: LayoutConstant.radiusXS,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -266,7 +287,7 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
 
                 if (canLoadNextPage && metrics.pixels >= limit) {
                   canLoadNextPage = false;
-                  _fetchQmItemsByPage();
+                  _fetchItemsByPage();
                 }
               }
 
@@ -294,28 +315,18 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
               },
               onRefresh: () async {
                 ref.read(workOrderListNotifier.notifier).clear();
-                await _fetchQmItemsByPage();
+                await _fetchItemsByPage();
               },
               headers: [
                 CustomTableHeader(
-                  name: "wbNm",
-                  title: "현공정",
-                  width: 200,
+                  name: "wonb",
+                  title: "작업지시번호",
+                  width: 150,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
-                    _navigateTo("wbNm");
+                    _navigateTo("wonb");
                   },
-                  children: _buildAdditionalIcons("wbNm"),
-                ),
-                CustomTableHeader(
-                  name: "status",
-                  title: "현공정 상태",
-                  width: 200,
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("status");
-                  },
-                  children: _buildAdditionalIcons("status"),
+                  children: _buildAdditionalIcons("wonb"),
                 ),
                 CustomTableHeader(
                   name: "yard",
@@ -349,6 +360,7 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
                 CustomTableHeader(
                   name: "sysNo",
                   title: "Sys No",
+                  width: 200,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("sysNo");
@@ -356,21 +368,119 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
                   children: _buildAdditionalIcons("sysNo"),
                 ),
                 CustomTableHeader(
-                  name: "itemNo",
-                  title: "품번",
+                  name: "spec",
+                  title: "SPEC",
+                  width: 150,
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("spec");
+                  },
+                  children: _buildAdditionalIcons("spec"),
+                ),
+                CustomTableHeader(
+                  name: "size",
+                  title: "SIZE",
                   width: 130,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
-                    _navigateTo("itemNo");
+                    _navigateTo("size");
                   },
-                  children: _buildAdditionalIcons("itemNo"),
+                  children: _buildAdditionalIcons("size"),
                 ),
                 CustomTableHeader(
-                  name: "qty",
-                  title: "수량",
+                  name: "workwcnm",
+                  title: "제작업체",
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  width: 100,
-                  children: _buildAdditionalIcons("qty"),
+                  onLongTap: () {
+                    _navigateTo("inside");
+                  },
+                  children: _buildAdditionalIcons("workwcnm"),
+                ),
+                CustomTableHeader(
+                  name: "pndDate",
+                  title: "PND",
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("pndDate");
+                  },
+                  children: _buildAdditionalIcons("pndDate"),
+                ),
+                CustomTableHeader(
+                  name: "ironPlateThickness",
+                  title: "철판두께",
+                  width: 130,
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("ironPlateThickness");
+                  },
+                  children: _buildAdditionalIcons("ironPlateThickness"),
+                ),
+                CustomTableHeader(
+                  name: "ironPlateWidth",
+                  title: "철판가로",
+                  width: 130,
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("ironPlateWidth");
+                  },
+                  children: _buildAdditionalIcons("ironPlateWidth"),
+                ),
+                CustomTableHeader(
+                  name: "ironPlateHeight",
+                  title: "철판세로",
+                  width: 130,
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("ironPlateHeight");
+                  },
+                  children: _buildAdditionalIcons("ironPlateHeight"),
+                ),
+                CustomTableHeader(
+                  name: "doorLength",
+                  title: "DOOR길이",
+                  width: 130,
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("doorLength");
+                  },
+                  children: _buildAdditionalIcons("doorLength"),
+                ),
+                CustomTableHeader(
+                  name: "hollUpDown",
+                  title: "홀(상/하)",
+                  width: 160,
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("hollUpDown");
+                  },
+                  children: _buildAdditionalIcons("hollUpDown"),
+                ),
+                CustomTableHeader(
+                  name: "rmk",
+                  title: "비고",
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("rmk");
+                  },
+                  children: _buildAdditionalIcons("rmk"),
+                ),
+                CustomTableHeader(
+                  name: "reqDT",
+                  title: "작업지시일",
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("reqDT");
+                  },
+                  children: _buildAdditionalIcons("reqDT"),
+                ),
+                CustomTableHeader(
+                  name: "cfmDate",
+                  title: "확정일",
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("cfmDate");
+                  },
+                  children: _buildAdditionalIcons("cfmDate"),
                 ),
               ],
               rowBuilder: (context, index) {
@@ -379,7 +489,7 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
                     return TableLoadingRow();
                   },
                   loading: (results, page) {
-                    if (index < results.length) {
+                    if (index < orderListNotifier.filteredItems.length) {
                       return WorkOrderLoadedRow(
                         order: orderListNotifier.filteredItems[index],
                         color: _getColor(index),
@@ -395,7 +505,7 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
                     );
                   },
                   failure: (results, message) {
-                    if (index < results.length) {
+                    if (index < orderListNotifier.filteredItems.length) {
                       return WorkOrderLoadedRow(
                           order: orderListNotifier.filteredItems[index]);
                     } else {
@@ -442,7 +552,7 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 200),
       right: ref.watch(workOrderListNotifier).isMultiSelectMode
-          ? 1.7 * LayoutConstant.spaceXL
+          ? 1.13 * LayoutConstant.spaceXL
           : -120,
       bottom: ref.watch(workOrderListNotifier).isMultiSelectMode
           ? LayoutConstant.spaceM
@@ -472,7 +582,7 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
                       ),
                   title: "시작",
                   width: 60,
-                  backgroundColor: ThemeConstant.accentColor,
+                  backgroundColor: ThemeConstant.dominantColor,
                   active:
                       ref.read(workOrderListNotifier.notifier).isStartActive,
                 ),
@@ -510,7 +620,7 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
                   ),
               title: "시작/완료",
               width: 120 + LayoutConstant.spaceM,
-              backgroundColor: ThemeConstant.accentColor,
+              backgroundColor: ThemeConstant.dominantColor,
               active: true,
             ),
             const SizedBox(height: LayoutConstant.spaceS),
@@ -531,33 +641,6 @@ class _FCTWorkOrderListWidgetState extends ConsumerState<FCTWorkOrderScreen>
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFabBackground({double radius = 240}) {
-    return Positioned(
-      bottom: -radius,
-      right: -radius,
-      child: AnimatedScale(
-        scale: ref.watch(workOrderListNotifier).isMultiSelectMode ? 1 : 0,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInQuint,
-        child: Container(
-          width: radius * 2,
-          height: radius * 2,
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColorLight,
-            borderRadius: BorderRadius.circular(LayoutConstant.radiusM),
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).shadowColor,
-                offset: const Offset(-1, 1),
-                blurRadius: LayoutConstant.radiusXS,
-              ),
-            ],
-          ),
         ),
       ),
     );

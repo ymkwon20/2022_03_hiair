@@ -28,6 +28,21 @@ class ImpellerRepository implements IImpellerRepository {
   }
 
   @override
+  Future<Either<Failure, ImpellerList>> fetchImpellerSingleList(
+      Map<String, dynamic> params) async {
+    try {
+      final remoteFetch = await _remoteService.fetchImpellerSingleList(params);
+      return right(remoteFetch.toDomain());
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
+
+  @override
   Future<Either<Failure, ImpellerList>> searchImpellerList(
       Map<String, dynamic> params) async {
     try {

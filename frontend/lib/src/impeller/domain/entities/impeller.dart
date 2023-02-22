@@ -37,6 +37,9 @@ class Impeller extends IImpeller implements TableCellEntity {
     required this.status,
     required String chkDiv,
     required String qrString,
+    required String partNo,
+    required String bldType,
+    required String bldQTY,
   }) : super(
           code: code,
           planSeq: planSeq,
@@ -56,6 +59,9 @@ class Impeller extends IImpeller implements TableCellEntity {
           fanType: fanType,
           chkDiv: chkDiv,
           qrString: qrString,
+          partNo: partNo,
+          bldType: bldType,
+          bldQTY: bldQTY,
         );
 
   String get statusKr {
@@ -83,6 +89,9 @@ class Impeller extends IImpeller implements TableCellEntity {
         "fanType": fanType,
         'chkDiv': chkDiv,
         'qrString': qrString,
+        'partNo': partNo,
+        'bldType': bldType,
+        'bldQTY': bldQTY,
       }[key];
 
   @override
@@ -110,7 +119,10 @@ class Impeller extends IImpeller implements TableCellEntity {
         other.rmk == rmk &&
         other.fanType == fanType &&
         other.chkDiv == chkDiv &&
-        other.qrString == qrString;
+        other.qrString == qrString &&
+        other.partNo == partNo &&
+        other.bldType == bldType &&
+        other.bldQTY == bldQTY;
   }
 
   @override
@@ -135,7 +147,10 @@ class Impeller extends IImpeller implements TableCellEntity {
         rmk.hashCode ^
         fanType.hashCode ^
         chkDiv.hashCode ^
-        qrString.hashCode;
+        qrString.hashCode ^
+        partNo.hashCode ^
+        bldType.hashCode ^
+        bldQTY.hashCode;
   }
 
   Impeller copyWith({
@@ -161,6 +176,9 @@ class Impeller extends IImpeller implements TableCellEntity {
     ImpellerStatus? status,
     String? chkDiv,
     String? qrString,
+    String? partNo,
+    String? bldType,
+    String? bldQTY,
   }) {
     return Impeller(
       code: code ?? this.code,
@@ -185,6 +203,9 @@ class Impeller extends IImpeller implements TableCellEntity {
       fanType: fanType ?? this.fanType,
       chkDiv: chkDiv ?? this.chkDiv,
       qrString: qrString ?? this.qrString,
+      partNo: partNo ?? this.partNo,
+      bldType: bldType ?? this.bldType,
+      bldQTY: bldQTY ?? this.bldQTY,
     );
   }
 }

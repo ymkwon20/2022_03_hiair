@@ -8,7 +8,6 @@ import 'package:frontend/src/core/presentation/widgets/underline_widget.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_event.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_state.dart';
 import 'package:frontend/src/impeller/dependency_injection.dart';
-import 'package:frontend/src/impeller/infrastructure/datasources/remote/impeller_remote_service.dart';
 import 'package:frontend/src/impeller/presentation/screens/impeller_start_end_button.dart';
 import 'package:frontend/src/impeller/presentation/viewmodels/barcode_notifier.dart';
 import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_notifier.dart';
