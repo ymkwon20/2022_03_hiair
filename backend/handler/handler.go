@@ -65,6 +65,7 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/safety/{code}", a.getSafetyItems).Methods("GET")
 	r.HandleFunc("/safety", a.saveSafetyChecks).Methods("POST")
 	r.HandleFunc("/safety/repair", a.saveSafetyRepair).Methods("POST")
+	r.HandleFunc("/rmk", a.rmkUpdate).Methods("POST")
 	return a
 }
 
@@ -467,7 +468,6 @@ func (a *AppHandler) saveWorkOrder(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-
 }
 
 func (a *AppHandler) saveWorkOrderList(w http.ResponseWriter, r *http.Request) {
@@ -1589,4 +1589,37 @@ func (a *AppHandler) getCutChecklist(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(jData)
 
+}
+
+func (a *AppHandler) rmkUpdate(w http.ResponseWriter, r *http.Request) {
+	var params map[string]interface{}
+
+	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+	query := fmt.Sprintf(`
+	EXEC  SP_TABLET_ORD_RMK_01_UPDATE '%s', '%s', '%s', '%s', '%s';
+	`, params["plan-seq"], params["wo-nb"], params["wc-cd"], params["wb-cd"], params["rmk"])
+
+	_, err := a.db.CallDML(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 }
