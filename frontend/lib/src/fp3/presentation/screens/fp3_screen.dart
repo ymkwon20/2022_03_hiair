@@ -332,6 +332,7 @@ class _FP3WidgetState extends ConsumerState<FP3Screen>
                 CustomTableHeader(
                   name: "ship",
                   title: "구역",
+                  width: 200,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("ship");
@@ -360,6 +361,7 @@ class _FP3WidgetState extends ConsumerState<FP3Screen>
                 CustomTableHeader(
                   name: "inside",
                   title: "INSIDE",
+                  width: 1500,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("inside");
@@ -369,7 +371,7 @@ class _FP3WidgetState extends ConsumerState<FP3Screen>
                 CustomTableHeader(
                   name: "inDomar",
                   title: "IN도막",
-                  width: 200,
+                  width: 150,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("inDomar");
@@ -379,6 +381,7 @@ class _FP3WidgetState extends ConsumerState<FP3Screen>
                 CustomTableHeader(
                   name: "outside",
                   title: "OUSIDE",
+                  width: 1500,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("outside");
@@ -388,7 +391,7 @@ class _FP3WidgetState extends ConsumerState<FP3Screen>
                 CustomTableHeader(
                   name: "outDomar",
                   title: "OUT도막",
-                  width: 200,
+                  width: 150,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("outDomar");

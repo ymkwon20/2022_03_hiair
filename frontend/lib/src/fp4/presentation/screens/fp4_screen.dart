@@ -341,6 +341,7 @@ class _FP4WidgetState extends ConsumerState<FP4Screen>
                 CustomTableHeader(
                   name: "sysNo",
                   title: "Sys No",
+                  width: 200,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("sysNo");
@@ -360,6 +361,7 @@ class _FP4WidgetState extends ConsumerState<FP4Screen>
                 CustomTableHeader(
                   name: "inside",
                   title: "INSIDE",
+                  width: 1500,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("inside");
@@ -379,6 +381,7 @@ class _FP4WidgetState extends ConsumerState<FP4Screen>
                 CustomTableHeader(
                   name: "outside",
                   title: "OUSIDE",
+                  width: 1500,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("outside");

@@ -360,6 +360,7 @@ class _FCTWorkOrderWidgetState extends ConsumerState<FCTWorkOrderScreen>
                 CustomTableHeader(
                   name: "sysNo",
                   title: "Sys No",
+                  width: 200,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("sysNo");

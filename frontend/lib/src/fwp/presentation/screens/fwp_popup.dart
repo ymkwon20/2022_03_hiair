@@ -81,9 +81,6 @@ class FWPPopup extends ConsumerWidget {
                         ),
                         const SizedBox(height: LayoutConstant.spaceM),
                         _WorkOrderDrawerRow(
-                            title: "FAT", value: workOrder.chkSchDT),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
                             title: "Yard", value: workOrder.yard),
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
@@ -96,31 +93,6 @@ class FWPPopup extends ConsumerWidget {
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
                             title: "규격", value: workOrder.itemSpec),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "Swing Type",
-                            value: "${workOrder.swingType}"),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "Frame", value: workOrder.frame),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "작업지시번호", value: workOrder.wonb),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "PND", value: workOrder.pndDate),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "재질", value: workOrder.material),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "현공정", value: workOrder.wbNm),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "확정일", value: workOrder.cfmDate),
-                        const UnderlineWidget(),
-                        // _WorkOrderDrawerRow(
-                        //     title: "MOTOR COLOR", value: workOrder.motorColor),
                         // const UnderlineWidget(),
                         // _WorkOrderDrawerRow(
                         //     title: "비고(수정)", value: workOrder.rmkDC),

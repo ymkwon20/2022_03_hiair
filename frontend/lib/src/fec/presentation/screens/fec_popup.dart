@@ -81,9 +81,6 @@ class FECPopup extends ConsumerWidget {
                         ),
                         const SizedBox(height: LayoutConstant.spaceM),
                         _WorkOrderDrawerRow(
-                            title: "FAT", value: workOrder.chkSchDT),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
                             title: "Yard", value: workOrder.yard),
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
@@ -96,15 +93,6 @@ class FECPopup extends ConsumerWidget {
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
                             title: "규격", value: workOrder.itemSpec),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "작업지시번호", value: workOrder.wonb),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "PND", value: workOrder.pndDate),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "현공정", value: workOrder.wbNm),
                         const Spacer(),
                         WorkOrderStartEndButtons(
                           dateStart: workOrder.dateStart,

@@ -361,6 +361,7 @@ class _FP2WidgetState extends ConsumerState<FP2Screen>
                 CustomTableHeader(
                   name: "inside",
                   title: "INSIDE",
+                  width: 1500,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("inside");
@@ -380,6 +381,7 @@ class _FP2WidgetState extends ConsumerState<FP2Screen>
                 CustomTableHeader(
                   name: "outside",
                   title: "OUSIDE",
+                  width: 1500,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("outside");

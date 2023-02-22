@@ -93,26 +93,6 @@ class FP2Popup extends ConsumerWidget {
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
                             title: "제품규격", value: workOrder.itemSpec),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "INSIDE", value: workOrder.inside),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "IN도막", value: workOrder.inDomar),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "OUTSIDE", value: workOrder.outside),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "OUT도막", value: workOrder.outDomar),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(title: "비고", value: workOrder.rmk),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "PND", value: workOrder.pndDate),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "FAT", value: workOrder.chkSchDT),
                         const Spacer(),
                         WorkOrderStartEndButtons(
                           dateStart: workOrder.dateStart,

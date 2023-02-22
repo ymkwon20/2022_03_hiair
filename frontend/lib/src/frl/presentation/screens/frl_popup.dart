@@ -93,22 +93,6 @@ class FRLPopup extends ConsumerWidget {
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
                             title: "제품규격", value: workOrder.itemSpec),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "SIZE", value: workOrder.size),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "지시수량", value: workOrder.qty.toString()),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "제작업체", value: workOrder.workwcnm),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "철판두께",
-                            value: workOrder.ironPlateThickness.toString()),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "철판가로", value: workOrder.ironPlateWidth),
                         const Spacer(),
                         WorkOrderStartEndButtons(
                           dateStart: workOrder.dateStart,

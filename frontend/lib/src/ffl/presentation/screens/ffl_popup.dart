@@ -93,30 +93,6 @@ class FFLPopup extends ConsumerWidget {
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
                             title: "제품규격", value: workOrder.itemSpec),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "PND", value: workOrder.pndDate),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "제작업체", value: workOrder.workwcnm),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "지시수량", value: workOrder.qty.toString()),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "철판두께",
-                            value: workOrder.ironPlateThickness.toString()),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "철판가로", value: workOrder.ironPlateWidth),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "철판세로", value: workOrder.ironPlateHeight),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "홀(상/하)", value: workOrder.hollUpDown),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(title: "비고", value: workOrder.rmk),
                         const Spacer(),
                         WorkOrderStartEndButtons(
                           dateStart: workOrder.dateStart,

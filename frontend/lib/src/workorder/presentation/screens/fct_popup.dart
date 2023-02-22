@@ -81,9 +81,6 @@ class FctPopup extends ConsumerWidget {
                         ),
                         const SizedBox(height: LayoutConstant.spaceM),
                         _WorkOrderDrawerRow(
-                            title: "작업지시번호", value: workOrder.wonb),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
                             title: "Yard", value: workOrder.yard),
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
@@ -96,39 +93,6 @@ class FctPopup extends ConsumerWidget {
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
                             title: "SPEC", value: workOrder.spec),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "SIZE", value: workOrder.size),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "제작업체", value: workOrder.workwcnm),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "PND", value: workOrder.pndDate),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "철판두께",
-                            value: workOrder.ironPlateThickness.toString()),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "철판가로", value: workOrder.ironPlateWidth),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "철판세로", value: workOrder.ironPlateHeight),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "DOOR길이", value: workOrder.doorLength),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "홀(상/하)", value: workOrder.hollUpDown),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(title: "비고", value: workOrder.rmk),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "작업지시일", value: workOrder.reqDT),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "확정일", value: workOrder.cfmDate),
                         const Spacer(),
                         WorkOrderStartEndButtons(
                           dateStart: workOrder.dateStart,

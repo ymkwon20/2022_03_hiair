@@ -93,30 +93,6 @@ class FP3Popup extends ConsumerWidget {
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
                             title: "제품규격", value: workOrder.itemSpec),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "INSIDE", value: workOrder.inside),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "IN도막", value: workOrder.inDomar),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "OUTSIDE", value: workOrder.outside),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "OUT도막", value: workOrder.outDomar),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "재질", value: workOrder.material),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "전공정실적일", value: workOrder.befCloseDT),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "PND", value: workOrder.pndDate),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "FAT", value: workOrder.chkSchDT),
                         const Spacer(),
                         WorkOrderStartEndButtons(
                           dateStart: workOrder.dateStart,

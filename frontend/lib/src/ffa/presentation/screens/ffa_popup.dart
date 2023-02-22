@@ -81,9 +81,6 @@ class FFAPopup extends ConsumerWidget {
                         ),
                         const SizedBox(height: LayoutConstant.spaceM),
                         _WorkOrderDrawerRow(
-                            title: "최종검사합격유무", value: workOrder.chkTblDT),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
                             title: "Yard", value: workOrder.yard),
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
@@ -96,24 +93,6 @@ class FFAPopup extends ConsumerWidget {
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
                             title: "제품규격", value: workOrder.itemSpec),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "INSIDE", value: workOrder.inside),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "IN도막", value: workOrder.inDomar),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "OUTSIDE", value: workOrder.outside),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "OUT도막", value: workOrder.outDomar),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "PND", value: workOrder.pndDate),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "FAT", value: workOrder.chkSchDT),
                         const Spacer(),
                         WorkOrderStartEndButtons(
                           dateStart: workOrder.dateStart,

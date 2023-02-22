@@ -427,6 +427,7 @@ class _FAYWidgetState extends ConsumerState<FAYScreen>
                 CustomTableHeader(
                   name: "befCloseDT",
                   title: "거래처품명",
+                  width: 200,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("befCloseDT");

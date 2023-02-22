@@ -15,7 +15,6 @@ import 'package:frontend/src/workorder/application/work_order/save/work_order_sa
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 import 'package:frontend/src/workorder/domain/entities/work_order_status.dart';
-import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_loaded_row.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -296,7 +295,7 @@ class _FWPWidgetState extends ConsumerState<FWPScreen>
                 CustomTableHeader(
                   name: "yard",
                   title: "Yard",
-                  width: 150,
+                  width: 180,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("yard");
@@ -354,7 +353,7 @@ class _FWPWidgetState extends ConsumerState<FWPScreen>
                 CustomTableHeader(
                   name: "frame",
                   title: "Frame",
-                  width: 130,
+                  width: 150,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("frame");

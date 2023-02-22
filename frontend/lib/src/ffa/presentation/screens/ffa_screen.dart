@@ -371,6 +371,7 @@ class _FFAWidgetState extends ConsumerState<FFAScreen>
                 CustomTableHeader(
                   name: "inside",
                   title: "INSIDE",
+                  width: 1500,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("inside");
@@ -390,6 +391,7 @@ class _FFAWidgetState extends ConsumerState<FFAScreen>
                 CustomTableHeader(
                   name: "outside",
                   title: "OUSIDE",
+                  width: 1500,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("outside");

@@ -81,15 +81,6 @@ class FELPopup extends ConsumerWidget {
                         ),
                         const SizedBox(height: LayoutConstant.spaceM),
                         _WorkOrderDrawerRow(
-                            title: "FAT", value: workOrder.chkSchDT),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "PND", value: workOrder.pndDate),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "모터불출일자", value: workOrder.mtrOutDT),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
                             title: "Yard", value: workOrder.yard),
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
@@ -101,35 +92,10 @@ class FELPopup extends ConsumerWidget {
                             title: "Sys No", value: workOrder.sysNo),
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
-                            title: "FAN TYPE", value: workOrder.fanType),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
                             title: "제품규격", value: workOrder.itemSpec),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "MOTORCOLOR", value: workOrder.motorColor),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "OUT도막", value: workOrder.outDomar),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "현공정", value: workOrder.wbNm),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "거래처품명", value: workOrder.custltemName),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "직업지시번호", value: workOrder.wonb),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "SWING TYPE",
-                            value: workOrder.swingType.toString()),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "TAG.NO", value: workOrder.tagNo),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "비고(수정)", value: workOrder.rmkDC),
+                        // const UnderlineWidget(),
+                        // _WorkOrderDrawerRow(
+                        //     title: "비고(수정)", value: workOrder.rmkDC),
                         const Spacer(),
                         WorkOrderStartEndButtons(
                           dateStart: workOrder.dateStart,
