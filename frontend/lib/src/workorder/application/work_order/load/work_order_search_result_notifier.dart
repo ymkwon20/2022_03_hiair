@@ -19,24 +19,7 @@ class WorkOrderSearchResultNotifier extends StateNotifier<WorkOrderState> {
 
   Future<void> mapEventToState(WorkOrderEvent event) async {
     event.when(
-      fetchListByPage: (items, page) async {
-        // state = WorkOrderState.loading(items, LogicConstant.qmFetchCount);
-
-        // final params = {
-        //   "wb-cd": _workbase.workBase!.wbCode,
-        //   "wc-cd": _workbase.workBase!.wcCode,
-        //   "yard": 0,
-        //   "hullno": 0,
-        //   "page": page,
-        // };
-
-        // final resultsOrFailure = await _searchItems(params);
-        // state = resultsOrFailure.fold(
-        //   (l) => WorkOrderState.failure(items, mapFailureToString(l)),
-        //   (r) =>
-        //       WorkOrderState.loaded(items..addAll(r.items), r.isNextAvailable),
-        // );
-      },
+      fetchListByPage: (items, page) async {},
       searchByYardHullNo: (items, page, yard, hullNo) async {
         state = WorkOrderState.loading(items, LogicConstant.qmFetchCount);
         final params = {
@@ -53,6 +36,7 @@ class WorkOrderSearchResultNotifier extends StateNotifier<WorkOrderState> {
               WorkOrderState.loaded(items..addAll(r.items), r.isNextAvailable),
         );
       },
+      rmkUpdate: (items, planSeq, wonb, rmkText) {},
     );
   }
 }

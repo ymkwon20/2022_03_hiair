@@ -5,6 +5,7 @@ import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/widgets/index.dart';
+import 'package:frontend/src/fwp/presentation/screens/rmk_update_popup.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
@@ -93,9 +94,34 @@ class FELPopup extends ConsumerWidget {
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
                             title: "제품규격", value: workOrder.itemSpec),
-                        // const UnderlineWidget(),
-                        // _WorkOrderDrawerRow(
-                        //     title: "비고(수정)", value: workOrder.rmkDC),
+                        const UnderlineWidget(),
+                        _WorkOrderDrawerRow(title: "비고", value: workOrder.rmk),
+                        const UnderlineWidget(),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                CustomSlideRoute(
+                                  backgroundColor: Colors.black.withOpacity(.2),
+                                  builder: (context) => ProviderScope(
+                                    // overrides: [],
+                                    child: RMKUpdatePopup(
+                                      code: "FWP",
+                                      wonb: workOrder.code,
+                                      planSeq: workOrder.planSeq.toString(),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "리마크 수정",
+                            ),
+                            style: ElevatedButton.styleFrom(
+                                primary: Color.fromARGB(255, 77, 165, 247)),
+                          ),
+                        ),
                         const Spacer(),
                         WorkOrderStartEndButtons(
                           dateStart: workOrder.dateStart,

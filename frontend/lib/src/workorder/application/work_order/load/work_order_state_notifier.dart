@@ -3,6 +3,7 @@ import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_event.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_state.dart';
+import 'package:frontend/src/workorder/domain/usecases/UpdateRmk.dart';
 import 'package:frontend/src/workorder/domain/usecases/fetch_work_order_list.dart';
 import 'package:frontend/src/workorder/domain/usecases/search_work_order_list.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,14 +12,17 @@ class WorkOrderStateNotifier extends StateNotifier<WorkOrderState> {
   WorkOrderStateNotifier({
     required FetchWorkOrderList fetchItems,
     required SearchWorkOrderList searchItems,
+    required UpdateRemark updateRemark,
     required WorkBaseChangeNotifier workbase,
   })  : _workbase = workbase,
         _fetchItems = fetchItems,
+        _updateRemark = updateRemark,
         _searchItems = searchItems,
         super(const WorkOrderState.initial([]));
 
   final FetchWorkOrderList _fetchItems;
   final SearchWorkOrderList _searchItems;
+  final UpdateRemark _updateRemark;
   final WorkBaseChangeNotifier _workbase;
 
   Future<void> mapEventToState(WorkOrderEvent event) async {
@@ -56,6 +60,22 @@ class WorkOrderStateNotifier extends StateNotifier<WorkOrderState> {
           (r) =>
               WorkOrderState.loaded(items..addAll(r.items), r.isNextAvailable),
         );
+      },
+      rmkUpdate: (items, planSeq, wonb, rmkText) async {
+        final params = {
+          'plan-seq': planSeq,
+          'wo-nb': wonb,
+          "wc-cd": _workbase.workBase!.wcCode,
+          "wb-cd": _workbase.workBase!.wbCode,
+          "rmk": rmkText,
+        };
+
+        final resultsOrFailure = await _updateRemark(params);
+        // state = resultsOrFailure.fold(
+        //   (l) => WorkOrderState.failure(items, mapFailureToString(l)),
+        //   (r) =>
+        //       WorkOrderState.loaded(items..addAll(r.items), r.isNextAvailable),
+        // );
       },
     );
   }

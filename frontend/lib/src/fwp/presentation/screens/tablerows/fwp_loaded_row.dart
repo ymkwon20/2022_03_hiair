@@ -68,7 +68,7 @@ class FWPLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
-              order.rmkDC,
+              order.rmk,
               style: style,
             ),
           ],

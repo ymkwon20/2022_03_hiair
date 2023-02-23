@@ -462,13 +462,14 @@ class _FELWidgetState extends ConsumerState<FELScreen>
                   children: _buildAdditionalIcons("tagNo"),
                 ),
                 CustomTableHeader(
-                  name: "rmkDC",
-                  title: "비고(수정)",
+                  name: "rmk",
+                  title: "비고",
+                  width: 300,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
-                    _navigateTo("rmkDC");
+                    _navigateTo("rmk");
                   },
-                  children: _buildAdditionalIcons("rmkDC"),
+                  children: _buildAdditionalIcons("rmk"),
                 ),
               ],
               rowBuilder: (context, index) {

@@ -63,7 +63,18 @@ class SubAppBar extends ConsumerWidget implements PreferredSizeWidget {
                 textFieldControllerHullNo.text),
             style: ElevatedButton.styleFrom(
               primary: const Color.fromARGB(255, 68, 68, 68),
-              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 40),
+              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 25),
+            ),
+          ),
+          ElevatedButton(
+            child: const Icon(
+              Icons.refresh,
+              color: Colors.black,
+            ),
+            onPressed: () => _onRefresh(context, ref),
+            style: ElevatedButton.styleFrom(
+              primary: Theme.of(context).scaffoldBackgroundColor,
+              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
             ),
           ),
         ],
@@ -98,6 +109,30 @@ class SubAppBar extends ConsumerWidget implements PreferredSizeWidget {
               ref.watch(workOrderListNotifier).page,
               textFieldControllerYard.text,
               textFieldControllerHullNo.text,
+            ),
+          );
+    }
+  }
+
+  void _onRefresh(BuildContext context, WidgetRef ref) async {
+    ref.read(workOrderListNotifier.notifier).clear();
+    ref.read(impellerListNotifier.notifier).clear();
+    await searchListUpdate(ref);
+  }
+
+  Future<void> refreshList(ref) async {
+    if (code == 'IMP') {
+      await ref.read(impellerStateNotifierProvider.notifier).mapEventToState(
+            ImpellerEvent.fetchListByPage(
+              ref.watch(impellerListNotifier).items,
+              ref.watch(impellerListNotifier).page,
+            ),
+          );
+    } else {
+      await ref.read(workOrderStateNotifierProvider.notifier).mapEventToState(
+            WorkOrderEvent.fetchListByPage(
+              ref.watch(workOrderListNotifier).items,
+              ref.watch(workOrderListNotifier).page,
             ),
           );
     }

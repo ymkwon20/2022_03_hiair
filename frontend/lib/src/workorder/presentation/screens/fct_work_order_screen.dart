@@ -264,7 +264,7 @@ class _FCTWorkOrderWidgetState extends ConsumerState<FCTWorkOrderScreen>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.blue[200],
         elevation: 0,
         iconTheme: Theme.of(context).iconTheme,
         title: Text(

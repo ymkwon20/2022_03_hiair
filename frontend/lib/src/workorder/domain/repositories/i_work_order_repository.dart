@@ -12,6 +12,7 @@ abstract class IWorkOrderRepository {
       Map<String, dynamic> params);
   Future<Either<Failure, WorkOrderList>> searchWorkOrderList(
       Map<String, dynamic> params);
+  Future<Either<Failure, Unit>> updateRemarkText(Map<String, dynamic> params);
   Future<Either<Failure, Unit>> saveWorkOrder(Map<String, dynamic> params);
   Future<Either<Failure, Unit>> saveWorkOrderList(
       List<Map<String, dynamic>> params);

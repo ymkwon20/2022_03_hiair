@@ -11,4 +11,7 @@ class WorkOrderEvent with _$WorkOrderEvent {
   const factory WorkOrderEvent.searchByYardHullNo(
           List<WorkOrder> items, int page, String yard, String hullNo) =
       _SearchByYardHullNo;
+  const factory WorkOrderEvent.rmkUpdate(
+          List<WorkOrder> items, String planSeq, String wonb, String rmkText) =
+      _RmkUpdate;
 }
