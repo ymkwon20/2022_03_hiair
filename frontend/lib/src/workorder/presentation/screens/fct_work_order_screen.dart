@@ -6,7 +6,6 @@ import 'package:frontend/src/core/presentation/routes/app_route_observer.dart';
 import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
 import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
-import 'package:frontend/src/core/presentation/widgets/sub_app_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/table_loading_row.dart';
 import 'package:frontend/src/workorder/presentation/screens/fct_popup.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_event.dart';
@@ -15,7 +14,7 @@ import 'package:frontend/src/workorder/application/work_order/save/work_order_sa
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 import 'package:frontend/src/workorder/domain/entities/work_order_status.dart';
-import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order_loaded_row.dart';
+import 'package:frontend/src/workorder/presentation/screens/tablerows/fct_order_loaded_row.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -490,7 +489,7 @@ class _FCTWorkOrderWidgetState extends ConsumerState<FCTWorkOrderScreen>
                   },
                   loading: (results, page) {
                     if (index < orderListNotifier.filteredItems.length) {
-                      return WorkOrderLoadedRow(
+                      return FCTOrderLoadedRow(
                         order: orderListNotifier.filteredItems[index],
                         color: _getColor(index),
                       );
@@ -499,14 +498,14 @@ class _FCTWorkOrderWidgetState extends ConsumerState<FCTWorkOrderScreen>
                     }
                   },
                   loaded: (_, __) {
-                    return WorkOrderLoadedRow(
+                    return FCTOrderLoadedRow(
                       order: orderListNotifier.filteredItems[index],
                       color: _getColor(index),
                     );
                   },
                   failure: (results, message) {
                     if (index < orderListNotifier.filteredItems.length) {
-                      return WorkOrderLoadedRow(
+                      return FCTOrderLoadedRow(
                           order: orderListNotifier.filteredItems[index]);
                     } else {
                       return TableFailureRow(message: message);

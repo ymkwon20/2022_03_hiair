@@ -24,7 +24,7 @@ class ImpellerSinglePopup extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final width = MediaQuery.of(context).size.width / 2.5;
+    final width = MediaQuery.of(context).size.width / 1.8;
     final impeller = ref.watch(impellerNotifier);
     final barcode = ref.watch(barcodeNotifier);
 
