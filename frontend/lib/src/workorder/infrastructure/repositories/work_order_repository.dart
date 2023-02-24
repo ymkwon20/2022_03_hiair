@@ -44,6 +44,21 @@ class WorkOrderRepository implements IWorkOrderRepository {
   }
 
   @override
+  Future<Either<Failure, Unit>> updateRemarkText(
+      Map<String, dynamic> params) async {
+    try {
+      final remoteFetch = await _remoteService.updateRemark(params);
+      return right(unit);
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
+
+  @override
   Future<Either<Failure, Unit>> saveWorkOrder(
       Map<String, dynamic> params) async {
     try {

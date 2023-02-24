@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
 import 'package:frontend/src/workorder/domain/entities/work_order.dart';
 
-class FWPLoadedRow extends CustomTableRow {
-  FWPLoadedRow({
+class FCTOrderLoadedRow extends CustomTableRow {
+  FCTOrderLoadedRow({
     required WorkOrder order,
     Color? color,
     TextStyle style = const TextStyle(
@@ -12,7 +12,7 @@ class FWPLoadedRow extends CustomTableRow {
   }) : super(
           contents: [
             Text(
-              order.chkSchDT,
+              order.wonb,
               style: style,
             ),
             Text(
@@ -32,19 +32,15 @@ class FWPLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
-              order.itemSpec,
+              order.spec,
               style: style,
             ),
             Text(
-              "${order.swingType}",
+              order.size,
               style: style,
             ),
             Text(
-              order.frame,
-              style: style,
-            ),
-            Text(
-              order.wonb,
+              order.workwcnm,
               style: style,
             ),
             Text(
@@ -52,23 +48,35 @@ class FWPLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
-              order.material,
+              order.ironPlateThickness.toString(),
               style: style,
             ),
             Text(
-              order.wbNm,
+              order.ironPlateWidth,
               style: style,
             ),
             Text(
-              order.cfmDate,
+              order.ironPlateHeight,
               style: style,
             ),
             Text(
-              order.motorColor,
+              order.doorLength,
+              style: style,
+            ),
+            Text(
+              order.hollUpDown,
               style: style,
             ),
             Text(
               order.rmk,
+              style: style,
+            ),
+            Text(
+              order.reqDT,
+              style: style,
+            ),
+            Text(
+              order.cfmDate,
               style: style,
             ),
           ],

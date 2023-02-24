@@ -192,9 +192,10 @@ class _CustomHeaderCellState extends State<CustomHeaderCell> {
         color: internalColor ?? widget.color,
         width: double.infinity,
         height: double.infinity,
+        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
         child: Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               widget.header.title,
@@ -238,7 +239,7 @@ class CustomTableHeader {
     this.width,
     this.isNumeric = false,
     this.canOrder = false,
-    this.alignment = Alignment.center,
+    this.alignment = Alignment.centerLeft,
     this.onTap,
     this.onLongTap,
     this.children = const [],
@@ -328,7 +329,7 @@ class CustomTableBody extends StatelessWidget {
                             ),
                           ),
                         ),
-                        alignment: Alignment.center,
+                        alignment: Alignment.centerLeft,
                         child: rowBuilder
                                 .call(context, index)
                                 .contents
@@ -348,7 +349,7 @@ class CustomTableBody extends StatelessWidget {
                                             .onCellTap
                                             ?.call(widthIndex),
                                     child: Container(
-                                      alignment: Alignment.center,
+                                      alignment: Alignment.centerLeft,
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: LayoutConstant.paddingM,
                                         vertical: LayoutConstant.paddingM,

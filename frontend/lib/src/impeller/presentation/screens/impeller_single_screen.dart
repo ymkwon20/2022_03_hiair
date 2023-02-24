@@ -352,7 +352,7 @@ class _ImpellerSingleListWidgetState extends ConsumerState<ImpellerSingleScreen>
                 CustomTableHeader(
                   name: "bldType",
                   title: "BLADE TYPE",
-                  width: 130,
+                  width: 200,
                   onTap: ref.read(impellerListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("bldType");

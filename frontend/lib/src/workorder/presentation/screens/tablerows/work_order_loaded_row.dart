@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
 import 'package:frontend/src/workorder/domain/entities/work_order.dart';
+import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
 
 class WorkOrderLoadedRow extends CustomTableRow {
   WorkOrderLoadedRow({
@@ -12,7 +12,11 @@ class WorkOrderLoadedRow extends CustomTableRow {
   }) : super(
           contents: [
             Text(
-              order.wonb,
+              order.wbNm,
+              style: style,
+            ),
+            Text(
+              order.statusKr,
               style: style,
             ),
             Text(
@@ -32,51 +36,11 @@ class WorkOrderLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
-              order.spec,
+              order.itemNo,
               style: style,
             ),
             Text(
-              order.size,
-              style: style,
-            ),
-            Text(
-              order.workwcnm,
-              style: style,
-            ),
-            Text(
-              order.pndDate,
-              style: style,
-            ),
-            Text(
-              order.ironPlateThickness.toString(),
-              style: style,
-            ),
-            Text(
-              order.ironPlateWidth,
-              style: style,
-            ),
-            Text(
-              order.ironPlateHeight,
-              style: style,
-            ),
-            Text(
-              order.doorLength,
-              style: style,
-            ),
-            Text(
-              order.hollUpDown,
-              style: style,
-            ),
-            Text(
-              order.rmk,
-              style: style,
-            ),
-            Text(
-              order.reqDT,
-              style: style,
-            ),
-            Text(
-              order.cfmDate,
+              "${order.qty}",
               style: style,
             ),
           ],

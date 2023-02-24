@@ -269,31 +269,31 @@ class _ImpellerStartEndsButtonState
                     backgroundColor: ThemeConstant.dominantColor,
                   ),
                 ),
-            // const SizedBox(height: LayoutConstant.spaceM),
-            // FadeTransition(
-            //   opacity: _topOpacityAnimation,
-            //   child: _buildButton(
-            //       active: isChecklistActivate && workBaseNameCheck(),
-            //       backgroundColor: ThemeConstant.dominantColor,
-            //       controller: _controller,
-            //       ignoring: widget.ignoring,
-            //       name: '체크리스트',
-            //       onTap: () {
-            //         final impeller = ref.watch(impellerNotifier);
-            //         ref
-            //             .read(checklistStateNotifierProvider.notifier)
-            //             .mapEventToState(
-            //               ChecklistEvent.fetchChecklistForImpeller(impeller),
-            //             );
+            const SizedBox(height: LayoutConstant.spaceM),
+            FadeTransition(
+              opacity: _topOpacityAnimation,
+              child: _buildButton(
+                  active: isChecklistActivate && workBaseNameCheck(),
+                  backgroundColor: ThemeConstant.dominantColor,
+                  controller: _controller,
+                  ignoring: widget.ignoring,
+                  name: '체크리스트',
+                  onTap: () {
+                    final impeller = ref.watch(impellerNotifier);
+                    ref
+                        .read(checklistStateNotifierProvider.notifier)
+                        .mapEventToState(
+                          ChecklistEvent.fetchChecklistForImpeller(impeller),
+                        );
 
-            //         Navigator.of(context).push(
-            //           CustomSlideRoute(
-            //             backgroundColor: Colors.black.withOpacity(.2),
-            //             builder: (context) => const ChecklistPopup(),
-            //           ),
-            //         );
-            //       }),
-            // ),
+                    Navigator.of(context).push(
+                      CustomSlideRoute(
+                        backgroundColor: Colors.black.withOpacity(.2),
+                        builder: (context) => const ChecklistPopup(),
+                      ),
+                    );
+                  }),
+            ),
           ],
         );
       },

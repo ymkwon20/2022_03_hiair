@@ -33,6 +33,16 @@ class _$WorkOrderEventTearOff {
       hullNo,
     );
   }
+
+  _RmkUpdate rmkUpdate(
+      List<WorkOrder> items, String planSeq, String wonb, String rmkText) {
+    return _RmkUpdate(
+      items,
+      planSeq,
+      wonb,
+      rmkText,
+    );
+  }
 }
 
 /// @nodoc
@@ -41,7 +51,6 @@ const $WorkOrderEvent = _$WorkOrderEventTearOff();
 /// @nodoc
 mixin _$WorkOrderEvent {
   List<WorkOrder> get items => throw _privateConstructorUsedError;
-  int get page => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -49,6 +58,9 @@ mixin _$WorkOrderEvent {
     required TResult Function(
             List<WorkOrder> items, int page, String yard, String hullNo)
         searchByYardHullNo,
+    required TResult Function(
+            List<WorkOrder> items, String planSeq, String wonb, String rmkText)
+        rmkUpdate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +69,9 @@ mixin _$WorkOrderEvent {
     TResult Function(
             List<WorkOrder> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
+    TResult Function(
+            List<WorkOrder> items, String planSeq, String wonb, String rmkText)?
+        rmkUpdate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,6 +80,9 @@ mixin _$WorkOrderEvent {
     TResult Function(
             List<WorkOrder> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
+    TResult Function(
+            List<WorkOrder> items, String planSeq, String wonb, String rmkText)?
+        rmkUpdate,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -72,18 +90,21 @@ mixin _$WorkOrderEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchListByPage value) fetchListByPage,
     required TResult Function(_SearchByYardHullNo value) searchByYardHullNo,
+    required TResult Function(_RmkUpdate value) rmkUpdate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_RmkUpdate value)? rmkUpdate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_RmkUpdate value)? rmkUpdate,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -98,7 +119,7 @@ abstract class $WorkOrderEventCopyWith<$Res> {
   factory $WorkOrderEventCopyWith(
           WorkOrderEvent value, $Res Function(WorkOrderEvent) then) =
       _$WorkOrderEventCopyWithImpl<$Res>;
-  $Res call({List<WorkOrder> items, int page});
+  $Res call({List<WorkOrder> items});
 }
 
 /// @nodoc
@@ -113,17 +134,12 @@ class _$WorkOrderEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object? items = freezed,
-    Object? page = freezed,
   }) {
     return _then(_value.copyWith(
       items: items == freezed
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
               as List<WorkOrder>,
-      page: page == freezed
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
@@ -209,6 +225,9 @@ class _$_FetchListByPage extends _FetchListByPage {
     required TResult Function(
             List<WorkOrder> items, int page, String yard, String hullNo)
         searchByYardHullNo,
+    required TResult Function(
+            List<WorkOrder> items, String planSeq, String wonb, String rmkText)
+        rmkUpdate,
   }) {
     return fetchListByPage(items, page);
   }
@@ -220,6 +239,9 @@ class _$_FetchListByPage extends _FetchListByPage {
     TResult Function(
             List<WorkOrder> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
+    TResult Function(
+            List<WorkOrder> items, String planSeq, String wonb, String rmkText)?
+        rmkUpdate,
   }) {
     return fetchListByPage?.call(items, page);
   }
@@ -231,6 +253,9 @@ class _$_FetchListByPage extends _FetchListByPage {
     TResult Function(
             List<WorkOrder> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
+    TResult Function(
+            List<WorkOrder> items, String planSeq, String wonb, String rmkText)?
+        rmkUpdate,
     required TResult orElse(),
   }) {
     if (fetchListByPage != null) {
@@ -244,6 +269,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchListByPage value) fetchListByPage,
     required TResult Function(_SearchByYardHullNo value) searchByYardHullNo,
+    required TResult Function(_RmkUpdate value) rmkUpdate,
   }) {
     return fetchListByPage(this);
   }
@@ -253,6 +279,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_RmkUpdate value)? rmkUpdate,
   }) {
     return fetchListByPage?.call(this);
   }
@@ -262,6 +289,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_RmkUpdate value)? rmkUpdate,
     required TResult orElse(),
   }) {
     if (fetchListByPage != null) {
@@ -278,7 +306,6 @@ abstract class _FetchListByPage extends WorkOrderEvent {
 
   @override
   List<WorkOrder> get items;
-  @override
   int get page;
   @override
   @JsonKey(ignore: true)
@@ -386,6 +413,9 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
     required TResult Function(
             List<WorkOrder> items, int page, String yard, String hullNo)
         searchByYardHullNo,
+    required TResult Function(
+            List<WorkOrder> items, String planSeq, String wonb, String rmkText)
+        rmkUpdate,
   }) {
     return searchByYardHullNo(items, page, yard, hullNo);
   }
@@ -397,6 +427,9 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
     TResult Function(
             List<WorkOrder> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
+    TResult Function(
+            List<WorkOrder> items, String planSeq, String wonb, String rmkText)?
+        rmkUpdate,
   }) {
     return searchByYardHullNo?.call(items, page, yard, hullNo);
   }
@@ -408,6 +441,9 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
     TResult Function(
             List<WorkOrder> items, int page, String yard, String hullNo)?
         searchByYardHullNo,
+    TResult Function(
+            List<WorkOrder> items, String planSeq, String wonb, String rmkText)?
+        rmkUpdate,
     required TResult orElse(),
   }) {
     if (searchByYardHullNo != null) {
@@ -421,6 +457,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchListByPage value) fetchListByPage,
     required TResult Function(_SearchByYardHullNo value) searchByYardHullNo,
+    required TResult Function(_RmkUpdate value) rmkUpdate,
   }) {
     return searchByYardHullNo(this);
   }
@@ -430,6 +467,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_RmkUpdate value)? rmkUpdate,
   }) {
     return searchByYardHullNo?.call(this);
   }
@@ -439,6 +477,7 @@ class _$_SearchByYardHullNo extends _SearchByYardHullNo {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
     TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_RmkUpdate value)? rmkUpdate,
     required TResult orElse(),
   }) {
     if (searchByYardHullNo != null) {
@@ -456,12 +495,201 @@ abstract class _SearchByYardHullNo extends WorkOrderEvent {
 
   @override
   List<WorkOrder> get items;
-  @override
   int get page;
   String get yard;
   String get hullNo;
   @override
   @JsonKey(ignore: true)
   _$SearchByYardHullNoCopyWith<_SearchByYardHullNo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$RmkUpdateCopyWith<$Res>
+    implements $WorkOrderEventCopyWith<$Res> {
+  factory _$RmkUpdateCopyWith(
+          _RmkUpdate value, $Res Function(_RmkUpdate) then) =
+      __$RmkUpdateCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {List<WorkOrder> items, String planSeq, String wonb, String rmkText});
+}
+
+/// @nodoc
+class __$RmkUpdateCopyWithImpl<$Res> extends _$WorkOrderEventCopyWithImpl<$Res>
+    implements _$RmkUpdateCopyWith<$Res> {
+  __$RmkUpdateCopyWithImpl(_RmkUpdate _value, $Res Function(_RmkUpdate) _then)
+      : super(_value, (v) => _then(v as _RmkUpdate));
+
+  @override
+  _RmkUpdate get _value => super._value as _RmkUpdate;
+
+  @override
+  $Res call({
+    Object? items = freezed,
+    Object? planSeq = freezed,
+    Object? wonb = freezed,
+    Object? rmkText = freezed,
+  }) {
+    return _then(_RmkUpdate(
+      items == freezed
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<WorkOrder>,
+      planSeq == freezed
+          ? _value.planSeq
+          : planSeq // ignore: cast_nullable_to_non_nullable
+              as String,
+      wonb == freezed
+          ? _value.wonb
+          : wonb // ignore: cast_nullable_to_non_nullable
+              as String,
+      rmkText == freezed
+          ? _value.rmkText
+          : rmkText // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_RmkUpdate extends _RmkUpdate {
+  const _$_RmkUpdate(this.items, this.planSeq, this.wonb, this.rmkText)
+      : super._();
+
+  @override
+  final List<WorkOrder> items;
+  @override
+  final String planSeq;
+  @override
+  final String wonb;
+  @override
+  final String rmkText;
+
+  @override
+  String toString() {
+    return 'WorkOrderEvent.rmkUpdate(items: $items, planSeq: $planSeq, wonb: $wonb, rmkText: $rmkText)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _RmkUpdate &&
+            const DeepCollectionEquality().equals(other.items, items) &&
+            const DeepCollectionEquality().equals(other.planSeq, planSeq) &&
+            const DeepCollectionEquality().equals(other.wonb, wonb) &&
+            const DeepCollectionEquality().equals(other.rmkText, rmkText));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(items),
+      const DeepCollectionEquality().hash(planSeq),
+      const DeepCollectionEquality().hash(wonb),
+      const DeepCollectionEquality().hash(rmkText));
+
+  @JsonKey(ignore: true)
+  @override
+  _$RmkUpdateCopyWith<_RmkUpdate> get copyWith =>
+      __$RmkUpdateCopyWithImpl<_RmkUpdate>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<WorkOrder> items, int page) fetchListByPage,
+    required TResult Function(
+            List<WorkOrder> items, int page, String yard, String hullNo)
+        searchByYardHullNo,
+    required TResult Function(
+            List<WorkOrder> items, String planSeq, String wonb, String rmkText)
+        rmkUpdate,
+  }) {
+    return rmkUpdate(items, planSeq, wonb, rmkText);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<WorkOrder> items, int page)? fetchListByPage,
+    TResult Function(
+            List<WorkOrder> items, int page, String yard, String hullNo)?
+        searchByYardHullNo,
+    TResult Function(
+            List<WorkOrder> items, String planSeq, String wonb, String rmkText)?
+        rmkUpdate,
+  }) {
+    return rmkUpdate?.call(items, planSeq, wonb, rmkText);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<WorkOrder> items, int page)? fetchListByPage,
+    TResult Function(
+            List<WorkOrder> items, int page, String yard, String hullNo)?
+        searchByYardHullNo,
+    TResult Function(
+            List<WorkOrder> items, String planSeq, String wonb, String rmkText)?
+        rmkUpdate,
+    required TResult orElse(),
+  }) {
+    if (rmkUpdate != null) {
+      return rmkUpdate(items, planSeq, wonb, rmkText);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchListByPage value) fetchListByPage,
+    required TResult Function(_SearchByYardHullNo value) searchByYardHullNo,
+    required TResult Function(_RmkUpdate value) rmkUpdate,
+  }) {
+    return rmkUpdate(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_RmkUpdate value)? rmkUpdate,
+  }) {
+    return rmkUpdate?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_SearchByYardHullNo value)? searchByYardHullNo,
+    TResult Function(_RmkUpdate value)? rmkUpdate,
+    required TResult orElse(),
+  }) {
+    if (rmkUpdate != null) {
+      return rmkUpdate(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RmkUpdate extends WorkOrderEvent {
+  const factory _RmkUpdate(
+          List<WorkOrder> items, String planSeq, String wonb, String rmkText) =
+      _$_RmkUpdate;
+  const _RmkUpdate._() : super._();
+
+  @override
+  List<WorkOrder> get items;
+  String get planSeq;
+  String get wonb;
+  String get rmkText;
+  @override
+  @JsonKey(ignore: true)
+  _$RmkUpdateCopyWith<_RmkUpdate> get copyWith =>
       throw _privateConstructorUsedError;
 }

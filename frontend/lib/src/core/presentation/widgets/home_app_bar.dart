@@ -50,7 +50,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
         ),
       ),
       // backgroundColor: Colors.transparent,
-      backgroundColor: const Color.fromARGB(255, 104, 203, 252),
+      backgroundColor: Colors.blue[200],
       elevation: 0,
       iconTheme: Theme.of(context).iconTheme,
       actions: [
@@ -78,7 +78,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
     //     );
 
     //     break;
-    
+
     //   case UserType.worker:
     //     break;
     // }
