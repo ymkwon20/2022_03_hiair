@@ -6,6 +6,7 @@ import 'package:frontend/src/core/presentation/routes/app_route_observer.dart';
 import 'package:frontend/src/core/presentation/widgets/custom_table.dart';
 import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
+import 'package:frontend/src/core/presentation/widgets/sub_app_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/table_loading_row.dart';
 import 'package:frontend/src/workorder/presentation/screens/fct_popup.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_event.dart';
@@ -274,258 +275,264 @@ class _FCTWorkOrderWidgetState extends ConsumerState<FCTWorkOrderScreen>
           ),
         ),
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          NotificationListener<ScrollNotification>(
-            onNotification: ((notification) {
-              if (notification.metrics.axis == Axis.vertical) {
-                final metrics = notification.metrics;
-                final limit =
-                    metrics.maxScrollExtent - metrics.viewportDimension / 3;
+      body: Scaffold(
+        appBar: const SubAppBar(
+          code: 'FCT',
+        ),
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            NotificationListener<ScrollNotification>(
+              onNotification: ((notification) {
+                if (notification.metrics.axis == Axis.vertical) {
+                  final metrics = notification.metrics;
+                  final limit =
+                      metrics.maxScrollExtent - metrics.viewportDimension / 3;
 
-                if (canLoadNextPage && metrics.pixels >= limit) {
-                  canLoadNextPage = false;
-                  _fetchItemsByPage();
+                  if (canLoadNextPage && metrics.pixels >= limit) {
+                    canLoadNextPage = false;
+                    _fetchItemsByPage();
+                  }
                 }
-              }
 
-              return false;
-            }),
-            child: CustomTable(
-              onRowLongPressed: (index) {
-                state.maybeWhen(
-                  loaded: (_, __) {
-                    ref.read(workOrderListNotifier).toggleSelectState(index);
-                  },
-                  orElse: () {},
-                );
-                ref
-                    .read(workOrderSaveStateNotifierProvider.notifier)
-                    .mapEventToState(const WorkOrderSaveEvent.resetToNone());
-              },
-              onRowPressed: (index) {
-                state.maybeWhen(
-                  loaded: (_, __) {
-                    _onTap(index);
-                  },
-                  orElse: () {},
-                );
-              },
-              onRefresh: () async {
-                ref.read(workOrderListNotifier.notifier).clear();
-                await _fetchItemsByPage();
-              },
-              headers: [
-                CustomTableHeader(
-                  name: "wonb",
-                  title: "작업지시번호",
-                  width: 150,
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("wonb");
-                  },
-                  children: _buildAdditionalIcons("wonb"),
-                ),
-                CustomTableHeader(
-                  name: "yard",
-                  title: "Yard",
-                  width: 150,
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("yard");
-                  },
-                  children: _buildAdditionalIcons("yard"),
-                ),
-                CustomTableHeader(
-                  name: "hullNo",
-                  title: "Hull No",
-                  width: 150,
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("hullNo");
-                  },
-                  children: _buildAdditionalIcons("hullNo"),
-                ),
-                CustomTableHeader(
-                  name: "ship",
-                  title: "구역",
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("ship");
-                  },
-                  children: _buildAdditionalIcons("ship"),
-                ),
-                CustomTableHeader(
-                  name: "sysNo",
-                  title: "Sys No",
-                  width: 200,
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("sysNo");
-                  },
-                  children: _buildAdditionalIcons("sysNo"),
-                ),
-                CustomTableHeader(
-                  name: "spec",
-                  title: "SPEC",
-                  width: 150,
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("spec");
-                  },
-                  children: _buildAdditionalIcons("spec"),
-                ),
-                CustomTableHeader(
-                  name: "size",
-                  title: "SIZE",
-                  width: 130,
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("size");
-                  },
-                  children: _buildAdditionalIcons("size"),
-                ),
-                CustomTableHeader(
-                  name: "workwcnm",
-                  title: "제작업체",
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("inside");
-                  },
-                  children: _buildAdditionalIcons("workwcnm"),
-                ),
-                CustomTableHeader(
-                  name: "pndDate",
-                  title: "PND",
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("pndDate");
-                  },
-                  children: _buildAdditionalIcons("pndDate"),
-                ),
-                CustomTableHeader(
-                  name: "ironPlateThickness",
-                  title: "철판두께",
-                  width: 130,
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("ironPlateThickness");
-                  },
-                  children: _buildAdditionalIcons("ironPlateThickness"),
-                ),
-                CustomTableHeader(
-                  name: "ironPlateWidth",
-                  title: "철판가로",
-                  width: 130,
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("ironPlateWidth");
-                  },
-                  children: _buildAdditionalIcons("ironPlateWidth"),
-                ),
-                CustomTableHeader(
-                  name: "ironPlateHeight",
-                  title: "철판세로",
-                  width: 130,
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("ironPlateHeight");
-                  },
-                  children: _buildAdditionalIcons("ironPlateHeight"),
-                ),
-                CustomTableHeader(
-                  name: "doorLength",
-                  title: "DOOR길이",
-                  width: 130,
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("doorLength");
-                  },
-                  children: _buildAdditionalIcons("doorLength"),
-                ),
-                CustomTableHeader(
-                  name: "hollUpDown",
-                  title: "홀(상/하)",
-                  width: 160,
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("hollUpDown");
-                  },
-                  children: _buildAdditionalIcons("hollUpDown"),
-                ),
-                CustomTableHeader(
-                  name: "rmk",
-                  title: "비고",
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("rmk");
-                  },
-                  children: _buildAdditionalIcons("rmk"),
-                ),
-                CustomTableHeader(
-                  name: "reqDT",
-                  title: "작업지시일",
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("reqDT");
-                  },
-                  children: _buildAdditionalIcons("reqDT"),
-                ),
-                CustomTableHeader(
-                  name: "cfmDate",
-                  title: "확정일",
-                  onTap: ref.read(workOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("cfmDate");
-                  },
-                  children: _buildAdditionalIcons("cfmDate"),
-                ),
-              ],
-              rowBuilder: (context, index) {
-                return state.when(
-                  initial: (_) {
-                    return TableLoadingRow();
-                  },
-                  loading: (results, page) {
-                    if (index < orderListNotifier.filteredItems.length) {
+                return false;
+              }),
+              child: CustomTable(
+                onRowLongPressed: (index) {
+                  state.maybeWhen(
+                    loaded: (_, __) {
+                      ref.read(workOrderListNotifier).toggleSelectState(index);
+                    },
+                    orElse: () {},
+                  );
+                  ref
+                      .read(workOrderSaveStateNotifierProvider.notifier)
+                      .mapEventToState(const WorkOrderSaveEvent.resetToNone());
+                },
+                onRowPressed: (index) {
+                  state.maybeWhen(
+                    loaded: (_, __) {
+                      _onTap(index);
+                    },
+                    orElse: () {},
+                  );
+                },
+                onRefresh: () async {
+                  ref.read(workOrderListNotifier.notifier).clear();
+                  await _fetchItemsByPage();
+                },
+                headers: [
+                  CustomTableHeader(
+                    name: "wonb",
+                    title: "작업지시번호",
+                    width: 150,
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("wonb");
+                    },
+                    children: _buildAdditionalIcons("wonb"),
+                  ),
+                  CustomTableHeader(
+                    name: "yard",
+                    title: "Yard",
+                    width: 150,
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("yard");
+                    },
+                    children: _buildAdditionalIcons("yard"),
+                  ),
+                  CustomTableHeader(
+                    name: "hullNo",
+                    title: "Hull No",
+                    width: 150,
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("hullNo");
+                    },
+                    children: _buildAdditionalIcons("hullNo"),
+                  ),
+                  CustomTableHeader(
+                    name: "ship",
+                    title: "구역",
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("ship");
+                    },
+                    children: _buildAdditionalIcons("ship"),
+                  ),
+                  CustomTableHeader(
+                    name: "sysNo",
+                    title: "Sys No",
+                    width: 200,
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("sysNo");
+                    },
+                    children: _buildAdditionalIcons("sysNo"),
+                  ),
+                  CustomTableHeader(
+                    name: "spec",
+                    title: "SPEC",
+                    width: 150,
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("spec");
+                    },
+                    children: _buildAdditionalIcons("spec"),
+                  ),
+                  CustomTableHeader(
+                    name: "size",
+                    title: "SIZE",
+                    width: 130,
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("size");
+                    },
+                    children: _buildAdditionalIcons("size"),
+                  ),
+                  CustomTableHeader(
+                    name: "workwcnm",
+                    title: "제작업체",
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("inside");
+                    },
+                    children: _buildAdditionalIcons("workwcnm"),
+                  ),
+                  CustomTableHeader(
+                    name: "pndDate",
+                    title: "PND",
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("pndDate");
+                    },
+                    children: _buildAdditionalIcons("pndDate"),
+                  ),
+                  CustomTableHeader(
+                    name: "ironPlateThickness",
+                    title: "철판두께",
+                    width: 130,
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("ironPlateThickness");
+                    },
+                    children: _buildAdditionalIcons("ironPlateThickness"),
+                  ),
+                  CustomTableHeader(
+                    name: "ironPlateWidth",
+                    title: "철판가로",
+                    width: 130,
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("ironPlateWidth");
+                    },
+                    children: _buildAdditionalIcons("ironPlateWidth"),
+                  ),
+                  CustomTableHeader(
+                    name: "ironPlateHeight",
+                    title: "철판세로",
+                    width: 130,
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("ironPlateHeight");
+                    },
+                    children: _buildAdditionalIcons("ironPlateHeight"),
+                  ),
+                  CustomTableHeader(
+                    name: "doorLength",
+                    title: "DOOR길이",
+                    width: 130,
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("doorLength");
+                    },
+                    children: _buildAdditionalIcons("doorLength"),
+                  ),
+                  CustomTableHeader(
+                    name: "hollUpDown",
+                    title: "홀(상/하)",
+                    width: 160,
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("hollUpDown");
+                    },
+                    children: _buildAdditionalIcons("hollUpDown"),
+                  ),
+                  CustomTableHeader(
+                    name: "rmk",
+                    title: "비고",
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("rmk");
+                    },
+                    children: _buildAdditionalIcons("rmk"),
+                  ),
+                  CustomTableHeader(
+                    name: "reqDT",
+                    title: "작업지시일",
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("reqDT");
+                    },
+                    children: _buildAdditionalIcons("reqDT"),
+                  ),
+                  CustomTableHeader(
+                    name: "cfmDate",
+                    title: "확정일",
+                    onTap: ref.read(workOrderListNotifier.notifier).sort,
+                    onLongTap: () {
+                      _navigateTo("cfmDate");
+                    },
+                    children: _buildAdditionalIcons("cfmDate"),
+                  ),
+                ],
+                rowBuilder: (context, index) {
+                  return state.when(
+                    initial: (_) {
+                      return TableLoadingRow();
+                    },
+                    loading: (results, page) {
+                      if (index < orderListNotifier.filteredItems.length) {
+                        return FCTOrderLoadedRow(
+                          order: orderListNotifier.filteredItems[index],
+                          color: _getColor(index),
+                        );
+                      } else {
+                        return TableLoadingRow();
+                      }
+                    },
+                    loaded: (_, __) {
                       return FCTOrderLoadedRow(
                         order: orderListNotifier.filteredItems[index],
                         color: _getColor(index),
                       );
-                    } else {
-                      return TableLoadingRow();
-                    }
-                  },
-                  loaded: (_, __) {
-                    return FCTOrderLoadedRow(
-                      order: orderListNotifier.filteredItems[index],
-                      color: _getColor(index),
-                    );
-                  },
-                  failure: (results, message) {
-                    if (index < orderListNotifier.filteredItems.length) {
-                      return FCTOrderLoadedRow(
-                          order: orderListNotifier.filteredItems[index]);
-                    } else {
-                      return TableFailureRow(message: message);
-                    }
-                  },
-                );
-              },
-              rowCount: state.when(
-                initial: (_) => orderListNotifier.filteredItems.length,
-                loading: (prev, length) =>
-                    orderListNotifier.filteredItems.length + length,
-                loaded: (current, _) => orderListNotifier.filteredItems.length,
-                failure: (prev, message) =>
-                    orderListNotifier.filteredItems.length + 1,
+                    },
+                    failure: (results, message) {
+                      if (index < orderListNotifier.filteredItems.length) {
+                        return FCTOrderLoadedRow(
+                            order: orderListNotifier.filteredItems[index]);
+                      } else {
+                        return TableFailureRow(message: message);
+                      }
+                    },
+                  );
+                },
+                rowCount: state.when(
+                  initial: (_) => orderListNotifier.filteredItems.length,
+                  loading: (prev, length) =>
+                      orderListNotifier.filteredItems.length + length,
+                  loaded: (current, _) =>
+                      orderListNotifier.filteredItems.length,
+                  failure: (prev, message) =>
+                      orderListNotifier.filteredItems.length + 1,
+                ),
               ),
             ),
-          ),
-          _buildFabBackground(),
-          _buildFab(),
-        ],
+            _buildFabBackground(),
+            _buildFab(),
+          ],
+        ),
       ),
     );
   }
