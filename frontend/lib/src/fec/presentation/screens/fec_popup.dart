@@ -8,6 +8,7 @@ import 'package:frontend/src/core/presentation/widgets/index.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
+import 'package:frontend/src/workorder/domain/entities/work_order.dart';
 import 'package:frontend/src/workorder/presentation/screens/work_order_start_end_button.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,14 +17,15 @@ class FECPopup extends ConsumerWidget {
   const FECPopup({
     Key? key,
     required this.canSaveBothStartAndEnd,
+    required this.workOrder,
   }) : super(key: key);
 
   final bool canSaveBothStartAndEnd;
+  final WorkOrder workOrder;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width / 2;
-    final workOrder = ref.watch(workOrderNotifier);
     return Material(
       color: Colors.transparent,
       child: GestureDetector(

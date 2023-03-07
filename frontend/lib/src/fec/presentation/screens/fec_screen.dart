@@ -93,6 +93,7 @@ class _FECWidgetState extends ConsumerState<FECScreen>
             ],
             child: FECPopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              workOrder: ref.watch(workOrderListNotifier).filteredItems[index],
             ),
           ),
         ),

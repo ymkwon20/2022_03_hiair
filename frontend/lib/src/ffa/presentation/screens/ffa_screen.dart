@@ -93,6 +93,7 @@ class _FFAWidgetState extends ConsumerState<FFAScreen>
             ],
             child: FFAPopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              workOrder: ref.watch(workOrderListNotifier).filteredItems[index],
             ),
           ),
         ),

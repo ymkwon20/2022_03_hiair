@@ -93,6 +93,7 @@ class _FP2WidgetState extends ConsumerState<FP2Screen>
             ],
             child: FP2Popup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              workOrder: ref.watch(workOrderListNotifier).filteredItems[index],
             ),
           ),
         ),

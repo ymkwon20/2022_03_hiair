@@ -92,6 +92,7 @@ class _FWPWidgetState extends ConsumerState<FWPScreen>
             ],
             child: FWPPopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              workOrder: ref.watch(workOrderListNotifier).filteredItems[index],
             ),
           ),
         ),

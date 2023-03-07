@@ -107,6 +107,7 @@ class _ImpellerSingleListWidgetState extends ConsumerState<ImpellerSingleScreen>
             ],
             child: ImpellerSinglePopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              impeller: ref.watch(impellerListNotifier).filteredItems[index],
             ),
           ),
         ),

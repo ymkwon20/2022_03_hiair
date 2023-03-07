@@ -8,24 +8,25 @@ import 'package:frontend/src/core/presentation/widgets/underline_widget.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_event.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_state.dart';
 import 'package:frontend/src/impeller/dependency_injection.dart';
+import 'package:frontend/src/impeller/domain/entities/impeller.dart';
 import 'package:frontend/src/impeller/presentation/screens/impeller_start_end_button.dart';
 import 'package:frontend/src/impeller/presentation/viewmodels/barcode_notifier.dart';
 import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class ImpellerSinglePopup extends ConsumerWidget {
   const ImpellerSinglePopup({
     Key? key,
     required this.canSaveBothStartAndEnd,
+    required this.impeller,
   }) : super(key: key);
 
   final bool canSaveBothStartAndEnd;
+  final Impeller impeller;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width / 1.8;
-    final impeller = ref.watch(impellerNotifier);
     final barcode = ref.watch(barcodeNotifier);
 
     return Material(

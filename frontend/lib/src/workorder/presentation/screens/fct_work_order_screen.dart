@@ -92,6 +92,7 @@ class _FCTWorkOrderWidgetState extends ConsumerState<FCTWorkOrderScreen>
             ],
             child: FctPopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              workOrder: ref.watch(workOrderListNotifier).filteredItems[index],
             ),
           ),
         ),

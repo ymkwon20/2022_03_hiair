@@ -92,6 +92,7 @@ class _FELWidgetState extends ConsumerState<FELScreen>
             ],
             child: FELPopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              workOrder: ref.watch(workOrderListNotifier).filteredItems[index],
             ),
           ),
         ),

@@ -92,6 +92,7 @@ class _FRLWidgetState extends ConsumerState<FRLScreen>
             ],
             child: FRLPopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              workOrder: ref.watch(workOrderListNotifier).filteredItems[index],
             ),
           ),
         ),

@@ -32,6 +32,10 @@ class FFLLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
+              order.size,
+              style: style,
+            ),
+            Text(
               order.pndDate,
               style: style,
             ),

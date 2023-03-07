@@ -97,6 +97,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
             ],
             child: WorkOrderPopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              workOrder: ref.watch(workOrderListNotifier).filteredItems[index],
             ),
           ),
         ),

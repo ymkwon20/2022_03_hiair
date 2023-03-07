@@ -92,6 +92,7 @@ class _FAYWidgetState extends ConsumerState<FAYScreen>
             ],
             child: FAYPopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              workOrder: ref.watch(workOrderListNotifier).filteredItems[index],
             ),
           ),
         ),

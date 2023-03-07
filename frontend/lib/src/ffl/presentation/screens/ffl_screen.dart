@@ -10,8 +10,6 @@ import 'package:frontend/src/core/presentation/widgets/sub_app_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/table_loading_row.dart';
 import 'package:frontend/src/ffl/presentation/screens/ffl_popup.dart';
 import 'package:frontend/src/ffl/presentation/screens/tablerows/ffl_loaded_row.dart';
-import 'package:frontend/src/fp4/presentation/screens/fp4_popup.dart';
-import 'package:frontend/src/fp4/presentation/screens/tablerows/fp4_loaded_row.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_event.dart';
 import 'package:frontend/src/workorder/application/work_order/load/work_order_state.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
@@ -94,6 +92,7 @@ class _FFLWidgetState extends ConsumerState<FFLScreen>
             ],
             child: FFLPopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              workOrder: ref.watch(workOrderListNotifier).filteredItems[index],
             ),
           ),
         ),
@@ -358,6 +357,16 @@ class _FFLWidgetState extends ConsumerState<FFLScreen>
                     _navigateTo("itemSpec");
                   },
                   children: _buildAdditionalIcons("itemSpec"),
+                ),
+                CustomTableHeader(
+                  name: "size",
+                  title: "SIZE",
+                  width: 130,
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("size");
+                  },
+                  children: _buildAdditionalIcons("size"),
                 ),
                 CustomTableHeader(
                   name: "pndDate",
