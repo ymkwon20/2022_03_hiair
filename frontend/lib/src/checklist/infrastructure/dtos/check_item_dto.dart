@@ -328,7 +328,7 @@ class CheckItemDto {
       imageFileName: map['NEW1_FN'] ?? '',
       originalFileName: map['ORG1_FN'] ?? '',
       unitComboCd: map['CBO_CD'] ?? '',
-      valueComboCd: map['CKS_CBO_CD'] ?? '',
+      valueComboCd: map['CKS_TYPE_CBO_CD'] ?? '',
       valueCombos: [],
       phtCd: map['PHT_CD'] ?? '',
       divCd: map['DIV_CD'] ?? '',
