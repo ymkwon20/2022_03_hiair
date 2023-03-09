@@ -300,73 +300,70 @@ class CustomTableBody extends StatelessWidget {
             physics: const ClampingScrollPhysics(),
             child: SizedBox(
               width: widthList.reduce((value, element) => value + element),
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  if (onRefresh != null) {
-                    refreshNotifier.value = !refreshNotifier.value;
+              // child: RefreshIndicator(
+              //   onRefresh: () async {
+              //     if (onRefresh != null) {
+              //       refreshNotifier.value = !refreshNotifier.value;
 
-                    await onRefresh!.call();
-                  }
-                },
-                child: ListView.builder(
-                  itemCount: rowCount,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        onRowPressed?.call(index);
-                      },
-                      onLongPress: () {
-                        onRowLongPressed?.call(index);
-                      },
-                      child: Container(
-                        height: rowHeight,
-                        decoration: BoxDecoration(
-                          color: rowBuilder.call(context, index).color,
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Theme.of(context).dividerColor,
-                            ),
+              //       await onRefresh!.call();
+              //     }
+              //   },
+              child: ListView.builder(
+                itemCount: rowCount,
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      onRowPressed?.call(index);
+                    },
+                    onLongPress: () {
+                      onRowLongPressed?.call(index);
+                    },
+                    child: Container(
+                      height: rowHeight,
+                      decoration: BoxDecoration(
+                        color: rowBuilder.call(context, index).color,
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Theme.of(context).dividerColor,
                           ),
                         ),
-                        alignment: Alignment.centerLeft,
-                        child: rowBuilder
-                                .call(context, index)
-                                .contents
-                                .isNotEmpty
-                            ? Row(
-                                children:
-                                    widthList.mapIndexed((widthIndex, width) {
-                                  return GestureDetector(
-                                    behavior: HitTestBehavior.translucent,
-                                    onTap: rowBuilder
-                                                .call(context, index)
-                                                .onCellTap ==
-                                            null
-                                        ? null
-                                        : () => rowBuilder
-                                            .call(context, index)
-                                            .onCellTap
-                                            ?.call(widthIndex),
-                                    child: Container(
-                                      alignment: Alignment.centerLeft,
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: LayoutConstant.paddingM,
-                                        vertical: LayoutConstant.paddingM,
-                                      ),
-                                      width: width,
-                                      child: rowBuilder
-                                          .call(context, index)
-                                          .contents[widthIndex],
-                                    ),
-                                  );
-                                }).toList(),
-                              )
-                            : rowBuilder.call(context, index).child,
                       ),
-                    );
-                  },
-                ),
+                      alignment: Alignment.centerLeft,
+                      child: rowBuilder.call(context, index).contents.isNotEmpty
+                          ? Row(
+                              children:
+                                  widthList.mapIndexed((widthIndex, width) {
+                                return GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: rowBuilder
+                                              .call(context, index)
+                                              .onCellTap ==
+                                          null
+                                      ? null
+                                      : () => rowBuilder
+                                          .call(context, index)
+                                          .onCellTap
+                                          ?.call(widthIndex),
+                                  child: Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: LayoutConstant.paddingM,
+                                      vertical: LayoutConstant.paddingM,
+                                    ),
+                                    width: width,
+                                    child: rowBuilder
+                                        .call(context, index)
+                                        .contents[widthIndex],
+                                  ),
+                                );
+                              }).toList(),
+                            )
+                          : rowBuilder.call(context, index).child,
+                    ),
+                  );
+                },
+                // ),
               ),
             ),
           ),
