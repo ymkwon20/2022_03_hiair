@@ -320,7 +320,7 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                 CustomTableHeader(
                   name: "yard",
                   title: "Yard",
-                  width: 150,
+                  width: 130,
                   onTap: ref.read(impellerListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("yard");
@@ -349,6 +349,7 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                 CustomTableHeader(
                   name: "sysNo",
                   title: "Sys No",
+                  width: 150,
                   onTap: ref.read(impellerListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("sysNo");
@@ -374,6 +375,16 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                     _navigateTo("shaft");
                   },
                   children: _buildAdditionalIcons("shaft"),
+                ),
+                CustomTableHeader(
+                  name: "spec",
+                  title: "SPEC",
+                  width: 130,
+                  onTap: ref.read(impellerListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("spec");
+                  },
+                  children: _buildAdditionalIcons("spec"),
                 ),
                 CustomTableHeader(
                   name: "rmk",

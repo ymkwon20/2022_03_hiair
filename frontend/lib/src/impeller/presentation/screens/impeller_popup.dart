@@ -172,6 +172,11 @@ class ImpellerPopup extends ConsumerWidget {
                         ),
                         const UnderlineWidget(),
                         _ImpellerDrawerRow(
+                          title: "규격",
+                          value: impeller.spec,
+                        ),
+                        const UnderlineWidget(),
+                        _ImpellerDrawerRow(
                           title: "RMK",
                           value: impeller.rmk,
                         ),
