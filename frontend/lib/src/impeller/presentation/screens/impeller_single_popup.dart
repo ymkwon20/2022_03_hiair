@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
-import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_impeller.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_impeller_single.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/widgets/underline_widget.dart';
@@ -193,7 +193,7 @@ class ImpellerSinglePopup extends ConsumerWidget {
                           },
                           onEndPressed: () {
                             Navigator.of(context).pop();
-                            final impeller = ref.watch(impellerNotifier);
+                            // final impeller = ref.watch(impellerNotifier);
                             ref
                                 .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(
@@ -203,7 +203,8 @@ class ImpellerSinglePopup extends ConsumerWidget {
                             Navigator.of(context).push(
                               CustomSlideRoute(
                                 backgroundColor: Colors.black.withOpacity(.2),
-                                builder: (context) => ChecklistPopupImpeller(
+                                builder: (context) =>
+                                    ChecklistPopupImpellerSingle(
                                   impeller: impeller,
                                   index: ref.watch(impellerIndexNotifier)!,
                                   saveFlag: false,
@@ -226,7 +227,7 @@ class ImpellerSinglePopup extends ConsumerWidget {
                           },
                           onStartAndEndPressed: () {
                             Navigator.of(context).pop();
-                            final impeller = ref.watch(impellerNotifier);
+                            // final impeller = ref.watch(impellerNotifier);
                             ref
                                 .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(
@@ -237,7 +238,8 @@ class ImpellerSinglePopup extends ConsumerWidget {
                             Navigator.of(context).push(
                               CustomSlideRoute(
                                 backgroundColor: Colors.black.withOpacity(.2),
-                                builder: (context) => ChecklistPopupImpeller(
+                                builder: (context) =>
+                                    ChecklistPopupImpellerSingle(
                                   impeller: impeller,
                                   index: ref.watch(impellerIndexNotifier)!,
                                   saveFlag: true,

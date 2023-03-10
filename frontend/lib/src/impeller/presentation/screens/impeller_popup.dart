@@ -199,7 +199,7 @@ class ImpellerPopup extends ConsumerWidget {
                           },
                           onEndPressed: () {
                             Navigator.of(context).pop();
-                            final impeller = ref.watch(impellerNotifier);
+                            // final impeller = ref.watch(impellerNotifier);
                             ref
                                 .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(
@@ -232,7 +232,7 @@ class ImpellerPopup extends ConsumerWidget {
                           },
                           onStartAndEndPressed: () {
                             Navigator.of(context).pop();
-                            final impeller = ref.watch(impellerNotifier);
+                            // final impeller = ref.watch(impellerNotifier);
                             ref
                                 .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(

@@ -114,7 +114,7 @@ class FFLPopup extends ConsumerWidget {
                           },
                           onEndPressed: () {
                             Navigator.of(context).pop();
-                            final workOrder = ref.watch(workOrderNotifier);
+                            // final workOrder = ref.watch(workOrderNotifier);
                             ref
                                 .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(
@@ -149,7 +149,7 @@ class FFLPopup extends ConsumerWidget {
                           },
                           onStartAndEndPressed: () {
                             Navigator.of(context).pop();
-                            final workOrder = ref.watch(workOrderNotifier);
+                            // final workOrder = ref.watch(workOrderNotifier);
                             ref
                                 .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(
