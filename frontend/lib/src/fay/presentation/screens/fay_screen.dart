@@ -497,7 +497,7 @@ class _FAYWidgetState extends ConsumerState<FAYScreen>
     Color color;
     final notifier = ref.watch(workOrderListNotifier);
 
-    if (notifier.items[index].status == WorkOrderStatus.resuming) {
+    if (notifier.filteredItems[index].status == WorkOrderStatus.resuming) {
       color = Colors.amber;
     } else {
       color = Colors.transparent;
