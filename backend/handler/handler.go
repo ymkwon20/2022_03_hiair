@@ -57,6 +57,7 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/checklist/images", a.getCheckimagelist).Methods("GET")
 	r.HandleFunc("/checklist/images", a.saveCheckimage).Methods("POST")
 	r.HandleFunc("/checklistActivate", a.getChecklistActivate).Methods("GET")
+	r.HandleFunc("/badcontrol", a.saveBadControl).Methods("POST")
 	r.HandleFunc("/unit", a.getUnitlist).Methods("GET")
 	r.HandleFunc("/wb", a.getWorkbaselist).Methods("GET")
 	r.HandleFunc("/menu", a.getQmMenulist).Methods("GET")
@@ -1145,6 +1146,53 @@ func (a *AppHandler) getChecklistActivate(w http.ResponseWriter, r *http.Request
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(jData)
+}
+
+func (a *AppHandler) saveBadControl(w http.ResponseWriter, r *http.Request) {
+	var params map[string]interface{}
+
+	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_PHT_03_MERGE '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s';
+	`,
+		params["yard"],
+		params["hullNo"],
+		params["sysNo"],
+		params["itemNo"],
+		params["wccd"],
+		params["wcnm"],
+		params["badcd"],
+		params["badnm"],
+		params["rmk"],
+		params["work-id"],
+		params["org1fn"],
+	)
+
+	_, err := a.db.CallDML(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 }
 
 func (a *AppHandler) getUnitlist(w http.ResponseWriter, r *http.Request) {
