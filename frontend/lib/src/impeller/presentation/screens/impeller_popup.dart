@@ -86,7 +86,7 @@ class ImpellerPopup extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 180),
+                        const SizedBox(height: 150),
                         QrImage(
                           data: barcode.item.qrBarcodeString,
                           backgroundColor: Colors.white,
@@ -132,7 +132,7 @@ class ImpellerPopup extends ConsumerWidget {
                             "상세내용",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 30,
+                              fontSize: 20,
                             ),
                           ),
                         ),
