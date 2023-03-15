@@ -61,6 +61,9 @@ abstract class IImpeller {
   // BLLADE_QTY: BLADE수량
   final String bldQTY;
 
+  // SPEC: 규격
+  final String spec;
+
   const IImpeller({
     required this.code,
     required this.planSeq,
@@ -83,5 +86,6 @@ abstract class IImpeller {
     required this.partNo,
     required this.bldType,
     required this.bldQTY,
+    required this.spec,
   });
 }

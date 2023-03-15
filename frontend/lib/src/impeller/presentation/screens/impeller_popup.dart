@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_impeller.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
@@ -8,6 +9,7 @@ import 'package:frontend/src/core/presentation/widgets/underline_widget.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_event.dart';
 import 'package:frontend/src/impeller/application/impeller/save/impeller_save_state.dart';
 import 'package:frontend/src/impeller/dependency_injection.dart';
+import 'package:frontend/src/impeller/domain/entities/impeller.dart';
 import 'package:frontend/src/impeller/presentation/screens/impeller_start_end_button.dart';
 import 'package:frontend/src/impeller/presentation/viewmodels/barcode_notifier.dart';
 import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_notifier.dart';
@@ -18,14 +20,15 @@ class ImpellerPopup extends ConsumerWidget {
   const ImpellerPopup({
     Key? key,
     required this.canSaveBothStartAndEnd,
+    required this.impeller,
   }) : super(key: key);
 
   final bool canSaveBothStartAndEnd;
+  final Impeller impeller;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width / 2.5;
-    final impeller = ref.watch(impellerNotifier);
     final barcode = ref.watch(barcodeNotifier);
 
     return Material(
@@ -83,7 +86,7 @@ class ImpellerPopup extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 180),
+                        const SizedBox(height: 150),
                         QrImage(
                           data: barcode.item.qrBarcodeString,
                           backgroundColor: Colors.white,
@@ -129,7 +132,7 @@ class ImpellerPopup extends ConsumerWidget {
                             "상세내용",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 30,
+                              fontSize: 20,
                             ),
                           ),
                         ),
@@ -170,6 +173,11 @@ class ImpellerPopup extends ConsumerWidget {
                         ),
                         const UnderlineWidget(),
                         _ImpellerDrawerRow(
+                          title: "규격",
+                          value: impeller.spec,
+                        ),
+                        const UnderlineWidget(),
+                        _ImpellerDrawerRow(
                           title: "RMK",
                           value: impeller.rmk,
                         ),
@@ -192,7 +200,7 @@ class ImpellerPopup extends ConsumerWidget {
                           },
                           onEndPressed: () {
                             Navigator.of(context).pop();
-                            final impeller = ref.watch(impellerNotifier);
+                            // final impeller = ref.watch(impellerNotifier);
                             ref
                                 .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(
@@ -225,7 +233,7 @@ class ImpellerPopup extends ConsumerWidget {
                           },
                           onStartAndEndPressed: () {
                             Navigator.of(context).pop();
-                            final impeller = ref.watch(impellerNotifier);
+                            // final impeller = ref.watch(impellerNotifier);
                             ref
                                 .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(
@@ -260,6 +268,21 @@ class ImpellerPopup extends ConsumerWidget {
                           ignoring:
                               ref.watch(impellerSaveStateNotifierProvider) ==
                                   const ImpellerSaveState.saving(),
+                          onChecklistButtonPressed: () {
+                            ref
+                                .read(checklistStateNotifierProvider.notifier)
+                                .mapEventToState(
+                                  ChecklistEvent.fetchChecklistForImpeller(
+                                      impeller),
+                                );
+
+                            Navigator.of(context).push(
+                              CustomSlideRoute(
+                                backgroundColor: Colors.black.withOpacity(.2),
+                                builder: (context) => const ChecklistPopup(),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),

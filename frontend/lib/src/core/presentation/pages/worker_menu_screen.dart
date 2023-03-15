@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/bad_control/presentation/screens/bad_control_popup.dart';
+import 'package:frontend/src/bad_control/presentation/widgets/bad_control_popup.dart';
 import 'package:frontend/src/core/presentation/layout_constant.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/pages/menu_item.dart';
@@ -175,7 +175,7 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
               context,
               ref,
               code: WorkCode.badControl,
-              title: "업체별 불량관리(개발중)",
+              title: "업체별 불량관리",
               width: MediaQuery.of(context).size.width / 3,
               height: 50,
             ),

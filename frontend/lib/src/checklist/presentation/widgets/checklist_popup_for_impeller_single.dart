@@ -7,52 +7,35 @@ import 'package:frontend/src/checklist/presentation/widgets/checklist_widget.dar
 import 'package:frontend/src/core/presentation/layout_constant.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/underline_widget.dart';
-import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
-import 'package:frontend/src/workorder/dependency_injection.dart';
-import 'package:frontend/src/workorder/domain/entities/work_order.dart';
-import 'package:frontend/src/workorder/presentation/screens/work_order_finish_button.dart';
+import 'package:frontend/src/impeller/application/impeller/save/impeller_save_event.dart';
+import 'package:frontend/src/impeller/dependency_injection.dart';
+import 'package:frontend/src/impeller/domain/entities/impeller.dart';
+import 'package:frontend/src/impeller/presentation/screens/impeller_finish_button.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ChecklistPopupWorkOrder extends ConsumerWidget {
-  const ChecklistPopupWorkOrder({
+class ChecklistPopupImpellerSingle extends ConsumerWidget {
+  const ChecklistPopupImpellerSingle({
     Key? key,
-    required this.workOrder,
+    required this.impeller,
     required this.index,
     required this.saveFlag,
   }) : super(key: key);
 
-  final WorkOrder workOrder;
+  final Impeller impeller;
   final int index;
   final bool saveFlag;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width / 2.5;
-    // final workOrder = ref.watch(workOrderNotifier);
     bool openFlash = false;
 
     ref.listen<ChecklistSaveState>(
       checklistSaveStateNotifierProvider,
       (previous, current) {
         current.maybeWhen(
-          saved: () {
-            // showFlashBar(
-            //   context,
-            //   title: "저장 완료",
-            //   content: "",
-            //   backgroundColor: Theme.of(context).primaryColorLight,
-            // );
-            // Navigator.of(context).pop();
-          },
-          savedAndNext: (status) {
-            // showFlashBar(
-            //   context,
-            //   title: "저장 완료",
-            //   content: "",
-            //   backgroundColor: Theme.of(context).primaryColorLight,
-            // );
-            // Navigator.of(context).pop();
-          },
+          saved: () {},
+          savedAndNext: (status) {},
           failure: (message) {
             showFlashBar(
               context,
@@ -121,44 +104,70 @@ class ChecklistPopupWorkOrder extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: LayoutConstant.spaceM),
-                      _WorkOrderDrawerRow(title: "Yard", value: workOrder.yard),
+                      _ImpellerDrawerRow(
+                        title: "작업지시번호",
+                        value: impeller.code,
+                      ),
                       const UnderlineWidget(),
-                      _WorkOrderDrawerRow(
-                          title: "Hull No", value: workOrder.hullNo),
+                      _ImpellerDrawerRow(
+                        title: "품목코드",
+                        value: impeller.partNo,
+                      ),
                       const UnderlineWidget(),
-                      _WorkOrderDrawerRow(title: "구역", value: workOrder.ship),
+                      _ImpellerDrawerRow(
+                        title: "지시수량",
+                        value: impeller.qty.toString(),
+                      ),
                       const UnderlineWidget(),
-                      _WorkOrderDrawerRow(
-                          title: "Sys No", value: workOrder.sysNo),
+                      _ImpellerDrawerRow(
+                        title: "SHAFT",
+                        value: impeller.shaft,
+                      ),
                       const UnderlineWidget(),
-                      _WorkOrderDrawerRow(
-                          title: "제품규격", value: workOrder.itemSpec),
+                      _ImpellerDrawerRow(
+                        title: "BLADE TYPE",
+                        value: impeller.bldType,
+                      ),
+                      const UnderlineWidget(),
+                      _ImpellerDrawerRow(
+                        title: "FAN TYPE",
+                        value: impeller.fanType,
+                      ),
+                      const UnderlineWidget(),
+                      _ImpellerDrawerRow(
+                        title: "BLADE 수량",
+                        value: impeller.bldQTY,
+                      ),
+                      const UnderlineWidget(),
+                      _ImpellerDrawerRow(
+                        title: "RMK",
+                        value: impeller.rmk,
+                      ),
                       const Spacer(),
-                      WorkOrderFinishButtons(
-                        dateStart: workOrder.dateStart,
-                        dateEnd: workOrder.dateEnd,
+                      ImpellerFinishButtons(
+                        dateStart: impeller.dateStart,
+                        dateEnd: impeller.dateEnd,
                         onFinishPressed: () {
                           Navigator.of(context).pop();
-
                           if (saveFlag) {
                             ref
                                 .read(
-                                    workOrderSaveStateNotifierProvider.notifier)
+                                    impellerSaveStateNotifierProvider.notifier)
                                 .mapEventToState(
-                                  WorkOrderSaveEvent.saveWorkOrder(
-                                    workOrder,
-                                    WorkOrderSaveStatus.all,
+                                  ImpellerSaveEvent.saveImpeller(
+                                    impeller,
+                                    ImpellerSaveStatus.all,
                                     index,
                                   ),
                                 );
                           } else {
                             ref
                                 .read(
-                                    workOrderSaveStateNotifierProvider.notifier)
+                                    impellerSaveStateNotifierProvider.notifier)
                                 .mapEventToState(
-                                  WorkOrderSaveEvent.saveWorkOrder(
-                                    workOrder,
-                                    WorkOrderSaveStatus.end,
+                                  ImpellerSaveEvent.saveImpeller(
+                                    impeller,
+                                    ImpellerSaveStatus.end,
                                     index,
                                   ),
                                 );
@@ -198,49 +207,8 @@ class ChecklistPopupWorkOrder extends ConsumerWidget {
                     ),
                   ),
                   child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: LayoutConstant.paddingS,
-                          horizontal: LayoutConstant.paddingL,
-                        ),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          // child: ElevatedButton(
-                          //   onPressed: () {
-                          //     if (ref
-                          //         .watch(checklistNotifierProvider.notifier)
-                          //         .isNotCompleted) {
-                          //       if (!openFlash) {
-                          //         openFlash = true;
-                          //         showFlashBar(
-                          //           context,
-                          //           title: "오류",
-                          //           content: "입력을 완료하지 않았습니다.",
-                          //           backgroundColor:
-                          //               Theme.of(context).errorColor,
-                          //         );
-                          //         Future.delayed(const Duration(seconds: 2),
-                          //             () => openFlash = false);
-                          //       }
-                          //     } else {
-                          //       ref
-                          //           .read(checklistSaveStateNotifierProvider
-                          //               .notifier)
-                          //           .mapEventToState(
-                          //             ChecklistSaveEvent.saveChecklist(ref
-                          //                 .watch(checklistNotifierProvider)
-                          //                 .items),
-                          //           );
-                          //     }
-                          //   },
-                          //   child: const Text(
-                          //     "저장",
-                          //   ),
-                          // ),
-                        ),
-                      ),
-                      const Expanded(child: ChecklistWidget()),
+                    children: const [
+                      Expanded(child: ChecklistWidget()),
                     ],
                   ),
                 ),
@@ -253,8 +221,8 @@ class ChecklistPopupWorkOrder extends ConsumerWidget {
   }
 }
 
-class _WorkOrderDrawerRow extends StatelessWidget {
-  const _WorkOrderDrawerRow({
+class _ImpellerDrawerRow extends StatelessWidget {
+  const _ImpellerDrawerRow({
     Key? key,
     required this.title,
     required this.value,

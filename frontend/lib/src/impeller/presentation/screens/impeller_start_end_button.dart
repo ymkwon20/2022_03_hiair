@@ -21,6 +21,7 @@ class ImpellerStartEndButtons extends ConsumerStatefulWidget {
     required this.onSavePressed,
     required this.onStartAndEndPressed,
     required this.onStartAndSavePressed,
+    required this.onChecklistButtonPressed,
     this.ignoring = false,
   }) : super(key: key);
 
@@ -32,6 +33,7 @@ class ImpellerStartEndButtons extends ConsumerStatefulWidget {
   final VoidCallback onSavePressed;
   final VoidCallback? onStartAndEndPressed;
   final VoidCallback? onStartAndSavePressed;
+  final VoidCallback onChecklistButtonPressed;
 
   final bool ignoring;
 
@@ -59,6 +61,7 @@ class _ImpellerStartEndsButtonState
   late Animation<double> _rightOpacityAnimation;
   late Animation<double> _topOpacityAnimation;
   late Animation<double> _bottomOpacityAnimation;
+  late Animation<double> _checklistOpacityAnimation;
 
   /// 전체 크기 계산
   double width = 0;
@@ -77,6 +80,7 @@ class _ImpellerStartEndsButtonState
     _rightOpacityAnimation = _opacityTween.animate(_controller);
     _topOpacityAnimation = ConstantTween(1.0).animate(_controller);
     _bottomOpacityAnimation = ConstantTween(1.0).animate(_controller);
+    _checklistOpacityAnimation = ConstantTween(1.0).animate(_controller);
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _setSize();
@@ -157,6 +161,8 @@ class _ImpellerStartEndsButtonState
         Tween<double>(begin: 1, end: 1).chain(_widthTween).animate(_controller);
     _bottomOpacityAnimation =
         Tween<double>(begin: 1, end: 0).chain(_widthTween).animate(_controller);
+    _checklistOpacityAnimation =
+        Tween<double>(begin: 1, end: 0).chain(_widthTween).animate(_controller);
 
     _controller.forward();
     Future.delayed(
@@ -170,6 +176,8 @@ class _ImpellerStartEndsButtonState
         Tween<double>(begin: 1, end: 0).chain(_widthTween).animate(_controller);
     _bottomOpacityAnimation =
         Tween<double>(begin: 1, end: 1).chain(_widthTween).animate(_controller);
+    _checklistOpacityAnimation =
+        Tween<double>(begin: 1, end: 0).chain(_widthTween).animate(_controller);
 
     _leftWidthAnimation = Tween<double>(begin: width / 2, end: width / 2)
         .chain(_widthTween)
@@ -179,6 +187,16 @@ class _ImpellerStartEndsButtonState
         .animate(_controller);
 
     _controller.forward();
+    Future.delayed(
+      Duration(milliseconds: (_duration * (_opacityTiming + 0.2)).toInt()),
+      function,
+    );
+  }
+
+  void _onTapChecklist(VoidCallback function) {
+    _checklistOpacityAnimation =
+        Tween<double>(begin: 1, end: 1).chain(_widthTween).animate(_controller);
+
     Future.delayed(
       Duration(milliseconds: (_duration * (_opacityTiming + 0.2)).toInt()),
       function,
@@ -271,28 +289,30 @@ class _ImpellerStartEndsButtonState
                 ),
             const SizedBox(height: LayoutConstant.spaceM),
             FadeTransition(
-              opacity: _topOpacityAnimation,
+              opacity: _checklistOpacityAnimation,
               child: _buildButton(
-                  active: isChecklistActivate && workBaseNameCheck(),
-                  backgroundColor: ThemeConstant.dominantColor,
-                  controller: _controller,
-                  ignoring: widget.ignoring,
-                  name: '체크리스트',
-                  onTap: () {
-                    final impeller = ref.watch(impellerNotifier);
-                    ref
-                        .read(checklistStateNotifierProvider.notifier)
-                        .mapEventToState(
-                          ChecklistEvent.fetchChecklistForImpeller(impeller),
-                        );
+                active: isChecklistActivate && workBaseNameCheck(),
+                backgroundColor: ThemeConstant.dominantColor,
+                controller: _controller,
+                ignoring: widget.ignoring,
+                name: '체크리스트',
+                onTap: () => _onTapChecklist(widget.onChecklistButtonPressed),
+                // onTap: () {
+                //   final impeller = ref.watch(impellerNotifier);
+                //   ref
+                //       .read(checklistStateNotifierProvider.notifier)
+                //       .mapEventToState(
+                //         ChecklistEvent.fetchChecklistForImpeller(impeller),
+                //       );
 
-                    Navigator.of(context).push(
-                      CustomSlideRoute(
-                        backgroundColor: Colors.black.withOpacity(.2),
-                        builder: (context) => const ChecklistPopup(),
-                      ),
-                    );
-                  }),
+                //   Navigator.of(context).push(
+                //     CustomSlideRoute(
+                //       backgroundColor: Colors.black.withOpacity(.2),
+                //       builder: (context) => const ChecklistPopup(),
+                //     ),
+                //   );
+                // },
+              ),
             ),
           ],
         );

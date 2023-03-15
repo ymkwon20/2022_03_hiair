@@ -92,6 +92,7 @@ class _FP3WidgetState extends ConsumerState<FP3Screen>
             ],
             child: FP3Popup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              workOrder: ref.watch(workOrderListNotifier).filteredItems[index],
             ),
           ),
         ),
@@ -489,7 +490,7 @@ class _FP3WidgetState extends ConsumerState<FP3Screen>
     Color color;
     final notifier = ref.watch(workOrderListNotifier);
 
-    if (notifier.items[index].status == WorkOrderStatus.resuming) {
+    if (notifier.filteredItems[index].status == WorkOrderStatus.resuming) {
       color = Colors.amber;
     } else {
       color = Colors.transparent;

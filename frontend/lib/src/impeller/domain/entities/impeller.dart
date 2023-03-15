@@ -40,6 +40,7 @@ class Impeller extends IImpeller implements TableCellEntity {
     required String partNo,
     required String bldType,
     required String bldQTY,
+    required String spec,
   }) : super(
           code: code,
           planSeq: planSeq,
@@ -62,6 +63,7 @@ class Impeller extends IImpeller implements TableCellEntity {
           partNo: partNo,
           bldType: bldType,
           bldQTY: bldQTY,
+          spec: spec,
         );
 
   String get statusKr {
@@ -92,6 +94,7 @@ class Impeller extends IImpeller implements TableCellEntity {
         'partNo': partNo,
         'bldType': bldType,
         'bldQTY': bldQTY,
+        'spec': spec,
       }[key];
 
   @override
@@ -122,7 +125,8 @@ class Impeller extends IImpeller implements TableCellEntity {
         other.qrString == qrString &&
         other.partNo == partNo &&
         other.bldType == bldType &&
-        other.bldQTY == bldQTY;
+        other.bldQTY == bldQTY &&
+        other.spec == spec;
   }
 
   @override
@@ -150,7 +154,8 @@ class Impeller extends IImpeller implements TableCellEntity {
         qrString.hashCode ^
         partNo.hashCode ^
         bldType.hashCode ^
-        bldQTY.hashCode;
+        bldQTY.hashCode ^
+        spec.hashCode;
   }
 
   Impeller copyWith({
@@ -179,6 +184,7 @@ class Impeller extends IImpeller implements TableCellEntity {
     String? partNo,
     String? bldType,
     String? bldQTY,
+    String? spec,
   }) {
     return Impeller(
       code: code ?? this.code,
@@ -206,6 +212,7 @@ class Impeller extends IImpeller implements TableCellEntity {
       partNo: partNo ?? this.partNo,
       bldType: bldType ?? this.bldType,
       bldQTY: bldQTY ?? this.bldQTY,
+      spec: spec ?? this.spec,
     );
   }
 }

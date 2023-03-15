@@ -107,6 +107,7 @@ class _ImpellerSingleListWidgetState extends ConsumerState<ImpellerSingleScreen>
             ],
             child: ImpellerSinglePopup(
               canSaveBothStartAndEnd: widget.canSaveBothStartAndEnd,
+              impeller: ref.watch(impellerListNotifier).filteredItems[index],
             ),
           ),
         ),
@@ -442,9 +443,9 @@ class _ImpellerSingleListWidgetState extends ConsumerState<ImpellerSingleScreen>
     Color color;
     final notifier = ref.watch(impellerListNotifier);
 
-    if (notifier.items[index].status == ImpellerStatus.resuming) {
+    if (notifier.filteredItems[index].status == ImpellerStatus.resuming) {
       color = Colors.amber;
-    } else if (notifier.items[index].rmk != "") {
+    } else if (notifier.filteredItems[index].rmk != "") {
       color = Colors.cyan;
     } else {
       color = Colors.transparent;

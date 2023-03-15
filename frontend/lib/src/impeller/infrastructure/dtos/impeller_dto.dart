@@ -42,6 +42,7 @@ class ImpellerDto extends IImpeller {
     required String partNo,
     required String bldType,
     required String bldQTY,
+    required String spec,
   }) : super(
           code: code,
           planSeq: planSeq,
@@ -64,6 +65,7 @@ class ImpellerDto extends IImpeller {
           partNo: partNo,
           bldType: bldType,
           bldQTY: bldQTY,
+          spec: spec,
         );
 
   factory ImpellerDto.fromDomain(Impeller domain) {
@@ -93,6 +95,7 @@ class ImpellerDto extends IImpeller {
       partNo: domain.partNo,
       bldType: domain.bldType,
       bldQTY: domain.bldQTY,
+      spec: domain.spec,
     );
   }
 
@@ -123,6 +126,7 @@ class ImpellerDto extends IImpeller {
       partNo: partNo,
       bldType: bldType,
       bldQTY: bldQTY,
+      spec: spec,
     );
   }
 
@@ -152,6 +156,7 @@ class ImpellerDto extends IImpeller {
       'partNo': partNo,
       'bldType': bldType,
       'bldQTY': bldQTY,
+      'spec': spec,
     };
   }
 
@@ -192,6 +197,7 @@ class ImpellerDto extends IImpeller {
       partNo: map["PART_NO"] ?? "",
       bldType: map["BLADETYPE"] ?? "",
       bldQTY: map["BLADE_QTY"] ?? "",
+      spec: map["SPEC"] ?? "",
     );
   }
 
@@ -226,6 +232,7 @@ class ImpellerDto extends IImpeller {
     String? partNo,
     String? bldType,
     String? bldQTY,
+    String? spec,
   }) {
     return ImpellerDto(
       code: code ?? this.code,
@@ -253,6 +260,7 @@ class ImpellerDto extends IImpeller {
       partNo: partNo ?? this.partNo,
       bldType: bldType ?? this.bldType,
       bldQTY: bldQTY ?? this.bldQTY,
+      spec: spec ?? this.spec,
     );
   }
 
@@ -284,7 +292,8 @@ class ImpellerDto extends IImpeller {
         other.qrString == qrString &&
         other.partNo == partNo &&
         other.bldType == bldType &&
-        other.bldQTY == bldQTY;
+        other.bldQTY == bldQTY &&
+        other.spec == spec;
   }
 
   @override
@@ -312,6 +321,7 @@ class ImpellerDto extends IImpeller {
         qrString.hashCode ^
         partNo.hashCode ^
         bldType.hashCode ^
-        bldQTY.hashCode;
+        bldQTY.hashCode ^
+        spec.hashCode;
   }
 }

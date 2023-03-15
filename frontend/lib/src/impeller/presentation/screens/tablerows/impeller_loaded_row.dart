@@ -40,6 +40,10 @@ class ImpellerLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
+              order.spec,
+              style: style,
+            ),
+            Text(
               order.rmk,
               style: style,
             ),

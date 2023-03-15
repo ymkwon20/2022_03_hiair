@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_work_order.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
@@ -9,6 +10,7 @@ import 'package:frontend/src/fwp/presentation/screens/rmk_update_popup.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_event.dart';
 import 'package:frontend/src/workorder/application/work_order/save/work_order_save_state.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
+import 'package:frontend/src/workorder/domain/entities/work_order.dart';
 import 'package:frontend/src/workorder/presentation/screens/work_order_start_end_button.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,14 +19,15 @@ class FWPPopup extends ConsumerWidget {
   const FWPPopup({
     Key? key,
     required this.canSaveBothStartAndEnd,
+    required this.workOrder,
   }) : super(key: key);
 
   final bool canSaveBothStartAndEnd;
+  final WorkOrder workOrder;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width / 2;
-    final workOrder = ref.watch(workOrderNotifier);
     return Material(
       color: Colors.transparent,
       child: GestureDetector(
@@ -141,7 +144,7 @@ class FWPPopup extends ConsumerWidget {
                           },
                           onEndPressed: () {
                             Navigator.of(context).pop();
-                            final workOrder = ref.watch(workOrderNotifier);
+                            // final workOrder = ref.watch(workOrderNotifier);
                             ref
                                 .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(
@@ -176,7 +179,7 @@ class FWPPopup extends ConsumerWidget {
                           },
                           onStartAndEndPressed: () {
                             Navigator.of(context).pop();
-                            final workOrder = ref.watch(workOrderNotifier);
+                            // final workOrder = ref.watch(workOrderNotifier);
                             ref
                                 .read(checklistStateNotifierProvider.notifier)
                                 .mapEventToState(
@@ -211,6 +214,21 @@ class FWPPopup extends ConsumerWidget {
                           ignoring:
                               ref.watch(workOrderSaveStateNotifierProvider) ==
                                   const WorkOrderSaveState.saving(),
+                          onChecklistButtonPressed: () {
+                            ref
+                                .read(checklistStateNotifierProvider.notifier)
+                                .mapEventToState(
+                                  ChecklistEvent.fetchChecklistForWorkOrder(
+                                      workOrder),
+                                );
+
+                            Navigator.of(context).push(
+                              CustomSlideRoute(
+                                backgroundColor: Colors.black.withOpacity(.2),
+                                builder: (context) => const ChecklistPopup(),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
