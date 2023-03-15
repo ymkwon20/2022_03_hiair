@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/checklist/application/load/checklist_event.dart';
 import 'package:frontend/src/checklist/dependency_injection.dart';
+import 'package:frontend/src/checklist/presentation/widgets/checklist_popup.dart';
 import 'package:frontend/src/checklist/presentation/widgets/checklist_popup_for_impeller_single.dart';
 import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
@@ -263,6 +264,21 @@ class ImpellerSinglePopup extends ConsumerWidget {
                           ignoring:
                               ref.watch(impellerSaveStateNotifierProvider) ==
                                   const ImpellerSaveState.saving(),
+                          onChecklistButtonPressed: () {
+                            ref
+                                .read(checklistStateNotifierProvider.notifier)
+                                .mapEventToState(
+                                  ChecklistEvent.fetchChecklistForImpeller(
+                                      impeller),
+                                );
+
+                            Navigator.of(context).push(
+                              CustomSlideRoute(
+                                backgroundColor: Colors.black.withOpacity(.2),
+                                builder: (context) => const ChecklistPopup(),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),

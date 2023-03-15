@@ -22,6 +22,7 @@ class WorkOrderStartEndButtons extends ConsumerStatefulWidget {
     required this.onSavePressed,
     required this.onStartAndEndPressed,
     required this.onStartAndSavePressed,
+    required this.onChecklistButtonPressed,
     this.ignoring = false,
   }) : super(key: key);
 
@@ -33,6 +34,7 @@ class WorkOrderStartEndButtons extends ConsumerStatefulWidget {
   final VoidCallback onSavePressed;
   final VoidCallback? onStartAndEndPressed;
   final VoidCallback? onStartAndSavePressed;
+  final VoidCallback onChecklistButtonPressed;
 
   final bool ignoring;
 
@@ -60,6 +62,7 @@ class _WorkerStartEndButtonsState
   late Animation<double> _rightOpacityAnimation;
   late Animation<double> _topOpacityAnimation;
   late Animation<double> _bottomOpacityAnimation;
+  late Animation<double> _checklistOpacityAnimation;
 
   /// 전체 크기 계산
   double width = 0;
@@ -78,6 +81,7 @@ class _WorkerStartEndButtonsState
     _rightOpacityAnimation = _opacityTween.animate(_controller);
     _topOpacityAnimation = ConstantTween(1.0).animate(_controller);
     _bottomOpacityAnimation = ConstantTween(1.0).animate(_controller);
+    _checklistOpacityAnimation = ConstantTween(1.0).animate(_controller);
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _setSize();
@@ -120,43 +124,47 @@ class _WorkerStartEndButtonsState
   }
 
   void _setSize() {
-    setState(() {
-      final RenderBox renderBox = context.findRenderObject() as RenderBox;
-      width = renderBox.size.width;
-      if (isStartActive) {
-        _leftWidthAnimation = Tween<double>(begin: width / 2, end: width)
-            .chain(_widthTween)
-            .animate(_controller);
-        _rightWidthAnimation = Tween<double>(begin: width / 2, end: 0)
-            .chain(_widthTween)
-            .animate(_controller);
-        _leftOpacityAnimation = Tween<double>(begin: 1, end: 1)
-            .chain(_widthTween)
-            .animate(_controller);
-        _rightOpacityAnimation = Tween<double>(begin: 1, end: 0)
-            .chain(_widthTween)
-            .animate(_controller);
-      } else {
-        _leftWidthAnimation = Tween<double>(begin: width / 2, end: 0)
-            .chain(_widthTween)
-            .animate(_controller);
-        _rightWidthAnimation = Tween<double>(begin: width / 2, end: width)
-            .chain(_widthTween)
-            .animate(_controller);
-        _leftOpacityAnimation = Tween<double>(begin: 1, end: 0)
-            .chain(_widthTween)
-            .animate(_controller);
-        _rightOpacityAnimation = Tween<double>(begin: 1, end: 1)
-            .chain(_widthTween)
-            .animate(_controller);
-      }
-    });
+    setState(
+      () {
+        final RenderBox renderBox = context.findRenderObject() as RenderBox;
+        width = renderBox.size.width;
+        if (isStartActive) {
+          _leftWidthAnimation = Tween<double>(begin: width / 2, end: width)
+              .chain(_widthTween)
+              .animate(_controller);
+          _rightWidthAnimation = Tween<double>(begin: width / 2, end: 0)
+              .chain(_widthTween)
+              .animate(_controller);
+          _leftOpacityAnimation = Tween<double>(begin: 1, end: 1)
+              .chain(_widthTween)
+              .animate(_controller);
+          _rightOpacityAnimation = Tween<double>(begin: 1, end: 0)
+              .chain(_widthTween)
+              .animate(_controller);
+        } else {
+          _leftWidthAnimation = Tween<double>(begin: width / 2, end: 0)
+              .chain(_widthTween)
+              .animate(_controller);
+          _rightWidthAnimation = Tween<double>(begin: width / 2, end: width)
+              .chain(_widthTween)
+              .animate(_controller);
+          _leftOpacityAnimation = Tween<double>(begin: 1, end: 0)
+              .chain(_widthTween)
+              .animate(_controller);
+          _rightOpacityAnimation = Tween<double>(begin: 1, end: 1)
+              .chain(_widthTween)
+              .animate(_controller);
+        }
+      },
+    );
   }
 
   void _onTap(VoidCallback function) {
     _topOpacityAnimation =
         Tween<double>(begin: 1, end: 1).chain(_widthTween).animate(_controller);
     _bottomOpacityAnimation =
+        Tween<double>(begin: 1, end: 0).chain(_widthTween).animate(_controller);
+    _checklistOpacityAnimation =
         Tween<double>(begin: 1, end: 0).chain(_widthTween).animate(_controller);
 
     _controller.forward();
@@ -171,6 +179,8 @@ class _WorkerStartEndButtonsState
         Tween<double>(begin: 1, end: 0).chain(_widthTween).animate(_controller);
     _bottomOpacityAnimation =
         Tween<double>(begin: 1, end: 1).chain(_widthTween).animate(_controller);
+    _checklistOpacityAnimation =
+        Tween<double>(begin: 1, end: 0).chain(_widthTween).animate(_controller);
 
     _leftWidthAnimation = Tween<double>(begin: width / 2, end: width / 2)
         .chain(_widthTween)
@@ -180,6 +190,16 @@ class _WorkerStartEndButtonsState
         .animate(_controller);
 
     _controller.forward();
+    Future.delayed(
+      Duration(milliseconds: (_duration * (_opacityTiming + 0.2)).toInt()),
+      function,
+    );
+  }
+
+  void _onTapChecklist(VoidCallback function) {
+    _checklistOpacityAnimation =
+        Tween<double>(begin: 1, end: 1).chain(_widthTween).animate(_controller);
+
     Future.delayed(
       Duration(milliseconds: (_duration * (_opacityTiming + 0.2)).toInt()),
       function,
@@ -272,28 +292,15 @@ class _WorkerStartEndButtonsState
                 ),
             const SizedBox(height: LayoutConstant.spaceM),
             FadeTransition(
-              opacity: _topOpacityAnimation,
+              opacity: _checklistOpacityAnimation,
               child: _buildButton(
-                  active: isChecklistActivate && workBaseNameCheck(),
-                  backgroundColor: ThemeConstant.dominantColor,
-                  controller: _controller,
-                  ignoring: widget.ignoring,
-                  name: '체크리스트',
-                  onTap: () {
-                    final workOrder = ref.watch(workOrderNotifier);
-                    ref
-                        .read(checklistStateNotifierProvider.notifier)
-                        .mapEventToState(
-                          ChecklistEvent.fetchChecklistForWorkOrder(workOrder),
-                        );
-
-                    Navigator.of(context).push(
-                      CustomSlideRoute(
-                        backgroundColor: Colors.black.withOpacity(.2),
-                        builder: (context) => const ChecklistPopup(),
-                      ),
-                    );
-                  }),
+                active: isChecklistActivate && workBaseNameCheck(),
+                backgroundColor: ThemeConstant.dominantColor,
+                controller: _controller,
+                ignoring: widget.ignoring,
+                name: '체크리스트',
+                onTap: () => _onTapChecklist(widget.onChecklistButtonPressed),
+              ),
             ),
           ],
         );
