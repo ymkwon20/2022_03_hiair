@@ -383,7 +383,7 @@ class _FRLWidgetState extends ConsumerState<FRLScreen>
                   title: "제작업체",
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
-                    _navigateTo("inside");
+                    _navigateTo("workwcnm");
                   },
                   children: _buildAdditionalIcons("workwcnm"),
                 ),
