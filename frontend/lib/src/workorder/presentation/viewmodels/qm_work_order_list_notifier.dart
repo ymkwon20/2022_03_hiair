@@ -67,7 +67,7 @@ class QmWorkOrderListNotifier with ChangeNotifier {
 
   /// 선택된 item
   List<QmWorkOrder> get selectedItem =>
-      selectedIndex.map((index) => _items[index]).toList();
+      selectedIndex.map((index) => filteredItems[index]).toList();
 
   void removeFilter(String key) {
     filterMap.remove(key);

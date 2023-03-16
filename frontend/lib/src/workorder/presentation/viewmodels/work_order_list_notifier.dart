@@ -110,7 +110,7 @@ class WorkOrderListNotifier with ChangeNotifier {
 
   /// 선택된 item
   List<WorkOrder> get selectedItem =>
-      selectedIndex.map((index) => _items[index]).toList();
+      selectedIndex.map((index) => filteredItems[index]).toList();
 
   /// 선택한 아이템들 모두 값이 비어 있는지(=저장할 수 있는지) 확인
   bool get isStartActive {

@@ -106,7 +106,7 @@ class ImpellerListNotifier with ChangeNotifier {
   }
 
   List<Impeller> get selectedItem =>
-      selectedIndex.map((index) => _items[index]).toList();
+      selectedIndex.map((index) => filteredItems[index]).toList();
 
   bool get isStartActive {
     return selectedIndex.firstWhere(
