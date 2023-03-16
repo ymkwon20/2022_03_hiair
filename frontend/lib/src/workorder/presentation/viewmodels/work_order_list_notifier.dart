@@ -115,44 +115,19 @@ class WorkOrderListNotifier with ChangeNotifier {
   /// 선택한 아이템들 모두 값이 비어 있는지(=저장할 수 있는지) 확인
   bool get isStartActive {
     return selectedIndex.firstWhere(
-            (index) => _items[index].dateStart.isNotEmpty,
+            (index) => filteredItems[index].dateStart.isNotEmpty,
             orElse: () => -1) ==
         -1;
-
-    //// Original logic
-    // bool isActive = true;
-    //
-    // for (final index in selectedIndex) {
-    //   if (qmItems[index].dateStart.isNotEmpty) {
-    //     return isActive = false;
-    //   } else {
-    //     isActive = true;
-    //   }
-    // }
-    // return isActive;
   }
 
   /// 선택한 아이템들 모두 값이 비어 있는지(=저장할 수 있는지) 확인
   bool get isEndActive {
     return selectedIndex.firstWhere(
             (index) =>
-                _items[index].dateStart.isEmpty ||
-                _items[index].dateEnd.isNotEmpty,
+                filteredItems[index].dateStart.isEmpty ||
+                filteredItems[index].dateEnd.isNotEmpty,
             orElse: () => -1) ==
         -1;
-
-    //// Original logic
-    // bool isActive = true;
-    //
-    // for (final index in selectedIndex) {
-    //   if (qmItems[index].dateStart.isNotEmpty &&
-    //       qmItems[index].dateEnd.isEmpty) {
-    //     isActive = true;
-    //   } else {
-    //     return isActive = false;
-    //   }
-    // }
-    // return isActive;
   }
 
   void removeFilter(String key) {
@@ -266,18 +241,6 @@ class WorkOrderListNotifier with ChangeNotifier {
       sortedColumn.clear();
       sortedColumn.addAll({key: true});
     }
-
-    // switch (tertiary) {
-    //   case 0:
-    //     sortedColumn.remove(key);
-    //     break;
-    //   case 1:
-    //     sortedColumn.addAll({key: true});
-    //     break;
-    //   case 2:
-    //     sortedColumn.addAll({key: false});
-    //     break;
-    // }
 
     items.sort((a, b) {
       final ascending = sortedColumn[key];

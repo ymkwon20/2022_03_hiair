@@ -202,6 +202,8 @@ class _FP4WidgetState extends ConsumerState<FP4Screen>
                 break;
             }
 
+            onRefresh(ref);
+
             showFlashBar(
               context,
               title: "저장 완료",
@@ -234,6 +236,9 @@ class _FP4WidgetState extends ConsumerState<FP4Screen>
                     .setNewListDateEnd(indice);
                 break;
             }
+
+            onRefresh(ref);
+
             showFlashBar(
               context,
               title: "저장 완료",
@@ -653,6 +658,20 @@ class _FP4WidgetState extends ConsumerState<FP4Screen>
         ),
       ),
     );
+  }
+
+  Future<void> onRefresh(WidgetRef ref) async {
+    ref.read(workOrderListNotifier.notifier).clear();
+    await refreshList(ref);
+  }
+
+  Future<void> refreshList(ref) async {
+    await ref.read(workOrderStateNotifierProvider.notifier).mapEventToState(
+          WorkOrderEvent.fetchListByPage(
+            ref.watch(workOrderListNotifier).items,
+            ref.watch(workOrderListNotifier).page,
+          ),
+        );
   }
 
   List<Widget> _buildAdditionalIcons(String key) {
