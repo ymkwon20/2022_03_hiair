@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/bad_control/presentation/widgets/bad_control_popup.dart';
+import 'package:frontend/src/core/dependency_injection.dart';
 import 'package:frontend/src/core/presentation/layout_constant.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/pages/menu_item.dart';
@@ -11,6 +12,7 @@ import 'package:frontend/src/impeller/dependency_injection.dart';
 import 'package:frontend/src/impeller/presentation/viewmodels/barcode_notifier.dart';
 import 'package:frontend/src/safety/application/info/safety_info_event.dart';
 import 'package:frontend/src/safety/dependency_injection.dart';
+import 'package:frontend/src/version/application/version_event.dart';
 import 'package:frontend/src/version/application/version_state.dart';
 import 'package:frontend/src/version/infrastructure/dependency_injection.dart';
 import 'package:frontend/src/work_base/application/work_base_event.dart';
@@ -19,6 +21,7 @@ import 'package:frontend/src/work_base/dependency_injection.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 enum WorkCode {
   work,
@@ -29,7 +32,9 @@ enum WorkCode {
 }
 
 class WorkerMenuScreen extends ConsumerStatefulWidget {
-  const WorkerMenuScreen({Key? key}) : super(key: key);
+  const WorkerMenuScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   ConsumerState<WorkerMenuScreen> createState() => _WorkerMenuScreenState();
@@ -37,10 +42,14 @@ class WorkerMenuScreen extends ConsumerStatefulWidget {
 
 class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
   bool onceClicked = false;
+  String curVersion = "";
+  String newVersion = "";
 
   @override
   void initState() {
     super.initState();
+
+    getVersionInfo();
 
     Future.microtask(
       () => ref
@@ -94,11 +103,27 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
       }),
     );
 
+    ref.listen<BarcodeState>(
+      barcodeStateNotifierProvider,
+      ((previous, current) {
+        current.when(
+          initial: (barcode) {},
+          loading: (barcode) {},
+          loaded: (barcode) {
+            ref.read(barcodeNotifier.notifier).setOrderList(barcode);
+          },
+          failure: (barcode, message) {},
+        );
+      }),
+    );
+
     ref.listen<VersionState>(
       versionStateNotifierProvider,
       (previous, current) {
         current.maybeWhen(
           outdated: (localVersion, latestVersion) {
+            curVersion = localVersion;
+            newVersion = latestVersion;
             Navigator.of(context).push(
               CustomScaleRoute(
                 builder: (context) => VersionDialog(
@@ -112,20 +137,6 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
           orElse: () {},
         );
       },
-    );
-
-    ref.listen<BarcodeState>(
-      barcodeStateNotifierProvider,
-      ((previous, current) {
-        current.when(
-          initial: (barcode) {},
-          loading: (barcode) {},
-          loaded: (barcode) {
-            ref.read(barcodeNotifier.notifier).setOrderList(barcode);
-          },
-          failure: (barcode, message) {},
-        );
-      }),
     );
 
     return Scaffold(
@@ -170,14 +181,58 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
               width: MediaQuery.of(context).size.width / 3,
               height: 50,
             ),
+            // const SizedBox(height: LayoutConstant.spaceM),
+            // buildMenuButton(
+            //   context,
+            //   ref,
+            //   code: WorkCode.badControl,
+            //   title: "업체별 불량관리",
+            //   width: MediaQuery.of(context).size.width / 3,
+            //   height: 50,
+            // ),
             const SizedBox(height: LayoutConstant.spaceM),
-            buildMenuButton(
-              context,
-              ref,
-              code: WorkCode.badControl,
-              title: "업체별 불량관리",
-              width: MediaQuery.of(context).size.width / 3,
-              height: 50,
+            ElevatedButton(
+              onPressed: () {
+                if (newVersion == "") {
+                  showFlashBar(
+                    context,
+                    title: "업데이트 오류",
+                    content: "최신 버전 정보를 불러오지 못했습니다.",
+                    backgroundColor: Theme.of(context).errorColor,
+                  );
+                } else if (newVersion == curVersion) {
+                  showFlashBar(
+                    context,
+                    title: "버전 업데이트",
+                    content: "이미 최신 버전입니다.",
+                    backgroundColor: Theme.of(context).errorColor,
+                  );
+                } else {
+                  Navigator.of(context).push(
+                    CustomScaleRoute(
+                      builder: (context) => VersionDialog(
+                        localVersion: curVersion,
+                        latestVersion: newVersion,
+                      ),
+                      backgroundColor: Colors.black.withOpacity(.2),
+                    ),
+                  );
+                }
+              },
+              child: const Text(
+                "버전 업데이트",
+                style: TextStyle(
+                  fontSize: 22,
+                ),
+              ),
+            ),
+            const SizedBox(height: LayoutConstant.spaceL),
+            Text(
+              "현재 버전 : " + curVersion,
+              style: const TextStyle(
+                fontSize: 22,
+                color: Colors.black,
+              ),
             ),
           ],
         ),
@@ -264,5 +319,16 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> getVersionInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    final response = await ref.watch(dioProvider).get("/apk");
+
+    setState(() {
+      curVersion = packageInfo.version;
+      newVersion = response.data[0]["APK_V"];
+    });
   }
 }
