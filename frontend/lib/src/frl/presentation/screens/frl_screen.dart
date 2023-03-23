@@ -202,6 +202,8 @@ class _FRLWidgetState extends ConsumerState<FRLScreen>
                 break;
             }
 
+            onRefresh(ref);
+
             showFlashBar(
               context,
               title: "저장 완료",
@@ -234,6 +236,9 @@ class _FRLWidgetState extends ConsumerState<FRLScreen>
                     .setNewListDateEnd(indice);
                 break;
             }
+
+            onRefresh(ref);
+
             showFlashBar(
               context,
               title: "저장 완료",
@@ -383,7 +388,7 @@ class _FRLWidgetState extends ConsumerState<FRLScreen>
                   title: "제작업체",
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
-                    _navigateTo("inside");
+                    _navigateTo("workwcnm");
                   },
                   children: _buildAdditionalIcons("workwcnm"),
                 ),
@@ -603,6 +608,20 @@ class _FRLWidgetState extends ConsumerState<FRLScreen>
         ),
       ),
     );
+  }
+
+  Future<void> onRefresh(WidgetRef ref) async {
+    ref.read(workOrderListNotifier.notifier).clear();
+    await refreshList(ref);
+  }
+
+  Future<void> refreshList(ref) async {
+    await ref.read(workOrderStateNotifierProvider.notifier).mapEventToState(
+          WorkOrderEvent.fetchListByPage(
+            ref.watch(workOrderListNotifier).items,
+            ref.watch(workOrderListNotifier).page,
+          ),
+        );
   }
 
   List<Widget> _buildAdditionalIcons(String key) {

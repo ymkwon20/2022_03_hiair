@@ -106,11 +106,11 @@ class ImpellerListNotifier with ChangeNotifier {
   }
 
   List<Impeller> get selectedItem =>
-      selectedIndex.map((index) => _items[index]).toList();
+      selectedIndex.map((index) => filteredItems[index]).toList();
 
   bool get isStartActive {
     return selectedIndex.firstWhere(
-            (index) => _items[index].dateStart.isNotEmpty,
+            (index) => filteredItems[index].dateStart.isNotEmpty,
             orElse: () => -1) ==
         -1;
   }
@@ -118,8 +118,8 @@ class ImpellerListNotifier with ChangeNotifier {
   bool get isEndActive {
     return selectedIndex.firstWhere(
             (index) =>
-                _items[index].dateStart.isEmpty ||
-                _items[index].dateEnd.isNotEmpty,
+                filteredItems[index].dateStart.isEmpty ||
+                filteredItems[index].dateEnd.isNotEmpty,
             orElse: () => -1) ==
         -1;
   }

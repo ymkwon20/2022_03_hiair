@@ -202,6 +202,8 @@ class _ImpellerSingleListWidgetState extends ConsumerState<ImpellerSingleScreen>
                 break;
             }
 
+            onRefresh(ref);
+
             showFlashBar(
               context,
               title: "저장 완료",
@@ -234,6 +236,9 @@ class _ImpellerSingleListWidgetState extends ConsumerState<ImpellerSingleScreen>
                     .setNewListDateEnd(indice);
                 break;
             }
+
+            onRefresh(ref);
+
             showFlashBar(
               context,
               title: "저장 완료",
@@ -614,6 +619,20 @@ class _ImpellerSingleListWidgetState extends ConsumerState<ImpellerSingleScreen>
         ),
       ),
     );
+  }
+
+  Future<void> onRefresh(WidgetRef ref) async {
+    ref.read(impellerListNotifier.notifier).clear();
+    await refreshList(ref);
+  }
+
+  Future<void> refreshList(ref) async {
+    await ref.read(impellerStateNotifierProvider.notifier).mapEventToState(
+          ImpellerEvent.fetchListByPage(
+            ref.watch(impellerListNotifier).items,
+            ref.watch(impellerListNotifier).page,
+          ),
+        );
   }
 
   List<Widget> _buildAdditionalIcons(String key) {

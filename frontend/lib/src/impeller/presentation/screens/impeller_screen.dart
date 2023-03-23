@@ -199,6 +199,8 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                 break;
             }
 
+            onRefresh(ref);
+
             showFlashBar(
               context,
               title: "저장 완료",
@@ -231,6 +233,9 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                     .setNewListDateEnd(indice);
                 break;
             }
+
+            onRefresh(ref);
+
             showFlashBar(
               context,
               title: "저장 완료",
@@ -310,7 +315,7 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                 CustomTableHeader(
                   name: "bldAngle",
                   title: "Angle",
-                  width: 130,
+                  width: 80,
                   onTap: ref.read(impellerListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("bldAngle");
@@ -320,7 +325,7 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                 CustomTableHeader(
                   name: "yard",
                   title: "Yard",
-                  width: 130,
+                  width: 80,
                   onTap: ref.read(impellerListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("yard");
@@ -330,7 +335,7 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                 CustomTableHeader(
                   name: "hullNo",
                   title: "Hull No",
-                  width: 150,
+                  width: 100,
                   onTap: ref.read(impellerListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("hullNo");
@@ -369,7 +374,7 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                 CustomTableHeader(
                   name: "shaft",
                   title: "SHAFT",
-                  width: 130,
+                  width: 100,
                   onTap: ref.read(impellerListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("shaft");
@@ -389,7 +394,7 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                 CustomTableHeader(
                   name: "rmk",
                   title: "RMK",
-                  width: 130,
+                  width: 110,
                   onTap: ref.read(impellerListNotifier.notifier).sort,
                   onLongTap: () {
                     _navigateTo("rmk");
@@ -620,6 +625,20 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
         ),
       ),
     );
+  }
+
+  Future<void> onRefresh(WidgetRef ref) async {
+    ref.read(impellerListNotifier.notifier).clear();
+    await refreshList(ref);
+  }
+
+  Future<void> refreshList(ref) async {
+    await ref.read(impellerStateNotifierProvider.notifier).mapEventToState(
+          ImpellerEvent.fetchListByPage(
+            ref.watch(impellerListNotifier).items,
+            ref.watch(impellerListNotifier).page,
+          ),
+        );
   }
 
   List<Widget> _buildAdditionalIcons(String key) {
