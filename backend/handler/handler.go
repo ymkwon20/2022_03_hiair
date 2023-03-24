@@ -1152,7 +1152,7 @@ func (a *AppHandler) getChecklistActivate(w http.ResponseWriter, r *http.Request
 
 func (a *AppHandler) saveBadControl(w http.ResponseWriter, r *http.Request) {
 	var params map[string]interface{}
-
+	fmt.Println(params)
 	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Header().Set("Content-Type", "application/json")
