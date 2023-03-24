@@ -63,6 +63,7 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/wb", a.getWorkbaselist).Methods("GET")
 	r.HandleFunc("/menu", a.getQmMenulist).Methods("GET")
 	r.HandleFunc("/images", imgUploadHandler).Methods("POST")
+	r.HandleFunc("/imagesByPath", imgUploadHandlerByPath).Methods("POST")
 	r.HandleFunc("/safety", a.getSafetyInfos).Methods("GET")
 	r.HandleFunc("/safety/{code}", a.getSafetyItems).Methods("GET")
 	r.HandleFunc("/safety", a.saveSafetyChecks).Methods("POST")
