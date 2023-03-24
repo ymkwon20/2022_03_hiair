@@ -1151,33 +1151,33 @@ func (a *AppHandler) getChecklistActivate(w http.ResponseWriter, r *http.Request
 }
 
 func (a *AppHandler) saveBadControl(w http.ResponseWriter, r *http.Request) {
-	var params map[string]interface{}
-	fmt.Println(params)
-	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Header().Set("Content-Type", "application/json")
-
-		errMsg := make(map[string]interface{})
-		errMsg["msg"] = err.Error()
-		jData, _ := json.Marshal(errMsg)
-		w.Write(jData)
-		return
-	}
+	queryString := r.URL.Query()
+	yard := queryString.Get("yard")
+	hullNo := queryString.Get("hullNo")
+	sysNo := queryString.Get("sysNo")
+	itemNo := queryString.Get("itemNo")
+	wccd := queryString.Get("wccd")
+	wcnm := queryString.Get("wcnm")
+	badcd := queryString.Get("badcd")
+	badnm := queryString.Get("badnm")
+	rmk := queryString.Get("rmk")
+	workId := queryString.Get("work-id")
+	org1fn := queryString.Get("org1fn")
 
 	query := fmt.Sprintf(`
 	EXEC SP_TABLET_PHT_03_MERGE '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s';
 	`,
-		params["yard"],
-		params["hullNo"],
-		params["sysNo"],
-		params["itemNo"],
-		params["wccd"],
-		params["wcnm"],
-		params["badcd"],
-		params["badnm"],
-		params["rmk"],
-		params["work-id"],
-		params["org1fn"],
+		yard,
+		hullNo,
+		sysNo,
+		itemNo,
+		wccd,
+		wcnm,
+		badcd,
+		badnm,
+		rmk,
+		workId,
+		org1fn,
 	)
 
 	_, err := a.db.CallDML(query)
