@@ -64,6 +64,7 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/menu", a.getQmMenulist).Methods("GET")
 	r.HandleFunc("/images", imgUploadHandler).Methods("POST")
 	r.HandleFunc("/imagesByPath", imgUploadHandlerByPath).Methods("POST")
+	r.HandleFunc("/saveImageWorkOrder", a.saveImageWorkOrder).Methods("POST")
 	r.HandleFunc("/safety", a.getSafetyInfos).Methods("GET")
 	r.HandleFunc("/safety/{code}", a.getSafetyItems).Methods("GET")
 	r.HandleFunc("/safety", a.saveSafetyChecks).Methods("POST")
@@ -1695,6 +1696,32 @@ func (a *AppHandler) rmkUpdate(w http.ResponseWriter, r *http.Request) {
 	query := fmt.Sprintf(`
 	EXEC  SP_TABLET_ORD_RMK_01_UPDATE '%s', '%s', '%s', '%s', '%s';
 	`, params["plan-seq"], params["wo-nb"], params["wc-cd"], params["wb-cd"], params["rmk"])
+
+	_, err := a.db.CallDML(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+}
+
+func (a *AppHandler) saveImageWorkOrder(w http.ResponseWriter, r *http.Request) {
+	queryString := r.URL.Query()
+	WB_KEY := queryString.Get("WB_KEY")
+	NEW1_FN := queryString.Get("NEW1_FN")
+	WORK_ID := queryString.Get("WORK_ID")
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_PHT_02_MERGE '%s', '%s', '%s';
+	`, WB_KEY, NEW1_FN, WORK_ID)
 
 	_, err := a.db.CallDML(query)
 	if err != nil {
