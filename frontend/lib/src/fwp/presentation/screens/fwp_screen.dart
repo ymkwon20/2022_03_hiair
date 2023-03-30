@@ -347,14 +347,24 @@ class _FWPWidgetState extends ConsumerState<FWPScreen>
                   children: _buildAdditionalIcons("itemSpec"),
                 ),
                 CustomTableHeader(
-                  name: "swingType",
+                  name: "size",
+                  title: "SIZE",
+                  width: 130,
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("size");
+                  },
+                  children: _buildAdditionalIcons("size"),
+                ),
+                CustomTableHeader(
+                  name: "swingTypeNM",
                   title: "Swing Type",
                   width: 130,
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
-                    _navigateTo("swingType");
+                    _navigateTo("swingTypeNM");
                   },
-                  children: _buildAdditionalIcons("swingType"),
+                  children: _buildAdditionalIcons("swingTypeNM"),
                 ),
                 CustomTableHeader(
                   name: "frame",

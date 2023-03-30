@@ -393,6 +393,15 @@ class _FAYWidgetState extends ConsumerState<FAYScreen>
                   children: _buildAdditionalIcons("fanType"),
                 ),
                 CustomTableHeader(
+                  name: "swingTypeNM",
+                  title: "SWING TYPE",
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("swingTypeNM");
+                  },
+                  children: _buildAdditionalIcons("swingTypeNM"),
+                ),
+                CustomTableHeader(
                   name: "itemSpec",
                   title: "제품규격",
                   width: 130,
@@ -401,6 +410,16 @@ class _FAYWidgetState extends ConsumerState<FAYScreen>
                     _navigateTo("itemSpec");
                   },
                   children: _buildAdditionalIcons("itemSpec"),
+                ),
+                CustomTableHeader(
+                  name: "size",
+                  title: "SIZE",
+                  width: 130,
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("size");
+                  },
+                  children: _buildAdditionalIcons("size"),
                 ),
                 CustomTableHeader(
                   name: "motorColor",

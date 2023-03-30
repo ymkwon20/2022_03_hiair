@@ -450,13 +450,13 @@ class _FELWidgetState extends ConsumerState<FELScreen>
                   children: _buildAdditionalIcons("wonb"),
                 ),
                 CustomTableHeader(
-                  name: "swingType",
+                  name: "swingTypeNM",
                   title: "SWING TYPE",
                   onTap: ref.read(workOrderListNotifier.notifier).sort,
                   onLongTap: () {
-                    _navigateTo("swingType");
+                    _navigateTo("swingTypeNM");
                   },
-                  children: _buildAdditionalIcons("swingType"),
+                  children: _buildAdditionalIcons("swingTypeNM"),
                 ),
                 CustomTableHeader(
                   name: "tagNo",

@@ -31,6 +31,7 @@ class QmWorkOrderDto extends IWorkOrder {
     required String reqDT,
     required String cfmDate,
     required int swingType,
+    required String swingTypeNM,
     required String frame,
     required String material,
     required String motorColor,
@@ -78,6 +79,7 @@ class QmWorkOrderDto extends IWorkOrder {
           reqDT: reqDT,
           cfmDate: cfmDate,
           swingType: swingType,
+          swingTypeNM: swingTypeNM,
           frame: frame,
           material: material,
           motorColor: motorColor,
@@ -128,6 +130,7 @@ class QmWorkOrderDto extends IWorkOrder {
       reqDT: domain.reqDT,
       cfmDate: domain.cfmDate,
       swingType: domain.swingType,
+      swingTypeNM: domain.swingTypeNM,
       frame: domain.frame,
       material: domain.material,
       motorColor: domain.motorColor,
@@ -179,6 +182,7 @@ class QmWorkOrderDto extends IWorkOrder {
       reqDT: reqDT,
       cfmDate: cfmDate,
       swingType: swingType,
+      swingTypeNM: swingTypeNM,
       frame: frame,
       material: material,
       motorColor: motorColor,
@@ -230,6 +234,7 @@ class QmWorkOrderDto extends IWorkOrder {
       'reqDT': reqDT,
       'cfmDate': cfmDate,
       'swingType': swingType,
+      'swingTypeNM': swingTypeNM,
       'frame': frame,
       'material': material,
       'motorColor': motorColor,
@@ -281,6 +286,7 @@ class QmWorkOrderDto extends IWorkOrder {
       reqDT: map["REQ_DT"] ?? "",
       cfmDate: map["CFM_DATE"] ?? "",
       swingType: map["SwingType"]?.toInt() ?? 0,
+      swingTypeNM: map["SwingType_NM"] ?? "",
       frame: map["Frame"] ?? "",
       material: map["Material"] ?? "",
       motorColor: map["MotorColor"] ?? "",
@@ -336,6 +342,7 @@ class QmWorkOrderDto extends IWorkOrder {
     String? reqDT,
     String? cfmDate,
     int? swingType,
+    String? swingTypeNM,
     String? frame,
     String? material,
     String? motorColor,
@@ -384,6 +391,7 @@ class QmWorkOrderDto extends IWorkOrder {
       reqDT: reqDT ?? this.reqDT,
       cfmDate: cfmDate ?? this.cfmDate,
       swingType: swingType ?? this.swingType,
+      swingTypeNM: swingTypeNM ?? this.swingTypeNM,
       frame: frame ?? this.frame,
       material: material ?? this.material,
       motorColor: motorColor ?? this.motorColor,
@@ -438,6 +446,7 @@ class QmWorkOrderDto extends IWorkOrder {
         other.reqDT == reqDT &&
         other.cfmDate == cfmDate &&
         other.swingType == swingType &&
+        other.swingTypeNM == swingTypeNM &&
         other.frame == frame &&
         other.material == material &&
         other.motorColor == motorColor &&
@@ -488,6 +497,7 @@ class QmWorkOrderDto extends IWorkOrder {
         reqDT.hashCode ^
         cfmDate.hashCode ^
         swingType.hashCode ^
+        swingTypeNM.hashCode ^
         frame.hashCode ^
         material.hashCode ^
         motorColor.hashCode ^

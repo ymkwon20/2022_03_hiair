@@ -36,7 +36,11 @@ class FWPLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
-              "${order.swingType}",
+              order.size,
+              style: style,
+            ),
+            Text(
+              order.swingTypeNM,
               style: style,
             ),
             Text(

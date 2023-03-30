@@ -77,6 +77,9 @@ abstract class IWorkOrder {
   // SwingType : Swing Type
   final int swingType;
 
+  // SwingTypeNM : Swing Type NM
+  final String swingTypeNM;
+
   // Frame : Frame
   final String frame;
 
@@ -164,6 +167,7 @@ abstract class IWorkOrder {
     required this.reqDT,
     required this.cfmDate,
     required this.swingType,
+    required this.swingTypeNM,
     required this.frame,
     required this.material,
     required this.motorColor,

@@ -44,7 +44,15 @@ class FAYLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
+              order.swingTypeNM,
+              style: style,
+            ),
+            Text(
               order.itemSpec,
+              style: style,
+            ),
+            Text(
+              order.size,
               style: style,
             ),
             Text(

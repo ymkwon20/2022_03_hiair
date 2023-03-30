@@ -32,6 +32,10 @@ class FP4LoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
+              order.size,
+              style: style,
+            ),
+            Text(
               order.inside,
               style: style,
             ),
