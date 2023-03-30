@@ -12,9 +12,6 @@ import 'package:frontend/src/impeller/dependency_injection.dart';
 import 'package:frontend/src/impeller/presentation/viewmodels/barcode_notifier.dart';
 import 'package:frontend/src/safety/application/info/safety_info_event.dart';
 import 'package:frontend/src/safety/dependency_injection.dart';
-import 'package:frontend/src/version/application/version_event.dart';
-import 'package:frontend/src/version/application/version_state.dart';
-import 'package:frontend/src/version/infrastructure/dependency_injection.dart';
 import 'package:frontend/src/work_base/application/work_base_event.dart';
 import 'package:frontend/src/work_base/application/work_base_state.dart';
 import 'package:frontend/src/work_base/dependency_injection.dart';
@@ -117,30 +114,31 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
       }),
     );
 
-    ref.listen<VersionState>(
-      versionStateNotifierProvider,
-      (previous, current) {
-        current.maybeWhen(
-          outdated: (localVersion, latestVersion) {
-            curVersion = localVersion;
-            newVersion = latestVersion;
-            Navigator.of(context).push(
-              CustomScaleRoute(
-                builder: (context) => VersionDialog(
-                  localVersion: localVersion,
-                  latestVersion: latestVersion,
-                ),
-                backgroundColor: Colors.black.withOpacity(.2),
-              ),
-            );
-          },
-          orElse: () {},
-        );
-      },
-    );
+    // ref.listen<VersionState>(
+    //   versionStateNotifierProvider,
+    //   (previous, current) {
+    //     current.maybeWhen(
+    //       outdated: (localVersion, latestVersion) {
+    //         curVersion = localVersion;
+    //         newVersion = latestVersion;
+    //         Navigator.of(context).push(
+    //           CustomScaleRoute(
+    //             builder: (context) => VersionDialog(
+    //               localVersion: localVersion,
+    //               latestVersion: latestVersion,
+    //             ),
+    //             backgroundColor: Colors.black.withOpacity(.2),
+    //           ),
+    //         );
+    //       },
+    //       orElse: () {},
+    //     );
+    //   },
+    // );
 
     return Scaffold(
       appBar: const HomeAppBar(title: "작업 선택"),
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -181,15 +179,15 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
               width: MediaQuery.of(context).size.width / 3,
               height: 50,
             ),
-            // const SizedBox(height: LayoutConstant.spaceM),
-            // buildMenuButton(
-            //   context,
-            //   ref,
-            //   code: WorkCode.badControl,
-            //   title: "업체별 불량관리",
-            //   width: MediaQuery.of(context).size.width / 3,
-            //   height: 50,
-            // ),
+            const SizedBox(height: LayoutConstant.spaceM),
+            buildMenuButton(
+              context,
+              ref,
+              code: WorkCode.badControl,
+              title: "업체별 불량관리",
+              width: MediaQuery.of(context).size.width / 3,
+              height: 50,
+            ),
             const SizedBox(height: LayoutConstant.spaceM),
             ElevatedButton(
               onPressed: () {
@@ -225,10 +223,13 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
                   fontSize: 22,
                 ),
               ),
+              style: ElevatedButton.styleFrom(
+                primary: getButtonColor(),
+              ),
             ),
             const SizedBox(height: LayoutConstant.spaceL),
             Text(
-              "현재 버전 : " + curVersion,
+              "현재 버전 : " + curVersion + "    최신 버전 : " + newVersion,
               style: const TextStyle(
                 fontSize: 22,
                 color: Colors.black,
@@ -305,7 +306,7 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
         height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(LayoutConstant.radiusM),
-          color: Theme.of(context).primaryColorDark,
+          color: getMenuButtonColor(code),
         ),
         alignment: Alignment.center,
         child: Text(
@@ -330,5 +331,34 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
       curVersion = packageInfo.version;
       newVersion = response.data[0]["APK_V"];
     });
+
+    if (newVersion != curVersion) {
+      Navigator.of(context).push(
+        CustomScaleRoute(
+          builder: (context) => VersionDialog(
+            localVersion: curVersion,
+            latestVersion: newVersion,
+          ),
+          backgroundColor: Colors.black.withOpacity(.2),
+        ),
+      );
+    }
+  }
+
+  Color getButtonColor() {
+    if (curVersion == newVersion || newVersion == "") {
+      return Colors.grey;
+    } else {
+      return Colors.blue;
+    }
+  }
+
+  getMenuButtonColor(code) {
+    if (code == WorkCode.badControl) {
+      // return Colors.grey;
+      return Theme.of(context).primaryColorDark;
+    } else {
+      return Theme.of(context).primaryColorDark;
+    }
   }
 }

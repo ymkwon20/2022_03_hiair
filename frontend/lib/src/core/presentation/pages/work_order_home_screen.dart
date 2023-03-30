@@ -5,6 +5,7 @@ import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/pages/menu_item.dart';
 import 'package:frontend/src/core/presentation/widgets/home_app_bar.dart';
+import 'package:frontend/src/core/presentation/widgets/work_order_app_bar.dart';
 import 'package:frontend/src/work_base/presentation/work_base_change_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -36,7 +37,7 @@ class WorkOrderHomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: HomeAppBar(
+      appBar: WorkOrderAppBar(
         title:
             "${ref.watch(workBaseChangeNotifierProvider).workBase?.wcName ?? ""} | ${ref.watch(workBaseChangeNotifierProvider).workBase?.wbName ?? ""}",
       ),

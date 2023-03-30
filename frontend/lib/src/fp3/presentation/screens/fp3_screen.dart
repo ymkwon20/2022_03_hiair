@@ -365,6 +365,16 @@ class _FP3WidgetState extends ConsumerState<FP3Screen>
                   children: _buildAdditionalIcons("itemSpec"),
                 ),
                 CustomTableHeader(
+                  name: "size",
+                  title: "SIZE",
+                  width: 130,
+                  onTap: ref.read(workOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("size");
+                  },
+                  children: _buildAdditionalIcons("size"),
+                ),
+                CustomTableHeader(
                   name: "inside",
                   title: "INSIDE",
                   width: 1500,

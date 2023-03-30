@@ -68,7 +68,7 @@ class FELLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
-              order.swingType.toString(),
+              order.swingTypeNM,
               style: style,
             ),
             Text(
