@@ -70,6 +70,7 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/safety", a.saveSafetyChecks).Methods("POST")
 	r.HandleFunc("/safety/repair", a.saveSafetyRepair).Methods("POST")
 	r.HandleFunc("/rmk", a.rmkUpdate).Methods("POST")
+	r.HandleFunc("/notice", a.getNotice).Methods("GET")
 	return a
 }
 
@@ -1737,4 +1738,56 @@ func (a *AppHandler) saveImageWorkOrder(w http.ResponseWriter, r *http.Request) 
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+}
+
+func (a *AppHandler) getNotice(w http.ResponseWriter, r *http.Request) {
+
+	query := fmt.Sprintf(`EXEC SP_MNT_INSP_MEMO_01_SELECT;`)
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	var isNextAvailable bool
+	if results == nil {
+		isNextAvailable = false
+	} else if len(results) == 0 {
+		isNextAvailable = false
+	} else {
+		isNextAvailable = results[0].(map[string]interface{})["CAN_LOAD_NEXT"].(bool)
+	}
+
+	data := make(map[string]interface{})
+	data["is_next_available"] = isNextAvailable
+
+	if results == nil {
+		results = make([]interface{}, 0)
+	}
+
+	data["data"] = results
+
+	response, err := json.Marshal(data)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(response)
 }
