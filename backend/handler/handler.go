@@ -1741,12 +1741,10 @@ func (a *AppHandler) saveImageWorkOrder(w http.ResponseWriter, r *http.Request) 
 }
 
 func (a *AppHandler) getNotice(w http.ResponseWriter, r *http.Request) {
-
-	query := fmt.Sprintf(`EXEC SP_MNT_INSP_MEMO_01_SELECT;`)
+	query := fmt.Sprintf("EXEC SP_MNT_INSP_MEMO_01_SELECT;")
 
 	results, err := a.db.CallProcedure(query)
 	if err != nil {
-		log.Print(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Header().Set("Content-Type", "application/json")
 
@@ -1756,26 +1754,7 @@ func (a *AppHandler) getNotice(w http.ResponseWriter, r *http.Request) {
 		w.Write(jData)
 		return
 	}
-
-	var isNextAvailable bool
-	if results == nil {
-		isNextAvailable = false
-	} else if len(results) == 0 {
-		isNextAvailable = false
-	} else {
-		isNextAvailable = results[0].(map[string]interface{})["CAN_LOAD_NEXT"].(bool)
-	}
-
-	data := make(map[string]interface{})
-	data["is_next_available"] = isNextAvailable
-
-	if results == nil {
-		results = make([]interface{}, 0)
-	}
-
-	data["data"] = results
-
-	response, err := json.Marshal(data)
+	jData, err := json.Marshal(results)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Header().Set("Content-Type", "application/json")
@@ -1785,9 +1764,9 @@ func (a *AppHandler) getNotice(w http.ResponseWriter, r *http.Request) {
 		jData, _ := json.Marshal(errMsg)
 		w.Write(jData)
 		return
-	}
 
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(response)
+	w.Write(jData)
 }
