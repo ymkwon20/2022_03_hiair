@@ -52,6 +52,7 @@ class QmWorkOrderDto extends IWorkOrder {
     required String rmk,
     required String tagNo,
     required String workwcnm,
+    required String partNo,
   }) : super(
           code: code,
           itemNo: itemNo,
@@ -100,6 +101,7 @@ class QmWorkOrderDto extends IWorkOrder {
           rmk: rmk,
           tagNo: tagNo,
           workwcnm: workwcnm,
+          partNo: partNo,
         );
 
   factory QmWorkOrderDto.fromDomain(QmWorkOrder domain) {
@@ -151,6 +153,7 @@ class QmWorkOrderDto extends IWorkOrder {
       rmk: domain.rmk,
       tagNo: domain.tagNo,
       workwcnm: domain.workwcnm,
+      partNo: domain.partNo,
     );
   }
 
@@ -203,6 +206,7 @@ class QmWorkOrderDto extends IWorkOrder {
       rmk: rmk,
       tagNo: tagNo,
       workwcnm: workwcnm,
+      partNo: partNo,
     );
   }
 
@@ -255,6 +259,7 @@ class QmWorkOrderDto extends IWorkOrder {
       'rmk': rmk,
       'tagNo': tagNo,
       'workwcnm': workwcnm,
+      'partNo': partNo,
     };
   }
 
@@ -307,6 +312,7 @@ class QmWorkOrderDto extends IWorkOrder {
       rmk: map["RMK"] ?? "",
       tagNo: map["TagNo"] ?? "",
       workwcnm: map["WORK_WC_NM"] ?? "",
+      partNo: map["PART_NO"] ?? "",
     );
   }
 
@@ -363,6 +369,7 @@ class QmWorkOrderDto extends IWorkOrder {
     String? rmk,
     String? tagNo,
     String? workwcnm,
+    String? partNo,
   }) {
     return QmWorkOrderDto(
       code: code ?? this.code,
@@ -412,6 +419,7 @@ class QmWorkOrderDto extends IWorkOrder {
       rmk: rmk ?? this.rmk,
       tagNo: tagNo ?? this.tagNo,
       workwcnm: workwcnm ?? this.workwcnm,
+      partNo: partNo ?? this.partNo,
     );
   }
 
@@ -466,7 +474,8 @@ class QmWorkOrderDto extends IWorkOrder {
         other.fanType == fanType &&
         other.rmk == rmk &&
         other.tagNo == tagNo &&
-        other.workwcnm == workwcnm;
+        other.workwcnm == workwcnm &&
+        other.partNo == partNo;
   }
 
   @override
@@ -517,6 +526,7 @@ class QmWorkOrderDto extends IWorkOrder {
         fanType.hashCode ^
         rmk.hashCode ^
         tagNo.hashCode ^
-        workwcnm.hashCode;
+        workwcnm.hashCode ^
+        partNo.hashCode;
   }
 }

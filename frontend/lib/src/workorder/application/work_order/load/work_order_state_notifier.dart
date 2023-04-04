@@ -51,7 +51,7 @@ class WorkOrderStateNotifier extends StateNotifier<WorkOrderState> {
           "wc-cd": _workbase.workBase!.wcCode,
           "yard": yard,
           "hullno": hullNo,
-          "page": page,
+          // "page": page,
         };
 
         final resultsOrFailure = await _searchItems(params);

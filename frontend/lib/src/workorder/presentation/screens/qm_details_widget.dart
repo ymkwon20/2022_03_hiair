@@ -68,7 +68,7 @@ class QmDetailsWidget extends ConsumerWidget {
           const UnderlineWidget(),
           _ItemRow(title: "Sys No.", value: workOrder.sysNo),
           const UnderlineWidget(),
-          _ItemRow(title: "품번", value: workOrder.itemNo),
+          _ItemRow(title: "품번", value: workOrder.partNo),
           const UnderlineWidget(),
           _ItemRow(title: "수량", value: "${workOrder.qty}"),
           const SizedBox(height: LayoutConstant.spaceM),

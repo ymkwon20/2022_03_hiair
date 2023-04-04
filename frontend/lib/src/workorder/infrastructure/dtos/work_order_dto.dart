@@ -65,6 +65,7 @@ class WorkOrderDto extends IWorkOrder {
     required String rmk,
     required String tagNo,
     required String workwcnm,
+    required String partNo,
     required this.dateStart,
     required this.dateEnd,
     required this.dateEndBefore,
@@ -117,6 +118,7 @@ class WorkOrderDto extends IWorkOrder {
           rmk: rmk,
           tagNo: tagNo,
           workwcnm: workwcnm,
+          partNo: partNo,
         );
 
   factory WorkOrderDto.fromDomain(WorkOrder domain) {
@@ -172,63 +174,64 @@ class WorkOrderDto extends IWorkOrder {
       rmk: domain.rmk,
       tagNo: domain.tagNo,
       workwcnm: domain.workwcnm,
+      partNo: domain.partNo,
     );
   }
 
   WorkOrder toDomain() {
     return WorkOrder(
-      code: code,
-      itemNo: itemNo,
-      date: date,
-      dateStart: dateStart,
-      dateEnd: dateEnd,
-      dateEndBefore: dateEndBefore,
-      ship: ship,
-      planSeq: planSeq,
-      hullNo: hullNo,
-      qty: qty,
-      sysNo: sysNo,
-      yard: yard,
-      wbCd: wbCd,
-      wcCd: wcCd,
-      wbNm: wbNm,
-      status: status,
-      chkDiv: chkDiv,
-      wonb: wonb,
-      spec: spec,
-      size: size,
-      pndDate: pndDate,
-      ironPlateThickness: ironPlateThickness,
-      ironPlateWidth: ironPlateWidth,
-      ironPlateHeight: ironPlateHeight,
-      doorLength: doorLength,
-      hollUpDown: hollUpDown,
-      rmkDC: rmkDC,
-      reqDT: reqDT,
-      cfmDate: cfmDate,
-      swingType: swingType,
-      swingTypeNM: swingTypeNM,
-      frame: frame,
-      material: material,
-      motorColor: motorColor,
-      itemSpec: itemSpec,
-      inside: inside,
-      inDomar: inDomar,
-      outside: outside,
-      outDomar: outDomar,
-      befCloseDT: befCloseDT,
-      chkSchDT: chkSchDT,
-      shotDT: shotDT,
-      weight: weight,
-      mtrOutDT: mtrOutDT,
-      custltemName: custltemName,
-      bladeAngle: bladeAngle,
-      chkTblDT: chkTblDT,
-      fanType: fanType,
-      rmk: rmk,
-      tagNo: tagNo,
-      workwcnm: workwcnm,
-    );
+        code: code,
+        itemNo: itemNo,
+        date: date,
+        dateStart: dateStart,
+        dateEnd: dateEnd,
+        dateEndBefore: dateEndBefore,
+        ship: ship,
+        planSeq: planSeq,
+        hullNo: hullNo,
+        qty: qty,
+        sysNo: sysNo,
+        yard: yard,
+        wbCd: wbCd,
+        wcCd: wcCd,
+        wbNm: wbNm,
+        status: status,
+        chkDiv: chkDiv,
+        wonb: wonb,
+        spec: spec,
+        size: size,
+        pndDate: pndDate,
+        ironPlateThickness: ironPlateThickness,
+        ironPlateWidth: ironPlateWidth,
+        ironPlateHeight: ironPlateHeight,
+        doorLength: doorLength,
+        hollUpDown: hollUpDown,
+        rmkDC: rmkDC,
+        reqDT: reqDT,
+        cfmDate: cfmDate,
+        swingType: swingType,
+        swingTypeNM: swingTypeNM,
+        frame: frame,
+        material: material,
+        motorColor: motorColor,
+        itemSpec: itemSpec,
+        inside: inside,
+        inDomar: inDomar,
+        outside: outside,
+        outDomar: outDomar,
+        befCloseDT: befCloseDT,
+        chkSchDT: chkSchDT,
+        shotDT: shotDT,
+        weight: weight,
+        mtrOutDT: mtrOutDT,
+        custltemName: custltemName,
+        bladeAngle: bladeAngle,
+        chkTblDT: chkTblDT,
+        fanType: fanType,
+        rmk: rmk,
+        tagNo: tagNo,
+        workwcnm: workwcnm,
+        partNo: partNo);
   }
 
   Map<String, dynamic> toMap() {
@@ -283,6 +286,7 @@ class WorkOrderDto extends IWorkOrder {
       'rmk': rmk,
       'tagNo': tagNo,
       'workwcnm': workwcnm,
+      'partNo': partNo,
     };
   }
 
@@ -349,6 +353,7 @@ class WorkOrderDto extends IWorkOrder {
       rmk: map["RMK"] ?? "",
       tagNo: map["TagNo"] ?? "",
       workwcnm: map["WORK_WC_NM"] ?? "",
+      partNo: map["PART_NO"] ?? "",
     );
   }
 
@@ -409,6 +414,7 @@ class WorkOrderDto extends IWorkOrder {
     String? rmk,
     String? tagNo,
     String? workwcnm,
+    String? partNo,
   }) {
     return WorkOrderDto(
       code: code ?? this.code,
@@ -462,6 +468,7 @@ class WorkOrderDto extends IWorkOrder {
       rmk: rmk ?? this.rmk,
       tagNo: tagNo ?? this.tagNo,
       workwcnm: workwcnm ?? this.workwcnm,
+      partNo: partNo ?? this.partNo,
     );
   }
 
@@ -520,7 +527,8 @@ class WorkOrderDto extends IWorkOrder {
         other.fanType == fanType &&
         other.rmk == rmk &&
         other.tagNo == tagNo &&
-        other.workwcnm == workwcnm;
+        other.workwcnm == workwcnm &&
+        other.partNo == partNo;
   }
 
   @override
@@ -575,6 +583,7 @@ class WorkOrderDto extends IWorkOrder {
         fanType.hashCode ^
         rmk.hashCode ^
         tagNo.hashCode ^
-        workwcnm.hashCode;
+        workwcnm.hashCode ^
+        partNo.hashCode;
   }
 }
