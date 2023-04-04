@@ -41,12 +41,14 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
   bool onceClicked = false;
   String curVersion = "";
   String newVersion = "";
+  String memo = "";
 
   @override
   void initState() {
     super.initState();
 
     getVersionInfo();
+    getNoticeInfo();
 
     Future.microtask(
       () => ref
@@ -343,6 +345,25 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
         ),
       );
     }
+  }
+
+  Future<void> getNoticeInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    final response = await ref.watch(dioProvider).get("/notice");
+
+    setState(() {
+      memo = response.data[0]["MEMO"].replaceAll("&nbsp", " ");
+    });
+
+    Navigator.of(context).push(
+      CustomScaleRoute(
+        builder: (context) => NoticeDialog(
+          memo: memo,
+        ),
+        backgroundColor: Colors.black.withOpacity(.2),
+      ),
+    );
   }
 
   Color getButtonColor() {

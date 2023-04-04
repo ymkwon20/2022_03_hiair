@@ -266,6 +266,42 @@ class _Button extends StatelessWidget {
   }
 }
 
+class _ButtonV2 extends StatelessWidget {
+  const _ButtonV2({
+    Key? key,
+    required this.name,
+    required this.fontColor,
+    this.isPrimary = false,
+    this.onTap,
+  }) : super(key: key);
+
+  final String name;
+  final bool isPrimary;
+  final VoidCallback? onTap;
+  final Color fontColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: LayoutConstant.paddingS),
+        child: Text(
+          name,
+          textAlign: TextAlign.center,
+          style: isPrimary
+              ? TextStyle(
+                  color: fontColor,
+                  // fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                )
+              : const TextStyle(fontSize: 20),
+        ),
+      ),
+    );
+  }
+}
+
 class ImagePickerDialog extends StatelessWidget {
   const ImagePickerDialog({
     Key? key,
@@ -1042,6 +1078,86 @@ class CheckAlterResultDialog extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: LayoutConstant.spaceM),
+        ],
+      ),
+    );
+  }
+}
+
+class NoticeDialog extends StatelessWidget {
+  const NoticeDialog({
+    Key? key,
+    required this.memo,
+  }) : super(key: key);
+
+  final String memo;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      width: MediaQuery.of(context).size.width / 1.5,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: LayoutConstant.paddingM,
+            ),
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(LayoutConstant.radiusM),
+                )),
+            alignment: Alignment.center,
+            child: const Text(
+              "공지사항",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          const SizedBox(height: LayoutConstant.spaceM),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: LayoutConstant.paddingL),
+            child: Text.rich(
+              TextSpan(
+                text: memo,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          const SizedBox(height: LayoutConstant.spaceM),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: LayoutConstant.paddingM,
+                  ),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondary,
+                      borderRadius: const BorderRadius.vertical(
+                        bottom: Radius.circular(LayoutConstant.radiusM),
+                      )),
+                  alignment: Alignment.center,
+                  child: _ButtonV2(
+                    isPrimary: true,
+                    name: "닫기",
+                    fontColor: Colors.white,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
