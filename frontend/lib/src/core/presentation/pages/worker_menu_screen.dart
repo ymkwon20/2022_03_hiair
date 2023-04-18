@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/bad_control/presentation/widgets/bad_control_popup.dart';
+import 'package:frontend/src/bad_control/presentation/widgets/bad_control_popup_for_safety.dart';
 import 'package:frontend/src/core/dependency_injection.dart';
 import 'package:frontend/src/core/presentation/layout_constant.dart';
 import 'package:frontend/src/core/presentation/pages/custom_route.dart';
@@ -261,14 +262,23 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
               context.push("/workbase");
               break;
             case WorkCode.safety:
-              const code = "S";
-              ref.read(safetyInfoNotifierProvider.notifier).setCode(code);
-              ref
-                  .read(safetyInfoStateNotifierProvider.notifier)
-                  .mapEventToState(
-                    const SafetyInfoEvent.fetchSafetyInfos(code),
-                  );
-              context.push("/safety", extra: title);
+              // const code = "S";
+              // ref.read(safetyInfoNotifierProvider.notifier).setCode(code);
+              // ref
+              //     .read(safetyInfoStateNotifierProvider.notifier)
+              //     .mapEventToState(
+              //       const SafetyInfoEvent.fetchSafetyInfos(code),
+              //     );
+              // context.push("/safety", extra: title);
+              // break;
+              Navigator.of(context).push(
+                CustomSlideRoute(
+                  backgroundColor: Colors.black.withOpacity(.2),
+                  builder: (BuildContext context) {
+                    return const BadControlForSafetyPopup();
+                  },
+                ),
+              );
               break;
             case WorkCode.infra:
               const code = "E";

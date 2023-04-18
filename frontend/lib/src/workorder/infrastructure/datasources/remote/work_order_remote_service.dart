@@ -64,7 +64,7 @@ class WorkOrderRemoteService implements WorkOrderService {
       Map<String, dynamic> params) async {
     try {
       final response = await _dio.get(
-        "/search",
+        "/search2",
         queryParameters: params,
       );
 

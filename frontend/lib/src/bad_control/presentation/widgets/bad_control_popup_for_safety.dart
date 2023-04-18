@@ -10,14 +10,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-class BadControlPopup extends ConsumerStatefulWidget {
-  const BadControlPopup({Key? key}) : super(key: key);
+class BadControlForSafetyPopup extends ConsumerStatefulWidget {
+  const BadControlForSafetyPopup({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<BadControlPopup> createState() => _BadControlPopupState();
+  ConsumerState<BadControlForSafetyPopup> createState() =>
+      _BadControlForSafetyPopupState();
 }
 
-class _BadControlPopupState extends ConsumerState<BadControlPopup> {
+class _BadControlForSafetyPopupState
+    extends ConsumerState<BadControlForSafetyPopup> {
   TextEditingController yardController = TextEditingController();
   TextEditingController hullNoController = TextEditingController();
   TextEditingController sysNoController = TextEditingController();
@@ -161,7 +163,7 @@ class _BadControlPopupState extends ConsumerState<BadControlPopup> {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "업체별 불량 관리",
+                                "안전 점검",
                                 style: TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
@@ -178,184 +180,184 @@ class _BadControlPopupState extends ConsumerState<BadControlPopup> {
                                   children: <Widget>[
                                     const SizedBox(
                                         height: LayoutConstant.spaceL),
-                                    Row(
-                                      children: const [
-                                        Expanded(
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: LayoutConstant.spaceM,
-                                              horizontal: LayoutConstant.spaceL,
-                                            ),
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                "Yard",
-                                                style: TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: LayoutConstant.spaceM,
-                                              horizontal: LayoutConstant.spaceL,
-                                            ),
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                "HullNo",
-                                                style: TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: LayoutConstant.spaceM,
-                                              horizontal: LayoutConstant.spaceL,
-                                            ),
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: TextField(
-                                                controller: yardController,
-                                                decoration:
-                                                    const InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  labelText: 'Yard',
-                                                ),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: LayoutConstant.spaceM,
-                                              horizontal: LayoutConstant.spaceL,
-                                            ),
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: TextField(
-                                                controller: hullNoController,
-                                                decoration:
-                                                    const InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  labelText: 'Hull No',
-                                                ),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                        height: LayoutConstant.spaceL),
-                                    Row(
-                                      children: const [
-                                        Expanded(
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: LayoutConstant.spaceM,
-                                              horizontal: LayoutConstant.spaceL,
-                                            ),
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                "SysNo",
-                                                style: TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: LayoutConstant.spaceM,
-                                              horizontal: LayoutConstant.spaceL,
-                                            ),
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                "품번",
-                                                style: TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: LayoutConstant.spaceM,
-                                              horizontal: LayoutConstant.spaceL,
-                                            ),
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: TextField(
-                                                controller: sysNoController,
-                                                decoration:
-                                                    const InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  labelText: 'Sys No',
-                                                ),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: LayoutConstant.spaceM,
-                                              horizontal: LayoutConstant.spaceL,
-                                            ),
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: TextField(
-                                                controller: itemNoController,
-                                                decoration:
-                                                    const InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  labelText: 'Item No',
-                                                ),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    // Row(
+                                    //   children: const [
+                                    //     Expanded(
+                                    //       child: Padding(
+                                    //         padding: EdgeInsets.symmetric(
+                                    //           vertical: LayoutConstant.spaceM,
+                                    //           horizontal: LayoutConstant.spaceL,
+                                    //         ),
+                                    //         child: Align(
+                                    //           alignment: Alignment.centerLeft,
+                                    //           child: Text(
+                                    //             "Yard",
+                                    //             style: TextStyle(
+                                    //               fontSize: 24,
+                                    //               fontWeight: FontWeight.bold,
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     Expanded(
+                                    //       child: Padding(
+                                    //         padding: EdgeInsets.symmetric(
+                                    //           vertical: LayoutConstant.spaceM,
+                                    //           horizontal: LayoutConstant.spaceL,
+                                    //         ),
+                                    //         child: Align(
+                                    //           alignment: Alignment.centerLeft,
+                                    //           child: Text(
+                                    //             "HullNo",
+                                    //             style: TextStyle(
+                                    //               fontSize: 24,
+                                    //               fontWeight: FontWeight.bold,
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // Row(
+                                    //   children: [
+                                    //     Expanded(
+                                    //       child: Padding(
+                                    //         padding: const EdgeInsets.symmetric(
+                                    //           vertical: LayoutConstant.spaceM,
+                                    //           horizontal: LayoutConstant.spaceL,
+                                    //         ),
+                                    //         child: Align(
+                                    //           alignment: Alignment.centerLeft,
+                                    //           child: TextField(
+                                    //             controller: yardController,
+                                    //             decoration:
+                                    //                 const InputDecoration(
+                                    //               border: OutlineInputBorder(),
+                                    //               labelText: 'Yard',
+                                    //             ),
+                                    //             style: Theme.of(context)
+                                    //                 .textTheme
+                                    //                 .bodyText1,
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     Expanded(
+                                    //       child: Padding(
+                                    //         padding: const EdgeInsets.symmetric(
+                                    //           vertical: LayoutConstant.spaceM,
+                                    //           horizontal: LayoutConstant.spaceL,
+                                    //         ),
+                                    //         child: Align(
+                                    //           alignment: Alignment.centerLeft,
+                                    //           child: TextField(
+                                    //             controller: hullNoController,
+                                    //             decoration:
+                                    //                 const InputDecoration(
+                                    //               border: OutlineInputBorder(),
+                                    //               labelText: 'Hull No',
+                                    //             ),
+                                    //             style: Theme.of(context)
+                                    //                 .textTheme
+                                    //                 .bodyText1,
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // const SizedBox(
+                                    //     height: LayoutConstant.spaceL),
+                                    // Row(
+                                    //   children: const [
+                                    //     Expanded(
+                                    //       child: Padding(
+                                    //         padding: EdgeInsets.symmetric(
+                                    //           vertical: LayoutConstant.spaceM,
+                                    //           horizontal: LayoutConstant.spaceL,
+                                    //         ),
+                                    //         child: Align(
+                                    //           alignment: Alignment.centerLeft,
+                                    //           child: Text(
+                                    //             "SysNo",
+                                    //             style: TextStyle(
+                                    //               fontSize: 24,
+                                    //               fontWeight: FontWeight.bold,
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     Expanded(
+                                    //       child: Padding(
+                                    //         padding: EdgeInsets.symmetric(
+                                    //           vertical: LayoutConstant.spaceM,
+                                    //           horizontal: LayoutConstant.spaceL,
+                                    //         ),
+                                    //         child: Align(
+                                    //           alignment: Alignment.centerLeft,
+                                    //           child: Text(
+                                    //             "품번",
+                                    //             style: TextStyle(
+                                    //               fontSize: 24,
+                                    //               fontWeight: FontWeight.bold,
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // Row(
+                                    //   children: [
+                                    //     Expanded(
+                                    //       child: Padding(
+                                    //         padding: const EdgeInsets.symmetric(
+                                    //           vertical: LayoutConstant.spaceM,
+                                    //           horizontal: LayoutConstant.spaceL,
+                                    //         ),
+                                    //         child: Align(
+                                    //           alignment: Alignment.centerLeft,
+                                    //           child: TextField(
+                                    //             controller: sysNoController,
+                                    //             decoration:
+                                    //                 const InputDecoration(
+                                    //               border: OutlineInputBorder(),
+                                    //               labelText: 'Sys No',
+                                    //             ),
+                                    //             style: Theme.of(context)
+                                    //                 .textTheme
+                                    //                 .bodyText1,
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     Expanded(
+                                    //       child: Padding(
+                                    //         padding: const EdgeInsets.symmetric(
+                                    //           vertical: LayoutConstant.spaceM,
+                                    //           horizontal: LayoutConstant.spaceL,
+                                    //         ),
+                                    //         child: Align(
+                                    //           alignment: Alignment.centerLeft,
+                                    //           child: TextField(
+                                    //             controller: itemNoController,
+                                    //             decoration:
+                                    //                 const InputDecoration(
+                                    //               border: OutlineInputBorder(),
+                                    //               labelText: 'Item No',
+                                    //             ),
+                                    //             style: Theme.of(context)
+                                    //                 .textTheme
+                                    //                 .bodyText1,
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                     const SizedBox(
                                         height: LayoutConstant.spaceM),
                                     const SizedBox(
@@ -595,26 +597,16 @@ class _BadControlPopupState extends ConsumerState<BadControlPopup> {
         .watch(dioProvider)
         .get("/unit", queryParameters: {"code": "MONI_WC"});
 
-    final response2 = await ref
-        .watch(dioProvider)
-        .get("/unit", queryParameters: {"code": "U2002084"});
-
     List<String> workCodeCDList = [];
     List<String> workCodeCDNMList = [];
-    List<String> badCodeCDList = [];
-    List<String> badCodeCDNMList = [];
+    List<String> badCodeCDList = ["U2002084011"];
+    List<String> badCodeCDNMList = ["안전 미준수"];
 
     for (int i = 0; i < response.data.length; i++) {
       workCodeCDList.add(response.data[i]['CD']);
     }
     for (int i = 0; i < response.data.length; i++) {
       workCodeCDNMList.add(response.data[i]['CD_NM']);
-    }
-    for (int i = 0; i < response2.data.length; i++) {
-      badCodeCDList.add(response2.data[i]['CD']);
-    }
-    for (int i = 0; i < response2.data.length; i++) {
-      badCodeCDNMList.add(response2.data[i]['CD_NM']);
     }
     setState(
       () {

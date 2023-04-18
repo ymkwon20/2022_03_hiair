@@ -37,8 +37,10 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/sign-in", a.signIn).Methods("POST")
 	r.HandleFunc("/order", a.getWorkOrderByWbCd).Methods("GET")
 	r.HandleFunc("/order2", a.getWorkOrderByWbCd2).Methods("GET")
+	r.HandleFunc("/corder", a.getCurrentWorkOrder).Methods("GET")
 	r.HandleFunc("/order", a.saveWorkOrder).Methods("POST")
 	r.HandleFunc("/orders", a.saveWorkOrderList).Methods("POST")
+	r.HandleFunc("/start-cancel", a.startCancel).Methods("POST")
 	r.HandleFunc("/search", a.searchWorkOrder).Methods("GET")
 	r.HandleFunc("/search2", a.searchWorkOrder2).Methods("GET")
 	r.HandleFunc("/impeller", a.getImpellerByWbCd).Methods("GET")
@@ -46,6 +48,7 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/impeller-search", a.searchImpeller).Methods("GET")
 	r.HandleFunc("/qm", a.getQmItems).Methods("GET")
 	r.HandleFunc("/qm", a.saveQmItem).Methods("POST")
+	r.HandleFunc("/qms", a.saveQmItemList).Methods("POST")
 	r.HandleFunc("/fct", a.getFctSerial).Methods("GET")
 	r.HandleFunc("/fct/{serial}", a.getFctItem).Methods("GET")
 	r.HandleFunc("/fct", a.saveFctItem).Methods("POST")
@@ -442,6 +445,52 @@ func (a *AppHandler) getWorkOrderByWbCd2(w http.ResponseWriter, r *http.Request)
 	w.Write(response)
 }
 
+func (a *AppHandler) getCurrentWorkOrder(w http.ResponseWriter, r *http.Request) {
+	queryString := r.URL.Query()
+	yard := queryString.Get("yard")
+	hullno := queryString.Get("hullno")
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_ORD_WB_SELECT '%s', '%s';`, yard, hullno)
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	data := make(map[string]interface{})
+
+	if results == nil {
+		results = make([]interface{}, 0)
+	}
+
+	data["data"] = results
+
+	response, err := json.Marshal(data)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(response)
+}
+
 func (a *AppHandler) saveWorkOrder(w http.ResponseWriter, r *http.Request) {
 	var params map[string]interface{}
 
@@ -508,6 +557,39 @@ func (a *AppHandler) saveWorkOrderList(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+}
+
+func (a *AppHandler) startCancel(w http.ResponseWriter, r *http.Request) {
+	var params map[string]interface{}
+
+	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_WBC_01_UPDATE '%s', '%s', '%s', '%s';
+	`, params["plan-seq"], params["wo-nb"], params["wc-cd"], params["wb-cd"])
+
+	_, err := a.db.CallDML(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -1689,6 +1771,44 @@ func (a *AppHandler) saveQmItem(w http.ResponseWriter, r *http.Request) {
 		jData, _ := json.Marshal(errMsg)
 		w.Write(jData)
 		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+}
+
+func (a *AppHandler) saveQmItemList(w http.ResponseWriter, r *http.Request) {
+	var paramsList []map[string]interface{}
+
+	if err := json.NewDecoder(r.Body).Decode(&paramsList); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	for i := 0; i < len(paramsList); i++ {
+		params := paramsList[i]
+
+		query := fmt.Sprintf(`
+		EXEC  SP_TABLET_QML_02_UPDATE '%s', '%s', '%s', '%s';
+		`, params["plan-seq"], params["wo-nb"], params["date"], params["user-id"])
+
+		_, err := a.db.CallDML(query)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Header().Set("Content-Type", "application/json")
+
+			errMsg := make(map[string]interface{})
+			errMsg["msg"] = err.Error()
+			jData, _ := json.Marshal(errMsg)
+			w.Write(jData)
+			return
+		}
 	}
 
 	w.Header().Set("Content-Type", "application/json")

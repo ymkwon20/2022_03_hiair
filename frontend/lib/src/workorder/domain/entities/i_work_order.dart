@@ -140,6 +140,9 @@ abstract class IWorkOrder {
   // WORK_WC_NM : 제작업체
   final String workwcnm;
 
+  // PART_NO : PART_NO
+  final String partNo;
+
   const IWorkOrder({
     required this.code,
     required this.itemNo,
@@ -188,5 +191,6 @@ abstract class IWorkOrder {
     required this.rmk,
     required this.tagNo,
     required this.workwcnm,
+    required this.partNo,
   });
 }

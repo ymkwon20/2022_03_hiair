@@ -36,7 +36,7 @@ class QmWorkOrderLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
-              order.itemNo,
+              order.partNo,
               style: style,
             ),
             Text(

@@ -289,14 +289,14 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
                   children: _buildAdditionalIcons("sysNo"),
                 ),
                 CustomTableHeader(
-                  name: "itemNo",
+                  name: "partNO",
                   title: "품번",
                   width: 130,
                   onTap: ref.read(qmWorkOrderListNotifier.notifier).sort,
                   onLongTap: () {
-                    _navigateTo("itemNo");
+                    _navigateTo("partNO");
                   },
-                  children: _buildAdditionalIcons("itemNo"),
+                  children: _buildAdditionalIcons("partNO"),
                 ),
                 CustomTableHeader(
                   name: "qty",
