@@ -41,6 +41,7 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/order", a.saveWorkOrder).Methods("POST")
 	r.HandleFunc("/orders", a.saveWorkOrderList).Methods("POST")
 	r.HandleFunc("/start-cancel", a.startCancel).Methods("POST")
+	r.HandleFunc("/start-cancels", a.startCancels).Methods("POST")
 	r.HandleFunc("/search", a.searchWorkOrder).Methods("GET")
 	r.HandleFunc("/search2", a.searchWorkOrder2).Methods("GET")
 	r.HandleFunc("/impeller", a.getImpellerByWbCd).Methods("GET")
@@ -590,6 +591,44 @@ func (a *AppHandler) startCancel(w http.ResponseWriter, r *http.Request) {
 		jData, _ := json.Marshal(errMsg)
 		w.Write(jData)
 		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+}
+
+func (a *AppHandler) startCancels(w http.ResponseWriter, r *http.Request) {
+	var paramsList []map[string]interface{}
+
+	if err := json.NewDecoder(r.Body).Decode(&paramsList); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	for i := 0; i < len(paramsList); i++ {
+		params := paramsList[i]
+
+		query := fmt.Sprintf(`
+		EXEC SP_TABLET_WBC_01_UPDATE '%s', '%s', '%s', '%s';
+		`, params["plan-seq"], params["wo-nb"], params["wc-cd"], params["wb-cd"])
+
+		_, err := a.db.CallDML(query)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Header().Set("Content-Type", "application/json")
+
+			errMsg := make(map[string]interface{})
+			errMsg["msg"] = err.Error()
+			jData, _ := json.Marshal(errMsg)
+			w.Write(jData)
+			return
+		}
 	}
 
 	w.Header().Set("Content-Type", "application/json")
