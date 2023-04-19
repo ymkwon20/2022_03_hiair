@@ -104,15 +104,15 @@ class _CurrentWorkOrderListWidgetState
         children: [
           NotificationListener<ScrollNotification>(
             onNotification: ((notification) {
-              if (notification.metrics.axis == Axis.vertical) {
-                final metrics = notification.metrics;
-                final limit =
-                    metrics.maxScrollExtent - metrics.viewportDimension / 3;
+              // if (notification.metrics.axis == Axis.vertical) {
+              //   final metrics = notification.metrics;
+              //   final limit =
+              //       metrics.maxScrollExtent - metrics.viewportDimension / 3;
 
-                if (metrics.pixels >= limit) {
-                  _fetchCurrentItems();
-                }
-              }
+              //   if (metrics.pixels >= limit) {
+              //     _fetchCurrentItems();
+              //   }
+              // }
 
               return false;
             }),
