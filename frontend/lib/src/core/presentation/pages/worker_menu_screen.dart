@@ -23,6 +23,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 enum WorkCode {
   work,
+  cwork,
   safety,
   infra,
   qm,
@@ -159,6 +160,15 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
             buildMenuButton(
               context,
               ref,
+              code: WorkCode.cwork,
+              title: "현공정조회",
+              width: MediaQuery.of(context).size.width / 3,
+              height: 50,
+            ),
+            const SizedBox(height: LayoutConstant.spaceM),
+            buildMenuButton(
+              context,
+              ref,
               code: WorkCode.infra,
               title: "설장비 점검",
               width: MediaQuery.of(context).size.width / 3,
@@ -260,6 +270,9 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
           switch (code) {
             case WorkCode.work:
               context.push("/workbase");
+              break;
+            case WorkCode.cwork:
+              context.push("/cworkorder");
               break;
             case WorkCode.safety:
               // const code = "S";

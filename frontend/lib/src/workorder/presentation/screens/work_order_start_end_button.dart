@@ -14,6 +14,7 @@ class WorkOrderStartEndButtons extends ConsumerStatefulWidget {
     required this.dateStart,
     required this.dateEnd,
     required this.onStartPressed,
+    required this.onStartCancelPressed,
     required this.onEndPressed,
     required this.onSavePressed,
     required this.onStartAndEndPressed,
@@ -26,6 +27,7 @@ class WorkOrderStartEndButtons extends ConsumerStatefulWidget {
   final String dateEnd;
 
   final VoidCallback onStartPressed;
+  final VoidCallback onStartCancelPressed;
   final VoidCallback onEndPressed;
   final VoidCallback onSavePressed;
   final VoidCallback? onStartAndEndPressed;

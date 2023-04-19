@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/workorderCurrent/presentation/pages/current_work_order_home_screen.dart';
 import 'package:frontend/src/core/presentation/pages/work_order_home_screen.dart';
 import 'package:frontend/src/core/presentation/pages/workbase_menu_screen.dart';
 import 'package:frontend/src/core/presentation/pages/worker_menu_screen.dart';
@@ -122,6 +123,16 @@ class AppRouter extends GoRouter {
               pageBuilder: (context, state) {
                 return const MaterialPage(
                   child: WorkbaseMenuScreen(),
+                );
+              },
+            ),
+            // 현공정 조회
+            GoRoute(
+              name: 'cworkorder',
+              path: '/cworkorder',
+              pageBuilder: (context, state) {
+                return const MaterialPage(
+                  child: CurrentWorkOrderHomeScreen(),
                 );
               },
             ),

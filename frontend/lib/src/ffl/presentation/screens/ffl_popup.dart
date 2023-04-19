@@ -113,6 +113,9 @@ class FFLPopup extends ConsumerWidget {
                                   ),
                                 );
                           },
+                          onStartCancelPressed: () {
+                            Navigator.of(context).pop();
+                          },
                           onEndPressed: () {
                             Navigator.of(context).pop();
                             // final workOrder = ref.watch(workOrderNotifier);
