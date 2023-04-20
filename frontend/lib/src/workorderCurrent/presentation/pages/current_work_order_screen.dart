@@ -104,16 +104,6 @@ class _CurrentWorkOrderListWidgetState
         children: [
           NotificationListener<ScrollNotification>(
             onNotification: ((notification) {
-              // if (notification.metrics.axis == Axis.vertical) {
-              //   final metrics = notification.metrics;
-              //   final limit =
-              //       metrics.maxScrollExtent - metrics.viewportDimension / 3;
-
-              //   if (metrics.pixels >= limit) {
-              //     _fetchCurrentItems();
-              //   }
-              // }
-
               return false;
             }),
             child: CustomTable(
@@ -126,36 +116,6 @@ class _CurrentWorkOrderListWidgetState
                 );
               },
               headers: [
-                CustomTableHeader(
-                  name: "PJTNo",
-                  title: "프로젝트넘버",
-                  width: 250,
-                  onTap: ref.read(currentWorkOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("PJTNo");
-                  },
-                  children: _buildAdditionalIcons("PJTNo"),
-                ),
-                CustomTableHeader(
-                  name: "pndDate",
-                  title: "PND",
-                  width: 200,
-                  onTap: ref.read(currentWorkOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("pndDate");
-                  },
-                  children: _buildAdditionalIcons("pndDate"),
-                ),
-                CustomTableHeader(
-                  name: "wonb",
-                  title: "작업지시번호",
-                  width: 200,
-                  onTap: ref.read(currentWorkOrderListNotifier.notifier).sort,
-                  onLongTap: () {
-                    _navigateTo("wonb");
-                  },
-                  children: _buildAdditionalIcons("wonb"),
-                ),
                 CustomTableHeader(
                   name: "wbNm",
                   title: "현공정",
@@ -205,8 +165,38 @@ class _CurrentWorkOrderListWidgetState
                   children: _buildAdditionalIcons("sysNo"),
                 ),
                 CustomTableHeader(
+                  name: "PJTNo",
+                  title: "SPEC",
+                  width: 250,
+                  onTap: ref.read(currentWorkOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("PJTNo");
+                  },
+                  children: _buildAdditionalIcons("PJTNo"),
+                ),
+                CustomTableHeader(
+                  name: "pndDate",
+                  title: "PND",
+                  width: 200,
+                  onTap: ref.read(currentWorkOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("pndDate");
+                  },
+                  children: _buildAdditionalIcons("pndDate"),
+                ),
+                CustomTableHeader(
+                  name: "wonb",
+                  title: "작업지시번호",
+                  width: 200,
+                  onTap: ref.read(currentWorkOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("wonb");
+                  },
+                  children: _buildAdditionalIcons("wonb"),
+                ),
+                CustomTableHeader(
                   name: "wcNm",
-                  title: "작업장명",
+                  title: "작업장",
                   width: 200,
                   onTap: ref.read(currentWorkOrderListNotifier.notifier).sort,
                   onLongTap: () {

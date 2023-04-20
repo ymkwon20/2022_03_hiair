@@ -12,18 +12,6 @@ class CurrentWorkOrderLoadedRow extends CustomTableRow {
   }) : super(
           contents: [
             Text(
-              order.pjtNo,
-              style: style,
-            ),
-            Text(
-              order.pndDate,
-              style: style,
-            ),
-            Text(
-              order.wonb,
-              style: style,
-            ),
-            Text(
               order.wbNm,
               style: style,
             ),
@@ -41,6 +29,18 @@ class CurrentWorkOrderLoadedRow extends CustomTableRow {
             ),
             Text(
               order.sysNo,
+              style: style,
+            ),
+            Text(
+              order.pjtNo,
+              style: style,
+            ),
+            Text(
+              order.pndDate,
+              style: style,
+            ),
+            Text(
+              order.wonb,
               style: style,
             ),
             Text(

@@ -21,6 +21,7 @@ class QmWorkOrderSaveStateNotifier extends StateNotifier<QmWorkOrderSaveState> {
   Future<void> mapEventToState(QmWorkOrderSaveEvent event) async {
     event.when(
       saveQmWorkOrder: _processSaveWorkorder,
+      saveQmWorkOrderList: _processSaveWorkorderList,
       resetToNone: () => state = const QmWorkOrderSaveState.none(),
     );
   }
@@ -42,5 +43,29 @@ class QmWorkOrderSaveStateNotifier extends StateNotifier<QmWorkOrderSaveState> {
       (l) => QmWorkOrderSaveState.failure(mapFailureToString(l)),
       (r) => QmWorkOrderSaveState.saved(index),
     );
+  }
+
+  Future<void> _processSaveWorkorderList(
+      List<QmWorkOrder> list, List<int> indice) async {
+    state = const QmWorkOrderSaveState.saving();
+
+    final date = DateFormat("yyyy-MM-dd").format(DateTime.now());
+
+    for (int i = 0; i < indice.length; i++) {
+      final item = list[i];
+      final index = indice[i];
+      final params = {
+        "plan-seq": item.planSeq.toString(),
+        "wo-nb": item.code,
+        "date": date,
+        "user-id": _authNotifier.user!.id,
+      };
+
+      final resultsOrFailure = await _saveQmWorkOrder(params);
+      state = resultsOrFailure.fold(
+        (l) => QmWorkOrderSaveState.failure(mapFailureToString(l)),
+        (r) => QmWorkOrderSaveState.saved(index),
+      );
+    }
   }
 }

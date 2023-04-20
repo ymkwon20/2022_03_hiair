@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/src/core/presentation/index.dart';
 import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/home_app_bar.dart';
@@ -79,22 +80,26 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
   }
 
   void _onTap(int index) {
-    ignoring = true;
-    currentQmWorkOrder = StateProvider.autoDispose(
-        (ref) => ref.watch(qmWorkOrderListNotifier).items[index]);
-    currentQmWorkOrderIndex = StateProvider.autoDispose((ref) => index);
+    if (ref.watch(qmWorkOrderListNotifier).isMultiSelectMode) {
+      ref.read(qmWorkOrderListNotifier).toggleSelectState(index);
+    } else {
+      ignoring = true;
+      currentQmWorkOrder = StateProvider.autoDispose(
+          (ref) => ref.watch(qmWorkOrderListNotifier).items[index]);
+      currentQmWorkOrderIndex = StateProvider.autoDispose((ref) => index);
 
-    context.push("/qm/$index");
+      context.push("/qm/$index");
 
-    // GoRouter의 push method가 asynchronous가 아니기 때문에 임의 시간 지정
-    Future.delayed(
-      const Duration(
-        milliseconds: 500,
-      ),
-      () {
-        ignoring = false;
-      },
-    );
+      // GoRouter의 push method가 asynchronous가 아니기 때문에 임의 시간 지정
+      Future.delayed(
+        const Duration(
+          milliseconds: 500,
+        ),
+        () {
+          ignoring = false;
+        },
+      );
+    }
   }
 
   void _navigateTo(String filterKey) {
@@ -207,13 +212,13 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
               onRowLongPressed: (index) {
                 state.maybeWhen(
                   loaded: (_, __) {
-                    ref.read(workOrderListNotifier).toggleSelectState(index);
+                    ref.read(qmWorkOrderListNotifier).toggleSelectState(index);
                   },
                   orElse: () {},
                 );
                 ref
-                    .read(workOrderSaveStateNotifierProvider.notifier)
-                    .mapEventToState(const WorkOrderSaveEvent.resetToNone());
+                    .read(qmWorkOrderSaveStateNotifierProvider.notifier)
+                    .mapEventToState(const QmWorkOrderSaveEvent.resetToNone());
               },
               onRowPressed: (index) {
                 state.maybeWhen(
@@ -226,7 +231,7 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
                 );
               },
               onRefresh: () async {
-                ref.read(workOrderListNotifier.notifier).clear();
+                ref.read(qmWorkOrderListNotifier.notifier).clear();
                 await _fetchQmItemsByPage();
               },
               headers: [
@@ -312,11 +317,19 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
                     return TableLoadingRow();
                   },
                   loading: () {
-                    return TableLoadingRow();
+                    if (index < orderListNotifier.filteredItems.length) {
+                      return QmWorkOrderLoadedRow(
+                        order: orderListNotifier.filteredItems[index],
+                        color: _getColor(index),
+                      );
+                    } else {
+                      return TableLoadingRow();
+                    }
                   },
                   loaded: (_, __) {
                     return QmWorkOrderLoadedRow(
                       order: orderListNotifier.filteredItems[index],
+                      color: _getColor(index),
                     );
                   },
                   failure: (message) {
@@ -332,7 +345,135 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
               ),
             ),
           ),
+          _buildFabBackground(),
+          _buildFab(),
         ],
+      ),
+    );
+  }
+
+  Color _getColor(int index) {
+    Color color = Colors.transparent;
+    final notifier = ref.watch(qmWorkOrderListNotifier);
+
+    if (notifier.selectedIndex.contains(index)) {
+      color = Theme.of(context).selectedRowColor;
+    }
+
+    return color;
+  }
+
+  Widget _buildFab() {
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 200),
+      right: ref.watch(qmWorkOrderListNotifier).isMultiSelectMode
+          ? 1.7 * LayoutConstant.spaceXL
+          : -120,
+      bottom: ref.watch(qmWorkOrderListNotifier).isMultiSelectMode
+          ? LayoutConstant.spaceM
+          : -120,
+      child: AnimatedScale(
+        scale: ref.watch(qmWorkOrderListNotifier).isMultiSelectMode ? 1 : 0,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOutCirc,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: LayoutConstant.spaceS),
+            _buildFabButton(
+              onTap: () => ref
+                  .read(qmWorkOrderSaveStateNotifierProvider.notifier)
+                  .mapEventToState(
+                    QmWorkOrderSaveEvent.saveQmWorkOrderList(
+                      ref.watch(qmWorkOrderListNotifier).selectedItem,
+                      ref.watch(qmWorkOrderListNotifier).selectedIndex.toList(),
+                    ),
+                  ),
+              title: "검사완료",
+              width: 120 + LayoutConstant.spaceM,
+              backgroundColor: ThemeConstant.dominantColor,
+              active: true,
+            ),
+            const SizedBox(height: LayoutConstant.spaceS),
+            const Text(
+              "또는",
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            TextButton(
+              onPressed: () {
+                ref.read(qmWorkOrderListNotifier.notifier).clearSelection();
+              },
+              child: const Text(
+                "선택 취소",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFabBackground({double radius = 240}) {
+    return Positioned(
+      bottom: -radius,
+      right: -radius,
+      child: AnimatedScale(
+        scale: ref.watch(qmWorkOrderListNotifier).isMultiSelectMode ? 1 : 0,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInQuint,
+        child: Container(
+          width: radius * 2,
+          height: radius * 1.65,
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColorLight,
+            borderRadius: BorderRadius.circular(LayoutConstant.radiusM),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).shadowColor,
+                offset: const Offset(-1, 1),
+                blurRadius: LayoutConstant.radiusXS,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFabButton({
+    required String title,
+    required Color backgroundColor,
+    required double width,
+    bool active = true,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: active ? onTap : null,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOutQuart,
+        width: width,
+        padding: const EdgeInsets.symmetric(
+          vertical: LayoutConstant.paddingM,
+        ),
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: active ? backgroundColor : Theme.of(context).disabledColor,
+          borderRadius: BorderRadius.circular(LayoutConstant.radiusS),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
       ),
     );
   }

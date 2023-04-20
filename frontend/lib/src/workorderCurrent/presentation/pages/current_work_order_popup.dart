@@ -73,15 +73,6 @@ class CurrentWorkOrderPopup extends ConsumerWidget {
                         ),
                         const SizedBox(height: LayoutConstant.spaceM),
                         _WorkOrderDrawerRow(
-                            title: "프로젝트넘버", value: workOrder.pjtNo),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "PND", value: workOrder.pndDate),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
-                            title: "작업지시번호", value: workOrder.wonb),
-                        const UnderlineWidget(),
-                        _WorkOrderDrawerRow(
                             title: "현공정", value: workOrder.wbNm),
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
@@ -97,6 +88,15 @@ class CurrentWorkOrderPopup extends ConsumerWidget {
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
                             title: "Sys No", value: workOrder.sysNo),
+                        const UnderlineWidget(),
+                        _WorkOrderDrawerRow(
+                            title: "프로젝트넘버", value: workOrder.pjtNo),
+                        const UnderlineWidget(),
+                        _WorkOrderDrawerRow(
+                            title: "PND", value: workOrder.pndDate),
+                        const UnderlineWidget(),
+                        _WorkOrderDrawerRow(
+                            title: "작업지시번호", value: workOrder.wonb),
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
                             title: "작업장명", value: workOrder.wcNm),

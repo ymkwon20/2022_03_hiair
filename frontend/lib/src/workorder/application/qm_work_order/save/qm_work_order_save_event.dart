@@ -8,5 +8,7 @@ class QmWorkOrderSaveEvent with _$QmWorkOrderSaveEvent {
   const QmWorkOrderSaveEvent._();
   const factory QmWorkOrderSaveEvent.saveQmWorkOrder(
       QmWorkOrder item, int index) = _SaveQmWorkOrder;
+  const factory QmWorkOrderSaveEvent.saveQmWorkOrderList(
+      List<QmWorkOrder> list, List<int> indice) = _SaveQmWorkOrderList;
   const factory QmWorkOrderSaveEvent.resetToNone() = _ResetToNone;
 }
