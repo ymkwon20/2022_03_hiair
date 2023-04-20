@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/auth/presentation/viewmodels/auth_chage_notifier.dart';
 import 'package:frontend/src/bad_control/presentation/widgets/bad_control_popup.dart';
 import 'package:frontend/src/bad_control/presentation/widgets/bad_control_popup_for_safety.dart';
 import 'package:frontend/src/core/dependency_injection.dart';
@@ -82,6 +83,8 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(authChangeNotifierProvider).user;
+
     ref.listen<WorkBaseState>(
       workBaseStateNotifierProvider,
       ((previous, current) {
@@ -156,15 +159,17 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
               width: MediaQuery.of(context).size.width / 3,
               height: 50,
             ),
-            const SizedBox(height: LayoutConstant.spaceM),
-            buildMenuButton(
-              context,
-              ref,
-              code: WorkCode.cwork,
-              title: "현공정조회",
-              width: MediaQuery.of(context).size.width / 3,
-              height: 50,
-            ),
+            if (user?.btnGrant == "Y") ...[
+              const SizedBox(height: LayoutConstant.spaceM),
+              buildMenuButton(
+                context,
+                ref,
+                code: WorkCode.cwork,
+                title: "현공정조회",
+                width: MediaQuery.of(context).size.width / 3,
+                height: 50,
+              ),
+            ],
             const SizedBox(height: LayoutConstant.spaceM),
             buildMenuButton(
               context,

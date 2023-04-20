@@ -21,6 +21,8 @@ class User {
 
   final UserType type;
 
+  final String btnGrant;
+
   const User({
     required this.id,
     required this.name,
@@ -29,6 +31,7 @@ class User {
     required this.deptCd,
     required this.deptNm,
     required this.type,
+    required this.btnGrant,
   });
 
   @override
@@ -42,7 +45,8 @@ class User {
         other.wcCd == wcCd &&
         other.deptCd == deptCd &&
         other.deptNm == deptNm &&
-        other.type == type;
+        other.type == type &&
+        other.btnGrant == btnGrant;
   }
 
   @override
@@ -53,7 +57,8 @@ class User {
         wcCd.hashCode ^
         deptCd.hashCode ^
         deptNm.hashCode ^
-        type.hashCode;
+        type.hashCode ^
+        btnGrant.hashCode;
   }
 
   User copyWith({
@@ -64,6 +69,7 @@ class User {
     String? deptCd,
     String? deptNm,
     UserType? type,
+    String? btnGrant,
   }) {
     return User(
       id: id ?? this.id,
@@ -73,6 +79,7 @@ class User {
       deptCd: deptCd ?? this.deptCd,
       deptNm: deptNm ?? this.deptNm,
       type: type ?? this.type,
+      btnGrant: btnGrant ?? this.btnGrant,
     );
   }
 }
