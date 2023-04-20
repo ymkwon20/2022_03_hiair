@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_notifier.dart';
+import 'package:frontend/src/workorder/presentation/viewmodels/qm_work_order_list_notifier.dart';
 import 'package:frontend/src/workorderCurrent/presentation/viewmodels/current_work_order_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -854,6 +855,196 @@ class CurrentWorkOrderFilterDialog extends ConsumerWidget {
                       fontSize: 22,
                       fontWeight: ref
                               .watch(currentWorkOrderListNotifier)
+                              .filterMap
+                              .keys
+                              .contains(filterKey)
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
+                  ),
+                ),
+              )),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  child: TextField(
+                    controller: textFieldController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: '입력',
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  child: const Icon(Icons.search),
+                  onPressed: () => _onTapByString(textFieldController.text),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.blue,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 18, horizontal: 40)),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 3,
+            child: ScrollConfiguration(
+              behavior: NoGlowBehavior(),
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: LayoutConstant.paddingS,
+                        vertical: LayoutConstant.paddingL),
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () => _onTap(index),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: filterList[index].isSelected,
+                            onChanged: (_) => _onTap(index),
+                          ),
+                          Flexible(
+                            child: RichText(
+                              text: TextSpan(
+                                text: filterList[index].name,
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.color,
+                                ),
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                padding: EdgeInsets.zero,
+                itemCount: filterList.length,
+              ),
+            ),
+          ),
+          const SizedBox(height: LayoutConstant.spaceM),
+        ],
+      ),
+    );
+  }
+}
+
+class QmWorkOrderFilterDialog extends ConsumerWidget {
+  const QmWorkOrderFilterDialog({
+    Key? key,
+    required this.filterKey,
+  }) : super(key: key);
+
+  final String filterKey;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final filterList = ref.watch(qmColumnFilterProvider);
+    final currentFilterMap = ref.watch(qmWorkOrderListNotifier).filterMap;
+    final textFieldController = TextEditingController();
+
+    void _onTap(int index) {
+      if (filterList[index].isSelected) {
+        final newFilterList = currentFilterMap[filterKey]?.toList() ?? [];
+
+        newFilterList.remove(filterList[index].name);
+
+        ref
+            .read(qmWorkOrderListNotifier.notifier)
+            .setFilter(filterKey, newFilterList);
+      } else {
+        final newFilterList = currentFilterMap[filterKey]?.toList() ?? [];
+
+        newFilterList.add(filterList[index].name);
+
+        ref.read(qmWorkOrderListNotifier.notifier).setFilter(
+              filterKey,
+              newFilterList,
+            );
+      }
+    }
+
+    void _onTapByString(String filterString) {
+      final newFilterList = <String>[];
+
+      for (int i = 0; i < filterList.length; i++) {
+        if (filterList[i].name.contains(filterString)) {
+          newFilterList.add(filterList[i].name);
+        }
+      }
+
+      ref.read(qmWorkOrderListNotifier.notifier).setFilter(
+            filterKey,
+            newFilterList,
+          );
+    }
+
+    return Dialog(
+      width: MediaQuery.of(context).size.width / 2,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding:
+                const EdgeInsets.symmetric(vertical: LayoutConstant.paddingM),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(LayoutConstant.radiusM),
+              ),
+            ),
+            alignment: Alignment.center,
+            child: const Text(
+              "필터",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (ref
+                      .watch(qmWorkOrderListNotifier)
+                      .filterMap
+                      .keys
+                      .contains(filterKey)) {
+                    ref
+                        .read(qmWorkOrderListNotifier.notifier)
+                        .removeFilter(filterKey);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: LayoutConstant.paddingL,
+                    vertical: LayoutConstant.paddingM,
+                  ),
+                  child: Text(
+                    "필터 제거",
+                    style: TextStyle(
+                      color: ref
+                              .watch(qmWorkOrderListNotifier)
+                              .filterMap
+                              .keys
+                              .contains(filterKey)
+                          ? Theme.of(context).primaryColorDark
+                          : Theme.of(context).disabledColor,
+                      fontSize: 22,
+                      fontWeight: ref
+                              .watch(qmWorkOrderListNotifier)
                               .filterMap
                               .keys
                               .contains(filterKey)

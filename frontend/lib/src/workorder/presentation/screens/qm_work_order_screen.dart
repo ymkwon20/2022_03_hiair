@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/src/core/presentation/index.dart';
+import 'package:frontend/src/core/presentation/pages/custom_route.dart';
 import 'package:frontend/src/core/presentation/widgets/dialog.dart';
 import 'package:frontend/src/core/presentation/widgets/flash_bar.dart';
 import 'package:frontend/src/core/presentation/widgets/home_app_bar.dart';
@@ -105,13 +106,13 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
   void _navigateTo(String filterKey) {
     ref.watch(qmWorkOrderStateNotifierProvider).maybeWhen(
           loaded: (_, __) {
-            // ref.read(tableColumnNotifier.notifier).state = filterKey;
-            // Navigator.of(context).push(
-            //   CustomScaleRoute(
-            //     backgroundColor: Colors.black.withOpacity(.2),
-            //     builder: (_) => CustomTableHeaderDialog(filterKey: filterKey),
-            //   ),
-            // );
+            ref.read(qmTableColumnNotifier.notifier).state = filterKey;
+            Navigator.of(context).push(
+              CustomScaleRoute(
+                backgroundColor: Colors.black.withOpacity(.2),
+                builder: (_) => QmWorkOrderFilterDialog(filterKey: filterKey),
+              ),
+            );
           },
           orElse: () {},
         );
