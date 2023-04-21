@@ -90,7 +90,7 @@ class CurrentWorkOrderPopup extends ConsumerWidget {
                             title: "Sys No", value: workOrder.sysNo),
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
-                            title: "프로젝트넘버", value: workOrder.pjtNo),
+                            title: "SPEC", value: workOrder.pjtNo),
                         const UnderlineWidget(),
                         _WorkOrderDrawerRow(
                             title: "PND", value: workOrder.pndDate),
