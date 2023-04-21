@@ -5,6 +5,7 @@ part 'work_order_save_event.freezed.dart';
 
 enum WorkOrderSaveStatus {
   start,
+  startCancel,
   end,
   all,
 }

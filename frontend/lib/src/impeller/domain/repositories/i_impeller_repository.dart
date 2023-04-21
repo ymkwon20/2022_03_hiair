@@ -12,4 +12,8 @@ abstract class IImpellerRepository {
   Future<Either<Failure, Unit>> saveImpeller(Map<String, dynamic> params);
   Future<Either<Failure, Unit>> saveImpellerList(
       List<Map<String, dynamic>> params);
+  Future<Either<Failure, Unit>> startCancelImpeller(
+      Map<String, dynamic> params);
+  Future<Either<Failure, Unit>> startCancelImpellerList(
+      List<Map<String, dynamic>> params);
 }

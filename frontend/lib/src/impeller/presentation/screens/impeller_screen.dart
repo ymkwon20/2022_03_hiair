@@ -197,9 +197,15 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                     .read(impellerListNotifier.notifier)
                     .setNewItemDateEnd(index);
                 break;
+              case ImpellerSaveStatus.startCancel:
+                ref
+                    .read(impellerListNotifier.notifier)
+                    .setItemDateCancel(index);
+                break;
             }
 
-            onRefresh(ref);
+            // onRefresh(ref);
+            screenUpdate(ref);
 
             showFlashBar(
               context,
@@ -232,9 +238,15 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
                     .read(impellerListNotifier.notifier)
                     .setNewListDateEnd(indice);
                 break;
+              case ImpellerSaveStatus.startCancel:
+                ref
+                    .read(impellerListNotifier.notifier)
+                    .setListDateCancel(indice);
+                break;
             }
 
-            onRefresh(ref);
+            // onRefresh(ref);
+            screenUpdate(ref);
 
             showFlashBar(
               context,
@@ -630,6 +642,10 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
   Future<void> onRefresh(WidgetRef ref) async {
     ref.read(impellerListNotifier.notifier).clear();
     await refreshList(ref);
+  }
+
+  Future<void> screenUpdate(WidgetRef ref) async {
+    ref.read(impellerListNotifier.notifier).screenUpdate();
   }
 
   Future<void> refreshList(ref) async {

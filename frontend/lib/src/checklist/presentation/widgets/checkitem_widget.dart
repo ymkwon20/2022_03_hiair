@@ -126,17 +126,18 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
           double.tryParse(widget.textControllers[index - 1].text) ?? 0;
 
       final duct =
-          (math.pow(double.tryParse(controller.text) ?? 0, 2) * math.pi / 4);
+          (math.pow(double.tryParse(controller.text) ?? 0, 2) * math.pi / 4) /
+              1000000;
 
       /// Test Duct A
-      widget.textControllers[index + 1].text = duct.toStringAsFixed(2);
+      widget.textControllers[index + 1].text = duct.toStringAsFixed(4);
       ref.read(checklistNotifierProvider.notifier).editCheckItem(
             index + 1,
             items[index + 1].copyWith(checkSheetValue: duct.toStringAsFixed(2)),
           );
 
       /// Air Volume
-      final volume1 = duct * velocity * 60;
+      final volume1 = duct * velocity;
       widget.textControllers[index + 2].text = volume1.toStringAsFixed(2);
       ref.read(checklistNotifierProvider.notifier).editCheckItem(
             index + 2,

@@ -53,6 +53,7 @@ class QmWorkOrderDto extends IWorkOrder {
     required String tagNo,
     required String workwcnm,
     required String partNo,
+    required String chkSHDT,
   }) : super(
           code: code,
           itemNo: itemNo,
@@ -102,6 +103,7 @@ class QmWorkOrderDto extends IWorkOrder {
           tagNo: tagNo,
           workwcnm: workwcnm,
           partNo: partNo,
+          chkSHDT: chkSHDT,
         );
 
   factory QmWorkOrderDto.fromDomain(QmWorkOrder domain) {
@@ -154,6 +156,7 @@ class QmWorkOrderDto extends IWorkOrder {
       tagNo: domain.tagNo,
       workwcnm: domain.workwcnm,
       partNo: domain.partNo,
+      chkSHDT: domain.chkSHDT,
     );
   }
 
@@ -207,6 +210,7 @@ class QmWorkOrderDto extends IWorkOrder {
       tagNo: tagNo,
       workwcnm: workwcnm,
       partNo: partNo,
+      chkSHDT: chkSHDT,
     );
   }
 
@@ -260,6 +264,7 @@ class QmWorkOrderDto extends IWorkOrder {
       'tagNo': tagNo,
       'workwcnm': workwcnm,
       'partNo': partNo,
+      'chkSHDT': chkSHDT,
     };
   }
 
@@ -313,6 +318,7 @@ class QmWorkOrderDto extends IWorkOrder {
       tagNo: map["TagNo"] ?? "",
       workwcnm: map["WORK_WC_NM"] ?? "",
       partNo: map["PART_NO"] ?? "",
+      chkSHDT: map["CHK_ST_DT"] ?? "",
     );
   }
 
@@ -370,6 +376,7 @@ class QmWorkOrderDto extends IWorkOrder {
     String? tagNo,
     String? workwcnm,
     String? partNo,
+    String? chkSHDT,
   }) {
     return QmWorkOrderDto(
       code: code ?? this.code,
@@ -420,6 +427,7 @@ class QmWorkOrderDto extends IWorkOrder {
       tagNo: tagNo ?? this.tagNo,
       workwcnm: workwcnm ?? this.workwcnm,
       partNo: partNo ?? this.partNo,
+      chkSHDT: chkSHDT ?? this.chkSHDT,
     );
   }
 
@@ -475,7 +483,8 @@ class QmWorkOrderDto extends IWorkOrder {
         other.rmk == rmk &&
         other.tagNo == tagNo &&
         other.workwcnm == workwcnm &&
-        other.partNo == partNo;
+        other.partNo == partNo &&
+        other.chkSHDT == chkSHDT;
   }
 
   @override
@@ -527,6 +536,7 @@ class QmWorkOrderDto extends IWorkOrder {
         rmk.hashCode ^
         tagNo.hashCode ^
         workwcnm.hashCode ^
-        partNo.hashCode;
+        partNo.hashCode ^
+        chkSHDT.hashCode;
   }
 }

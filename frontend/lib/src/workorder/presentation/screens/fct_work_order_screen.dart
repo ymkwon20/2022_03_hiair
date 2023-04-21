@@ -200,6 +200,11 @@ class _FCTWorkOrderWidgetState extends ConsumerState<FCTWorkOrderScreen>
                     .read(workOrderListNotifier.notifier)
                     .setNewItemDateEnd(index);
                 break;
+              case WorkOrderSaveStatus.startCancel:
+                ref
+                    .read(workOrderListNotifier.notifier)
+                    .setItemDateCancel(index);
+                break;
             }
 
             onRefresh(ref);
@@ -234,6 +239,11 @@ class _FCTWorkOrderWidgetState extends ConsumerState<FCTWorkOrderScreen>
                 ref
                     .read(workOrderListNotifier.notifier)
                     .setNewListDateEnd(indice);
+                break;
+              case WorkOrderSaveStatus.startCancel:
+                ref
+                    .read(workOrderListNotifier.notifier)
+                    .setListDateCancel(indice);
                 break;
             }
 

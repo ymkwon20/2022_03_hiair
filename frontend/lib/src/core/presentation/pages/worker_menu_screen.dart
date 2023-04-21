@@ -198,15 +198,17 @@ class _WorkerMenuScreenState extends ConsumerState<WorkerMenuScreen> {
               height: 50,
             ),
             const SizedBox(height: LayoutConstant.spaceM),
-            buildMenuButton(
-              context,
-              ref,
-              code: WorkCode.badControl,
-              title: "업체별 불량관리",
-              width: MediaQuery.of(context).size.width / 3,
-              height: 50,
-            ),
-            const SizedBox(height: LayoutConstant.spaceM),
+            if (user?.btnGrant == "Y") ...[
+              buildMenuButton(
+                context,
+                ref,
+                code: WorkCode.badControl,
+                title: "업체별 불량관리",
+                width: MediaQuery.of(context).size.width / 3,
+                height: 50,
+              ),
+              const SizedBox(height: LayoutConstant.spaceM),
+            ],
             ElevatedButton(
               onPressed: () {
                 if (newVersion == "") {

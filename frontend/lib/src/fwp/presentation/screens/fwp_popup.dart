@@ -144,7 +144,16 @@ class FWPPopup extends ConsumerWidget {
                           },
                           onStartCancelPressed: () {
                             Navigator.of(context).pop();
-                            
+                            ref
+                                .read(
+                                    workOrderSaveStateNotifierProvider.notifier)
+                                .mapEventToState(
+                                  WorkOrderSaveEvent.saveWorkOrder(
+                                    workOrder,
+                                    WorkOrderSaveStatus.startCancel,
+                                    ref.watch(workOrderIndexNotifier)!,
+                                  ),
+                                );
                           },
                           onEndPressed: () {
                             Navigator.of(context).pop();

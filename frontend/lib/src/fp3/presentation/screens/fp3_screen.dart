@@ -200,9 +200,15 @@ class _FP3WidgetState extends ConsumerState<FP3Screen>
                     .read(workOrderListNotifier.notifier)
                     .setNewItemDateEnd(index);
                 break;
+              case WorkOrderSaveStatus.startCancel:
+                ref
+                    .read(workOrderListNotifier.notifier)
+                    .setItemDateCancel(index);
+                break;
             }
 
-            onRefresh(ref);
+            // onRefresh(ref);
+            screenUpdate(ref);
 
             showFlashBar(
               context,
@@ -235,9 +241,15 @@ class _FP3WidgetState extends ConsumerState<FP3Screen>
                     .read(workOrderListNotifier.notifier)
                     .setNewListDateEnd(indice);
                 break;
+              case WorkOrderSaveStatus.startCancel:
+                ref
+                    .read(workOrderListNotifier.notifier)
+                    .setListDateCancel(indice);
+                break;
             }
 
-            onRefresh(ref);
+            // onRefresh(ref);
+            screenUpdate(ref);
 
             showFlashBar(
               context,
@@ -653,6 +665,10 @@ class _FP3WidgetState extends ConsumerState<FP3Screen>
   Future<void> onRefresh(WidgetRef ref) async {
     ref.read(workOrderListNotifier.notifier).clear();
     await refreshList(ref);
+  }
+
+  Future<void> screenUpdate(WidgetRef ref) async {
+    ref.read(workOrderListNotifier.notifier).screenUpdate();
   }
 
   Future<void> refreshList(ref) async {

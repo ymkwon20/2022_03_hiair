@@ -5,6 +5,7 @@ part 'impeller_save_event.freezed.dart';
 
 enum ImpellerSaveStatus {
   start,
+  startCancel,
   end,
   all,
 }

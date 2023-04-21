@@ -140,6 +140,79 @@ class WorkOrderRemoteService implements WorkOrderService {
   }
 
   @override
+  Future<void> startCancelWorkOrder(Map<String, dynamic> params) async {
+    try {
+      await _dio.post("/start-cancel", data: params);
+    } on DioError catch (e) {
+      if (e.isNoConnectionError) {
+        throw NoConnectionException(
+          message: e.message,
+        );
+      }
+
+      if (e.response?.statusCode == 500) {
+        final response = jsonDecode(e.response?.data) as Map<String, dynamic>;
+        throw InvalidServerResponseException(
+          message: response["msg"],
+        );
+      }
+
+      if (e.type == DioErrorType.connectTimeout) {
+        throw ServerConnectionException(
+          message: e.message,
+        );
+      }
+
+      if (e.type == DioErrorType.receiveTimeout) {
+        throw ServerConnectionException(message: e.message);
+      }
+
+      if (e.type == DioErrorType.other) {
+        throw ServerConnectionException(message: e.message);
+      }
+
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> startCancelWorkOrderList(
+      List<Map<String, dynamic>> params) async {
+    try {
+      await _dio.post("/start-cancels", data: params);
+    } on DioError catch (e) {
+      if (e.isNoConnectionError) {
+        throw NoConnectionException(
+          message: e.message,
+        );
+      }
+
+      if (e.response?.statusCode == 500) {
+        final response = jsonDecode(e.response?.data) as Map<String, dynamic>;
+        throw InvalidServerResponseException(
+          message: response["msg"],
+        );
+      }
+
+      if (e.type == DioErrorType.connectTimeout) {
+        throw ServerConnectionException(
+          message: e.message,
+        );
+      }
+
+      if (e.type == DioErrorType.receiveTimeout) {
+        throw ServerConnectionException(message: e.message);
+      }
+
+      if (e.type == DioErrorType.other) {
+        throw ServerConnectionException(message: e.message);
+      }
+
+      rethrow;
+    }
+  }
+
+  @override
   Future<void> updateRemark(Map<String, dynamic> params) async {
     try {
       await _dio.post("/rmk", data: params);

@@ -247,6 +247,16 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
                   children: _buildAdditionalIcons("wbNm"),
                 ),
                 CustomTableHeader(
+                  name: "chkSHDT",
+                  title: "검사신청일",
+                  width: 200,
+                  onTap: ref.read(qmWorkOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("chkSHDT");
+                  },
+                  children: _buildAdditionalIcons("chkSHDT"),
+                ),
+                CustomTableHeader(
                   name: "date",
                   title: "검사완료일",
                   width: 200,
@@ -295,20 +305,33 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
                   children: _buildAdditionalIcons("sysNo"),
                 ),
                 CustomTableHeader(
-                  name: "partNO",
+                  name: "partNo",
                   title: "품번",
                   width: 130,
                   onTap: ref.read(qmWorkOrderListNotifier.notifier).sort,
                   onLongTap: () {
-                    _navigateTo("partNO");
+                    _navigateTo("partNo");
                   },
-                  children: _buildAdditionalIcons("partNO"),
+                  children: _buildAdditionalIcons("partNo"),
+                ),
+                CustomTableHeader(
+                  name: "custltemName",
+                  title: "거래처품명",
+                  width: 300,
+                  onTap: ref.read(qmWorkOrderListNotifier.notifier).sort,
+                  onLongTap: () {
+                    _navigateTo("custltemName");
+                  },
+                  children: _buildAdditionalIcons("custltemName"),
                 ),
                 CustomTableHeader(
                   name: "qty",
                   title: "수량",
                   onTap: ref.read(qmWorkOrderListNotifier.notifier).sort,
                   width: 100,
+                  onLongTap: () {
+                    _navigateTo("qty");
+                  },
                   children: _buildAdditionalIcons("qty"),
                 ),
               ],

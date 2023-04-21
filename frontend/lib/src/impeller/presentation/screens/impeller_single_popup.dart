@@ -192,6 +192,19 @@ class ImpellerSinglePopup extends ConsumerWidget {
                                   ),
                                 );
                           },
+                          onStartCancelPressed: () {
+                            Navigator.of(context).pop();
+                            ref
+                                .read(
+                                    impellerSaveStateNotifierProvider.notifier)
+                                .mapEventToState(
+                                  ImpellerSaveEvent.saveImpeller(
+                                    impeller,
+                                    ImpellerSaveStatus.startCancel,
+                                    ref.watch(impellerIndexNotifier)!,
+                                  ),
+                                );
+                          },
                           onEndPressed: () {
                             Navigator.of(context).pop();
                             // final impeller = ref.watch(impellerNotifier);

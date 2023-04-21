@@ -89,6 +89,36 @@ class WorkOrderRepository implements IWorkOrderRepository {
   }
 
   @override
+  Future<Either<Failure, Unit>> startCancelWorkOrder(
+      Map<String, dynamic> params) async {
+    try {
+      await _remoteService.startCancelWorkOrder(params);
+      return right(unit);
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> startCancelWorkOrderList(
+      List<Map<String, dynamic>> params) async {
+    try {
+      await _remoteService.startCancelWorkOrderList(params);
+      return right(unit);
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
+
+  @override
   Future<Either<Failure, QmWorkOrderList>> fetchQmWorkOrderList() async {
     try {
       final remoteFetch = await _remoteService.fetchQmWorkOrder();
