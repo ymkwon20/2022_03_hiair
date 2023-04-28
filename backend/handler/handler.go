@@ -50,6 +50,7 @@ func MakeHandler() *AppHandler {
 	r.HandleFunc("/qm", a.getQmItems).Methods("GET")
 	r.HandleFunc("/qm", a.saveQmItem).Methods("POST")
 	r.HandleFunc("/qms", a.saveQmItemList).Methods("POST")
+	r.HandleFunc("/qmSearch", a.searchQM).Methods("GET")
 	r.HandleFunc("/fct", a.getFctSerial).Methods("GET")
 	r.HandleFunc("/fct/{serial}", a.getFctItem).Methods("GET")
 	r.HandleFunc("/fct", a.saveFctItem).Methods("POST")
@@ -1852,7 +1853,44 @@ func (a *AppHandler) saveQmItemList(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+}
 
+func (a *AppHandler) searchQM(w http.ResponseWriter, r *http.Request) {
+	queryString := r.URL.Query()
+	startDate := queryString.Get("startDate")
+	endDate := queryString.Get("endDate")
+
+	query := fmt.Sprintf(`
+	EXEC SP_TABLET_QML_02_SELECT_SCH '', '', '%s', '%s';
+	`, startDate, endDate)
+
+	results, err := a.db.CallProcedure(query)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+
+	}
+	jData, err := json.Marshal(results)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+
+		errMsg := make(map[string]interface{})
+		errMsg["msg"] = err.Error()
+		jData, _ := json.Marshal(errMsg)
+		w.Write(jData)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jData)
 }
 
 func (a *AppHandler) getCutChecklist(w http.ResponseWriter, r *http.Request) {
@@ -1896,7 +1934,6 @@ func (a *AppHandler) getCutChecklist(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(jData)
-
 }
 
 func (a *AppHandler) rmkUpdate(w http.ResponseWriter, r *http.Request) {
