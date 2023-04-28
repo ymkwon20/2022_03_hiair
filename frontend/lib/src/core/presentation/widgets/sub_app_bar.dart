@@ -5,6 +5,9 @@ import 'package:frontend/src/impeller/presentation/viewmodels/impeller_list_noti
 import 'package:frontend/src/workorder/application/work_order/load/work_order_event.dart';
 import 'package:frontend/src/workorder/dependency_injection.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
+import 'package:frontend/src/workorderCurrent/application/current_work_order_event.dart';
+import 'package:frontend/src/workorderCurrent/presentation/dependency_injection.dart';
+import 'package:frontend/src/workorderCurrent/presentation/viewmodels/current_work_order_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final textFieldControllerYard = TextEditingController();
@@ -88,6 +91,7 @@ class SubAppBar extends ConsumerWidget implements PreferredSizeWidget {
   void _onTap(
       BuildContext context, WidgetRef ref, String yard, String hullNo) async {
     ref.read(workOrderListNotifier.notifier).clear();
+    ref.read(currentWorkOrderListNotifier.notifier).clear();
     ref.read(impellerListNotifier.notifier).clear();
     await searchListUpdate(ref);
   }
@@ -98,6 +102,16 @@ class SubAppBar extends ConsumerWidget implements PreferredSizeWidget {
             ImpellerEvent.searchByYardHullNo(
               ref.watch(impellerListNotifier).items,
               ref.watch(impellerListNotifier).page,
+              textFieldControllerYard.text,
+              textFieldControllerHullNo.text,
+            ),
+          );
+    } else if (code == 'CURRENT_WORK_ORDER') {
+      await ref
+          .read(currentWorkOrderStateNotifierProvider.notifier)
+          .mapEventToState(
+            CurrentWorkOrderEvent.fetchCurrentWorkOrder(
+              ref.watch(currentWorkOrderListNotifier).items,
               textFieldControllerYard.text,
               textFieldControllerHullNo.text,
             ),
@@ -116,12 +130,23 @@ class SubAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   void _onRefresh(BuildContext context, WidgetRef ref) async {
     ref.read(workOrderListNotifier.notifier).clear();
+    ref.read(currentWorkOrderListNotifier.notifier).clear();
     ref.read(impellerListNotifier.notifier).clear();
-    await searchListUpdate(ref);
+    await refreshList(ref);
   }
 
   Future<void> refreshList(ref) async {
-    if (code == 'IMP') {
+    if (code == 'CURRENT_WORK_ORDER') {
+      await ref
+          .read(currentWorkOrderStateNotifierProvider.notifier)
+          .mapEventToState(
+            CurrentWorkOrderEvent.fetchCurrentWorkOrder(
+              ref.watch(currentWorkOrderListNotifier).items,
+              '',
+              '',
+            ),
+          );
+    } else if (code == 'IMP') {
       await ref.read(impellerStateNotifierProvider.notifier).mapEventToState(
             ImpellerEvent.fetchListByPage(
               ref.watch(impellerListNotifier).items,

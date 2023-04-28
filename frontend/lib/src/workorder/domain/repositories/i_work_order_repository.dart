@@ -16,6 +16,10 @@ abstract class IWorkOrderRepository {
   Future<Either<Failure, Unit>> saveWorkOrder(Map<String, dynamic> params);
   Future<Either<Failure, Unit>> saveWorkOrderList(
       List<Map<String, dynamic>> params);
+  Future<Either<Failure, Unit>> startCancelWorkOrder(
+      Map<String, dynamic> params);
+  Future<Either<Failure, Unit>> startCancelWorkOrderList(
+      List<Map<String, dynamic>> params);
   Future<Either<Failure, QmWorkOrderList>> fetchQmWorkOrderList();
   Future<Either<Failure, Unit>> saveQmWorkOrder(Map<String, dynamic> params);
 }

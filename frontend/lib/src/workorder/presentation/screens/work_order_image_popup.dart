@@ -115,6 +115,11 @@ class _WorkOrderImagePopupState extends ConsumerState<WorkOrderImagePopup> {
                                   backgroundColor:
                                       Theme.of(context).primaryColorLight,
                                 );
+                                ref
+                                    .watch(checkimagelistNotifierProvider)
+                                    .clear();
+                                saveCodeController.text = '';
+
                                 Future.delayed(
                                   const Duration(seconds: 2),
                                 );

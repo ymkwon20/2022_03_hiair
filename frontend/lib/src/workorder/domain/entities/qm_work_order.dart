@@ -51,6 +51,7 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
     required String tagNo,
     required String workwcnm,
     required String partNo,
+    required String chkSHDT,
   }) : super(
           code: code,
           itemNo: itemNo,
@@ -100,6 +101,7 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
           tagNo: tagNo,
           workwcnm: workwcnm,
           partNo: partNo,
+          chkSHDT: chkSHDT,
         );
 
   @override
@@ -149,6 +151,7 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
         'tagNo': tagNo,
         'workwcnm': workwcnm,
         "partNo": partNo,
+        "chkSHDT": chkSHDT,
       }[key];
 
   @override
@@ -203,7 +206,8 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
         other.rmk == rmk &&
         other.tagNo == tagNo &&
         other.workwcnm == workwcnm &&
-        other.partNo == partNo;
+        other.partNo == partNo &&
+        other.chkSHDT == chkSHDT;
   }
 
   @override
@@ -255,7 +259,8 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
         rmk.hashCode ^
         tagNo.hashCode ^
         workwcnm.hashCode ^
-        partNo.hashCode;
+        partNo.hashCode ^
+        chkSHDT.hashCode;
   }
 
   QmWorkOrder copyWith({
@@ -307,6 +312,7 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
     String? tagNo,
     String? workwcnm,
     String? partNo,
+    String? chkSHDT,
   }) {
     return QmWorkOrder(
       code: code ?? this.code,
@@ -357,6 +363,7 @@ class QmWorkOrder extends IWorkOrder implements TableCellEntity {
       tagNo: tagNo ?? this.tagNo,
       workwcnm: workwcnm ?? this.workwcnm,
       partNo: partNo ?? this.partNo,
+      chkSHDT: chkSHDT ?? this.chkSHDT,
     );
   }
 }

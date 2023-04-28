@@ -64,6 +64,7 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
     required String tagNo,
     required String workwcnm,
     required String partNo,
+    required String chkSHDT,
     required this.dateStart,
     required this.dateEnd,
     required this.dateEndBefore,
@@ -117,6 +118,7 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
           tagNo: tagNo,
           workwcnm: workwcnm,
           partNo: partNo,
+          chkSHDT: chkSHDT,
         );
 
   String get statusKr {
@@ -174,6 +176,7 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
         'tagNo': tagNo,
         'workwcnm': workwcnm,
         'partNo': partNo,
+        'chkSHDT': chkSHDT,
       }[key];
 
   @override
@@ -231,7 +234,8 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
         other.rmk == rmk &&
         other.tagNo == tagNo &&
         other.workwcnm == workwcnm &&
-        other.partNo == partNo;
+        other.partNo == partNo &&
+        other.chkSHDT == chkSHDT;
   }
 
   @override
@@ -286,7 +290,8 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
         rmk.hashCode ^
         tagNo.hashCode ^
         workwcnm.hashCode ^
-        partNo.hashCode;
+        partNo.hashCode ^
+        chkSHDT.hashCode;
   }
 
   WorkOrder copyWith({
@@ -342,6 +347,7 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
     String? tagNo,
     String? workwcnm,
     String? partNo,
+    String? chkSHDT,
   }) {
     return WorkOrder(
       code: code ?? this.code,
@@ -396,6 +402,7 @@ class WorkOrder extends IWorkOrder implements TableCellEntity {
       tagNo: tagNo ?? this.tagNo,
       workwcnm: workwcnm ?? this.workwcnm,
       partNo: partNo ?? this.partNo,
+      chkSHDT: chkSHDT ?? this.chkSHDT,
     );
   }
 }

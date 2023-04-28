@@ -21,6 +21,7 @@ import 'package:frontend/src/workorder/presentation/screens/tablerows/work_order
 import 'package:frontend/src/core/presentation/widgets/table_loading_row.dart';
 import 'package:frontend/src/workorder/presentation/screens/work_order_popup.dart';
 import 'package:frontend/src/workorder/presentation/viewmodels/work_order_list_notifier.dart';
+import 'package:zoom_widget/zoom_widget.dart';
 
 /// 검사 1화면: QM 검사 항목 리스트 제시
 class WorkOrderScreen extends ConsumerStatefulWidget {
@@ -178,9 +179,15 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                     .read(workOrderListNotifier.notifier)
                     .setNewItemDateEnd(index);
                 break;
+              case WorkOrderSaveStatus.startCancel:
+                ref
+                    .read(workOrderListNotifier.notifier)
+                    .setItemDateCancel(index);
+                break;
             }
 
-            onRefresh(ref);
+            // onRefresh(ref);
+            screenUpdate(ref);
 
             showFlashBar(
               context,
@@ -213,9 +220,15 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                     .read(workOrderListNotifier.notifier)
                     .setNewListDateEnd(indice);
                 break;
+              case WorkOrderSaveStatus.startCancel:
+                ref
+                    .read(workOrderListNotifier.notifier)
+                    .setListDateCancel(indice);
+                break;
             }
 
-            onRefresh(ref);
+            // onRefresh(ref);
+            screenUpdate(ref);
 
             showFlashBar(
               context,
@@ -289,7 +302,7 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
                 );
               },
               onRefresh: () async {
-                ref.read(workOrderListNotifier.notifier).clear();
+                ref.read(workOrderListNotifier.notifier).screenUpdate();
                 await _fetchQmItemsByPage();
               },
               headers: [
@@ -596,6 +609,10 @@ class _WorkOrderListWidgetState extends ConsumerState<WorkOrderScreen>
   Future<void> onRefresh(WidgetRef ref) async {
     ref.read(workOrderListNotifier.notifier).clear();
     await refreshList(ref);
+  }
+
+  Future<void> screenUpdate(WidgetRef ref) async {
+    ref.read(workOrderListNotifier.notifier).screenUpdate();
   }
 
   Future<void> refreshList(ref) async {

@@ -15,6 +15,8 @@ import 'package:frontend/src/impeller/domain/usecases/get_qr_barcode.dart';
 import 'package:frontend/src/impeller/domain/usecases/save_impeller.dart';
 import 'package:frontend/src/impeller/domain/usecases/save_impeller_list.dart';
 import 'package:frontend/src/impeller/domain/usecases/search_impeller_list.dart';
+import 'package:frontend/src/impeller/domain/usecases/start_cancel_impeller.dart';
+import 'package:frontend/src/impeller/domain/usecases/start_cancel_impeller_list.dart';
 import 'package:frontend/src/impeller/infrastructure/datasources/barcode_service.dart';
 import 'package:frontend/src/impeller/infrastructure/datasources/impeller_service.dart';
 import 'package:frontend/src/impeller/infrastructure/datasources/remote/barcode_remote_service.dart';
@@ -41,6 +43,8 @@ final impellerSaveStateNotifierProvider =
     saveImpellerList: ref.watch(saveImpellerListProvider),
     authNotifier: ref.watch(authChangeNotifierProvider),
     fetchAndSaveChecklist: ref.watch(fetchAndSaveChecklistProvider),
+    startCancelImpeller: ref.watch(startCancelImpellerProvider),
+    startCancelImpellerList: ref.watch(startCancelImpellerListProvider),
   ),
 );
 
@@ -60,6 +64,15 @@ final saveImpellerListProvider = Provider(
   (ref) => SaveImpellerList(repository: ref.watch(impellerRepositoryProvider)),
 );
 
+final startCancelImpellerProvider = Provider(
+  (ref) =>
+      StartCancelImpeller(repository: ref.watch(impellerRepositoryProvider)),
+);
+
+final startCancelImpellerListProvider = Provider(
+  (ref) => StartCancelImpellerList(
+      repository: ref.watch(impellerRepositoryProvider)),
+);
 //! repository
 final impellerRepositoryProvider = Provider<IImpellerRepository>(
   (ref) => ImpellerRepository(remote: ref.watch(impellerRemoteServiceProvider)),

@@ -14,6 +14,7 @@ class WorkOrderStartEndButtons extends ConsumerStatefulWidget {
     required this.dateStart,
     required this.dateEnd,
     required this.onStartPressed,
+    required this.onStartCancelPressed,
     required this.onEndPressed,
     required this.onSavePressed,
     required this.onStartAndEndPressed,
@@ -26,6 +27,7 @@ class WorkOrderStartEndButtons extends ConsumerStatefulWidget {
   final String dateEnd;
 
   final VoidCallback onStartPressed;
+  final VoidCallback onStartCancelPressed;
   final VoidCallback onEndPressed;
   final VoidCallback onSavePressed;
   final VoidCallback? onStartAndEndPressed;
@@ -217,18 +219,33 @@ class _WorkerStartEndButtonsState
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  _buildDrawerButton(
-                    controller: _controller,
-                    width: _leftWidthAnimation.value,
-                    opacity: _leftOpacityAnimation,
-                    category: "시작일",
-                    value: widget.dateStart,
-                    name: "시작",
-                    backgroundColor: ThemeConstant.dominantColor,
-                    active: isStartActive && workBaseNameCheck(),
-                    ignoring: widget.ignoring,
-                    onTap: () => _onTap(widget.onStartPressed),
-                  ),
+                  if (isStartActive)
+                    _buildDrawerButton(
+                      controller: _controller,
+                      width: _leftWidthAnimation.value,
+                      opacity: _leftOpacityAnimation,
+                      category: "시작일",
+                      value: widget.dateStart,
+                      name: "시작",
+                      backgroundColor: ThemeConstant.dominantColor,
+                      active: isStartActive && workBaseNameCheck(),
+                      ignoring: widget.ignoring,
+                      onTap: () => _onTap(widget.onStartPressed),
+                    )
+                  else
+                    _buildDrawerButton(
+                      controller: _controller,
+                      width: _leftWidthAnimation.value,
+                      opacity: _leftOpacityAnimation,
+                      category: "시작일",
+                      value: widget.dateStart,
+                      name: "시작 취소",
+                      backgroundColor: const Color.fromARGB(255, 255, 60, 0),
+                      active:
+                          !isStartActive && isEndActive && workBaseNameCheck(),
+                      ignoring: widget.ignoring,
+                      onTap: () => _onTap(widget.onStartCancelPressed),
+                    ),
                   if (isChecklistActivate)
                     _buildDrawerButton(
                       controller: _controller,

@@ -162,6 +162,13 @@ class ImpellerListNotifier with ChangeNotifier {
     notifyListeners();
   }
 
+  void setItemDateCancel(int index) {
+    _items[index] = items[index].copyWith(
+      dateStart: '',
+      status: ImpellerStatus.waiting,
+    );
+  }
+
   void setNewListDateStart(List<int> indice, String date) {
     for (final index in indice) {
       _items[index] = _items[index].copyWith(
@@ -182,6 +189,15 @@ class ImpellerListNotifier with ChangeNotifier {
     notifyListeners();
   }
 
+  void setListDateCancel(List<int> indice) {
+    for (final index in indice) {
+      _items[index] = _items[index].copyWith(
+        dateStart: '',
+        status: ImpellerStatus.waiting,
+      );
+    }
+  }
+
   void setOrderList(List<Impeller> value) {
     _currentPage += 1;
     selectedIndex.clear();
@@ -195,6 +211,10 @@ class ImpellerListNotifier with ChangeNotifier {
     _items.clear();
     sortedColumn.clear();
     // clearFilter();
+    notifyListeners();
+  }
+
+  void screenUpdate() {
     notifyListeners();
   }
 

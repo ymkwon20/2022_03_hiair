@@ -16,6 +16,10 @@ class QmWorkOrderLoadedRow extends CustomTableRow {
               style: style,
             ),
             Text(
+              order.chkSHDT,
+              style: style,
+            ),
+            Text(
               order.date,
               style: style,
             ),
@@ -37,6 +41,10 @@ class QmWorkOrderLoadedRow extends CustomTableRow {
             ),
             Text(
               order.partNo,
+              style: style,
+            ),
+            Text(
+              order.custltemName,
               style: style,
             ),
             Text(

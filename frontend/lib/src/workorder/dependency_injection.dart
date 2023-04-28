@@ -19,6 +19,8 @@ import 'package:frontend/src/workorder/domain/usecases/save_qm_work_order.dart';
 import 'package:frontend/src/workorder/domain/usecases/save_work_order.dart';
 import 'package:frontend/src/workorder/domain/usecases/save_work_order_list.dart';
 import 'package:frontend/src/workorder/domain/usecases/search_work_order_list.dart';
+import 'package:frontend/src/workorder/domain/usecases/start_cancel_work_order.dart';
+import 'package:frontend/src/workorder/domain/usecases/start_cancel_work_order_list.dart';
 import 'package:frontend/src/workorder/infrastructure/datasources/remote/work_order_remote_service.dart';
 import 'package:frontend/src/workorder/infrastructure/datasources/work_order_service.dart';
 import 'package:frontend/src/workorder/infrastructure/repositories/work_order_repository.dart';
@@ -55,6 +57,8 @@ final workOrderSaveStateNotifierProvider =
   (ref) => WorkOrderSaveStateNotifier(
     saveWorkOrder: ref.watch(saveWorkOrderProvider),
     saveWorkOrderList: ref.watch(saveWorkOrderListProvider),
+    startCancelWorkOrder: ref.watch(startCancelWorkOrderProvider),
+    startCancelWorkOrderList: ref.watch(startCancelWorkOrderListProvider),
     authNotifier: ref.watch(authChangeNotifierProvider),
     fetchAndSaveChecklist: ref.watch(fetchAndSaveChecklistProvider),
   ),
@@ -95,6 +99,16 @@ final saveWorkOrderProvider = Provider(
 final saveWorkOrderListProvider = Provider(
   (ref) =>
       SaveWorkOrderList(repository: ref.watch(workOrderRepositoryProvider)),
+);
+
+final startCancelWorkOrderProvider = Provider(
+  (ref) =>
+      StartCancelWorkOrder(repository: ref.watch(workOrderRepositoryProvider)),
+);
+
+final startCancelWorkOrderListProvider = Provider(
+  (ref) => StartCancelWorkOrderList(
+      repository: ref.watch(workOrderRepositoryProvider)),
 );
 
 final saveQmWorkOrderProvider = Provider(

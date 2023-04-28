@@ -140,6 +140,10 @@ class WorkOrderListNotifier with ChangeNotifier {
     notifyListeners();
   }
 
+  void screenUpdate() {
+    notifyListeners();
+  }
+
   /// filter 값 넣기
   void setFilter(String key, List<String> value) {
     filterMap[key] = Set.from(value);
@@ -171,6 +175,13 @@ class WorkOrderListNotifier with ChangeNotifier {
     notifyListeners();
   }
 
+  void setItemDateCancel(int index) {
+    _items[index] = items[index].copyWith(
+      dateStart: '',
+      status: WorkOrderStatus.waiting,
+    );
+  }
+
   void setNewListDateStart(List<int> indice, String date) {
     for (final index in indice) {
       _items[index] = _items[index].copyWith(
@@ -194,6 +205,15 @@ class WorkOrderListNotifier with ChangeNotifier {
       _items.removeAt(indice[i]);
     }
     notifyListeners();
+  }
+
+  void setListDateCancel(List<int> indice) {
+    for (final index in indice) {
+      _items[index] = _items[index].copyWith(
+        dateStart: '',
+        status: WorkOrderStatus.waiting,
+      );
+    }
   }
 
   void setOrderList(List<WorkOrder> value) {

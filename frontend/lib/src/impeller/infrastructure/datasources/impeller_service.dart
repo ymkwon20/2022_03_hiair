@@ -9,4 +9,6 @@ abstract class ImpellerService {
   Future<String> getQRString(Map<String, dynamic> params);
   Future<void> saveImpeller(Map<String, dynamic> params);
   Future<void> saveImpellerList(List<Map<String, dynamic>> params);
+  Future<void> startCancelImpeller(Map<String, dynamic> params);
+  Future<void> startCancelImpellerList(List<Map<String, dynamic>> params);
 }

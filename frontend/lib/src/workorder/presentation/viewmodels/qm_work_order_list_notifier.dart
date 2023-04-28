@@ -1,10 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/core/domain/entities/table_cell.dart';
 import 'package:frontend/src/workorder/domain/entities/qm_work_order.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final qmWorkOrderListNotifier = ChangeNotifierProvider(
   (ref) => QmWorkOrderListNotifier(),
 );
+
+final qmTableColumnNotifier = StateProvider<String>(
+  (_) => "",
+);
+
+final qmColumnFilterProvider =
+    StateProvider.autoDispose<List<TableHeaderFilterItem>>((ref) {
+  final List<TableCellEntity> tableCells =
+      // ref.watch(workOrderListNotifier).items;
+      ref.watch(qmWorkOrderListNotifier).filteredItems;
+  final column = ref.watch(qmTableColumnNotifier);
+  final filterMap = ref.watch(qmWorkOrderListNotifier).filterMap[column];
+
+  final itemList = tableCells
+      .map((e) => e.getProp(column) ?? "")
+      .where((element) => element != "")
+      .toSet();
+
+  return itemList.map<TableHeaderFilterItem>((original) {
+    if (filterMap == null) {
+      return TableHeaderFilterItem(isSelected: false, name: original);
+    }
+
+    for (final filter in filterMap) {
+      if (original == filter) {
+        return TableHeaderFilterItem(isSelected: true, name: original);
+      }
+    }
+
+    return TableHeaderFilterItem(isSelected: false, name: original);
+  }).toList();
+});
 
 class TableHeaderFilterItem {
   final bool isSelected;

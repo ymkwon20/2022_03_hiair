@@ -25,6 +25,9 @@ class UserDTO {
   /// 권한
   final UserType type;
 
+  /// 현 공정 조회 버튼 권한
+  final String btnGrant;
+
   const UserDTO({
     required this.id,
     required this.name,
@@ -33,6 +36,7 @@ class UserDTO {
     required this.deptCd,
     required this.deptNm,
     required this.type,
+    required this.btnGrant,
   });
 
   factory UserDTO.fromDomain(User domain) {
@@ -44,6 +48,7 @@ class UserDTO {
       deptCd: domain.deptCd,
       deptNm: domain.deptNm,
       type: domain.type,
+      btnGrant: domain.btnGrant,
     );
   }
 
@@ -56,6 +61,7 @@ class UserDTO {
       deptCd: deptCd,
       deptNm: deptNm,
       type: type,
+      btnGrant: btnGrant,
     );
   }
 
@@ -67,6 +73,7 @@ class UserDTO {
     String? deptCd,
     String? deptNm,
     UserType? type,
+    String? btnGrant,
   }) {
     return UserDTO(
       id: id ?? this.id,
@@ -76,6 +83,7 @@ class UserDTO {
       deptCd: deptCd ?? this.deptCd,
       deptNm: deptNm ?? this.deptNm,
       type: type ?? this.type,
+      btnGrant: btnGrant ?? this.btnGrant,
     );
   }
 
@@ -87,6 +95,7 @@ class UserDTO {
       'WC_CD': wcCd,
       'DEPT_CD': deptCd,
       'DEPARTMENT_NAME': deptNm,
+      'BTN_GRANT': btnGrant,
     };
   }
 
@@ -108,6 +117,7 @@ class UserDTO {
       wcCd: wcCd,
       deptCd: map['DEPT_CD'] ?? '',
       deptNm: map['DEPARTMENT_NAME'] ?? '',
+      btnGrant: map['BTN_GRANT'] ?? '',
     );
   }
 
@@ -125,7 +135,8 @@ class UserDTO {
         other.name == name &&
         other.wbCd == wbCd &&
         other.deptCd == deptCd &&
-        other.deptNm == deptNm;
+        other.deptNm == deptNm &&
+        other.btnGrant == btnGrant;
   }
 
   @override
@@ -134,6 +145,7 @@ class UserDTO {
         name.hashCode ^
         wbCd.hashCode ^
         deptCd.hashCode ^
-        deptNm.hashCode;
+        deptNm.hashCode ^
+        btnGrant.hashCode;
   }
 }

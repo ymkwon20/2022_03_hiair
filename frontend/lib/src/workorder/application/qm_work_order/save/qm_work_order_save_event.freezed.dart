@@ -24,6 +24,14 @@ class _$QmWorkOrderSaveEventTearOff {
     );
   }
 
+  _SaveQmWorkOrderList saveQmWorkOrderList(
+      List<QmWorkOrder> list, List<int> indice) {
+    return _SaveQmWorkOrderList(
+      list,
+      indice,
+    );
+  }
+
   _ResetToNone resetToNone() {
     return const _ResetToNone();
   }
@@ -37,18 +45,24 @@ mixin _$QmWorkOrderSaveEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(QmWorkOrder item, int index) saveQmWorkOrder,
+    required TResult Function(List<QmWorkOrder> list, List<int> indice)
+        saveQmWorkOrderList,
     required TResult Function() resetToNone,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(QmWorkOrder item, int index)? saveQmWorkOrder,
+    TResult Function(List<QmWorkOrder> list, List<int> indice)?
+        saveQmWorkOrderList,
     TResult Function()? resetToNone,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(QmWorkOrder item, int index)? saveQmWorkOrder,
+    TResult Function(List<QmWorkOrder> list, List<int> indice)?
+        saveQmWorkOrderList,
     TResult Function()? resetToNone,
     required TResult orElse(),
   }) =>
@@ -56,18 +70,21 @@ mixin _$QmWorkOrderSaveEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_SaveQmWorkOrder value) saveQmWorkOrder,
+    required TResult Function(_SaveQmWorkOrderList value) saveQmWorkOrderList,
     required TResult Function(_ResetToNone value) resetToNone,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_SaveQmWorkOrder value)? saveQmWorkOrder,
+    TResult Function(_SaveQmWorkOrderList value)? saveQmWorkOrderList,
     TResult Function(_ResetToNone value)? resetToNone,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_SaveQmWorkOrder value)? saveQmWorkOrder,
+    TResult Function(_SaveQmWorkOrderList value)? saveQmWorkOrderList,
     TResult Function(_ResetToNone value)? resetToNone,
     required TResult orElse(),
   }) =>
@@ -167,6 +184,8 @@ class _$_SaveQmWorkOrder extends _SaveQmWorkOrder {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(QmWorkOrder item, int index) saveQmWorkOrder,
+    required TResult Function(List<QmWorkOrder> list, List<int> indice)
+        saveQmWorkOrderList,
     required TResult Function() resetToNone,
   }) {
     return saveQmWorkOrder(item, index);
@@ -176,6 +195,8 @@ class _$_SaveQmWorkOrder extends _SaveQmWorkOrder {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(QmWorkOrder item, int index)? saveQmWorkOrder,
+    TResult Function(List<QmWorkOrder> list, List<int> indice)?
+        saveQmWorkOrderList,
     TResult Function()? resetToNone,
   }) {
     return saveQmWorkOrder?.call(item, index);
@@ -185,6 +206,8 @@ class _$_SaveQmWorkOrder extends _SaveQmWorkOrder {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(QmWorkOrder item, int index)? saveQmWorkOrder,
+    TResult Function(List<QmWorkOrder> list, List<int> indice)?
+        saveQmWorkOrderList,
     TResult Function()? resetToNone,
     required TResult orElse(),
   }) {
@@ -198,6 +221,7 @@ class _$_SaveQmWorkOrder extends _SaveQmWorkOrder {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_SaveQmWorkOrder value) saveQmWorkOrder,
+    required TResult Function(_SaveQmWorkOrderList value) saveQmWorkOrderList,
     required TResult Function(_ResetToNone value) resetToNone,
   }) {
     return saveQmWorkOrder(this);
@@ -207,6 +231,7 @@ class _$_SaveQmWorkOrder extends _SaveQmWorkOrder {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_SaveQmWorkOrder value)? saveQmWorkOrder,
+    TResult Function(_SaveQmWorkOrderList value)? saveQmWorkOrderList,
     TResult Function(_ResetToNone value)? resetToNone,
   }) {
     return saveQmWorkOrder?.call(this);
@@ -216,6 +241,7 @@ class _$_SaveQmWorkOrder extends _SaveQmWorkOrder {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_SaveQmWorkOrder value)? saveQmWorkOrder,
+    TResult Function(_SaveQmWorkOrderList value)? saveQmWorkOrderList,
     TResult Function(_ResetToNone value)? resetToNone,
     required TResult orElse(),
   }) {
@@ -235,6 +261,163 @@ abstract class _SaveQmWorkOrder extends QmWorkOrderSaveEvent {
   int get index;
   @JsonKey(ignore: true)
   _$SaveQmWorkOrderCopyWith<_SaveQmWorkOrder> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$SaveQmWorkOrderListCopyWith<$Res> {
+  factory _$SaveQmWorkOrderListCopyWith(_SaveQmWorkOrderList value,
+          $Res Function(_SaveQmWorkOrderList) then) =
+      __$SaveQmWorkOrderListCopyWithImpl<$Res>;
+  $Res call({List<QmWorkOrder> list, List<int> indice});
+}
+
+/// @nodoc
+class __$SaveQmWorkOrderListCopyWithImpl<$Res>
+    extends _$QmWorkOrderSaveEventCopyWithImpl<$Res>
+    implements _$SaveQmWorkOrderListCopyWith<$Res> {
+  __$SaveQmWorkOrderListCopyWithImpl(
+      _SaveQmWorkOrderList _value, $Res Function(_SaveQmWorkOrderList) _then)
+      : super(_value, (v) => _then(v as _SaveQmWorkOrderList));
+
+  @override
+  _SaveQmWorkOrderList get _value => super._value as _SaveQmWorkOrderList;
+
+  @override
+  $Res call({
+    Object? list = freezed,
+    Object? indice = freezed,
+  }) {
+    return _then(_SaveQmWorkOrderList(
+      list == freezed
+          ? _value.list
+          : list // ignore: cast_nullable_to_non_nullable
+              as List<QmWorkOrder>,
+      indice == freezed
+          ? _value.indice
+          : indice // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_SaveQmWorkOrderList extends _SaveQmWorkOrderList {
+  const _$_SaveQmWorkOrderList(this.list, this.indice) : super._();
+
+  @override
+  final List<QmWorkOrder> list;
+  @override
+  final List<int> indice;
+
+  @override
+  String toString() {
+    return 'QmWorkOrderSaveEvent.saveQmWorkOrderList(list: $list, indice: $indice)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SaveQmWorkOrderList &&
+            const DeepCollectionEquality().equals(other.list, list) &&
+            const DeepCollectionEquality().equals(other.indice, indice));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(list),
+      const DeepCollectionEquality().hash(indice));
+
+  @JsonKey(ignore: true)
+  @override
+  _$SaveQmWorkOrderListCopyWith<_SaveQmWorkOrderList> get copyWith =>
+      __$SaveQmWorkOrderListCopyWithImpl<_SaveQmWorkOrderList>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(QmWorkOrder item, int index) saveQmWorkOrder,
+    required TResult Function(List<QmWorkOrder> list, List<int> indice)
+        saveQmWorkOrderList,
+    required TResult Function() resetToNone,
+  }) {
+    return saveQmWorkOrderList(list, indice);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(QmWorkOrder item, int index)? saveQmWorkOrder,
+    TResult Function(List<QmWorkOrder> list, List<int> indice)?
+        saveQmWorkOrderList,
+    TResult Function()? resetToNone,
+  }) {
+    return saveQmWorkOrderList?.call(list, indice);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(QmWorkOrder item, int index)? saveQmWorkOrder,
+    TResult Function(List<QmWorkOrder> list, List<int> indice)?
+        saveQmWorkOrderList,
+    TResult Function()? resetToNone,
+    required TResult orElse(),
+  }) {
+    if (saveQmWorkOrderList != null) {
+      return saveQmWorkOrderList(list, indice);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_SaveQmWorkOrder value) saveQmWorkOrder,
+    required TResult Function(_SaveQmWorkOrderList value) saveQmWorkOrderList,
+    required TResult Function(_ResetToNone value) resetToNone,
+  }) {
+    return saveQmWorkOrderList(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_SaveQmWorkOrder value)? saveQmWorkOrder,
+    TResult Function(_SaveQmWorkOrderList value)? saveQmWorkOrderList,
+    TResult Function(_ResetToNone value)? resetToNone,
+  }) {
+    return saveQmWorkOrderList?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_SaveQmWorkOrder value)? saveQmWorkOrder,
+    TResult Function(_SaveQmWorkOrderList value)? saveQmWorkOrderList,
+    TResult Function(_ResetToNone value)? resetToNone,
+    required TResult orElse(),
+  }) {
+    if (saveQmWorkOrderList != null) {
+      return saveQmWorkOrderList(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SaveQmWorkOrderList extends QmWorkOrderSaveEvent {
+  const factory _SaveQmWorkOrderList(List<QmWorkOrder> list, List<int> indice) =
+      _$_SaveQmWorkOrderList;
+  const _SaveQmWorkOrderList._() : super._();
+
+  List<QmWorkOrder> get list;
+  List<int> get indice;
+  @JsonKey(ignore: true)
+  _$SaveQmWorkOrderListCopyWith<_SaveQmWorkOrderList> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -280,6 +463,8 @@ class _$_ResetToNone extends _ResetToNone {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(QmWorkOrder item, int index) saveQmWorkOrder,
+    required TResult Function(List<QmWorkOrder> list, List<int> indice)
+        saveQmWorkOrderList,
     required TResult Function() resetToNone,
   }) {
     return resetToNone();
@@ -289,6 +474,8 @@ class _$_ResetToNone extends _ResetToNone {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(QmWorkOrder item, int index)? saveQmWorkOrder,
+    TResult Function(List<QmWorkOrder> list, List<int> indice)?
+        saveQmWorkOrderList,
     TResult Function()? resetToNone,
   }) {
     return resetToNone?.call();
@@ -298,6 +485,8 @@ class _$_ResetToNone extends _ResetToNone {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(QmWorkOrder item, int index)? saveQmWorkOrder,
+    TResult Function(List<QmWorkOrder> list, List<int> indice)?
+        saveQmWorkOrderList,
     TResult Function()? resetToNone,
     required TResult orElse(),
   }) {
@@ -311,6 +500,7 @@ class _$_ResetToNone extends _ResetToNone {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_SaveQmWorkOrder value) saveQmWorkOrder,
+    required TResult Function(_SaveQmWorkOrderList value) saveQmWorkOrderList,
     required TResult Function(_ResetToNone value) resetToNone,
   }) {
     return resetToNone(this);
@@ -320,6 +510,7 @@ class _$_ResetToNone extends _ResetToNone {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_SaveQmWorkOrder value)? saveQmWorkOrder,
+    TResult Function(_SaveQmWorkOrderList value)? saveQmWorkOrderList,
     TResult Function(_ResetToNone value)? resetToNone,
   }) {
     return resetToNone?.call(this);
@@ -329,6 +520,7 @@ class _$_ResetToNone extends _ResetToNone {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_SaveQmWorkOrder value)? saveQmWorkOrder,
+    TResult Function(_SaveQmWorkOrderList value)? saveQmWorkOrderList,
     TResult Function(_ResetToNone value)? resetToNone,
     required TResult orElse(),
   }) {

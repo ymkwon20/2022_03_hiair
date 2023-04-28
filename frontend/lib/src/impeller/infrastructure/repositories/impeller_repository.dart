@@ -86,4 +86,34 @@ class ImpellerRepository implements IImpellerRepository {
       return left(Failure.server(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> startCancelImpeller(
+      Map<String, dynamic> params) async {
+    try {
+      await _remoteService.startCancelImpeller(params);
+      return right(unit);
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> startCancelImpellerList(
+      List<Map<String, dynamic>> params) async {
+    try {
+      await _remoteService.startCancelImpellerList(params);
+      return right(unit);
+    } on NoConnectionException catch (e) {
+      return left(Failure.noConnection(e.message));
+    } on InvalidServerResponseException catch (e) {
+      return left(Failure.server(e.message));
+    } on ServerConnectionException catch (e) {
+      return left(Failure.server(e.message));
+    }
+  }
 }

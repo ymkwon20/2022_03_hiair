@@ -143,6 +143,9 @@ abstract class IWorkOrder {
   // PART_NO : PART_NO
   final String partNo;
 
+  // CHK_ST_DT: 검사신청일
+  final String chkSHDT;
+
   const IWorkOrder({
     required this.code,
     required this.itemNo,
@@ -192,5 +195,6 @@ abstract class IWorkOrder {
     required this.tagNo,
     required this.workwcnm,
     required this.partNo,
+    required this.chkSHDT,
   });
 }
