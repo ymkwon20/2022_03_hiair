@@ -1866,6 +1866,7 @@ func (a *AppHandler) searchQM(w http.ResponseWriter, r *http.Request) {
 
 	results, err := a.db.CallProcedure(query)
 	if err != nil {
+		log.Print(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Header().Set("Content-Type", "application/json")
 
@@ -1874,9 +1875,17 @@ func (a *AppHandler) searchQM(w http.ResponseWriter, r *http.Request) {
 		jData, _ := json.Marshal(errMsg)
 		w.Write(jData)
 		return
-
 	}
-	jData, err := json.Marshal(results)
+
+	data := make(map[string]interface{})
+
+	if results == nil {
+		results = make([]interface{}, 0)
+	}
+
+	data["data"] = results
+
+	response, err := json.Marshal(data)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Header().Set("Content-Type", "application/json")
@@ -1890,7 +1899,7 @@ func (a *AppHandler) searchQM(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(jData)
+	w.Write(response)
 }
 
 func (a *AppHandler) getCutChecklist(w http.ResponseWriter, r *http.Request) {
