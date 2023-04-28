@@ -86,7 +86,7 @@ class _WorkOrderListWidgetState extends ConsumerState<QmWorkOrderScreen>
     } else {
       ignoring = true;
       currentQmWorkOrder = StateProvider.autoDispose(
-          (ref) => ref.watch(qmWorkOrderListNotifier).items[index]);
+          (ref) => ref.watch(qmWorkOrderListNotifier).filteredItems[index]);
       currentQmWorkOrderIndex = StateProvider.autoDispose((ref) => index);
 
       context.push("/qm/$index");

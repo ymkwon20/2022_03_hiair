@@ -322,6 +322,43 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
                     ],
                   ),
                 ),
+                if (item.imageFileName != "")
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            CustomScaleRoute(
+                              backgroundColor: Colors.black.withOpacity(.2),
+                              builder: (context) => ImagePickerDialog(
+                                onCamera: () {
+                                  ref
+                                      .read(checklistNotifierProvider.notifier)
+                                      .setImage(ImageSource.camera, index);
+                                },
+                                onGallery: () {
+                                  ref
+                                      .read(checklistNotifierProvider.notifier)
+                                      .setImage(ImageSource.gallery, index);
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: const Text(
+                            "재촬영",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.center,
