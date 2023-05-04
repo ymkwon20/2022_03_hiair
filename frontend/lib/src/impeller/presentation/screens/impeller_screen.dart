@@ -88,7 +88,7 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
       // final impeller = ref.watch(impellerNotifier);
       await ref.watch(barcodeStateNotifierProvider.notifier).mapEventToState(
             BarcodeEvent.getQRBarcode(ref.watch(barcodeNotifier).item,
-                ref.watch(impellerListNotifier).items[index]),
+                ref.watch(impellerListNotifier).filteredItems[index]),
           );
 
       Navigator.of(context).push(
@@ -98,7 +98,7 @@ class _ImpellerListWidgetState extends ConsumerState<ImpellerScreen>
             overrides: [
               impellerIndexNotifier.overrideWithValue(index),
               impellerNotifier.overrideWithValue(
-                  ref.watch(impellerListNotifier).items[index]),
+                  ref.watch(impellerListNotifier).filteredItems[index]),
               barcodeStringNotifier
                   .overrideWithValue(ref.watch(barcodeNotifier).item)
             ],

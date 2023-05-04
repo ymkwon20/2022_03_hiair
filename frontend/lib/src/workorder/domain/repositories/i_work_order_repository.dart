@@ -22,4 +22,6 @@ abstract class IWorkOrderRepository {
       List<Map<String, dynamic>> params);
   Future<Either<Failure, QmWorkOrderList>> fetchQmWorkOrderList();
   Future<Either<Failure, Unit>> saveQmWorkOrder(Map<String, dynamic> params);
+  Future<Either<Failure, QmWorkOrderList>> searchQmWorkOrderList(
+      Map<String, dynamic> params);
 }

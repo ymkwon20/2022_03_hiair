@@ -47,56 +47,6 @@ class ImpellerSinglePopup extends ConsumerWidget {
                 color: Colors.transparent,
               ),
             ),
-            // Positioned(
-            //   top: 0,
-            //   bottom: 0,
-            //   left: MediaQuery.of(context).size.width / 5,
-            //   child: SafeArea(
-            //     child: Container(
-            //       width: width,
-            //       height: double.infinity,
-            //       decoration: BoxDecoration(
-            //         color: Theme.of(context).cardColor,
-            //         borderRadius: const BorderRadius.horizontal(
-            //           left: Radius.circular(LayoutConstant.radiusL),
-            //         ),
-            //         boxShadow: [
-            //           BoxShadow(
-            //             offset: const Offset(2, -1),
-            //             blurRadius: LayoutConstant.radiusXS,
-            //             color: Theme.of(context).shadowColor.withOpacity(.7),
-            //           ),
-            //         ],
-            //       ),
-            //       child: Container(
-            //         padding: const EdgeInsets.all(LayoutConstant.paddingL),
-            //         width: width,
-            //         child: Column(
-            //           mainAxisSize: MainAxisSize.max,
-            //           children: [
-            //             const SizedBox(height: LayoutConstant.spaceM),
-            //             const Align(
-            //               alignment: Alignment.centerLeft,
-            //               child: Text(
-            //                 "QR코드",
-            //                 style: TextStyle(
-            //                   fontWeight: FontWeight.bold,
-            //                   fontSize: 30,
-            //                 ),
-            //               ),
-            //             ),
-            //             const SizedBox(height: 180),
-            //             QrImage(
-            //               data: barcode.item.qrBarcodeString,
-            //               backgroundColor: Colors.white,
-            //               size: 250,
-            //             )
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Positioned(
               top: 0,
               bottom: 0,
