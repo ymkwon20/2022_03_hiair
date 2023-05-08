@@ -20,6 +20,13 @@ class _$QmWorkOrderEventTearOff {
   _FetchListByPage fetchListByPage() {
     return const _FetchListByPage();
   }
+
+  _SearchQMList searchQMList(String startDate, String endDate) {
+    return _SearchQMList(
+      startDate,
+      endDate,
+    );
+  }
 }
 
 /// @nodoc
@@ -30,32 +37,38 @@ mixin _$QmWorkOrderEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchListByPage,
+    required TResult Function(String startDate, String endDate) searchQMList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? fetchListByPage,
+    TResult Function(String startDate, String endDate)? searchQMList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchListByPage,
+    TResult Function(String startDate, String endDate)? searchQMList,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchListByPage value) fetchListByPage,
+    required TResult Function(_SearchQMList value) searchQMList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_SearchQMList value)? searchQMList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_SearchQMList value)? searchQMList,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -120,6 +133,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchListByPage,
+    required TResult Function(String startDate, String endDate) searchQMList,
   }) {
     return fetchListByPage();
   }
@@ -128,6 +142,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? fetchListByPage,
+    TResult Function(String startDate, String endDate)? searchQMList,
   }) {
     return fetchListByPage?.call();
   }
@@ -136,6 +151,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchListByPage,
+    TResult Function(String startDate, String endDate)? searchQMList,
     required TResult orElse(),
   }) {
     if (fetchListByPage != null) {
@@ -148,6 +164,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchListByPage value) fetchListByPage,
+    required TResult Function(_SearchQMList value) searchQMList,
   }) {
     return fetchListByPage(this);
   }
@@ -156,6 +173,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_SearchQMList value)? searchQMList,
   }) {
     return fetchListByPage?.call(this);
   }
@@ -164,6 +182,7 @@ class _$_FetchListByPage extends _FetchListByPage {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_SearchQMList value)? searchQMList,
     required TResult orElse(),
   }) {
     if (fetchListByPage != null) {
@@ -176,4 +195,151 @@ class _$_FetchListByPage extends _FetchListByPage {
 abstract class _FetchListByPage extends QmWorkOrderEvent {
   const factory _FetchListByPage() = _$_FetchListByPage;
   const _FetchListByPage._() : super._();
+}
+
+/// @nodoc
+abstract class _$SearchQMListCopyWith<$Res> {
+  factory _$SearchQMListCopyWith(
+          _SearchQMList value, $Res Function(_SearchQMList) then) =
+      __$SearchQMListCopyWithImpl<$Res>;
+  $Res call({String startDate, String endDate});
+}
+
+/// @nodoc
+class __$SearchQMListCopyWithImpl<$Res>
+    extends _$QmWorkOrderEventCopyWithImpl<$Res>
+    implements _$SearchQMListCopyWith<$Res> {
+  __$SearchQMListCopyWithImpl(
+      _SearchQMList _value, $Res Function(_SearchQMList) _then)
+      : super(_value, (v) => _then(v as _SearchQMList));
+
+  @override
+  _SearchQMList get _value => super._value as _SearchQMList;
+
+  @override
+  $Res call({
+    Object? startDate = freezed,
+    Object? endDate = freezed,
+  }) {
+    return _then(_SearchQMList(
+      startDate == freezed
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as String,
+      endDate == freezed
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_SearchQMList extends _SearchQMList {
+  const _$_SearchQMList(this.startDate, this.endDate) : super._();
+
+  @override
+  final String startDate;
+  @override
+  final String endDate;
+
+  @override
+  String toString() {
+    return 'QmWorkOrderEvent.searchQMList(startDate: $startDate, endDate: $endDate)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SearchQMList &&
+            const DeepCollectionEquality().equals(other.startDate, startDate) &&
+            const DeepCollectionEquality().equals(other.endDate, endDate));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(startDate),
+      const DeepCollectionEquality().hash(endDate));
+
+  @JsonKey(ignore: true)
+  @override
+  _$SearchQMListCopyWith<_SearchQMList> get copyWith =>
+      __$SearchQMListCopyWithImpl<_SearchQMList>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchListByPage,
+    required TResult Function(String startDate, String endDate) searchQMList,
+  }) {
+    return searchQMList(startDate, endDate);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? fetchListByPage,
+    TResult Function(String startDate, String endDate)? searchQMList,
+  }) {
+    return searchQMList?.call(startDate, endDate);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchListByPage,
+    TResult Function(String startDate, String endDate)? searchQMList,
+    required TResult orElse(),
+  }) {
+    if (searchQMList != null) {
+      return searchQMList(startDate, endDate);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchListByPage value) fetchListByPage,
+    required TResult Function(_SearchQMList value) searchQMList,
+  }) {
+    return searchQMList(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_SearchQMList value)? searchQMList,
+  }) {
+    return searchQMList?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchListByPage value)? fetchListByPage,
+    TResult Function(_SearchQMList value)? searchQMList,
+    required TResult orElse(),
+  }) {
+    if (searchQMList != null) {
+      return searchQMList(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SearchQMList extends QmWorkOrderEvent {
+  const factory _SearchQMList(String startDate, String endDate) =
+      _$_SearchQMList;
+  const _SearchQMList._() : super._();
+
+  String get startDate;
+  String get endDate;
+  @JsonKey(ignore: true)
+  _$SearchQMListCopyWith<_SearchQMList> get copyWith =>
+      throw _privateConstructorUsedError;
 }

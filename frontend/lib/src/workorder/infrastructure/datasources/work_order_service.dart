@@ -11,4 +11,5 @@ abstract class WorkOrderService {
   Future<void> startCancelWorkOrderList(List<Map<String, dynamic>> params);
   Future<QmWorkOrderListDto> fetchQmWorkOrder();
   Future<void> saveQmWorkOrder(Map<String, dynamic> params);
+  Future<QmWorkOrderListDto> searchQmWorkOrder(Map<String, dynamic> params);
 }
