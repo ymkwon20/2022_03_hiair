@@ -94,6 +94,7 @@ class WorkOrderSaveStateNotifier extends StateNotifier<WorkOrderSaveState> {
         "prod-gb": qmStatus,
         "date": date,
         "qty": item.qty.toString(),
+        "user-id": _authNotifier.user!.id,
       };
 
       final resultsOrFailure = await _saveWorkOrder(params);

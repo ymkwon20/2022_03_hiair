@@ -424,6 +424,16 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
   }
 
   Widget _buildCheckPart(int index, CheckItem item) {
+    if (item.checkSheetName == "ps") {
+      return CheckTextfield(
+        controller: controller,
+        type: TextInputType.text,
+        focusNode: widget.focusNodes[index],
+        fontSize: _fontSize,
+        onComplete: () => _focusToNextValid(index),
+      );
+    }
+
     switch (item.checkType) {
       case CheckType.number:
         return CheckTextfield(
@@ -492,6 +502,12 @@ class _CheckitemWidgetState extends ConsumerState<CheckitemWidget> {
   Widget _buildUnitPart(CheckItem item) {
     switch (item.unitType) {
       case UnitType.string:
+        if (item.checkSheetName == "ps") {
+          return const Text(
+            "",
+            style: TextStyle(fontSize: _fontSize),
+          );
+        }
         return Text(
           item.unit,
           style: const TextStyle(fontSize: _fontSize),

@@ -95,6 +95,7 @@ class ImpellerSaveStateNotifier extends StateNotifier<ImpellerSaveState> {
         "shaft": item.shaft,
         "rmk": item.rmk,
         "qty": item.qty.toString(),
+        "user-id": _authNotifier.user!.id,
       };
 
       final resultsOrFailure = await _saveImpeller(params);
