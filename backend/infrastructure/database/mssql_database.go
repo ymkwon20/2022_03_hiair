@@ -4,7 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"io"
 	"log"
+	"os"
 	"time"
 
 	_ "github.com/denisenkom/go-mssqldb"
@@ -41,6 +43,19 @@ func (m *MsSqlDatabase) CallProcedure(query string) ([]interface{}, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
+
+	t := time.Now()
+	today := fmt.Sprintf("%04d%02d%02d", t.Year(), t.Month(), t.Day())
+	dirName := viper.GetString(`log-path`)
+
+	logFile, err := os.OpenFile(dirName+"\\"+today+".txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer logFile.Close()
+
+	multiWriter := io.MultiWriter(logFile, os.Stdout)
+	log.SetOutput(multiWriter)
 
 	log.Print(query)
 
@@ -88,6 +103,19 @@ func (m *MsSqlDatabase) CallDML(query string) ([]interface{}, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
+
+	t := time.Now()
+	today := fmt.Sprintf("%04d%02d%02d", t.Year(), t.Month(), t.Day())
+	dirName := viper.GetString(`log-path`)
+
+	logFile, err := os.OpenFile(dirName+"\\"+today+".txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer logFile.Close()
+
+	multiWriter := io.MultiWriter(logFile, os.Stdout)
+	log.SetOutput(multiWriter)
 
 	log.Print(query)
 
