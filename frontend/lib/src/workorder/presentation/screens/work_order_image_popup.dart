@@ -101,7 +101,10 @@ class _WorkOrderImagePopupState extends ConsumerState<WorkOrderImagePopup> {
                                       filename: _imagePath);
                                   imageParams.add(MapEntry("file", img));
 
-                                  saveImageQuery(_fileName);
+                                  saveImageQuery(
+                                    _fileName,
+                                    saveCodeController.text,
+                                  );
                                 }
 
                                 formData.files.addAll(imageParams);
@@ -200,13 +203,13 @@ class _WorkOrderImagePopupState extends ConsumerState<WorkOrderImagePopup> {
     );
   }
 
-  Future<void> saveImageQuery(_fileName) async {
+  Future<void> saveImageQuery(_fileName, wbKey) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
     await ref.watch(dioProvider).post(
       "/saveImageWorkOrder",
       queryParameters: {
-        "WB_KEY": saveCodeController.text,
+        "WB_KEY": wbKey,
         "NEW1_FN": _fileName,
         "WORK_ID": ref.watch(authChangeNotifierProvider).user!.id,
       },
